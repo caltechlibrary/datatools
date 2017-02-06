@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">home</a></li>
+<li><a href="./">README</a></li>
+<li><a href="license.html">LICENSE</a></li>
+<li><a href="install.html">INSTALL</a></li>
+<li><a href="csvcols.html">csvcols</a></li>
+<li><a href="csvjoin.html">csvjoin</a></li>
+<li><a href="csv2mdtable.html">csv2mdtable</a></li>
+<li><a href="jsoncols.html">jsoncols</a></li>
+<li><a href="jsonrange.html">jsonrange</a></li>
+<li><a href="xlsx2json.html">xlsx2json</a></li>
+<li><a href="xlsx2csv.html">xlsx2csv</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>jsonrange [OPTIONS] JSON_EXPRESSION 
+</code></pre>
+
+<h2>SYSNOPSIS</h2>
+
+<p>jsonrange turns either the JSON expression that is a map or array into delimited
+elements suitable for processing in a &ldquo;for&rdquo; style loop in Bash. If the
+JSON expression is an array then the elements of the array are returned else
+if the expression is a map/object then the keys or attribute names are turned.</p>
+
+<ul>
+<li>EXPRESSION can be an empty string contains a JSON array or map.</li>
+</ul>
+
+<h2>OPTIONS</h2>
+
+<pre><code>	-d	set delimiter for range output
+	-delimiter	set delimiter for range output
+	-dotpath	range on given dot path
+	-h	display help
+	-i	read JSON from file
+	-input	read JSON from file
+	-l	display license
+	-length	return the number of keys or values
+	-limit	limit the number of items output
+	-p	range on given dot path
+	-v	display version
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>Working with a map</p>
+
+<pre><code>    jsonrange '{&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jane.doe@example.org&quot;, &quot;age&quot;: 42}'
+</code></pre>
+
+<p>This would yield</p>
+
+<pre><code>    name
+    email
+    age
+</code></pre>
+
+<p>Working with an array</p>
+
+<pre><code>    jsonrange '[&quot;one&quot;, 2, {&quot;label&quot;:&quot;three&quot;,&quot;value&quot;:3}]'
+</code></pre>
+
+<p>would yield</p>
+
+<pre><code>    one
+    2
+    {&quot;label&quot;:&quot;three&quot;,&quot;value&quot;:3}
+</code></pre>
+
+<p>Checking the length of a map or array</p>
+
+<pre><code>    jsonrange -length '[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]'
+</code></pre>
+
+<p>would yield</p>
+
+<pre><code>    3
+</code></pre>
+
+<p>Limitting the number of items returned</p>
+
+<pre><code>    jsonrange -limit 2 '[1,2,3,4,5]'
+</code></pre>
+
+<p>would yield</p>
+
+<pre><code>    1
+    2
+</code></pre>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="http://library.caltech.edu/CLS_Copyright.htm">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>
