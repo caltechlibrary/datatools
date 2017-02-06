@@ -1,0 +1,14 @@
+
++ [home](/)
++ [README](./)
++ [LICENSE](license.html)
++ [INSTALL](install.html)
++ [csvcols](csvcols.html)
++ [csvjoin](csvjoin.html)
++ [csv2mdtable](csv2mdtable.html)
++ [jsoncols](jsoncols.html)
++ [jsonrange](jsonrange.html)
++ [xlsx2json](xlsx2json.html)
++ [xlsx2csv](xlsx2csv.html)
++ [Github](https://github.com/caltechlibrary/datatools)
+
