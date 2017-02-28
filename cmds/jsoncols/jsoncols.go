@@ -7,18 +7,17 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
 
-	// 3rd Party packages
-	//	"github.com/simeji/jid"
-	"github.com/rsdoiel/jid"
-
-	// My Packages
+	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
+	"github.com/caltechlibrary/datatools/dotpath"
 )
 
 var (
@@ -27,11 +26,10 @@ var (
 	description = `
 SYSNOPSIS
 
-%s provides for both interactive exploration of JSON structures like jid 
-and command line scripting flexibility for data extraction into delimited
-columns. This is helpful in flattening content extracted from JSON blobs.
-The default delimiter for each value extracted is a comma. This can be
-overridden with an option.
+%s provides scripting flexibility for data extraction from JSON data 
+returning the results in columns.  This is helpful in flattening content 
+extracted from JSON blobs.  The default delimiter for each value 
+extracted is a comma. This can be overridden with an option.
 
 + EXPRESSION can be an empty stirng or dot notation for an object's path
 + INPUT_FILENAME is the filename to read or a dash "-" if you want to 
@@ -162,38 +160,41 @@ func main() {
 		expressions = []string{"."}
 	}
 
-	// Configure the jid engine
-	engineAttributes := &jid.EngineAttribute{
-		DefaultQuery: ".",
-		Monochrome:   monochrome,
-	}
-
-	// Run the jid engine appropriately
-	engine, err := jid.NewEngine(in, engineAttributes)
+	// READ in the JSON document
+	buf, err := ioutil.ReadAll(in)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}
-	var result jid.EngineResultInterface
+	var data interface{}
+	err = json.Unmarshal(buf, data)
 
-	if runInteractive == true {
-		result = engine.Run()
-		if err := result.GetError(); err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
+	// For each dotpath expression return a result
+	for i, qry := range expressions {
+		if i > 0 {
+			fmt.Fprintf(out, "%s", delimiter)
 		}
-		fmt.Fprintf(out, "%s", result.GetContent())
-	} else {
-		for i, qry := range expressions {
-			result = engine.EvalString(qry)
-			if err := result.GetError(); err != nil {
+		if qry == "." {
+			fmt.Fprintf(out, "%s", buf)
+		} else {
+			result, err := dotpath.Eval(qry, data)
+			if err != nil {
 				fmt.Fprintf(os.Stderr, "%s\n", err)
 				os.Exit(1)
 			}
-			if i > 0 {
-				fmt.Fprintf(out, "%s", delimiter)
+			switch result.(type) {
+			case string:
+				fmt.Fprintf(out, "%s", result)
+			case float64:
+				fmt.Fprintf(out, "%f", result)
+			default:
+				src, err := json.Marshal(result)
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "%s\n", err)
+					os.Exit(1)
+				}
+				fmt.Fprintf(out, "%s", src)
 			}
-			fmt.Fprintf(out, "%s", result.GetContent())
 		}
 	}
 }

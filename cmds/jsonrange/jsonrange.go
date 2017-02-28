@@ -7,7 +7,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -15,12 +14,10 @@ import (
 	"path"
 	"strings"
 
-	// 3rd Party Captech
-	"github.com/rsdoiel/jid" // this is a fork of github.com/simeji/jid, adds Eval() and EvalString()
-
 	// CaltechLibrary Packages
 	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
+	"github.com/caltechlibrary/datatools/dotpath"
 )
 
 var (
@@ -124,13 +121,16 @@ func srcVals(inSrc string, limit int) ([]string, error) {
 		return nil, err
 	}
 	result := []string{}
+	if limit < 0 {
+		return result, nil
+	}
 	for i, val := range data {
 		outSrc, err := json.Marshal(val)
 		if err != nil {
 			return nil, err
 		}
 		result = append(result, fmt.Sprintf("%s", outSrc))
-		if limit != 0 && i == limit {
+		if i == limit {
 			return result, nil
 		}
 	}
@@ -233,24 +233,21 @@ func main() {
 
 	// If a dotPath is privided extract the desired field for range.
 	if len(dotPath) > 0 {
-		buf := bytes.NewBufferString(src)
-		ea := &jid.EngineAttribute{
-			DefaultQuery: ".",
-			Monochrome:   true,
-		}
-		e, err := jid.NewEngine(buf, ea)
+		// Extract an structure indicated by dotPath
+		result, err := dotpath.EvalJSON(dotPath, []byte(src))
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%s\n", err)
 			os.Exit(1)
 		}
-		result := e.EvalString(dotPath)
-
-		if err := result.GetError(); err != nil {
+		// Now re-encode our result as JSON and save it back as src
+		buf, err := json.Marshal(result)
+		if err != nil {
 			fmt.Fprintf(os.Stderr, "%s\n", err)
 			os.Exit(1)
 		}
-		src = result.GetContent()
+		src = fmt.Sprintf("%s", buf)
 	}
+
 	if len(src) == 0 {
 		fmt.Println(cfg.Usage())
 		os.Exit(1)
