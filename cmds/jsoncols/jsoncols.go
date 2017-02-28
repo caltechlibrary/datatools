@@ -167,7 +167,7 @@ func main() {
 		os.Exit(1)
 	}
 	var data interface{}
-	err = json.Unmarshal(buf, data)
+	err = json.Unmarshal(buf, &data)
 
 	// For each dotpath expression return a result
 	for i, qry := range expressions {
