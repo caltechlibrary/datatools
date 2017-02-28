@@ -65,6 +65,14 @@ would yield
 
     3
 
+Check for the index of last element
+
+    %s -last '["one","two","three"]'
+
+would yield
+
+    2
+
 Limitting the number of items returned
 
     %s -limit 2 '[1,2,3,4,5]'
@@ -93,6 +101,7 @@ would yield
 
 	// Application Specific Options
 	showLength bool
+	showLast   bool
 	delimiter  = "\n"
 	limit      int
 	dotPath    string
@@ -149,6 +158,7 @@ func init() {
 
 	// Application Options
 	flag.BoolVar(&showLength, "length", false, "return the number of keys or values")
+	flag.BoolVar(&showLast, "last", false, "return the index of the last element in list (e.g. length - 1)")
 	flag.StringVar(&delimiter, "d", "\n", "set delimiter for range output")
 	flag.StringVar(&delimiter, "delimiter", "\n", "set delimiter for range output")
 	flag.IntVar(&limit, "limit", 0, "limit the number of items output")
@@ -181,7 +191,7 @@ func main() {
 	cfg := cli.New(appName, "DATATOOLS", fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName)
+	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
 
 	if showHelp == true {
 		fmt.Println(cfg.Usage())
@@ -260,6 +270,13 @@ func main() {
 			os.Exit(1)
 		}
 		fmt.Fprintf(out, "%d", l)
+	case showLast:
+		l, err := getLength(src)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s\n", err)
+			os.Exit(1)
+		}
+		fmt.Fprintf(out, "%d", l-1)
 	case strings.HasPrefix(src, "{"):
 		elems, err := srcKeys(src, limit-1)
 		if err != nil {
