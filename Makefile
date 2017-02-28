@@ -68,57 +68,46 @@ install:
 	env GOBIN=$(HOME)/bin go install cmds/csv2xlsx/csv2xlsx.go
 
 dist/linux-amd64:
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvcols cmds/csvcols/csvcols.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvjoin cmds/csvjoin/csvjoin.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/jsoncols cmds/jsoncols/jsoncols.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/jsonrange cmds/jsonrange/jsonrange.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xlsx2json cmds/xlsx2json/xlsx2json.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvjoin cmds/csvjoin/csvjoin.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/jsoncols cmds/jsoncols/jsoncols.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/jsonrange cmds/jsonrange/jsonrange.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xlsx2json cmds/xlsx2json/xlsx2json.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 
 dist/macosx-amd64:
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvcols cmds/csvcols/csvcols.go
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvjoin cmds/csvjoin/csvjoin.go
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/jsoncols cmds/jsoncols/jsoncols.go
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/jsonrange cmds/jsonrange/jsonrange.go
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/xlsx2json cmds/xlsx2json/xlsx2json.go
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvjoin cmds/csvjoin/csvjoin.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/jsoncols cmds/jsoncols/jsoncols.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/jsonrange cmds/jsonrange/jsonrange.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/xlsx2json cmds/xlsx2json/xlsx2json.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 
 dist/windows-amd64:
-	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvcols.exe cmds/csvcols/csvcols.go
-	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvjoin.exe cmds/csvjoin/csvjoin.go
-	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/jsoncols.exe cmds/jsoncols/jsoncols.go
-	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/jsonrange.exe cmds/jsonrange/jsonrange.go
-	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/xlsx2json.exe cmds/xlsx2json/xlsx2json.go
-	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/xlsx2csv.exe cmds/xlsx2csv/xlsx2csv.go
-	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2mdtable.exe cmds/csv2mdtable/csv2mdtable.go
-	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2xlsx.exe cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvcols.exe cmds/csvcols/csvcols.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvjoin.exe cmds/csvjoin/csvjoin.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/jsoncols.exe cmds/jsoncols/jsoncols.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/jsonrange.exe cmds/jsonrange/jsonrange.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/xlsx2json.exe cmds/xlsx2json/xlsx2json.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/xlsx2csv.exe cmds/xlsx2csv/xlsx2csv.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2mdtable.exe cmds/csv2mdtable/csv2mdtable.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2xlsx.exe cmds/csv2xlsx/csv2xlsx.go
 
 dist/raspbian-arm7:
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvcols cmds/csvcols/csvcols.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvjoin cmds/csvjoin/csvjoin.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/jsoncols cmds/jsoncols/jsoncols.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/jsonrange cmds/jsonrange/jsonrange.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/xlsx2json cmds/xlsx2json/xlsx2json.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvjoin cmds/csvjoin/csvjoin.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/jsoncols cmds/jsoncols/jsoncols.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/jsonrange cmds/jsonrange/jsonrange.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/xlsx2json cmds/xlsx2json/xlsx2json.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 
-dist/raspbian-arm6:
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o dist/raspbian-arm6/csvcols cmds/csvcols/csvcols.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o dist/raspbian-arm6/csvjoin cmds/csvjoin/csvjoin.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o dist/raspbian-arm6/jsoncols cmds/jsoncols/jsoncols.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o dist/raspbian-arm6/jsonrange cmds/jsonrange/jsonrange.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o dist/raspbian-arm6/xlsx2json cmds/xlsx2json/xlsx2json.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o dist/raspbian-arm6/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o dist/raspbian-arm6/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
-	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=6 go build -o dist/raspbian-arm6/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
-
-
-release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7 dist/raspbian-arm6
+release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7
 	mkdir -p dist
 	cp -v README.md dist/
 	cp -v LICENSE dist/
