@@ -50,32 +50,36 @@ func Eval(p string, data interface{}) (interface{}, error) {
 
 // parse takes a dot path notation string and returns a list of keys to traverse
 func parse(p string) ([]string, error) {
+	delimiters := []rune{'.', '[', ']', '"'}
+
+	nextField := func(c rune) bool {
+		for _, d := range delimiters {
+			if c == d {
+				return true
+			}
+		}
+		return false
+	}
+
 	if strings.HasPrefix(p, ".") {
-		keys := strings.Split(p, ".")
-		if len(keys) > 0 {
-			return keys[1:], nil
-		}
+		return strings.FieldsFunc(p, nextField), nil
 	} else if strings.Contains(p, ".") {
-		keys := strings.Split(p, ".")
-		if len(keys) > 0 {
-			return keys, nil
-		}
+		return strings.FieldsFunc(p, nextField), nil
 	}
 	return nil, fmt.Errorf("%q is an invalid dot path", p)
 }
 
-func keyAndType(s string) (string, string) {
-	l := len(s)
-	if strings.HasPrefix(s, `[`) && strings.HasSuffix(s, `]`) {
-		// Do we have a number or quoted string
-		s = strings.TrimSpace(s[1 : l-1])
+// normalizeKey handles square bracket case for map keys
+func normalizeKey(s string) string {
+	if strings.HasPrefix(s, "[") && strings.HasSuffix(s, "]") {
+		l := len(s)
+		s = strings.TrimSpace(s[1 : l-1]) // removing brackets
 		if strings.HasPrefix(s, `"`) && strings.HasSuffix(s, `"`) {
 			l = len(s)
-			return s[1 : l-1], "string"
+			s = s[1 : l-1]
 		}
-		return s, "index"
 	}
-	return s, "string"
+	return s
 }
 
 // find evals the zero'th element in key path and based on the notation calls either
@@ -85,16 +89,17 @@ func find(p []string, v interface{}) (interface{}, error) {
 	if l < 1 {
 		return nil, fmt.Errorf("dot path exhausted")
 	}
-	key, keyType := keyAndType(p[0])
-	switch keyType {
-	case `string`:
-		return findInMap(p, v.(map[string]interface{}))
-	case `index`:
+	key := normalizeKey(p[0])
+	if key != p[0] {
 		p[0] = key
-		return findInArray(p, v.([]interface{}))
-	default:
-		return nil, fmt.Errorf("invalid dot path key at %q\n", p[0])
 	}
+	switch v.(type) {
+	case map[string]interface{}:
+		return findInMap(p, v.(map[string]interface{}))
+	case []interface{}:
+		return findInArray(p, v.([]interface{}))
+	}
+	return nil, fmt.Errorf("invalid dot path key %q in %+v of type %T", p[0], v, v)
 }
 
 // findInMap takes an array of strings that represent path elements (e.g. keys in a map structure)

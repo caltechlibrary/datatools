@@ -92,7 +92,7 @@ func TestFindForMaps(t *testing.T) {
 			t.Errorf(`Expected valS to contain "Fred", got %s`, valS)
 		}
 	default:
-		t.Errorf("Expected val to be a string, %T %+v\n", val, val)
+		t.Errorf("Expected val to be a string, %T %+v from %+v\n", val, val, m)
 		t.FailNow()
 	}
 
@@ -112,7 +112,19 @@ func TestFindForMaps(t *testing.T) {
 }
 
 func TestFindInArray(t *testing.T) {
-	// OK
+	src := []byte(`[1,2,3]`)
+	p := `[1]`
+	var data interface{}
+	err := json.Unmarshal(src, &data)
+	if err != nil {
+		t.Errorf("%s", err)
+		t.FailNow()
+	}
+	_, err = find([]string{p}, data)
+	if err != nil {
+		t.Errorf("find(%+v, %+v) returned error %s", []string{p}, data, err)
+		t.FailNow()
+	}
 }
 
 /*
