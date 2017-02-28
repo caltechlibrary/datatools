@@ -55,7 +55,6 @@ publish:
 	./publish.bash
 
 clean: 
-	if [ -f index.html ]; then /bin/rm *.html;fi
 	if [ -d bin ]; then /bin/rm -fR bin; fi
 	if [ -d dist ]; then /bin/rm -fR dist; fi
 	if [ -f $(PROJECT)-$(VERSION)-release.zip ]; then rm -f $(PROJECT)-$(VERSION)-release.zip; fi

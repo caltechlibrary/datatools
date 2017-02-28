@@ -166,8 +166,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}
-	var data interface{}
-	err = json.Unmarshal(buf, &data)
+	data, err := dotpath.JSONDecode(buf)
 
 	// For each dotpath expression return a result
 	for i, qry := range expressions {
@@ -185,8 +184,8 @@ func main() {
 			switch result.(type) {
 			case string:
 				fmt.Fprintf(out, "%s", result)
-			case float64:
-				fmt.Fprintf(out, "%f", result)
+			case json.Number:
+				fmt.Fprintf(out, "%s", result.(json.Number).String())
 			default:
 				src, err := json.Marshal(result)
 				if err != nil {

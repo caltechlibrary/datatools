@@ -54,6 +54,7 @@ if the expression is a map/object then the keys or attribute names are turned.</
 	-input	read JSON from file
 	-l	display license
 	-length	return the number of keys or values
+	-last	return the index of the last element
 	-limit	limit the number of items output
 	-p	range on given dot path
 	-v	display version
@@ -93,6 +94,16 @@ if the expression is a map/object then the keys or attribute names are turned.</
 <p>would yield</p>
 
 <pre><code>    3
+</code></pre>
+
+<p>Checking the last element index of a an array</p>
+
+<pre><code>    jsonrange -last '[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]'
+</code></pre>
+
+<p>would yield</p>
+
+<pre><code>    2
 </code></pre>
 
 <p>Limitting the number of items returned</p>

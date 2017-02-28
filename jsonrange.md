@@ -23,6 +23,7 @@ if the expression is a map/object then the keys or attribute names are turned.
 	-input	read JSON from file
 	-l	display license
 	-length	return the number of keys or values
+	-last	return the index of the last element
 	-limit	limit the number of items output
 	-p	range on given dot path
 	-v	display version
@@ -69,6 +70,19 @@ would yield
 ```
     3
 ```
+
+Checking the last element index of a an array
+
+```
+    jsonrange -last '["one","two","three"]'
+```
+
+would yield
+
+```
+    2
+```
+
 
 Limitting the number of items returned
 

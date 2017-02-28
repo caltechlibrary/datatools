@@ -50,8 +50,13 @@ func TestFindForMaps(t *testing.T) {
 		t.Errorf(`Expected []string{"name"}, got %+v <-- %s`, keys, err)
 		t.FailNow()
 	}
-	m := map[string]interface{}{}
-	err = json.Unmarshal(src, &m)
+	data, err := JSONDecode(src)
+	if err != nil {
+		t.Errorf("JSONDecode error for %q, %s", src, err)
+		t.FailNow()
+	}
+
+	m := data.(map[string]interface{})
 
 	// Test simple findInMap
 	val, err := findInMap(keys, m)
@@ -72,10 +77,14 @@ func TestFindForMaps(t *testing.T) {
 
 	val, err = findInMap([]string{"age"}, m)
 	switch val.(type) {
-	case float64:
-		i := val.(float64)
-		if i != 7.0 {
-			t.Errorf("Expected val to be an float64 with value of 7.0, %+v %d", i, i)
+	case json.Number:
+		i, err := val.(json.Number).Int64()
+		if err != nil {
+			t.Errorf("Failed to convert JSON number to int64, %s", err)
+			t.FailNow()
+		}
+		if i != 7 {
+			t.Errorf("Expected val to be an Number with value of 7, %+v %d", i, i)
 			t.FailNow()
 		}
 	default:
@@ -98,10 +107,14 @@ func TestFindForMaps(t *testing.T) {
 
 	val, err = find([]string{"age"}, m)
 	switch val.(type) {
-	case float64:
-		i := val.(float64)
-		if i != 7.0 {
-			t.Errorf("Expected val to be an float64 with value of 7.0, %+v %d", i, i)
+	case json.Number:
+		i, err := val.(json.Number).Int64()
+		if err != nil {
+			t.Errorf("Failed to convert json.Number to int64, %s", err)
+			t.FailNow()
+		}
+		if i != 7 {
+			t.Errorf("Expected val to be an int64 with value of 7.0, %+v %d", i, i)
 			t.FailNow()
 		}
 	default:
@@ -115,7 +128,7 @@ func TestFindInArray(t *testing.T) {
 	src := []byte(`[1,2,3]`)
 	p := `[1]`
 	var data interface{}
-	err := json.Unmarshal(src, &data)
+	data, err := JSONDecode(src)
 	if err != nil {
 		t.Errorf("%s", err)
 		t.FailNow()
