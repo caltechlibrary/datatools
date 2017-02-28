@@ -107,7 +107,11 @@ dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 
+<<<<<<< HEAD
 release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7 
+=======
+release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7
+>>>>>>> dd2a95335428bce5af90ed20535e37244077843a
 	mkdir -p dist
 	cp -v README.md dist/
 	cp -v LICENSE dist/
