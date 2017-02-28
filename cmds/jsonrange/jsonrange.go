@@ -108,13 +108,13 @@ would yield
 )
 
 func srcKeys(inSrc string, limit int) ([]string, error) {
-	data := map[string]interface{}{}
-	if err := json.Unmarshal([]byte(inSrc), &data); err != nil {
+	data, err := dotpath.JSONDecode([]byte(inSrc))
+	if err != nil {
 		return nil, err
 	}
 	result := []string{}
 	i := 0
-	for keys := range data {
+	for keys := range data.(map[string]interface{}) {
 		result = append(result, keys)
 		if limit > 0 && i == limit {
 			return result, nil
@@ -125,15 +125,15 @@ func srcKeys(inSrc string, limit int) ([]string, error) {
 }
 
 func srcVals(inSrc string, limit int) ([]string, error) {
-	data := []interface{}{}
-	if err := json.Unmarshal([]byte(inSrc), &data); err != nil {
+	data, err := dotpath.JSONDecode([]byte(inSrc))
+	if err != nil {
 		return nil, err
 	}
 	result := []string{}
 	if limit < 0 {
 		return result, nil
 	}
-	for i, val := range data {
+	for i, val := range data.([]interface{}) {
 		outSrc, err := json.Marshal(val)
 		if err != nil {
 			return nil, err
