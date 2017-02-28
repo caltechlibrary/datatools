@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">home</a></li>
+<li><a href="./">README</a></li>
+<li><a href="license.html">LICENSE</a></li>
+<li><a href="install.html">INSTALL</a></li>
+<li><a href="csvcols.html">csvcols</a></li>
+<li><a href="csvjoin.html">csvjoin</a></li>
+<li><a href="csv2mdtable.html">csv2mdtable</a></li>
+<li><a href="jsoncols.html">jsoncols</a></li>
+<li><a href="jsonrange.html">jsonrange</a></li>
+<li><a href="xlsx2json.html">xlsx2json</a></li>
+<li><a href="xlsx2csv.html">xlsx2csv</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>csv2xlsx [OPTIONS] WORKBOOK_NAME SHEET_NAME
+</code></pre>
+
+<h2>SYNOPSIS</h2>
+
+<p>csv2xlsx will take CSV input and create a new sheet in an Excel Workbook.
+If the Workbook does not exist then it is created.</p>
+
+<h2>OPTIONS</h2>
+
+<pre><code>	-h	display help
+	-help	display help
+	-i	input filename (CSV content)
+	-input	input filename (CSV content)
+	-l	display license
+	-license	display license
+	-sheet	Sheet name to create/replace
+	-v	display version
+	-version	display version
+	-workbook	Workbook name
+</code></pre>
+
+<h2>EXAMPLE</h2>
+
+<pre><code>	csv2xlsx -i data.csv MyWorkbook.xlsx 'My worksheet'
+</code></pre>
+
+<p>This creates a new &lsquo;My worksheet&rsquo; in the Excel Workbook
+called &lsquo;MyWorkbook.xlsx&rsquo; with the contents of data.csv.</p>
+
+<pre><code>	cat data.csv | csv2xlsx MyWorkbook.xlsx 'My worksheet'
+</code></pre>
+
+<p>This does the same but the contents of data.csv are piped into
+the workbook&rsquo;s sheet.</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="http://library.caltech.edu/CLS_Copyright.htm">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>
