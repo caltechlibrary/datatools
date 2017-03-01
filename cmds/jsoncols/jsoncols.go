@@ -1,6 +1,7 @@
 //
-// jsonpath is a command line tool for filter JSON data from standard in or specified files.
+// jsoncols is a command line tool for filter JSON data from standard in or specified files.
 // It was inspired by [jq](https://github.com/stedolan/jq) and [jid](https://github.com/simeji/jid).
+// It facilitates extract one or more columns of data from a JSON document.
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
