@@ -1,40 +1,60 @@
 
 # USAGE
 
-    jsonrange [OPTIONS] JSON_EXPRESSION 
+    jsonrange [OPTIONS] [DOT_PATH_EXPRESSION] 
 
 ## SYSNOPSIS
 
-jsonrange turns either the JSON expression that is a map or array into delimited
-elements suitable for processing in a "for" style loop in Bash. If the
-JSON expression is an array then the elements of the array are returned else
-if the expression is a map/object then the keys or attribute names are turned.
+jsonrange returns returns a range of values based on the JSON structure being read and
+options applied.  Without options the JSON structure is read from standard input
+and writes a list of keys to standard out. Keys are either attribute names or for
+arrays the index position (counting form zero).  If a DOT_PATH_EXPRESSION is included
+on the command line then that is used to generate the results. Using options to 
+can choose to read the JSON data structure from a file, write the output to a file
+as well as display values instead of keys. a list of "keys" of an index or map in JSON.  
 
-+ EXPRESSION can be an empty string contains a JSON array or map.
+Using options it can also return a list of values.  The JSON object is read from standard in and the
+resulting list is normally written to standard out. There are options to read or
+write to files.  Additional parameters are assumed to be a dot path notation
+select the parts of the JSON data structure you want from the range. 
+
+DOT_PATH_EXPRESSION is a dot path stale expression indicating what you want range over.
+E.g.
+
++ _._ would indicate the whole JSON data structure read is used to range over
++ _.name_ would indicate to range over the value pointed at by the "name" attribute 
++ _["name"]_ would indicate to range over the value pointed at by the "name" attribute
++ _[0]_ would indicate to range over the value held in the zero-th element of the array
+
+The path can be chained together
+
++ _.name.family_ would point to the value heald by the "name" attributes' "family" attribute.
 
 ## OPTIONS
 
 ```
 	-d	set delimiter for range output
 	-delimiter	set delimiter for range output
-	-dotpath	range on given dot path
 	-h	display help
 	-i	read JSON from file
 	-input	read JSON from file
 	-l	display license
+	-last	return the index of the last element in list (e.g. length - 1)
 	-length	return the number of keys or values
-	-last	return the index of the last element
 	-limit	limit the number of items output
-	-p	range on given dot path
+	-o	write to output file
+	-output	write to output file
 	-v	display version
+	-values	return the values instead of the keys
 ```
 
 ## EXAMPLES
 
 Working with a map
 
-```
-    jsonrange '{"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}'
+```shell
+    echo '{"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}' \
+       | jsonrange
 ```
 
 This would yield
@@ -45,10 +65,39 @@ This would yield
     age
 ```
 
-Working with an array
+Using the -values option on a map
+
+```shell
+    echo '{"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}' \
+      | jsonrange -values
+```
+
+This would yield
 
 ```
-    jsonrange '["one", 2, {"label":"three","value":3}]'
+    "Doe, Jane"
+    "jane.doe@example.org"
+    42
+```
+
+Working with an array
+
+```shell
+    echo '["one", 2, {"label":"three","value":3}]' | jsonrange
+```
+
+would yield
+
+```
+    0
+    1
+    2
+```
+
+Using the -values option on the same array
+
+```shell
+    echo '["one", 2, {"label":"three","value":3}]' | jsonrange -values
 ```
 
 would yield
@@ -59,10 +108,10 @@ would yield
     {"label":"three","value":3}
 ```
 
-Checking the length of a map or array
+Checking the length of a map or array or number of keys in map
 
-```
-    jsonrange -length '["one","two","three"]'
+```shell
+    echo '["one","two","three"]' | jsonrange -length
 ```
 
 would yield
@@ -71,10 +120,10 @@ would yield
     3
 ```
 
-Checking the last element index of a an array
+Check for the index value of last element
 
-```
-    jsonrange -last '["one","two","three"]'
+```shell
+    echo '["one","two","three"]' | jsonrange -last
 ```
 
 would yield
@@ -83,11 +132,10 @@ would yield
     2
 ```
 
-
 Limitting the number of items returned
 
-```
-    jsonrange -limit 2 '[1,2,3,4,5]'
+```shell
+    echo '[1,2,3,4,5]' | jsonrange -limit 2
 ```
 
 would yield
