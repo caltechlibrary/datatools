@@ -6,6 +6,7 @@
 + [csvcols](csvcols.html)
 + [csvjoin](csvjoin.html)
 + [csv2mdtable](csv2mdtable.html)
++ [csv2xlsx](csv2xlsx.html)
 + [jsoncols](jsoncols.html)
 + [jsonrange](jsonrange.html)
 + [xlsx2json](xlsx2json.html)

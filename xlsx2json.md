@@ -42,7 +42,7 @@ Putting it all together in a shell script.
 ```
     for SHEET_NAME in $(xlsx2json -n my-workbook.xlsx); do
        xlsx2json my-workbook.xlsx "$SHEET_NAME" > \
-	       $(slugify "$SHEET_NAME").json
+	       "${SHEET_NAME// /-}.json"
     done
 ```
 

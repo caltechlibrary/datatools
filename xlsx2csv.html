@@ -18,6 +18,7 @@
 <li><a href="csvcols.html">csvcols</a></li>
 <li><a href="csvjoin.html">csvjoin</a></li>
 <li><a href="csv2mdtable.html">csv2mdtable</a></li>
+<li><a href="csv2xlsx.html">csv2xlsx</a></li>
 <li><a href="jsoncols.html">jsoncols</a></li>
 <li><a href="jsonrange.html">jsonrange</a></li>
 <li><a href="xlsx2json.html">xlsx2json</a></li>
@@ -56,7 +57,7 @@
 <pre><code>    xlsx2csv -c my-workbook.xlsx
 </code></pre>
 
-<p>This will output the number of sheels in the Workbook.</p>
+<p>This will output the number of sheets in the Workbook.</p>
 
 <pre><code>    xlsx2csv -n my-workbook.xlsx
 </code></pre>
@@ -66,7 +67,7 @@ Putting it all together in a shell script.</p>
 
 <pre><code>    for SHEET_NAME in $(xlsx2csv -n my-workbook.xlsx); do
        xlsx2csv my-workbook.xlsx &quot;$SHEET_NAME&quot; &gt; \
-	       $(slugify &quot;$SHEET_NAME&quot;).csv
+	       &quot;${SHEET_NAME// /-}.csv&quot;
     done
 </code></pre>
 

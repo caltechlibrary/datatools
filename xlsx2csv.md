@@ -29,7 +29,7 @@ This would get the first sheet from the workbook and save it as a CSV file.
     xlsx2csv -c my-workbook.xlsx
 ```
 
-This will output the number of sheels in the Workbook.
+This will output the number of sheets in the Workbook.
 
 ```
     xlsx2csv -n my-workbook.xlsx
@@ -41,7 +41,7 @@ Putting it all together in a shell script.
 ```
     for SHEET_NAME in $(xlsx2csv -n my-workbook.xlsx); do
        xlsx2csv my-workbook.xlsx "$SHEET_NAME" > \
-	       $(slugify "$SHEET_NAME").csv
+	       "${SHEET_NAME// /-}.csv"
     done
 ```
 

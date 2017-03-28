@@ -18,6 +18,7 @@
 <li><a href="csvcols.html">csvcols</a></li>
 <li><a href="csvjoin.html">csvjoin</a></li>
 <li><a href="csv2mdtable.html">csv2mdtable</a></li>
+<li><a href="csv2xlsx.html">csv2xlsx</a></li>
 <li><a href="jsoncols.html">jsoncols</a></li>
 <li><a href="jsonrange.html">jsonrange</a></li>
 <li><a href="xlsx2json.html">xlsx2json</a></li>
@@ -67,7 +68,7 @@ Putting it all together in a shell script.</p>
 
 <pre><code>    for SHEET_NAME in $(xlsx2json -n my-workbook.xlsx); do
        xlsx2json my-workbook.xlsx &quot;$SHEET_NAME&quot; &gt; \
-	       $(slugify &quot;$SHEET_NAME&quot;).json
+	       &quot;${SHEET_NAME// /-}.json&quot;
     done
 </code></pre>
 
