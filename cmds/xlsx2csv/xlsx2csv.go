@@ -54,7 +54,7 @@ This would get the first sheet from the workbook and save it as a CSV file.
 
     %s -c my-workbook.xlsx
 
-This will output the number of sheels in the Workbook.
+This will output the number of sheets in the Workbook.
 
     %s -n my-workbook.xlsx
 
@@ -63,7 +63,7 @@ Putting it all together in a shell script.
 
     for SHEET_NAME in $(%s -n my-workbook.xlsx); do
        %s my-workbook.xlsx "$SHEET_NAME" > \
-	       $(slugify "$SHEET_NAME").csv
+	       "${SHEET_NAME// /-}.csv"
     done
 `
 

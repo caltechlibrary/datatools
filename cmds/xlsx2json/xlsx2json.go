@@ -63,7 +63,7 @@ Putting it all together in a shell script.
 
     for SHEET_NAME in $(%s -n my-workbook.xlsx); do
        %s my-workbook.xlsx "$SHEET_NAME" > \
-	       $(slugify "$SHEET_NAME").json
+	       "${SHEET_NAME// /-}.json"
     done
 `
 
