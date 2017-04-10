@@ -118,6 +118,7 @@ func main() {
 
 	r := csv.NewReader(in)
 	writeHeader := true
+	fmt.Fprintln(out, "")
 	for {
 		record, err := r.Read()
 		if err == io.EOF {
@@ -137,4 +138,5 @@ func main() {
 			writeHeader = false
 		}
 	}
+	fmt.Fprintln(out, "")
 }
