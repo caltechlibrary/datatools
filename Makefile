@@ -7,7 +7,7 @@ VERSION = $(shell grep -m1 'Version = ' $(PROJECT).go | cut -d\"  -f 2)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-build: bin/csvcols bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx
+build: bin/csvcols bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json
 
 bin/csvcols: datatools.go cmds/csvcols/csvcols.go
 	go build -o bin/csvcols cmds/csvcols/csvcols.go 
@@ -32,6 +32,9 @@ bin/csv2mdtable: datatools.go cmds/csv2mdtable/csv2mdtable.go
 
 bin/csv2xlsx: datatools.go cmds/csv2xlsx/csv2xlsx.go
 	go build -o bin/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
+
+bin/csv2json: datatools.go cmds/csv2json/csv2json.go
+	go build -o bin/csv2json cmds/csv2json/csv2json.go
 
 test:
 	cd dotpath && go test
@@ -68,6 +71,7 @@ install:
 	env GOBIN=$(HOME)/bin go install cmds/xlsx2csv/xlsx2csv.go
 	env GOBIN=$(HOME)/bin go install cmds/csv2mdtable/csv2mdtable.go
 	env GOBIN=$(HOME)/bin go install cmds/csv2xlsx/csv2xlsx.go
+	env GOBIN=$(HOME)/bin go install cmds/csv2json/csv2json.go
 
 dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvcols cmds/csvcols/csvcols.go
@@ -78,6 +82,7 @@ dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2json cmds/csv2json/csv2json.go
 
 dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvcols cmds/csvcols/csvcols.go
@@ -88,6 +93,7 @@ dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2json cmds/csv2json/csv2json.go
 
 dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvcols.exe cmds/csvcols/csvcols.go
@@ -98,6 +104,7 @@ dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/xlsx2csv.exe cmds/xlsx2csv/xlsx2csv.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2mdtable.exe cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2xlsx.exe cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2json.exe cmds/csv2json/csv2json.go
 
 dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvcols cmds/csvcols/csvcols.go
@@ -108,6 +115,7 @@ dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2json cmds/csv2json/csv2json.go
 
 release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7
 	mkdir -p dist
@@ -122,5 +130,6 @@ release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm
 	cp -v xlsx2csv.md dist/
 	cp -v csv2mdtable.md dist/
 	cp -v csv2xlsx.md dist/
+	cp -v csv2json.md dist/
 	zip -r $(PROJECT)-$(VERSION)-release.zip dist/
 
