@@ -33,44 +33,47 @@
 <section>
 <h1>USAGE</h1>
 
-<pre><code>xlsx2csv [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
+<pre><code>fields [OPTIONS]
 </code></pre>
 
 <h2>SYNOPSIS</h2>
 
-<p>xlsx2csv is a tool that converts individual Excel Sheets to CSV output.</p>
+<p>fields reads a line of text from stdin and writing fields as JSON array, CSV row or delimited text to stdout.
+Additional options include ignoring punctation, changing case or allowing special characters. The standard
+delimited output is a space.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-c	display number of sheets in Excel Workbook
+<pre><code>	-allow-characters	also allow these characters
+	-allow-punctuation	allow punctuation (i.e. allows letters, numbers and punctuation)
+	-csv	output as a CSV row
+	-delimiter	use this delimiter for output and stop words (default is space)
 	-h	display help
+	-help	display help
+	-i	input filename
+	-input	input filename
+	-json	output as a JSON array
 	-l	display license
-	-n	display sheet names in Excel W9rkbook
+	-license	display license
+	-o	output filename
+	-output	output filename
+	-stop-words	a colon delimited list of stop words to ignore (case insensitive)
+	-to-lower	lower case the input string
+	-to-upper	upper case the input string
 	-v	display version
+	-version	display version
 </code></pre>
 
-<h2>EXAMPLE</h2>
+<h2>EXAMPLES</h2>
 
-<pre><code>    xlsx2csv my-workbook.xlsx &quot;Sheet 1&quot; &gt; sheet1.csv
+<p>Convert sentence into a JSON array of words.</p>
+
+<pre><code class="language-shell">    echo &quot;The cat jumpted over the shifty fox.&quot; | fields -json
 </code></pre>
 
-<p>This would get the first sheet from the workbook and save it as a CSV file.</p>
+<p>Convert each word into a column in a CSV row.</p>
 
-<pre><code>    xlsx2csv -c my-workbook.xlsx
-</code></pre>
-
-<p>This will output the number of sheets in the Workbook.</p>
-
-<pre><code>    xlsx2csv -n my-workbook.xlsx
-</code></pre>
-
-<p>This will display a list of sheet names, one per line.
-Putting it all together in a shell script.</p>
-
-<pre><code>    for SHEET_NAME in $(xlsx2csv -n my-workbook.xlsx); do
-       xlsx2csv my-workbook.xlsx &quot;$SHEET_NAME&quot; &gt; \
-	       &quot;${SHEET_NAME// /-}.csv&quot;
-    done
+<pre><code class="language-shell">    echo &quot;The cat jumpted over the shifty fox.&quot; | fields -csv
 </code></pre>
 
 </section>

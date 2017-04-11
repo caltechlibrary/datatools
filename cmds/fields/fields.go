@@ -1,9 +1,6 @@
 //
-// csv2json - is a command line that takes CSV input from stdin and
-// writes out JSON expression. It includes support for using the first
-// row as field names or default fieldnames (e.g. col0, col1, col2).
-// Additionally it can output the resulting JSON data structures as a
-// JSON array or individual JSON blobs (one line per blob).
+// fields - is a command line that takes a string of text and turns it into JSON array or CSV
+// row.  Options included support to exclude punctuation and change case.
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
@@ -23,6 +20,8 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
 	"encoding/csv"
 	"encoding/json"
 	"flag"
@@ -31,6 +30,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"unicode"
 
 	// My packages
 	"github.com/caltechlibrary/cli"
@@ -43,21 +43,21 @@ var (
 	description = `
 SYNOPSIS
 
-%s reads CSV from stdin and writes a JSON to stdout. JSON output
-can be either an array of JSON blobs or one JSON blob (row as object)
-per line.
+%s reads a line of text from stdin and writing fields as JSON array, CSV row, or delimited text to stdout. 
+Additional options include ignoring punctation, changing case or allowing special characters. Stardard
+delimiter for output is a space.
 `
 
 	examples = `
 EXAMPLES
 
-Convert data1.csv to data1.json using Unix pipes.
+Convert sentence into a JSON array of words.
 
-    cat data1.csv | %s > data1.json
+    echo "The cat jumpted over the shifty fox." | %s -json 
 
-Convert data1.csv to JSON blobs, one line per blob
+Convert each word into a column in a CSV row.
 
-    %s -as-blobs -i data1.csv
+    echo "The cat jumpted over the shifty fox." | %s -csv
 `
 
 	// Standard Options
@@ -68,8 +68,14 @@ Convert data1.csv to JSON blobs, one line per blob
 	outputFName string
 
 	// Application Options
-	useHeader bool
-	asBlobs   bool
+	asCSV            bool
+	asJSON           bool
+	allowPunctuation bool
+	allowCharacters  string
+	stopWords        string
+	toLower          bool
+	toUpper          bool
+	delimiter        string
 )
 
 func init() {
@@ -86,8 +92,60 @@ func init() {
 	flag.StringVar(&outputFName, "output", "", "output filename")
 
 	// App Options
-	flag.BoolVar(&useHeader, "use-header", true, "treat the first row as field names")
-	flag.BoolVar(&asBlobs, "as-blobs", false, "output as one JSON blob per line")
+	flag.StringVar(&delimiter, "delimiter", " ", "use this delimiter for output and stop words (default is space)")
+	flag.BoolVar(&asCSV, "csv", false, "output as a CSV row")
+	flag.BoolVar(&asJSON, "json", false, "output as a JSON array")
+	flag.BoolVar(&toLower, "to-lower", false, "lower case the input string")
+	flag.BoolVar(&toUpper, "to-upper", false, "upper case the input string")
+	flag.BoolVar(&allowPunctuation, "allow-punctuation", false, "allow punctuation (i.e. allows letters, numbers and punctuation)")
+	flag.StringVar(&allowCharacters, "allow-characters", "", "also allow these characters")
+	flag.StringVar(&stopWords, "stop-words", "", "a colon delimited list of stop words to ignore (case insensitive)")
+}
+
+func postProcess(fields [][]byte, stopWords []string) []string {
+	var results []string
+	for _, field := range fields {
+		skip := false
+		s := strings.ToLower(fmt.Sprintf("%s", field))
+		for _, term := range stopWords {
+			if strings.Compare(s, term) == 0 {
+				skip = true
+			}
+		}
+		if skip == false {
+			results = append(results, s)
+		}
+	}
+	return results
+}
+
+func filter(c rune) bool {
+	result := !unicode.IsLetter(c) && !unicode.IsNumber(c)
+	if allowPunctuation == true {
+		result = result && !unicode.IsPunct(c)
+	}
+	if len(allowCharacters) > 0 {
+		result = result && !strings.ContainsRune(allowCharacters, c)
+	}
+	return result
+}
+
+func csvMarshal(fields []string) ([]byte, error) {
+	records := [][]string{}
+	row := []string{}
+
+	for _, col := range fields {
+		row = append(row, string(col))
+	}
+	records = append(records, row)
+
+	buf := new(bytes.Buffer)
+	w := csv.NewWriter(buf)
+	w.WriteAll(records)
+	if err := w.Error(); err != nil {
+		return buf.Bytes(), err
+	}
+	return buf.Bytes(), nil
 }
 
 func main() {
@@ -129,56 +187,53 @@ func main() {
 	}
 	defer cli.CloseFile(outputFName, out)
 
-	rowNo := 0
-	fieldNames := []string{}
-	r := csv.NewReader(in)
-	if useHeader == true {
-		row, err := r.Read()
-		if err == io.EOF {
-			fmt.Fprintf(os.Stderr, "No data\n")
-			os.Exit(1)
-		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
-		}
-		for _, val := range row {
-			fieldNames = append(fieldNames, strings.TrimSpace(val))
-		}
-		rowNo++
+	var (
+		txt      []byte
+		src      []byte
+		fields   [][]byte
+		lineNo   int
+		trimList []string
+	)
+	if len(stopWords) > 0 {
+		trimList = strings.Split(strings.ToLower(stopWords), ":")
 	}
-	arrayOfObjects := []string{}
-	object := map[string]interface{}{}
+	r := bufio.NewReader(in)
 	for {
-		row, err := r.Read()
+		// Read in line and convert to byte array
+		s, err := r.ReadString('\n')
 		if err == io.EOF {
 			break
 		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
+		txt = []byte(s)
+
+		// Preprocess input if needed (i.e. lower/upper case input text)
+		if toLower == true {
+			txt = bytes.ToLower(txt)
 		}
-		// Pad the fieldnames if necessary
-		object = map[string]interface{}{}
-		for col, val := range row {
-			if col < len(fieldNames) {
-				object[fieldNames[col]] = val
-			} else {
-				object[fmt.Sprintf("col_%d", col)] = val
-			}
+		if toUpper == true {
+			txt = bytes.ToUpper(txt)
 		}
-		src, err := json.Marshal(object)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "error row %d, %s\n", rowNo, err)
-		}
-		if asBlobs == true {
-			fmt.Fprintf(out, "%s\n", src)
+
+		// Split into fields appling filter
+		fields = bytes.FieldsFunc(txt, filter)
+
+		// Convert to an array of strings for rendering
+		record := postProcess(fields, trimList)
+
+		// Output fields as JSON, CSV or delimited
+		if asCSV == true {
+			src, err = csvMarshal(record)
+		} else if asJSON == true {
+			src, err = json.Marshal(record)
 		} else {
-			arrayOfObjects = append(arrayOfObjects, string(src))
+			src = []byte(strings.Join(record, delimiter))
+			err = nil
 		}
-		rowNo++
-	}
-	if asBlobs == false {
-		fmt.Fprintf(out, "[%s]\n", strings.Join(arrayOfObjects, ","))
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "line %d, %s", lineNo, err)
+		} else {
+			fmt.Fprintf(out, "%s\n", src)
+		}
+		lineNo++
 	}
 }
