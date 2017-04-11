@@ -8,6 +8,7 @@ Various utilities for simplifying JSON, Excel Workbook and CSV data work on the 
 + [csv2json](csv2json.html) - a tool to take a CSV file and convert it into a JSON blob array or a list of JSON blobs one per line
 + [csv2mdtable](csv2mdtable.html) - a tool to render CSV as a Github Flavored Markdown table
 + [csv2xlsx](csv2xlsx.html) - a tool to take a CSV file and add it as a sheet to a Excel Workbook file.
++ [fields](fields.html) - a tool to parse lines of text into a delimited set of fields, support CSV and JSON output as well
 + [jsoncols](jsoncols.html) - a tool for exploring and extracting JSON values into columns
 + [jsonrange](jsonrange.html) - a tool for iterating for JSON maps and arrays
 + [xlsx2json](xlsx2json.html) - a tool for converting Excel Workbooks to JSON files
