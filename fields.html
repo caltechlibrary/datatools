@@ -38,8 +38,9 @@
 
 <h2>SYNOPSIS</h2>
 
-<p>fields reads a string of text from stdin and writing fields as JSON array or CSV row to stdout.
-Additional options include ignoring punctation, changing case or allowing special characters.</p>
+<p>fields reads a line of text from stdin and writing fields as JSON array, CSV row or delimited text to stdout.
+Additional options include ignoring punctation, changing case or allowing special characters. The standard
+delimited output is a space.</p>
 
 <h2>OPTIONS</h2>
 
@@ -67,15 +68,13 @@ Additional options include ignoring punctation, changing case or allowing specia
 
 <p>Convert sentence into a JSON array of words.</p>
 
-<pre><code class="language-shell">    echo &quot;The cat jumpted over the shifty fox.&quot; | fields 
+<pre><code class="language-shell">    echo &quot;The cat jumpted over the shifty fox.&quot; | fields -json
 </code></pre>
 
 <p>Convert each word into a column in a CSV row.</p>
 
 <pre><code class="language-shell">    echo &quot;The cat jumpted over the shifty fox.&quot; | fields -csv
 </code></pre>
-
-<p>fields v0.0.5</p>
 
 </section>
 

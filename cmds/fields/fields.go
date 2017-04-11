@@ -43,8 +43,9 @@ var (
 	description = `
 SYNOPSIS
 
-%s reads a string of text from stdin and writing fields as JSON array or CSV row to stdout. 
-Additional options include ignoring punctation, changing case or allowing special characters.
+%s reads a line of text from stdin and writing fields as JSON array, CSV row, or delimited text to stdout. 
+Additional options include ignoring punctation, changing case or allowing special characters. Stardard
+delimiter for output is a space.
 `
 
 	examples = `
@@ -52,7 +53,7 @@ EXAMPLES
 
 Convert sentence into a JSON array of words.
 
-    echo "The cat jumpted over the shifty fox." | %s 
+    echo "The cat jumpted over the shifty fox." | %s -json 
 
 Convert each word into a column in a CSV row.
 

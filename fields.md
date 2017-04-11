@@ -5,8 +5,9 @@
 
 ## SYNOPSIS
 
-fields reads a string of text from stdin and writing fields as JSON array or CSV row to stdout. 
-Additional options include ignoring punctation, changing case or allowing special characters.
+fields reads a line of text from stdin and writing fields as JSON array, CSV row or delimited text to stdout. 
+Additional options include ignoring punctation, changing case or allowing special characters. The standard
+delimited output is a space.
 
 ## OPTIONS
 
@@ -36,7 +37,7 @@ Additional options include ignoring punctation, changing case or allowing specia
 Convert sentence into a JSON array of words.
 
 ```shell
-    echo "The cat jumpted over the shifty fox." | fields 
+    echo "The cat jumpted over the shifty fox." | fields -json
 ```
 
 Convert each word into a column in a CSV row.
@@ -45,6 +46,3 @@ Convert each word into a column in a CSV row.
     echo "The cat jumpted over the shifty fox." | fields -csv
 ```
 
-
-
-fields v0.0.5
