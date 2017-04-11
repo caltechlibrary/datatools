@@ -46,7 +46,7 @@ echo "Generating license.html"
 MakePage nav.md "markdown:$(cat LICENSE)" license.html
 
 # Generate the individual command docuumentation pages
-for FNAME in csvcols csvjoin jsoncols jsonrange xlsx2json xlsx2csv csv2mdtable csv2xlsx csv2json; do
+for FNAME in csvcols csvjoin csv2json csv2mdtable csv2xlsx fields jsoncols jsonrange xlsx2json xlsx2csv; do
 	echo "Generating $FNAME.html"
 	MakePage nav.md "$FNAME.md" "$FNAME.html"
 done
