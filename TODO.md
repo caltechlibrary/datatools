@@ -3,13 +3,14 @@
 
 ## Next
 
-+ fields should have a mininum term length options (e.g. ignore words that are shorter than three letters)
-+ fields should have a max term count (e.g. only return up to 12 words)
 + csv2json should have an option that will include a row number in JSON blob output
 
 
 ## Someday, Maybe
 
++ for all cli the -delimiter option should support special characters like \t, \n, \r
++ fields should have a mininum term length options (e.g. ignore words that are shorter than three letters)
++ fields should have a max term count (e.g. only return up to 12 words)
 + csv2json should have the options to normalize property names in JSON objects
     + camel case
     + snake case
