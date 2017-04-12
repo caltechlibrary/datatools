@@ -145,7 +145,7 @@ func main() {
 		opts.Format = datatools.AsJSON
 	default:
 		opts.Format = datatools.AsDelimited
-		opts.Delimiter = delimiter
+		opts.Delimiter = datatools.NormalizeDelimiter(delimiter)
 	}
 	opts.AllowPunctuation = allowPunctuation
 	if len(allowCharacters) > 0 {

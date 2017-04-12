@@ -43,6 +43,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 	AsJSON      = iota
 )
 
+// NormalizeDelimiters handles the messy translation from a format string
+// recieved as an option in the cli to something useful to pass to Join.
+func NormalizeDelimiter(s string) string {
+	if strings.Contains(s, `\n`) {
+		s = strings.Replace(s, `\n`, "\n", -1)
+	}
+	if strings.Contains(s, `\t`) {
+		s = strings.Replace(s, `\t`, "\t", -1)
+	}
+	return s
+}
+
 // ApplyStopWords takes a list of words (array of strings) and
 // removes any occurrences of the stop words return a revised list of
 // words.

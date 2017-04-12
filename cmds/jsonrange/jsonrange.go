@@ -135,7 +135,7 @@ would yield
 	showLength bool
 	showLast   bool
 	showValues bool
-	delimiter  = "\n"
+	delimiter  string
 	limit      int
 )
 
@@ -239,8 +239,8 @@ func init() {
 	flag.BoolVar(&showLength, "length", false, "return the number of keys or values")
 	flag.BoolVar(&showLast, "last", false, "return the index of the last element in list (e.g. length - 1)")
 	flag.BoolVar(&showValues, "values", false, "return the values instead of the keys")
-	flag.StringVar(&delimiter, "d", "\n", "set delimiter for range output")
-	flag.StringVar(&delimiter, "delimiter", "\n", "set delimiter for range output")
+	flag.StringVar(&delimiter, "d", "", "set delimiter for range output")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for range output")
 	flag.IntVar(&limit, "limit", 0, "limit the number of items output")
 }
 
@@ -304,6 +304,12 @@ func main() {
 	var (
 		data interface{}
 	)
+
+	if len(delimiter) == 0 {
+		delimiter = "\n"
+	} else {
+		delimiter = datatools.NormalizeDelimiter(delimiter)
+	}
 
 	for _, p := range args {
 		if p == "." {
