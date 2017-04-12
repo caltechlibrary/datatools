@@ -34,49 +34,55 @@
 <section>
 <h1>USAGE</h1>
 
-<pre><code>csvcols [OPTIONS] ARGS_AS_COLS
+<pre><code>csvfind [OPTIONS] TEXT_TO_MATCH
 </code></pre>
 
 <h2>SYNOPSIS</h2>
 
-<p>csvcols converts a set of command line args into columns output in CSV format.
-It can also be used to filter input CSV and rendering only the column numbers
-listed on the commandline.</p>
+<p>csvfind processes a CSV file as input returning rows that contain the column
+with matched text. Supports exact match as well as some Levenshtein matching.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-d	set delimiter for conversion
-	-delimiter	set delimiter for conversion
-	-f	filter CSV input for columns requested
-	-filter-columns	filter CSV input for columns requested
+<pre><code>	-append-edit-distance	append column with edit distance found (useful for tuning levenshtein)
+	-case-sensitive	perform a case sensitive match (default is false)
+	-col	column to search for match in the CSV file
+	-delete-cost	set the delete cost to use for levenshtein matching
 	-h	display help
 	-help	display help
+	-i	input filename
+	-input	input filename
+	-insert-cost	set the insert cost to use for levenshtein matching
 	-l	display license
+	-levenshtein	use levenshtein matching
 	-license	display license
+	-max-edit-distance	set the edit distance thresh hold for match, default 0
+	-o	output filename
+	-output	output filename
+	-skip-header-row	skip the header row
+	-stop-words	use the colon delimited list of stop words
+	-substitute-cost	set the substitution cost to use for levenshtein matching
 	-v	display version
 	-version	display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
 
-<p>Simple usage of building a CSV file one row at a time.</p>
+<p>Find the rows where the third column matches &ldquo;The Red Book of Westmarch&rdquo; exactly</p>
 
-<pre><code>    csvcols one two three &gt; 3col.csv
-    csvcols 1 2 3 &gt;&gt; 3col.csv
-    cat 3col.csv
+<pre><code class="language-shell">    csvfind -i books.csv -col=2 &quot;The Red Book of Westmarch&quot;
 </code></pre>
 
-<p>Example parsing a pipe delimited string into a CSV line</p>
+<p>Find the rows where the third column matches approximately &ldquo;The Red Book of Westmarch&rdquo;</p>
 
-<pre><code>    csvcols -d &quot;|&quot; &quot;one|two|three&quot; &gt; 3col.csv
-    csvcols -delimiter &quot;|&quot; &quot;1|2|3&quot; &gt;&gt; 3col.csv
-    cat 3col.csv
+<pre><code class="language-shell">    csvfind -i books.csv -col=2 -levenshtein \
+       -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
+       -max-edit-distance=50 -append-edit-distance \
+       &quot;The Red Book of Westmarch&quot;
 </code></pre>
 
-<p>Filter a 10 column CSV file for columns 0,3,5 (left most column is number zero)</p>
-
-<pre><code>	cat 10col.csv | csvcols -f 0 3 5 &gt; 3col.csv
-</code></pre>
+<p>In this example all records from the demo books.csv file would be returned with their
+distance number as the final column.</p>
 
 </section>
 
