@@ -7,7 +7,7 @@ VERSION = $(shell grep -m1 'Version = ' $(PROJECT).go | cut -d\"  -f 2)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-build: bin/csvcols bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/fields
+build: bin/csvcols bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/text2terms
 
 bin/csvcols: datatools.go cmds/csvcols/csvcols.go
 	go build -o bin/csvcols cmds/csvcols/csvcols.go 
@@ -36,8 +36,11 @@ bin/csv2xlsx: datatools.go cmds/csv2xlsx/csv2xlsx.go
 bin/csv2json: datatools.go cmds/csv2json/csv2json.go
 	go build -o bin/csv2json cmds/csv2json/csv2json.go
 
-bin/fields: datatools.go cmds/fields/fields.go
-	go build -o bin/fields cmds/fields/fields.go
+bin/csvfind: datatools.go cmds/csvfind/csvfind.go
+	go build -o bin/csvfind cmds/csvfind/csvfind.go
+
+bin/text2terms: datatools.go cmds/text2terms/text2terms.go
+	go build -o bin/text2terms cmds/text2terms/text2terms.go
 
 test:
 	cd dotpath && go test
@@ -67,6 +70,7 @@ clean:
 
 install:
 	env GOBIN=$(HOME)/bin go install cmds/csvcols/csvcols.go
+	env GOBIN=$(HOME)/bin go install cmds/csvfind/csvfind.go
 	env GOBIN=$(HOME)/bin go install cmds/csvjoin/csvjoin.go
 	env GOBIN=$(HOME)/bin go install cmds/jsoncols/jsoncols.go
 	env GOBIN=$(HOME)/bin go install cmds/jsonrange/jsonrange.go
@@ -75,10 +79,11 @@ install:
 	env GOBIN=$(HOME)/bin go install cmds/csv2mdtable/csv2mdtable.go
 	env GOBIN=$(HOME)/bin go install cmds/csv2xlsx/csv2xlsx.go
 	env GOBIN=$(HOME)/bin go install cmds/csv2json/csv2json.go
-	env GOBIN=$(HOME)/bin go install cmds/fields/fields.go
+	env GOBIN=$(HOME)/bin go install cmds/text2terms/text2terms.go
 
 dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvfind cmds/csvfind/csvfind.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvjoin cmds/csvjoin/csvjoin.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/jsoncols cmds/jsoncols/jsoncols.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/jsonrange cmds/jsonrange/jsonrange.go
@@ -87,10 +92,11 @@ dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2json cmds/csv2json/csv2json.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/fields cmds/fields/fields.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/text2terms cmds/text2terms/text2terms.go
 
 dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvfind cmds/csvfind/csvfind.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvjoin cmds/csvjoin/csvjoin.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/jsoncols cmds/jsoncols/jsoncols.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/jsonrange cmds/jsonrange/jsonrange.go
@@ -99,10 +105,11 @@ dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2json cmds/csv2json/csv2json.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/fields cmds/fields/fields.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/text2terms cmds/text2terms/text2terms.go
 
 dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvcols.exe cmds/csvcols/csvcols.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvfind.exe cmds/csvfind/csvfind.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvjoin.exe cmds/csvjoin/csvjoin.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/jsoncols.exe cmds/jsoncols/jsoncols.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/jsonrange.exe cmds/jsonrange/jsonrange.go
@@ -111,10 +118,11 @@ dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2mdtable.exe cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2xlsx.exe cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2json.exe cmds/csv2json/csv2json.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/fields.exe cmds/fields/fields.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/text2terms.exe cmds/text2terms/text2terms.go
 
 dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvfind cmds/csvfind/csvfind.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvjoin cmds/csvjoin/csvjoin.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/jsoncols cmds/jsoncols/jsoncols.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/jsonrange cmds/jsonrange/jsonrange.go
@@ -123,7 +131,7 @@ dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2json cmds/csv2json/csv2json.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/fields cmds/fields/fields.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/text2terms cmds/text2terms/text2terms.go
 
 release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7
 	mkdir -p dist
@@ -131,6 +139,7 @@ release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm
 	cp -v LICENSE dist/
 	cp -v INSTALL.md dist/
 	cp -v csvcols.md dist/
+	cp -v csvfind.md dist/
 	cp -v csvjoin.md dist/
 	cp -v jsoncols.md dist/
 	cp -v jsonrange.md dist/
@@ -139,6 +148,6 @@ release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm
 	cp -v csv2mdtable.md dist/
 	cp -v csv2xlsx.md dist/
 	cp -v csv2json.md dist/
-	cp -v fields.md dist/
+	cp -v text2terms.md dist/
 	zip -r $(PROJECT)-$(VERSION)-release.zip dist/
 

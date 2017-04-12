@@ -198,7 +198,7 @@ func main() {
 	}
 
 	if len(delimiter) > 0 && len(args) == 1 {
-		args = strings.Split(args[0], delimiter)
+		args = strings.Split(args[0], datatools.NormalizeDelimiter(delimiter))
 	}
 
 	// Clean up fields removing outer quotes if necessary

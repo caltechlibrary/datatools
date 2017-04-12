@@ -21,16 +21,11 @@ package main
 
 import (
 	"bufio"
-	"bytes"
-	"encoding/csv"
-	"encoding/json"
 	"flag"
 	"fmt"
-	"io"
 	"os"
 	"path"
 	"strings"
-	"unicode"
 
 	// My packages
 	"github.com/caltechlibrary/cli"
@@ -102,52 +97,6 @@ func init() {
 	flag.StringVar(&stopWords, "stop-words", "", "a colon delimited list of stop words to ignore (case insensitive)")
 }
 
-func postProcess(fields [][]byte, stopWords []string) []string {
-	var results []string
-	for _, field := range fields {
-		skip := false
-		s := strings.ToLower(fmt.Sprintf("%s", field))
-		for _, term := range stopWords {
-			if strings.Compare(s, term) == 0 {
-				skip = true
-			}
-		}
-		if skip == false {
-			results = append(results, s)
-		}
-	}
-	return results
-}
-
-func filter(c rune) bool {
-	result := !unicode.IsLetter(c) && !unicode.IsNumber(c)
-	if allowPunctuation == true {
-		result = result && !unicode.IsPunct(c)
-	}
-	if len(allowCharacters) > 0 {
-		result = result && !strings.ContainsRune(allowCharacters, c)
-	}
-	return result
-}
-
-func csvMarshal(fields []string) ([]byte, error) {
-	records := [][]string{}
-	row := []string{}
-
-	for _, col := range fields {
-		row = append(row, string(col))
-	}
-	records = append(records, row)
-
-	buf := new(bytes.Buffer)
-	w := csv.NewWriter(buf)
-	w.WriteAll(records)
-	if err := w.Error(); err != nil {
-		return buf.Bytes(), err
-	}
-	return buf.Bytes(), nil
-}
-
 func main() {
 	appName := path.Base(os.Args[0])
 	flag.Parse()
@@ -187,53 +136,33 @@ func main() {
 	}
 	defer cli.CloseFile(outputFName, out)
 
-	var (
-		txt      []byte
-		src      []byte
-		fields   [][]byte
-		lineNo   int
-		trimList []string
-	)
-	if len(stopWords) > 0 {
-		trimList = strings.Split(strings.ToLower(stopWords), ":")
+	// populate options
+	opts := new(datatools.Options)
+	switch {
+	case asCSV == true:
+		opts.Format = datatools.AsCSV
+	case asJSON == true:
+		opts.Format = datatools.AsJSON
+	default:
+		opts.Format = datatools.AsDelimited
+		opts.Delimiter = datatools.NormalizeDelimiter(delimiter)
 	}
-	r := bufio.NewReader(in)
-	for {
-		// Read in line and convert to byte array
-		s, err := r.ReadString('\n')
-		if err == io.EOF {
-			break
-		}
-		txt = []byte(s)
+	opts.AllowPunctuation = allowPunctuation
+	if len(allowCharacters) > 0 {
+		opts.AllowCharacters = allowCharacters
+	}
+	if len(stopWords) > 0 {
+		opts.StopWords = strings.Split(stopWords, ":")
+	}
+	opts.ToLower = toLower
+	opts.ToUpper = toUpper
 
-		// Preprocess input if needed (i.e. lower/upper case input text)
-		if toLower == true {
-			txt = bytes.ToLower(txt)
-		}
-		if toUpper == true {
-			txt = bytes.ToUpper(txt)
-		}
-
-		// Split into fields appling filter
-		fields = bytes.FieldsFunc(txt, filter)
-
-		// Convert to an array of strings for rendering
-		record := postProcess(fields, trimList)
-
-		// Output fields as JSON, CSV or delimited
-		if asCSV == true {
-			src, err = csvMarshal(record)
-		} else if asJSON == true {
-			src, err = json.Marshal(record)
-		} else {
-			src = []byte(strings.Join(record, delimiter))
-			err = nil
-		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "line %d, %s", lineNo, err)
-		} else {
-			fmt.Fprintf(out, "%s\n", src)
-		}
-		lineNo++
+	// Map in the cli options to opts struct
+	buf := bufio.NewReader(in)
+	src, err := datatools.Text2Fields(buf, opts)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s", err)
+	} else {
+		fmt.Fprintf(out, "%s\n", src)
 	}
 }

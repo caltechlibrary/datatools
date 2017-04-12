@@ -16,11 +16,12 @@
 <li><a href="license.html">LICENSE</a></li>
 <li><a href="install.html">INSTALL</a></li>
 <li><a href="csvcols.html">csvcols</a></li>
+<li><a href="csvfind.html">csvfind</a></li>
 <li><a href="csvjoin.html">csvjoin</a></li>
 <li><a href="csv2json.html">csv2json</a></li>
 <li><a href="csv2mdtable.html">csv2mdtable</a></li>
 <li><a href="csv2xlsx.html">csv2xlsx</a></li>
-<li><a href="fields.html">fields</a></li>
+<li><a href="text2terms.html">text2terms</a></li>
 <li><a href="jsoncols.html">jsoncols</a></li>
 <li><a href="jsonrange.html">jsonrange</a></li>
 <li><a href="xlsx2json.html">xlsx2json</a></li>
@@ -33,48 +34,55 @@
 <section>
 <h1>USAGE</h1>
 
-<pre><code>fields [OPTIONS]
+<pre><code>csvfind [OPTIONS] TEXT_TO_MATCH
 </code></pre>
 
 <h2>SYNOPSIS</h2>
 
-<p>fields reads a line of text from stdin and writing fields as JSON array, CSV row or delimited text to stdout.
-Additional options include ignoring punctation, changing case or allowing special characters. The standard
-delimited output is a space.</p>
+<p>csvfind processes a CSV file as input returning rows that contain the column
+with matched text. Supports exact match as well as some Levenshtein matching.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-allow-characters	also allow these characters
-	-allow-punctuation	allow punctuation (i.e. allows letters, numbers and punctuation)
-	-csv	output as a CSV row
-	-delimiter	use this delimiter for output and stop words (default is space)
+<pre><code>	-append-edit-distance	append column with edit distance found (useful for tuning levenshtein)
+	-case-sensitive	perform a case sensitive match (default is false)
+	-col	column to search for match in the CSV file
+	-delete-cost	set the delete cost to use for levenshtein matching
 	-h	display help
 	-help	display help
 	-i	input filename
 	-input	input filename
-	-json	output as a JSON array
+	-insert-cost	set the insert cost to use for levenshtein matching
 	-l	display license
+	-levenshtein	use levenshtein matching
 	-license	display license
+	-max-edit-distance	set the edit distance thresh hold for match, default 0
 	-o	output filename
 	-output	output filename
-	-stop-words	a colon delimited list of stop words to ignore (case insensitive)
-	-to-lower	lower case the input string
-	-to-upper	upper case the input string
+	-skip-header-row	skip the header row
+	-stop-words	use the colon delimited list of stop words
+	-substitute-cost	set the substitution cost to use for levenshtein matching
 	-v	display version
 	-version	display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
 
-<p>Convert sentence into a JSON array of words.</p>
+<p>Find the rows where the third column matches &ldquo;The Red Book of Westmarch&rdquo; exactly</p>
 
-<pre><code class="language-shell">    echo &quot;The cat jumpted over the shifty fox.&quot; | fields -json
+<pre><code class="language-shell">    csvfind -i books.csv -col=2 &quot;The Red Book of Westmarch&quot;
 </code></pre>
 
-<p>Convert each word into a column in a CSV row.</p>
+<p>Find the rows where the third column matches approximately &ldquo;The Red Book of Westmarch&rdquo;</p>
 
-<pre><code class="language-shell">    echo &quot;The cat jumpted over the shifty fox.&quot; | fields -csv
+<pre><code class="language-shell">    csvfind -i books.csv -col=2 -levenshtein \
+       -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
+       -max-edit-distance=50 -append-edit-distance \
+       &quot;The Red Book of Westmarch&quot;
 </code></pre>
+
+<p>In this example all records from the demo books.csv file would be returned with their
+distance number as the final column.</p>
 
 </section>
 
