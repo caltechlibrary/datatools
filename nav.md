@@ -4,6 +4,7 @@
 + [LICENSE](license.html)
 + [INSTALL](install.html)
 + [csvcols](csvcols.html)
++ [csvfind](csvfind.html)
 + [csvjoin](csvjoin.html)
 + [csv2json](csv2json.html)
 + [csv2mdtable](csv2mdtable.html)

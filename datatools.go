@@ -3,7 +3,20 @@
 // line tools for working with JSON content
 //
 // @Author R. S. Doiel, <rsdoiel@caltech.edu>
-
+//
+// Copyright (c) 2017, Caltech
+// All rights not granted herein are expressly reserved by Caltech.
+//
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//
+// 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
 package datatools
 
 import (
@@ -15,6 +28,9 @@ import (
 	"io"
 	"strings"
 	"unicode"
+
+	// 3rd Party packages
+	"github.com/dexyk/stringosim"
 )
 
 const (
@@ -69,7 +85,7 @@ func ApplyStopWords(fields []string, stopWords []string) []string {
 			}
 		}
 		if skip == false {
-			results = append(results, s)
+			results = append(results, field)
 		}
 	}
 	return results
@@ -77,7 +93,7 @@ func ApplyStopWords(fields []string, stopWords []string) []string {
 
 // Filter filters out characters from string. By default it allows
 // letters and numbers through with options for allow punctuation
-// and other specific characters.
+// and other specific characters. Returns true if matches filter, false otherwise
 func Filter(c rune, allowableCharacters string, allowPunctuation bool) bool {
 	result := !unicode.IsLetter(c) && !unicode.IsNumber(c)
 	if allowPunctuation == true {
@@ -164,4 +180,21 @@ func Text2Fields(r *bufio.Reader, options *Options) ([]byte, error) {
 	default:
 		return []byte(strings.Join(words, options.Delimiter)), nil
 	}
+}
+
+// Levenshtein does a fuzzy match on two strings.
+func Levenshtein(src string, target string, insertCost int, deleteCost int, substituteCost int, caseSensitive bool) int {
+	var caseInsensitive bool
+	// NOTE: flipped the termonology for readability in tools using this function.
+	if caseSensitive == true {
+		caseInsensitive = false
+	} else {
+		caseInsensitive = true
+	}
+	return stringosim.Levenshtein([]rune(src), []rune(target), stringosim.LevenshteinSimilarityOptions{
+		InsertCost:      insertCost,
+		DeleteCost:      deleteCost,
+		SubstituteCost:  substituteCost,
+		CaseInsensitive: caseInsensitive,
+	})
 }
