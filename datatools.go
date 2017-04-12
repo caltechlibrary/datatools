@@ -6,8 +6,19 @@
 
 package datatools
 
+import (
+	"bufio"
+	"bytes"
+	"encoding/csv"
+	"encoding/json"
+	"fmt"
+	"io"
+	"strings"
+	"unicode"
+)
+
 const (
-	Version = "v0.0.6"
+	Version = "v0.0.7"
 
 	LicenseText = `
 %s %s
@@ -25,4 +36,120 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 `
+
+	// Constants for datatools functions
+	AsDelimited = iota
+	AsCSV       = iota
+	AsJSON      = iota
 )
+
+// ApplyStopWords takes a list of words (array of strings) and
+// removes any occurrences of the stop words return a revised list of
+// words.
+func ApplyStopWords(fields []string, stopWords []string) []string {
+	var results []string
+	for _, field := range fields {
+		skip := false
+		s := strings.ToLower(fmt.Sprintf("%s", field))
+		for _, term := range stopWords {
+			if strings.Compare(s, term) == 0 {
+				skip = true
+			}
+		}
+		if skip == false {
+			results = append(results, s)
+		}
+	}
+	return results
+}
+
+// Filter filters out characters from string. By default it allows
+// letters and numbers through with options for allow punctuation
+// and other specific characters.
+func Filter(c rune, allowableCharacters string, allowPunctuation bool) bool {
+	result := !unicode.IsLetter(c) && !unicode.IsNumber(c)
+	if allowPunctuation == true {
+		result = result && !unicode.IsPunct(c)
+	}
+	if len(allowableCharacters) > 0 {
+		result = result && !strings.ContainsRune(allowableCharacters, c)
+	}
+	return result
+}
+
+// CSVMarshal takes a list of strings and returns a byte array
+// of CSV formated output.
+func CSVMarshal(fields []string) ([]byte, error) {
+	records := [][]string{}
+	row := []string{}
+
+	// Turns fields into a 2D array
+	for _, col := range fields {
+		row = append(row, string(col))
+	}
+	records = append(records, row)
+
+	buf := new(bytes.Buffer)
+	w := csv.NewWriter(buf)
+	w.WriteAll(records)
+	if err := w.Error(); err != nil {
+		return buf.Bytes(), err
+	}
+	return buf.Bytes(), nil
+}
+
+// Options is the data structure to configure the Text2Fields parser
+type Options struct {
+	AllowCharacters  string
+	AllowPunctuation bool
+	ToLower          bool
+	ToUpper          bool
+	StopWords        []string
+	Delimiter        string
+	Format           int
+}
+
+// Text2Fields process a io.Reader as input and returns byte array of fields and error
+// Options provides the configuration to apply
+func Text2Fields(r *bufio.Reader, options *Options) ([]byte, error) {
+	var (
+		fields []string
+		words  []string
+	)
+	for done := false; done == false; {
+		// Read in line and convert to byte array
+		s, err := r.ReadString('\n')
+		if err == io.EOF {
+			done = true
+		}
+
+		// Preprocess input if needed (i.e. lower/upper case input text)
+		if options.ToLower == true {
+			s = strings.ToLower(s)
+		}
+		if options.ToUpper == true {
+			s = strings.ToUpper(s)
+		}
+
+		// Split into fields appling filter
+		fields = strings.FieldsFunc(s, func(c rune) bool {
+			return Filter(c, options.AllowCharacters, options.AllowPunctuation)
+		})
+
+		// Convert to an array of strings for rendering
+		fields = ApplyStopWords(fields, options.StopWords)
+		for _, field := range fields {
+			words = append(words, field)
+		}
+	}
+
+	// Output fields as JSON, CSV or delimited
+	switch options.Format {
+	case AsCSV:
+		return CSVMarshal(words)
+	case AsJSON:
+		return json.Marshal(words)
+	default:
+		return []byte(strings.Join(words, options.Delimiter)), nil
+	}
+}
