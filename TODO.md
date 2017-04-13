@@ -3,14 +3,16 @@
 
 ## Next
 
++ [ ] utilities should use starting index of 1 instead of zero as humans refer to column 1 when intending to work on the first column
 + [ ] csvfind, csvjoin should have an inverted match operation
++ [ ] csv utilities to support integer ranges notation for columns and rows references, E.g. "1,3-4,7" or all
 
 ## Someday, Maybe
 
 + [ ] unify the options vocabulary to work the same between each cli
-+ [ ] utilities should use starting index of 1 instead of zero as humans refer to column 1 as first column
+    + Need a common approach to column ranges in csvcols, csvfind, csvjoin
+    + csv2json, csv2mdtable, csv2xlsx should accept a column and row range option for output
 + [ ] csvfind add filter by row number (helpful when combined with csvcols for snapshotting the middle of a table)
-+ [ ] csvfind should be able to search multiple columns by specifying a column range like in csvcols (e.g. 1, 3-4, 7 or all)
 + [ ] csv2json should have an option that will include a row number in JSON blob output
 + [ ] csv2json should have the options to normalize property names in JSON objects
     + camel case
