@@ -42,6 +42,7 @@ bin/csvfind: datatools.go cmds/csvfind/csvfind.go
 
 test:
 	cd dotpath && go test
+	go test
 
 website:
 	./mk-website.bash

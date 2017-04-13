@@ -45,14 +45,42 @@ func TestApplyStopWords(t *testing.T) {
 		"a",
 		"of",
 	}
-	src := `The Red Book of West March`
+	src := `The Red Book of Westmarch`
 	expected := []string{
 		"Red",
 		"Book",
-		"West",
-		"March",
+		"Westmarch",
 	}
 	result := ApplyStopWords(strings.Split(src, " "), stopWords)
+	for i, val := range expected {
+		if result[i] != val {
+			t.Errorf("Expected %d %q, got %q", i, val, result[i])
+		}
+	}
+
+	stopWords = []string{
+		"red",
+	}
+	expected = []string{
+		"The",
+		"Book",
+		"of",
+		"Westmarch",
+	}
+	result = ApplyStopWords(strings.Split(src, " "), stopWords)
+	for i, val := range expected {
+		if result[i] != val {
+			t.Errorf("Expected %d %q, got %q", i, val, result[i])
+		}
+	}
+	src = "Red Book"
+	stopWords = []string{
+		"red",
+	}
+	expected = []string{
+		"Book",
+	}
+	result = ApplyStopWords(strings.Split(src, " "), stopWords)
 	for i, val := range expected {
 		if result[i] != val {
 			t.Errorf("Expected %d %q, got %q", i, val, result[i])

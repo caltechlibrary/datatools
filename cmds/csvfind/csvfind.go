@@ -47,16 +47,22 @@ EXAMPLES
 
 Find the rows where the third column matches "The Red Book of Westmarch" exactly
 
-    %s -i books.csv -col=2 "The Red Book of Westmarch"
+    %s -i books.csv -col=1 "The Red Book of Westmarch"
 
-Find the rows where the third column (0,1,2) matches approximately "The Red Book of Westmarch"
+Find the rows where the third column (colums numbered 0,1,2) matches approximately 
+"The Red Book of Westmarch"
 
-    %s -i books.csv -col=2 -levenshtein \
+    %s -i books.csv -col=1 -levenshtein \
        -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
        -max-edit-distance=50 -append-edit-distance \
        "The Red Book of Westmarch"
 
 In this example we've appended the edit distance to see how close the matches are.
+
+You can also search for phrases in columns.
+
+    %s -i books.csv -col=1 -contains "Red Book"
+
 `
 
 	// Standard Options
@@ -69,6 +75,7 @@ In this example we've appended the edit distance to see how close the matches ar
 	// App Options
 	skipHeaderRow      bool
 	col                int
+	useContains        bool
 	useLevenshtein     bool
 	insertCost         int
 	deleteCost         int
@@ -103,6 +110,7 @@ func init() {
 
 	// App Options
 	flag.IntVar(&col, "col", 0, "column to search for match in the CSV file")
+	flag.BoolVar(&useContains, "contains", false, "use contains phrase for matching")
 	flag.BoolVar(&useLevenshtein, "levenshtein", false, "use levenshtein matching")
 	flag.IntVar(&maxEditDistance, "max-edit-distance", 5, "set the edit distance thresh hold for match, default 0")
 	flag.IntVar(&insertCost, "insert-cost", 1, "set the insert cost to use for levenshtein matching")
@@ -122,7 +130,7 @@ func main() {
 	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName)
+	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName)
 
 	if showHelp == true {
 		fmt.Println(cfg.Usage())
@@ -148,13 +156,18 @@ func main() {
 	if len(args) == 0 {
 		fmt.Fprintf(os.Stderr, "Missing string to match, try %s --help", appName)
 	}
+
 	target := args[0]
+	stopList := []string{}
+
+	// NOTE: If we're doing a case Insensitive search (the default) the lower case everything before matching
 	if caseSensitive == false {
 		target = strings.ToLower(target)
+		//stopWords = strings.ToLower(target)
 	}
-	stopList := []string{}
 	if len(stopWords) > 0 {
 		stopList = strings.Split(stopWords, ":")
+		target = strings.Join(datatools.ApplyStopWords(strings.Split(target, " "), stopList), " ")
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
@@ -188,16 +201,25 @@ func main() {
 			// Find the value we're matching against
 			if col < len(record) {
 				src := record[col]
+				if caseSensitive == false {
+					src = strings.ToLower(src)
+				}
 				if len(stopList) > 0 {
 					// Split into fields applying datatools filter
 					fields := strings.FieldsFunc(src, func(c rune) bool {
 						return datatools.Filter(c, "", false)
 					})
 					// Convert to an array of strings back into a space separted string
-					fields = datatools.ApplyStopWords(fields, stopList)
-					src = strings.Join(fields, " ")
+					src = strings.Join(datatools.ApplyStopWords(fields, stopList), " ")
 				}
 				switch {
+				case useContains:
+					if strings.Contains(src, target) {
+						err := csvOut.Write(record)
+						if err != nil {
+							fmt.Fprintf(os.Stderr, "%d %s\n", lineNo, err)
+						}
+					}
 				case useLevenshtein == true:
 					distance := datatools.Levenshtein(src, target, insertCost, deleteCost, substituteCost, caseSensitive)
 					if distance <= maxEditDistance {
@@ -210,10 +232,7 @@ func main() {
 						}
 					}
 				default:
-					if caseSensitive == false {
-						src = strings.ToLower(src)
-					}
-					if strings.Compare(target, src) == 0 {
+					if strings.Compare(src, target) == 0 {
 						err := csvOut.Write(record)
 						if err != nil {
 							fmt.Fprintf(os.Stderr, "%d %s\n", lineNo, err)
