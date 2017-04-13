@@ -51,10 +51,6 @@ INDEX_MENU=$(cat docs/nav.md)
 
 echo "+ [Documentation](./)" >> docs/nav.md
 echo "+ [How To ...](../how-to/)" >> docs/nav.md
-find cmds -type d -depth 1 | while read DNAME; do
-	FNAME="$(basename "$DNAME")"
-	echo "+ [$FNAME](${FNAME}.html)"
-done >>docs/nav.md
 git add docs/nav.md
 
 # Generate docs/index.md
@@ -70,20 +66,13 @@ find cmds -type d -depth 1 | while read DNAME; do
 done >>docs/index.md
 git add docs/index.md
 
-MakePage "markdown:${INDEX_MENU}" "docs/index.md" "docs/index.html"
+MakePage "docs/nav.md" "docs/index.md" "docs/index.html"
 
 
 # Generate nav for How To section
 echo "$INDEX_MENU" > how-to/nav.md
 echo "+ [Documentation](../docs/)" >> how-to/nav.md
 echo "+ [How To ...](./)" >> how-to/nav.md
-#find ./how-to -type f | grep -E "\.md$" | while read FNAME; do
-#    TITLE="$(titleline -i "$FNAME")"
-#    FNAME="$(basename "$FNAME" ".md")"
-#    if [ "$FNAME" != "nav" ] && [ "$FNAME" != "index" ]; then
-#        echo "+ [${TITLE}](${FNAME}.html)"
-#    fi
-#done >>how-to/nav.md
 git add how-to/nav.md
 
 # Generate index page for How To section
