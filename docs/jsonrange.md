@@ -1,5 +1,7 @@
 
-# USAGE
+# jsonrange
+
+## USAGE
 
     jsonrange [OPTIONS] [DOT_PATH_EXPRESSION] 
 

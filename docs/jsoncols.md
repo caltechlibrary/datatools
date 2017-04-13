@@ -1,5 +1,7 @@
 
-# USAGE
+# jsoncols
+
+## USAGE
 
     jsoncols [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]
 

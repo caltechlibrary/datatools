@@ -1,5 +1,7 @@
 
-# USAGE
+# csvjoin
+
+## USAGE
 
     csvjoin [OPTIONS] CSV1 CSV2 COL1 COL2
 

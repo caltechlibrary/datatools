@@ -1,5 +1,7 @@
 
-# USAGE
+# xlsx2csv
+
+## USAGE
 
     xlsx2csv [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
 

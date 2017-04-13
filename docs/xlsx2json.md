@@ -1,5 +1,7 @@
 
-# USAGE
+# xlsx2json
+
+## USAGE
 
     xlsx2json [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
 

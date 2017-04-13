@@ -4,13 +4,14 @@
 ## Next
 
 + [ ] csvfind would accept CSV input from stdin and output rows with matching column values
-    + E.g. `cat file1.csv | csvfind -contains -column=3 "Red Book"`
-    + E.g. `cat file1.csv | csvfind -levenshtein=1,1,1 -stop-words="the:a:of" -column=3 "This Red Book of West March"`
-    + E.g. `cat file1.csv | csvfind -inverted -levenstein=1,1,1 -stop-words="the:a:of" -column=3 "This Red Book of West March"`
+    + E.g. `cat file1.csv | csvfind -levenshtein -stop-words="the:a:of" -col=1 "This Red Book of West March"`
+    + E.g. `cat file1.csv | csvfind -inverted -levenstein -stop-words="the:a:of" -col=1 "This Red Book of West March"`
+    + E.g. `cat file1.csv | csvfind -contains -col=1 "Red Book"`
 + [ ] csvjoin should have option for fuzzy match on columns (e.g. comparing titles)
 
 ## Someday, Maybe
 
++ [ ] utilities should use starting index of 1 instead of zero as humans refer to column 1 as first column
 + [ ] csv2json should have an option that will include a row number in JSON blob output
 + [ ] text2terms should have a mininum term length options (e.g. ignore words that are shorter than three letters)
 + [ ] text2terms should have a max term count (e.g. only return up to 12 words)

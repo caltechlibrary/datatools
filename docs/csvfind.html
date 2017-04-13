@@ -7,32 +7,31 @@
 </head>
 <body>
 <header>
-<a href="http://library.caltech.edu"><img src="assets/liblogo.gif" alt="Caltech Library logo"></a>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
 </header>
 <nav>
 <ul>
-<li><a href="/">home</a></li>
-<li><a href="./">README</a></li>
-<li><a href="license.html">LICENSE</a></li>
-<li><a href="install.html">INSTALL</a></li>
-<li><a href="csvcols.html">csvcols</a></li>
-<li><a href="csvfind.html">csvfind</a></li>
-<li><a href="csvjoin.html">csvjoin</a></li>
+<li><a href="/">Home</a></li>
+<li><a href="../">up</a></li>
+<li><a href="./">Documentation</a></li>
 <li><a href="csv2json.html">csv2json</a></li>
 <li><a href="csv2mdtable.html">csv2mdtable</a></li>
 <li><a href="csv2xlsx.html">csv2xlsx</a></li>
-<li><a href="text2terms.html">text2terms</a></li>
+<li><a href="csvcols.html">csvcols</a></li>
+<li><a href="csvfind.html">csvfind</a></li>
+<li><a href="csvjoin.html">csvjoin</a></li>
 <li><a href="jsoncols.html">jsoncols</a></li>
 <li><a href="jsonrange.html">jsonrange</a></li>
-<li><a href="xlsx2json.html">xlsx2json</a></li>
 <li><a href="xlsx2csv.html">xlsx2csv</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li><a href="xlsx2json.html">xlsx2json</a></li>
 </ul>
 
 </nav>
 
 <section>
-<h1>USAGE</h1>
+<h1>csvfind</h1>
+
+<h2>USAGE</h2>
 
 <pre><code>csvfind [OPTIONS] TEXT_TO_MATCH
 </code></pre>
@@ -47,6 +46,7 @@ with matched text. Supports exact match as well as some Levenshtein matching.</p
 <pre><code>	-append-edit-distance	append column with edit distance found (useful for tuning levenshtein)
 	-case-sensitive	perform a case sensitive match (default is false)
 	-col	column to search for match in the CSV file
+	-contains	use contains phrase for matching
 	-delete-cost	set the delete cost to use for levenshtein matching
 	-h	display help
 	-help	display help
@@ -70,19 +70,24 @@ with matched text. Supports exact match as well as some Levenshtein matching.</p
 
 <p>Find the rows where the third column matches &ldquo;The Red Book of Westmarch&rdquo; exactly</p>
 
-<pre><code class="language-shell">    csvfind -i books.csv -col=2 &quot;The Red Book of Westmarch&quot;
+<pre><code class="language-shell">    csvfind -i books.csv -col=1 &quot;The Red Book of Westmarch&quot;
 </code></pre>
 
-<p>Find the rows where the third column matches approximately &ldquo;The Red Book of Westmarch&rdquo;</p>
+<p>Find the rows where the third column (colums numbered 0,1,2) matches approximately
+&ldquo;The Red Book of Westmarch&rdquo;</p>
 
-<pre><code class="language-shell">    csvfind -i books.csv -col=2 -levenshtein \
+<pre><code class="language-shell">    csvfind -i books.csv -col=1 -levenshtein \
        -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
        -max-edit-distance=50 -append-edit-distance \
        &quot;The Red Book of Westmarch&quot;
 </code></pre>
 
-<p>In this example all records from the demo books.csv file would be returned with their
-distance number as the final column.</p>
+<p>In this example we&rsquo;ve appended the edit distance to see how close the matches are.</p>
+
+<p>You can also search for phrases in columns.</p>
+
+<pre><code class="language-shell">    csvfind -i books.csv -col=1 -contains &quot;Red Book&quot;
+</code></pre>
 
 </section>
 

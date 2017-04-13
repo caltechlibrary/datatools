@@ -1,4 +1,7 @@
-# USAGE
+
+# csvcols
+
+## USAGE
 
     csvcols [OPTIONS] ARGS_AS_COLS
 

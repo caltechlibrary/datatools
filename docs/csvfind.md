@@ -1,5 +1,7 @@
 
-# USAGE
+# csvfind
+
+## USAGE
 
     csvfind [OPTIONS] TEXT_TO_MATCH
 
@@ -14,6 +16,7 @@ with matched text. Supports exact match as well as some Levenshtein matching.
 	-append-edit-distance	append column with edit distance found (useful for tuning levenshtein)
 	-case-sensitive	perform a case sensitive match (default is false)
 	-col	column to search for match in the CSV file
+	-contains	use contains phrase for matching
 	-delete-cost	set the delete cost to use for levenshtein matching
 	-h	display help
 	-help	display help
@@ -38,18 +41,24 @@ with matched text. Supports exact match as well as some Levenshtein matching.
 Find the rows where the third column matches "The Red Book of Westmarch" exactly
 
 ```shell
-    csvfind -i books.csv -col=2 "The Red Book of Westmarch"
+    csvfind -i books.csv -col=1 "The Red Book of Westmarch"
 ```
 
-Find the rows where the third column matches approximately "The Red Book of Westmarch"
+Find the rows where the third column (colums numbered 0,1,2) matches approximately 
+"The Red Book of Westmarch"
 
 ```shell
-    csvfind -i books.csv -col=2 -levenshtein \
+    csvfind -i books.csv -col=1 -levenshtein \
        -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
        -max-edit-distance=50 -append-edit-distance \
        "The Red Book of Westmarch"
 ```
 
-In this example all records from the demo books.csv file would be returned with their
-distance number as the final column.
+In this example we've appended the edit distance to see how close the matches are.
+
+You can also search for phrases in columns.
+
+```shell
+    csvfind -i books.csv -col=1 -contains "Red Book"
+```
 

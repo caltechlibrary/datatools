@@ -7,59 +7,67 @@
 </head>
 <body>
 <header>
-<a href="http://library.caltech.edu"><img src="assets/liblogo.gif" alt="Caltech Library logo"></a>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
 </header>
 <nav>
 <ul>
-<li><a href="/">home</a></li>
-<li><a href="./">README</a></li>
-<li><a href="license.html">LICENSE</a></li>
-<li><a href="install.html">INSTALL</a></li>
-<li><a href="csvcols.html">csvcols</a></li>
-<li><a href="csvfind.html">csvfind</a></li>
-<li><a href="csvjoin.html">csvjoin</a></li>
+<li><a href="/">Home</a></li>
+<li><a href="../">up</a></li>
+<li><a href="./">Documentation</a></li>
 <li><a href="csv2json.html">csv2json</a></li>
 <li><a href="csv2mdtable.html">csv2mdtable</a></li>
 <li><a href="csv2xlsx.html">csv2xlsx</a></li>
-<li><a href="text2terms.html">text2terms</a></li>
+<li><a href="csvcols.html">csvcols</a></li>
+<li><a href="csvfind.html">csvfind</a></li>
+<li><a href="csvjoin.html">csvjoin</a></li>
 <li><a href="jsoncols.html">jsoncols</a></li>
 <li><a href="jsonrange.html">jsonrange</a></li>
-<li><a href="xlsx2json.html">xlsx2json</a></li>
 <li><a href="xlsx2csv.html">xlsx2csv</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li><a href="xlsx2json.html">xlsx2json</a></li>
 </ul>
 
 </nav>
 
 <section>
-<h1>USAGE</h1>
+<h1>csv2json</h1>
 
-<pre><code>csvjoin [OPTIONS] CSV1 CSV2 COL1 COL2
+<h2>USAGE</h2>
+
+<pre><code>csv2json [OPTIONS]
 </code></pre>
 
 <h2>SYNOPSIS</h2>
 
-<p>csvjoin outputs CSV content based on two CSV files with match column values.
-Each CSV input file has a designated column to match on. The values are
-compared as strings.</p>
+<p>csv2json reads CSV from stdin and writes a JSON to stdout. JSON output
+can be either an array of JSON blobs or one JSON blob (row as object)
+per line.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-h	display help
+<pre><code>	-as-blobs	output as one JSON blob per line
+	-h	display help
 	-help	display help
+	-i	input filename
+	-input	input filename
 	-l	display license
 	-license	display license
+	-o	output filename
+	-output	output filename
+	-use-header	treat the first row as field names
 	-v	display version
 	-version	display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
 
-<p>Simple usage of building a merged CSV file from data1.csv
-and data2.csv where column 1 in data1.csv matches the value in
-column 3 of data2.csv.</p>
+<p>Convert data1.csv to data1.json using Unix pipes.</p>
 
-<pre><code>    csvjoin data1.csv data2.csv 1 3 &gt; merged-data.csv
+<pre><code class="language-shell">    cat data1.csv | csv2json &gt; data1.json
+</code></pre>
+
+<p>Convert data1.csv to JSON blobs, one line per blob</p>
+
+<pre><code class="language-shell">    csv2json -as-blobs -i data1.csv
 </code></pre>
 
 </section>

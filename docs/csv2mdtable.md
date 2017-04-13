@@ -1,5 +1,7 @@
 
-# USAGE
+# csv2mdtable
+
+## USAGE
 
     csv2mdtable [OPTIONS]
 
