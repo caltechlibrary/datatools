@@ -19,12 +19,10 @@
 package main
 
 import (
-	"bytes"
 	"encoding/csv"
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path"
 	"strings"
@@ -55,8 +53,7 @@ merged-data.csv..
 
     %s -csv1=data1.csv -col1=1 \
        -csv2=data2.csv -col2=3 \
-	   -output=merged-data.csv
-
+       -output=merged-data.csv
 `
 
 	// Standard Options
@@ -71,6 +68,7 @@ merged-data.csv..
 	csv2FName       string
 	col1            int
 	col2            int
+	trimSpaces      bool
 	caseSensitive   bool
 	useContains     bool
 	useLevenshtein  bool
@@ -84,6 +82,9 @@ merged-data.csv..
 
 // cellsMatch checks if two cells' values match
 func cellsMatch(val1, val2 string, stopWords []string) bool {
+	if trimSpaces == true {
+		val2 = strings.TrimSpace(val2)
+	}
 	if caseSensitive == false {
 		val2 = strings.ToLower(val2)
 	}
@@ -113,6 +114,9 @@ func scanTable(w *csv.Writer, rowA []string, col1 int, table [][]string, col2 in
 		return
 	}
 	val1 := rowA[col1]
+	if trimSpaces == true {
+		val1 = strings.TrimSpace(val1)
+	}
 	if caseSensitive == false {
 		val1 = strings.ToLower(val1)
 	}
@@ -127,7 +131,7 @@ func scanTable(w *csv.Writer, rowA []string, col1 int, table [][]string, col2 in
 				// We have a match, join the two rows and output
 				combinedRows := append(rowA, rowB...)
 				if err := w.Write(combinedRows); err != nil {
-					fmt.Fprintf(os.Stderr, "Can't write csv row line %d of table 2, %s", i, err)
+					fmt.Fprintf(os.Stderr, "Can't write csv row line %d of table 2, %s\n", i, err)
 					return
 				}
 				if allowDuplicates == false {
@@ -163,7 +167,8 @@ func init() {
 	flag.IntVar(&substituteCost, "substitute-cost", 1, "substitution cost to use when calculating Levenshtein edit distance")
 	flag.IntVar(&maxEditDistance, "max-edit-distance", 5, "maximum edit distance for match using Levenshtein distance")
 	flag.StringVar(&stopWordsOption, "stop-words", "", "a column delimited list of stop words to ingnore when matching")
-	flag.BoolVar(&allowDuplicates, "allow-duplicates", false, "allowing duplicates returns all rows that have matching columns rather than first match")
+	flag.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
+	flag.BoolVar(&trimSpaces, "trim-spaces", false, "trim spaces around cell values before comparing")
 }
 
 func main() {
@@ -218,35 +223,28 @@ func main() {
 		os.Exit(1)
 	}
 
-	// FIXME: Should only read the smaller of two files into memory (and probably only the column value)
+	// FIXME: Should only read the smaller of two files into memory
 	// then interate through the other file for matches. This would let you work with larger files.
 
-	// Read in CSV1 and CSV2 then iterate over CSV1 output rows that have
+	// Read in CSV2 to memory then iterate over CSV1 output rows that have
 	// matching column's value
-	src1, err := ioutil.ReadFile(csv1FName)
+	fp1, err := os.Open(csv1FName)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Can't read %s, %s\n", csv1FName, err)
 		os.Exit(1)
 	}
-	src2, err := ioutil.ReadFile(csv2FName)
+	defer fp1.Close()
+	csv1 := csv.NewReader(fp1)
+
+	fp2, err := os.Open(csv2FName)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Can't read %s, %s\n", csv2FName, err)
 		os.Exit(1)
 	}
-	csv1 := csv.NewReader(bytes.NewReader(src1))
-	csv1Table := [][]string{}
-	for {
-		record, err := csv1.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s, %s\n", csv1FName, err)
-			fmt.Fprintf(os.Stderr, "%T %+v\n", record, record)
-		}
-		csv1Table = append(csv1Table, record)
-	}
-	csv2 := csv.NewReader(bytes.NewReader(src2))
+	defer fp2.Close()
+	csv2 := csv.NewReader(fp2)
+
+	// Note: we read one of the tables into memory to speed things up and limit disc reads
 	csv2Table := [][]string{}
 	for {
 		record, err := csv2.Read()
@@ -262,17 +260,35 @@ func main() {
 
 	stopWords := strings.Split(stopWordsOption, ":")
 	w := csv.NewWriter(out)
-	for i, rowA := range csv1Table {
-		if col1 < len(rowA) && rowA[col1] != "" {
-			// We are relying on the side effect of writing the CSV output in scanTable
-			scanTable(w, rowA, col1, csv2Table, col2, stopWords)
-			w.Flush()
-			if err := w.Error(); err != nil {
-				fmt.Fprintf(os.Stderr, "Can't write CSV at line %d of csv table 1, %s", i, err)
+	lineNo := 0 // line number of csv 1 table
+	for {
+		rowA, err := csv1.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%d %s\n", lineNo, err)
+		} else {
+			if col1 < len(rowA) && rowA[col1] != "" {
+				// We are relying on the side effect of writing the CSV output in scanTable
+				scanTable(w, rowA, col1, csv2Table, col2, stopWords)
+				w.Flush()
+				if err := w.Error(); err != nil {
+					fmt.Fprintf(os.Stderr, "Can't write CSV at line %d of csv table 1, %s\n", lineNo, err)
+				}
+			}
+			if verbose == true {
+				if (lineNo%100) == 0 && lineNo > 0 {
+					fmt.Fprintf(os.Stderr, "\n%d rows of %s processed\n", lineNo, csv1FName)
+				} else {
+					fmt.Fprintf(os.Stderr, ".")
+				}
 			}
 		}
-		if verbose == true && (i%100) == 0 {
-			fmt.Fprintf(os.Stderr, "%d rows of csv table 1 processed\n", i)
-		}
+		lineNo++
+	}
+	w.Flush()
+	if err := w.Error(); err != nil {
+		fmt.Fprintf(os.Stderr, "Can't write final CSV at line %d lines processed from CSV table 1, %s\n", lineNo+1, err)
 	}
 }

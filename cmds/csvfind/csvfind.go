@@ -62,7 +62,6 @@ In this example we've appended the edit distance to see how close the matches ar
 You can also search for phrases in columns.
 
     %s -i books.csv -col=1 -contains "Red Book"
-
 `
 
 	// Standard Options
@@ -84,16 +83,9 @@ You can also search for phrases in columns.
 	maxEditDistance    int
 	appendEditDistance bool
 	stopWordsOption    string
+	trimSpaces         bool
+	allowDuplicates    bool
 )
-
-func scanTable(table [][]string, col2 int, val string) ([]string, bool) {
-	for _, row := range table {
-		if col2 < len(row) && row[col2] == val {
-			return row, true
-		}
-	}
-	return []string{}, false
-}
 
 func init() {
 	// Basic Options
@@ -120,6 +112,8 @@ func init() {
 	flag.BoolVar(&appendEditDistance, "append-edit-distance", false, "append column with edit distance found (useful for tuning levenshtein)")
 	flag.StringVar(&stopWordsOption, "stop-words", "", "use the colon delimited list of stop words")
 	flag.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
+	flag.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
+	flag.BoolVar(&trimSpaces, "trim-spaces", false, "trim spaces around cell values before comparing")
 }
 
 func main() {
@@ -238,6 +232,9 @@ func main() {
 							fmt.Fprintf(os.Stderr, "%d %s\n", lineNo, err)
 						}
 					}
+				}
+				if allowDuplicates == false {
+					break
 				}
 			} else {
 				fmt.Fprintf(os.Stderr, "%d line skipped, missing column %d", lineNo, col)
