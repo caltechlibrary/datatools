@@ -54,6 +54,7 @@ find cmds -type d -depth 1 | while read DNAME; do
 	FNAME="$(basename "$DNAME")"
 	echo "+ [$FNAME](${FNAME}.html)"
 done >>docs/nav.md
+git add docs/nav.md
 
 # Generate docs/index.md
 cat <<EOF2 >docs/index.md
@@ -66,6 +67,7 @@ find cmds -type d -depth 1 | while read DNAME; do
 	FNAME="$(basename "$DNAME")"
 	echo "+ [$FNAME](${FNAME}.html)"
 done >>docs/index.md
+git add docs/index.md
 
 MakePage "markdown:${INDEX_MENU}" "docs/index.md" "docs/index.html"
 
