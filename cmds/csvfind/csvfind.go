@@ -62,7 +62,6 @@ In this example we've appended the edit distance to see how close the matches ar
 You can also search for phrases in columns.
 
     %s -i books.csv -col=1 -contains "Red Book"
-
 `
 
 	// Standard Options
@@ -83,17 +82,10 @@ You can also search for phrases in columns.
 	caseSensitive      bool
 	maxEditDistance    int
 	appendEditDistance bool
-	stopWords          string
+	stopWordsOption    string
+	trimSpaces         bool
+	allowDuplicates    bool
 )
-
-func scanTable(table [][]string, col2 int, val string) ([]string, bool) {
-	for _, row := range table {
-		if col2 < len(row) && row[col2] == val {
-			return row, true
-		}
-	}
-	return []string{}, false
-}
 
 func init() {
 	// Basic Options
@@ -118,8 +110,10 @@ func init() {
 	flag.IntVar(&substituteCost, "substitute-cost", 1, "set the substitution cost to use for levenshtein matching")
 	flag.BoolVar(&caseSensitive, "case-sensitive", false, "perform a case sensitive match (default is false)")
 	flag.BoolVar(&appendEditDistance, "append-edit-distance", false, "append column with edit distance found (useful for tuning levenshtein)")
-	flag.StringVar(&stopWords, "stop-words", "", "use the colon delimited list of stop words")
+	flag.StringVar(&stopWordsOption, "stop-words", "", "use the colon delimited list of stop words")
 	flag.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
+	flag.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
+	flag.BoolVar(&trimSpaces, "trim-spaces", false, "trim spaces around cell values before comparing")
 }
 
 func main() {
@@ -158,16 +152,16 @@ func main() {
 	}
 
 	target := args[0]
-	stopList := []string{}
+	stopWords := []string{}
 
 	// NOTE: If we're doing a case Insensitive search (the default) the lower case everything before matching
 	if caseSensitive == false {
 		target = strings.ToLower(target)
-		//stopWords = strings.ToLower(target)
+		stopWordsOption = strings.ToLower(stopWordsOption)
 	}
-	if len(stopWords) > 0 {
-		stopList = strings.Split(stopWords, ":")
-		target = strings.Join(datatools.ApplyStopWords(strings.Split(target, " "), stopList), " ")
+	if len(stopWordsOption) > 0 {
+		stopWords = strings.Split(stopWordsOption, ":")
+		target = strings.Join(datatools.ApplyStopWords(strings.Split(target, " "), stopWords), " ")
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
@@ -204,13 +198,13 @@ func main() {
 				if caseSensitive == false {
 					src = strings.ToLower(src)
 				}
-				if len(stopList) > 0 {
+				if len(stopWords) > 0 {
 					// Split into fields applying datatools filter
 					fields := strings.FieldsFunc(src, func(c rune) bool {
 						return datatools.Filter(c, "", false)
 					})
 					// Convert to an array of strings back into a space separted string
-					src = strings.Join(datatools.ApplyStopWords(fields, stopList), " ")
+					src = strings.Join(datatools.ApplyStopWords(fields, stopWords), " ")
 				}
 				switch {
 				case useContains:
@@ -238,6 +232,9 @@ func main() {
 							fmt.Fprintf(os.Stderr, "%d %s\n", lineNo, err)
 						}
 					}
+				}
+				if allowDuplicates == false {
+					break
 				}
 			} else {
 				fmt.Fprintf(os.Stderr, "%d line skipped, missing column %d", lineNo, col)

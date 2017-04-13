@@ -2,6 +2,7 @@
 + [Home](/)
 + [up](../)
 + [Documentation](./)
++ [How To ...](../how-to/)
 + [csv2json](csv2json.html)
 + [csv2mdtable](csv2mdtable.html)
 + [csv2xlsx](csv2xlsx.html)

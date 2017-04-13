@@ -63,11 +63,11 @@ Example parsing a pipe delimited string into a CSV line
 
 Filter a 10 column CSV file for columns 0,3,5 (left most column is number zero)
 
-	cat 10col.csv | csvcols -f 0 3 5 > 3col.csv
+	cat 10col.csv | csvcols -col 0 3 5 > 3col.csv
 
 Filter a 10 columns CSV file for columns 0,3,5 from input file
 
-    %s -i 10col.csv -f 0 3 5 > 3col.csv
+    %s -i 10col.csv -col 0 3 5 > 3col.csv
 `
 
 	// Standard Options
@@ -139,7 +139,7 @@ func init() {
 	// App Options
 	flag.StringVar(&delimiter, "d", "", "set delimiter for conversion")
 	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for conversion")
-	flag.BoolVar(&filterColumns, "f", false, "filter CSV input for columns requested")
+	flag.BoolVar(&filterColumns, "col", false, "filter CSV input for columns requested")
 	flag.BoolVar(&filterColumns, "filter-columns", false, "filter CSV input for columns requested")
 }
 
