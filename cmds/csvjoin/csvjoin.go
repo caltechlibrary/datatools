@@ -25,7 +25,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"os"
 	"path"
 	"strings"
@@ -67,6 +66,7 @@ merged-data.csv..
 	outputFName string
 
 	// App Options
+	verbose         bool
 	csv1FName       string
 	csv2FName       string
 	col1            int
@@ -150,6 +150,7 @@ func init() {
 	flag.StringVar(&outputFName, "output", "", "output filename")
 
 	// App Options
+	flag.BoolVar(&verbose, "verbose", false, "output processing count to stderr")
 	flag.StringVar(&csv1FName, "csv1", "", "first CSV filename")
 	flag.StringVar(&csv2FName, "csv2", "", "second CSV filename")
 	flag.IntVar(&col1, "col1", 0, "column to on join on in first CSV file")
@@ -261,14 +262,17 @@ func main() {
 
 	stopWords := strings.Split(stopWordsOption, ":")
 	w := csv.NewWriter(out)
-	for _, rowA := range csv1Table {
+	for i, rowA := range csv1Table {
 		if col1 < len(rowA) && rowA[col1] != "" {
 			// We are relying on the side effect of writing the CSV output in scanTable
 			scanTable(w, rowA, col1, csv2Table, col2, stopWords)
+			w.Flush()
+			if err := w.Error(); err != nil {
+				fmt.Fprintf(os.Stderr, "Can't write CSV at line %d of csv table 1, %s", i, err)
+			}
 		}
-	}
-	w.Flush()
-	if err := w.Error(); err != nil {
-		log.Fatal(err)
+		if verbose == true && (i%100) == 0 {
+			fmt.Fprintf(os.Stderr, "%d rows of csv table 1 processed\n", i)
+		}
 	}
 }
