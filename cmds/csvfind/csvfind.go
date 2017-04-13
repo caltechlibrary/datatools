@@ -83,7 +83,7 @@ You can also search for phrases in columns.
 	caseSensitive      bool
 	maxEditDistance    int
 	appendEditDistance bool
-	stopWords          string
+	stopWordsOption    string
 )
 
 func scanTable(table [][]string, col2 int, val string) ([]string, bool) {
@@ -118,7 +118,7 @@ func init() {
 	flag.IntVar(&substituteCost, "substitute-cost", 1, "set the substitution cost to use for levenshtein matching")
 	flag.BoolVar(&caseSensitive, "case-sensitive", false, "perform a case sensitive match (default is false)")
 	flag.BoolVar(&appendEditDistance, "append-edit-distance", false, "append column with edit distance found (useful for tuning levenshtein)")
-	flag.StringVar(&stopWords, "stop-words", "", "use the colon delimited list of stop words")
+	flag.StringVar(&stopWordsOption, "stop-words", "", "use the colon delimited list of stop words")
 	flag.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
 }
 
@@ -158,16 +158,16 @@ func main() {
 	}
 
 	target := args[0]
-	stopList := []string{}
+	stopWords := []string{}
 
 	// NOTE: If we're doing a case Insensitive search (the default) the lower case everything before matching
 	if caseSensitive == false {
 		target = strings.ToLower(target)
-		//stopWords = strings.ToLower(target)
+		stopWordsOption = strings.ToLower(stopWordsOption)
 	}
-	if len(stopWords) > 0 {
-		stopList = strings.Split(stopWords, ":")
-		target = strings.Join(datatools.ApplyStopWords(strings.Split(target, " "), stopList), " ")
+	if len(stopWordsOption) > 0 {
+		stopWords = strings.Split(stopWordsOption, ":")
+		target = strings.Join(datatools.ApplyStopWords(strings.Split(target, " "), stopWords), " ")
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
@@ -204,13 +204,13 @@ func main() {
 				if caseSensitive == false {
 					src = strings.ToLower(src)
 				}
-				if len(stopList) > 0 {
+				if len(stopWords) > 0 {
 					// Split into fields applying datatools filter
 					fields := strings.FieldsFunc(src, func(c rune) bool {
 						return datatools.Filter(c, "", false)
 					})
 					// Convert to an array of strings back into a space separted string
-					src = strings.Join(datatools.ApplyStopWords(fields, stopList), " ")
+					src = strings.Join(datatools.ApplyStopWords(fields, stopWords), " ")
 				}
 				switch {
 				case useContains:
