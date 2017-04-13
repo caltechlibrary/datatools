@@ -132,15 +132,16 @@ release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm
 	cp -v README.md dist/
 	cp -v LICENSE dist/
 	cp -v INSTALL.md dist/
-	cp -v csvcols.md dist/
-	cp -v csvfind.md dist/
-	cp -v csvjoin.md dist/
-	cp -v jsoncols.md dist/
-	cp -v jsonrange.md dist/
-	cp -v xlsx2json.md dist/
-	cp -v xlsx2csv.md dist/
-	cp -v csv2mdtable.md dist/
-	cp -v csv2xlsx.md dist/
-	cp -v csv2json.md dist/
+	cp -v docs/csv2json.md dist/
+	cp -v docs/csv2mdtable.md dist/
+	cp -v docs/csv2xlsx.md dist/
+	cp -v docs/csvcols.md dist/
+	cp -v docs/csvfind.md dist/
+	cp -v docs/csvjoin.md dist/
+	cp -v docs/index.md dist/
+	cp -v docs/jsoncols.md dist/
+	cp -v docs/jsonrange.md dist/
+	cp -v docs/xlsx2csv.md dist/
+	cp -v docs/xlsx2json.md dist/
 	zip -r $(PROJECT)-$(VERSION)-release.zip dist/
 
