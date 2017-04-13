@@ -46,6 +46,7 @@ cat <<EOF1 >docs/nav.md
 
 + [Home](/)
 + [up](../)
++ [Documentation](./)
 EOF1
 INDEX_MENU=$(cat docs/nav.md)
 

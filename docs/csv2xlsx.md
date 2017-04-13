@@ -1,5 +1,7 @@
 
-# USAGE
+# csv2xlsx
+
+## USAGE
 
     csv2xlsx [OPTIONS] WORKBOOK_NAME SHEET_NAME
 
