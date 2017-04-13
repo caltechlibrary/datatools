@@ -35,13 +35,16 @@ and <em>csvfind</em>. Here&rsquo;s the basic algorithm from the command line or 
 </ul></li>
 </ul>
 
-<p>Here&rsquo;s an example Bash script looking for duplicates in <em>myfile.csv</em>
+<p>Here&rsquo;s an example Bash script looking for duplicates in <em>dups.csv</em>
 in column 1 (the 2nd column of the CSV file)</p>
 
-<pre><code class="language-shell">    cat myfile.csv | csvcol -f 1 | sort -u | while read CELL; do
-        if [ &quot;$CELL&quot; != &quot;&quot; ]; then
-            csvfind -i myfile.csv -trim-spaces -col 1 &quot;$CELL&quot;
-        fi
+<pre><code class="language-shell">    CSV_FILE=&quot;dups.csv&quot;
+    CSV_COL_NO=&quot;1&quot;
+
+    csvcols -i &quot;$CSV_FILE&quot; -col &quot;$CSV_COL_NO&quot; | sort -u | while read CELL; do
+	    if [ &quot;$CELL&quot; != &quot;&quot; ]; then
+		    csvfind -i &quot;$CSV_FILE&quot; -trim-spaces -col &quot;$CSV_COL_NO&quot;  &quot;${CELL}&quot;
+	    fi
     done
 </code></pre>
 
