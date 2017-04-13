@@ -22,22 +22,18 @@ function MakePage() {
 	html="$3"
 	# Always use the latest compiled mkpage
 	APP=$(which mkpage)
-	if [ -f ./bin/mkpage ]; then
-		APP="./bin/mkpage"
-	fi
 
 	echo "Rendering $html"
 	$APP \
-		"title=text:$PROJECT -- a small collection of file and shell utilities" \
-		"nav=$nav" \
-		"content=$content" \
-		"sitebuilt=text:Updated $(date)" \
+		"Nav=$nav" \
+		"Content=$content" \
 		page.tmpl >"$html"
 	git add "$html"
 }
 
 echo "Checking necessary software is installed"
 softwareCheck mkpage
+
 echo "Generating website index.html"
 MakePage nav.md README.md index.html
 echo "Generating install.html"
@@ -45,8 +41,35 @@ MakePage nav.md INSTALL.md install.html
 echo "Generating license.html"
 MakePage nav.md "markdown:$(cat LICENSE)" license.html
 
+# Generate docs/nav.md
+cat <<EOF1 >docs/nav.md
+
++ [Home](/)
++ [up](../)
+EOF1
+INDEX_MENU=$(cat docs/nav.md)
+
+find cmds -type d -depth 1 | while read DNAME; do
+	FNAME="$(basename "$DNAME")"
+	echo "+ [$FNAME](${FNAME}.html)"
+done >>docs/nav.md
+
+# Generate docs/index.md
+cat <<EOF2 >docs/index.md
+
+# $PROJECT command help
+
+EOF2
+
+find cmds -type d -depth 1 | while read DNAME; do
+	FNAME="$(basename "$DNAME")"
+	echo "+ [$FNAME](${FNAME}.html)"
+done >>docs/index.md
+
+MakePage "markdown:${INDEX_MENU}" "docs/index.md" "docs/index.html"
+
 # Generate the individual command docuumentation pages
 for FNAME in csvcols csvfind csvjoin csv2json csv2mdtable csv2xlsx jsoncols jsonrange xlsx2json xlsx2csv; do
-	echo "Generating $FNAME.html"
-	MakePage nav.md "$FNAME.md" "$FNAME.html"
+	echo "Generating docs/$FNAME.html"
+	MakePage docs/nav.md "docs/$FNAME.md" "docs/$FNAME.html"
 done

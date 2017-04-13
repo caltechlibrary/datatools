@@ -7,25 +7,22 @@
 </head>
 <body>
 <header>
-<a href="http://library.caltech.edu"><img src="assets/liblogo.gif" alt="Caltech Library logo"></a>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
 </header>
 <nav>
 <ul>
-<li><a href="/">home</a></li>
-<li><a href="./">README</a></li>
-<li><a href="license.html">LICENSE</a></li>
-<li><a href="install.html">INSTALL</a></li>
-<li><a href="csvcols.html">csvcols</a></li>
-<li><a href="csvfind.html">csvfind</a></li>
-<li><a href="csvjoin.html">csvjoin</a></li>
+<li><a href="/">Home</a></li>
+<li><a href="../">up</a></li>
 <li><a href="csv2json.html">csv2json</a></li>
 <li><a href="csv2mdtable.html">csv2mdtable</a></li>
 <li><a href="csv2xlsx.html">csv2xlsx</a></li>
+<li><a href="csvcols.html">csvcols</a></li>
+<li><a href="csvfind.html">csvfind</a></li>
+<li><a href="csvjoin.html">csvjoin</a></li>
 <li><a href="jsoncols.html">jsoncols</a></li>
 <li><a href="jsonrange.html">jsonrange</a></li>
-<li><a href="xlsx2json.html">xlsx2json</a></li>
 <li><a href="xlsx2csv.html">xlsx2csv</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li><a href="xlsx2json.html">xlsx2json</a></li>
 </ul>
 
 </nav>
@@ -33,41 +30,42 @@
 <section>
 <h1>USAGE</h1>
 
-<pre><code>csv2xlsx [OPTIONS] WORKBOOK_NAME SHEET_NAME
+<pre><code>csv2json [OPTIONS]
 </code></pre>
 
 <h2>SYNOPSIS</h2>
 
-<p>csv2xlsx will take CSV input and create a new sheet in an Excel Workbook.
-If the Workbook does not exist then it is created.</p>
+<p>csv2json reads CSV from stdin and writes a JSON to stdout. JSON output
+can be either an array of JSON blobs or one JSON blob (row as object)
+per line.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-h	display help
+<pre><code>	-as-blobs	output as one JSON blob per line
+	-h	display help
 	-help	display help
-	-i	input filename (CSV content)
-	-input	input filename (CSV content)
+	-i	input filename
+	-input	input filename
 	-l	display license
 	-license	display license
-	-sheet	Sheet name to create/replace
+	-o	output filename
+	-output	output filename
+	-use-header	treat the first row as field names
 	-v	display version
 	-version	display version
-	-workbook	Workbook name
 </code></pre>
 
-<h2>EXAMPLE</h2>
+<h2>EXAMPLES</h2>
 
-<pre><code>	csv2xlsx -i data.csv MyWorkbook.xlsx 'My worksheet'
+<p>Convert data1.csv to data1.json using Unix pipes.</p>
+
+<pre><code class="language-shell">    cat data1.csv | csv2json &gt; data1.json
 </code></pre>
 
-<p>This creates a new &lsquo;My worksheet&rsquo; in the Excel Workbook
-called &lsquo;MyWorkbook.xlsx&rsquo; with the contents of data.csv.</p>
+<p>Convert data1.csv to JSON blobs, one line per blob</p>
 
-<pre><code>	cat data.csv | csv2xlsx MyWorkbook.xlsx 'My worksheet'
+<pre><code class="language-shell">    csv2json -as-blobs -i data1.csv
 </code></pre>
-
-<p>This does the same but the contents of data.csv are piped into
-the workbook&rsquo;s sheet.</p>
 
 </section>
 
