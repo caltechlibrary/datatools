@@ -9,7 +9,6 @@
 + [csv2json](csv2json.html)
 + [csv2mdtable](csv2mdtable.html)
 + [csv2xlsx](csv2xlsx.html)
-+ [text2terms](text2terms.html)
 + [jsoncols](jsoncols.html)
 + [jsonrange](jsonrange.html)
 + [xlsx2json](xlsx2json.html)
