@@ -20,59 +20,62 @@
 </nav>
 
 <section>
-<p>USAGE: csvcols [OPTIONS] ARGS_AS_COLS</p>
+<h1>csvcols</h1>
 
-<p>SYNOPSIS</p>
+<h2>USAGE</h2>
+
+<pre><code>csvcols [OPTIONS] ARGS_AS_COLS
+</code></pre>
+
+<h2>SYNOPSIS</h2>
 
 <p>csvcols converts a set of command line args into columns output in CSV format.
 It can also be used to filter input CSV and rendering only the column numbers
 listed on the commandline (first column is 1 not 0)</p>
 
-<p>OPTIONS</p>
+<h2>OPTIONS</h2>
 
-<pre><code>-col    filter CSV input for columns requested
--d  set delimiter for conversion
--delimiter  set delimiter for conversion
--filter-columns filter CSV input for columns requested
--h  display help
--help   display help
--i  input filename
--input  input filename
--l  display license
--license    display license
--o  output filename
--output output filename
--v  display version
--version    display version
+<pre><code>	-col	filter CSV input for columns requested
+	-d	set delimiter for conversion
+	-delimiter	set delimiter for conversion
+	-filter-columns	filter CSV input for columns requested
+	-h	display help
+	-help	display help
+	-i	input filename
+	-input	input filename
+	-l	display license
+	-license	display license
+	-o	output filename
+	-output	output filename
+	-v	display version
+	-version	display version
 </code></pre>
 
-<p>EXAMPLES</p>
+<h2>EXAMPLES</h2>
 
 <p>Simple usage of building a CSV file one row at a time.</p>
 
-<pre><code>csvcols one two three &gt; 3col.csv
-csvcols 1 2 3 &gt;&gt; 3col.csv
-cat 3col.csv
+<pre><code class="language-shell">    csvcols one two three &gt; 3col.csv
+    csvcols 1 2 3 &gt;&gt; 3col.csv
+    cat 3col.csv
 </code></pre>
 
 <p>Example parsing a pipe delimited string into a CSV line</p>
 
-<pre><code>csvcols -d &quot;|&quot; &quot;one|two|three&quot; &gt; 3col.csv
-csvcols -delimiter &quot;|&quot; &quot;1|2|3&quot; &gt;&gt; 3col.csv
-cat 3col.csv
+<pre><code class="language-shell">    csvcols -d &quot;|&quot; &quot;one|two|three&quot; &gt; 3col.csv
+    csvcols -delimiter &quot;|&quot; &quot;1|2|3&quot; &gt;&gt; 3col.csv
+    cat 3col.csv
 </code></pre>
 
 <p>Filter a 10 column CSV file for columns 1,4,6 (left most column is number zero)</p>
 
-<pre><code>cat 10col.csv | csvcols -col 1 4 6 &gt; 3col.csv
+<pre><code class="language-shell">    cat 10col.csv | csvcols -col 1 4 6 &gt; 3col.csv
 </code></pre>
 
 <p>Filter a 10 columns CSV file for columns 1,4,6 from input file</p>
 
-<pre><code>csvcols -i 10col.csv -col 1 4 6 &gt; 3col.csv
+<pre><code class="language-shell">    csvcols -i 10col.csv -col 1 4 6 &gt; 3col.csv
 </code></pre>
-
-<p>csvcols v0.0.8</p>
 
 </section>
 
