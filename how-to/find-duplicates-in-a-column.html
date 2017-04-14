@@ -36,10 +36,10 @@ and <em>csvfind</em>. Here&rsquo;s the basic algorithm from the command line or 
 </ul>
 
 <p>Here&rsquo;s an example Bash script looking for duplicates in <em>dups.csv</em>
-in column 1 (the 2nd column of the CSV file)</p>
+in column 2, second column (columns are counted from 1 rather than zero)</p>
 
 <pre><code class="language-shell">    CSV_FILE=&quot;dups.csv&quot;
-    CSV_COL_NO=&quot;1&quot;
+    CSV_COL_NO=&quot;2&quot;
 
     csvcols -i &quot;$CSV_FILE&quot; -col &quot;$CSV_COL_NO&quot; | sort -u | while read CELL; do
 	    if [ &quot;$CELL&quot; != &quot;&quot; ]; then
