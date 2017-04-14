@@ -30,11 +30,13 @@
 <h2>SYNOPSIS</h2>
 
 <p>csvfind processes a CSV file as input returning rows that contain the column
-with matched text. Supports exact match as well as some Levenshtein matching.</p>
+with matched text. Columns are count from one instead of zero. Supports
+exact match as well as some Levenshtein matching.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-append-edit-distance	append column with edit distance found (useful for tuning levenshtein)
+<pre><code>	-allow-duplicates	allow duplicates when searching for matches
+	-append-edit-distance	append column with edit distance found (useful for tuning levenshtein)
 	-case-sensitive	perform a case sensitive match (default is false)
 	-col	column to search for match in the CSV file
 	-contains	use contains phrase for matching
@@ -53,6 +55,7 @@ with matched text. Supports exact match as well as some Levenshtein matching.</p
 	-skip-header-row	skip the header row
 	-stop-words	use the colon delimited list of stop words
 	-substitute-cost	set the substitution cost to use for levenshtein matching
+	-trim-spaces	trim spaces around cell values before comparing
 	-v	display version
 	-version	display version
 </code></pre>
@@ -61,13 +64,13 @@ with matched text. Supports exact match as well as some Levenshtein matching.</p
 
 <p>Find the rows where the third column matches &ldquo;The Red Book of Westmarch&rdquo; exactly</p>
 
-<pre><code class="language-shell">    csvfind -i books.csv -col=1 &quot;The Red Book of Westmarch&quot;
+<pre><code class="language-shell">    csvfind -i books.csv -col=2 &quot;The Red Book of Westmarch&quot;
 </code></pre>
 
 <p>Find the rows where the third column (colums numbered 0,1,2) matches approximately
 &ldquo;The Red Book of Westmarch&rdquo;</p>
 
-<pre><code class="language-shell">    csvfind -i books.csv -col=1 -levenshtein \
+<pre><code class="language-shell">    csvfind -i books.csv -col=2 -levenshtein \
        -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
        -max-edit-distance=50 -append-edit-distance \
        &quot;The Red Book of Westmarch&quot;
@@ -77,7 +80,7 @@ with matched text. Supports exact match as well as some Levenshtein matching.</p
 
 <p>You can also search for phrases in columns.</p>
 
-<pre><code class="language-shell">    csvfind -i books.csv -col=1 -contains &quot;Red Book&quot;
+<pre><code class="language-shell">    csvfind -i books.csv -col=2 -contains &quot;Red Book&quot;
 </code></pre>
 
 </section>

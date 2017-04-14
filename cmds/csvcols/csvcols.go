@@ -43,7 +43,7 @@ SYNOPSIS
 
 %s converts a set of command line args into columns output in CSV format.
 It can also be used to filter input CSV and rendering only the column numbers
-listed on the commandline.
+listed on the commandline (first column is 1 not 0)
 `
 
 	examples = `
@@ -61,13 +61,13 @@ Example parsing a pipe delimited string into a CSV line
     %s -delimiter "|" "1|2|3" >> 3col.csv
     cat 3col.csv
 
-Filter a 10 column CSV file for columns 0,3,5 (left most column is number zero)
+Filter a 10 column CSV file for columns 1,4,6 (left most column is number zero)
 
-	cat 10col.csv | csvcols -col 0 3 5 > 3col.csv
+    cat 10col.csv | csvcols -col 1 4 6 > 3col.csv
 
-Filter a 10 columns CSV file for columns 0,3,5 from input file
+Filter a 10 columns CSV file for columns 1,4,6 from input file
 
-    %s -i 10col.csv -col 0 3 5 > 3col.csv
+    %s -i 10col.csv -col 1 4 6 > 3col.csv
 `
 
 	// Standard Options
@@ -187,8 +187,13 @@ func main() {
 		columnNos := []int{}
 		for _, arg := range args {
 			i, err := strconv.Atoi(arg)
+			// NOTE: We need to adjust from humans counting from 1 to counting from zero
+			i--
+			if i < 0 {
+				i = 0
+			}
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Expected a column number (0 - n), %q, %s\n", arg, err)
+				fmt.Fprintf(os.Stderr, "Expected a column number in range of 1 to N, %q, %s\n", arg, err)
 				os.Exit(1)
 			}
 			columnNos = append(columnNos, i)
