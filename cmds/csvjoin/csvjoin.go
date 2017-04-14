@@ -40,7 +40,7 @@ SYNOPSIS
 
 %s outputs CSV content based on two CSV files with matching column values.
 Each CSV input file has a designated column to match on. The values are
-compared as strings.
+compared as strings. Columns are counted from one rather than zero.
 `
 
 	examples = `
@@ -51,8 +51,8 @@ and data2.csv where column 1 in data1.csv matches the value in
 column 3 of data2.csv with the results being written to 
 merged-data.csv..
 
-    %s -csv1=data1.csv -col1=1 \
-       -csv2=data2.csv -col2=3 \
+    %s -csv1=data1.csv -col1=2 \
+       -csv2=data2.csv -col2=4 \
        -output=merged-data.csv
 `
 
@@ -195,6 +195,18 @@ func main() {
 		fmt.Println(cfg.Version())
 		os.Exit(0)
 	}
+
+	// NOTE: We are counting columns for humans from 1 rather than zero.
+	if col1 <= 0 {
+		fmt.Fprintf(os.Stderr, "col1 must be one or greater, %d\n", col1)
+		os.Exit(1)
+	}
+	if col2 <= 0 {
+		fmt.Fprintf(os.Stderr, "col2 must be one or greater, %d\n", col2)
+		os.Exit(1)
+	}
+	col1--
+	col2--
 
 	// NOTE: we don't setup inputFName as we need at least two inputs to process the join.
 	out, err := cli.Create(outputFName, os.Stdout)

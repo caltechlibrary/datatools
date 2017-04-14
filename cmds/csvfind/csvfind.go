@@ -39,7 +39,8 @@ var (
 SYNOPSIS
 
 %s processes a CSV file as input returning rows that contain the column
-with matched text. Supports exact match as well as some Levenshtein matching.
+with matched text. Columns are count from one instead of zero. Supports 
+exact match as well as some Levenshtein matching.
 `
 
 	examples = `
@@ -47,12 +48,12 @@ EXAMPLES
 
 Find the rows where the third column matches "The Red Book of Westmarch" exactly
 
-    %s -i books.csv -col=1 "The Red Book of Westmarch"
+    %s -i books.csv -col=2 "The Red Book of Westmarch"
 
 Find the rows where the third column (colums numbered 0,1,2) matches approximately 
 "The Red Book of Westmarch"
 
-    %s -i books.csv -col=1 -levenshtein \
+    %s -i books.csv -col=2 -levenshtein \
        -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
        -max-edit-distance=50 -append-edit-distance \
        "The Red Book of Westmarch"
@@ -61,7 +62,7 @@ In this example we've appended the edit distance to see how close the matches ar
 
 You can also search for phrases in columns.
 
-    %s -i books.csv -col=1 -contains "Red Book"
+    %s -i books.csv -col=2 -contains "Red Book"
 `
 
 	// Standard Options
@@ -141,10 +142,11 @@ func main() {
 		os.Exit(0)
 	}
 
-	if col < 0 {
-		fmt.Fprintf(os.Stderr, "Cannot have a negative column reference %d\n", col)
+	if col <= 0 {
+		fmt.Fprintf(os.Stderr, "Cannot have a zero or negative column reference %d\n", col)
 		os.Exit(1)
 	}
+	col = col - 1
 
 	args := flag.Args()
 	if len(args) == 0 {
