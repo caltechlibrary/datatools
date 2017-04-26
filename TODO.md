@@ -3,12 +3,15 @@
 
 ## Next
 
-+ [ ] utilities should use starting index of 1 instead of zero as humans refer to column 1 when intending to work on the first column
 + [ ] csvfind, csvjoin should have an inverted match operation
 + [ ] csv utilities to support integer ranges notation for columns and rows references, E.g. "1,3-4,7" or all
 
 ## Someday, Maybe
 
++ [ ] csvcols -col option should not be a boolean, it should take a range like other csv cli
++ [ ] a range should accept the word "all" as well as comma delimited list of rows and ranges
++ [ ] Add -uuid and -skip-header-row options constistantly to all csv tools
+    + [ ] csvcols
 + [ ] unify the options vocabulary to work the same between each cli
     + Need a common approach to column ranges in csvcols, csvfind, csvjoin
     + csv2json, csv2mdtable, csv2xlsx should accept a column and row range option for output
@@ -27,6 +30,7 @@
 
 ## Completed
 
++ [x] utilities should use starting index of 1 instead of zero as humans refer to column 1 when intending to work on the first column
 + [x] for all cli the -delimiter option should support special characters like \t, \n, \r
 + [x] csvfind would accept CSV input from stdin and output rows with matching column values
     + E.g. `cat file1.csv | csvfind -levenshtein -stop-words="the:a:of" -col=1 "This Red Book of West March"`
