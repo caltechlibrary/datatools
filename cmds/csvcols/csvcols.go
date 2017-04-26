@@ -30,9 +30,12 @@ import (
 	"strconv"
 	"strings"
 
-	// My packages
+	// Caltech Library packages
 	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
+
+	// 3rd Party packages
+	"github.com/google/uuid"
 )
 
 var (
@@ -80,10 +83,23 @@ Filter a 10 columns CSV file for columns 1,4,6 from input file
 	// App Options
 	delimiter     string
 	filterColumns bool
+	prefixUUID    bool
+	skipHeaderRow bool
 )
 
-func selectedColumns(record []string, columnNos []int) []string {
+func selectedColumns(rowNo int, record []string, columnNos []int, prefixUUID bool, skipHeaderRow bool) []string {
+	var id string
+
 	result := []string{}
+	if prefixUUID == true {
+		if rowNo == 0 {
+			id = "uuid"
+
+		} else {
+			id = uuid.New().String()
+		}
+		result = append(result, id)
+	}
 	l := len(record)
 	for _, col := range columnNos {
 		if col >= 0 && col < l {
@@ -96,10 +112,12 @@ func selectedColumns(record []string, columnNos []int) []string {
 	return result
 }
 
-func CSVColumns(in *os.File, out *os.File, columnNos []int) {
+func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, skipHeaderRow bool) {
+	var err error
+
 	r := csv.NewReader(in)
 	w := csv.NewWriter(out)
-	for {
+	for i := 0; err != io.EOF; i++ {
 		rec, err := r.Read()
 		if err == io.EOF {
 			break
@@ -107,9 +125,8 @@ func CSVColumns(in *os.File, out *os.File, columnNos []int) {
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%s, %s\n", inputFName, err)
 			fmt.Fprintf(os.Stderr, "%T %+v\n", rec, rec)
-			//os.Exit(1)
 		}
-		row := selectedColumns(rec, columnNos)
+		row := selectedColumns(i, rec, columnNos, prefixUUID, skipHeaderRow)
 		if err := w.Write(row); err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing record to csv: %s\n", err)
 			fmt.Fprintf(os.Stderr, "Row %T %+v\n", row, row)
@@ -141,6 +158,8 @@ func init() {
 	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for conversion")
 	flag.BoolVar(&filterColumns, "col", false, "filter CSV input for columns requested")
 	flag.BoolVar(&filterColumns, "filter-columns", false, "filter CSV input for columns requested")
+	flag.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
+	flag.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
 }
 
 func main() {
@@ -198,7 +217,7 @@ func main() {
 			}
 			columnNos = append(columnNos, i)
 		}
-		CSVColumns(in, out, columnNos)
+		CSVColumns(in, out, columnNos, prefixUUID, skipHeaderRow)
 		os.Exit(0)
 	}
 
