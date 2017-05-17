@@ -27,6 +27,10 @@
 + [ ] csvrotate would take a CSV file as import and output columns as rows
 + [ ] json2csv would convert a 2d JSON array to CSV output, it would comvert a JSON object/map to a column of keys next to a column of values
     + E.g. `cat data.json | json2csv`
++ [ ] smartcat would function like cat but with support for ranges of lines (e.g. show me last 20 lines: smartcat -start=0 -end="-20" file.txt; cat starting with 10th line: smartcat -start=10 file.txt)
+    + [ ] allow prefix line number with a specific delimiter (E.g. comma would let you cat a CSV file adding row numbers as first column)
+    + [ ] show lines with prefix, suffix, containing or regxp
+    + [ ] show lines without prefix, suffix, containing or regexp
 
 ## Completed
 
