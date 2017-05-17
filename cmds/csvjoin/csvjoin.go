@@ -177,7 +177,7 @@ func init() {
 	flag.StringVar(&stopWordsOption, "stop-words", "", "a column delimited list of stop words to ingnore when matching")
 	flag.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
 	flag.BoolVar(&trimSpaces, "trim-spaces", false, "trim spaces around cell values before comparing")
-	flag.BoolVar(&asInMemory, "in-memory", false, "if set to true it will read both CSV files into memory which can speed update processing")
+	flag.BoolVar(&asInMemory, "in-memory", false, "if true read both CSV files")
 }
 
 func main() {
