@@ -21,7 +21,7 @@ package dotpath
 
 import (
 	"encoding/json"
-	//"fmt"
+	//	"fmt"
 	"testing"
 )
 
@@ -140,8 +140,168 @@ func TestFindInArray(t *testing.T) {
 	}
 }
 
-/*
 func TestEval(t *testing.T) {
-	t.Error("dotpath.Eval(dotpath, jsonSource) not implemented")
+	var (
+		err error
+		src []byte
+	)
+
+	// Check to see if we can fit value of dot when it is a string.
+	p := "."
+	/*
+					src = []byte(`"Hello World"`)
+					if data, err := JSONDecode(src); err != nil {
+						t.Errorf("Can't decode string %q, error %s", src, err)
+						t.FailNow()
+					} else {
+						blob, err := Eval(".", data)
+						if err != nil {
+							t.Errorf("Eval(%q, %q) -> %s", p, src, err)
+							t.FailNow()
+						}
+						switch blob.(type) {
+						case string:
+							// We're OK
+							if blob.(string) != "Hello World" {
+								t.Errorf("Expected %q, got %q", "Hello World", blob)
+								t.FailNow()
+							}
+						default:
+							// something went wrong
+							t.Errorf("Eval(%q, %q) -> wrong type: %T", p, src, blob)
+						}
+					}
+
+				// Decode a Number
+				p = "."
+				src = []byte(`1`)
+				if data, err := JSONDecode(src); err != nil {
+					t.Errorf("Can't decode string %q, error %s", src, err)
+					t.FailNow()
+				} else {
+					blob, err := Eval(".", data)
+					if err != nil {
+						t.Errorf("Eval(%q, %q) -> %s", p, src, err)
+						t.FailNow()
+					}
+					switch blob.(type) {
+					case json.Number:
+						// We're OK
+						if i, _ := blob.(json.Number).Int64(); i != int64(1) {
+							t.Errorf("Expected %q, got %q", "Hello World", blob)
+							t.FailNow()
+						}
+					default:
+						// something went wrong
+						t.Errorf("Eval(%q, %q) -> wrong type: %T", p, src, blob)
+					}
+				}
+
+			// Decode an Object
+			p = "."
+			src = []byte(`{"greeting": "Hello World"}`)
+			if data, err := JSONDecode(src); err != nil {
+				t.Errorf("Can't decode string %q, error %s", src, err)
+				t.FailNow()
+			} else {
+				blob, err := Eval(".", data)
+				if err != nil {
+					t.Errorf("Eval(%q, %q) -> %s", p, src, err)
+					t.FailNow()
+				}
+				switch blob.(type) {
+				case map[string]string:
+					// We're OK
+					m := blob.(map[string]string)
+					if s, _ := m["greeting"]; s != "Hello World" {
+						t.Errorf("Expected %q, got %q", "Hello World", blob)
+						t.FailNow()
+					}
+				default:
+					// something went wrong
+					t.Errorf("Eval(%q, %q) -> wrong type: %T", p, src, blob)
+				}
+			}
+
+		// Decode an Array
+		p = "."
+		src = []byte(`[1,2,3]`)
+		if data, err := JSONDecode(src); err != nil {
+			t.Errorf("Can't decode string %q, error %s", src, err)
+			t.FailNow()
+		} else {
+			blob, err := Eval(".", data)
+			if err != nil {
+				t.Errorf("Eval(%q, %q) -> %s", p, src, err)
+				t.FailNow()
+			}
+			switch blob.(type) {
+			case []int:
+				// We're OK
+				a := blob.([]int)
+				for i, v := range []int{1, 2, 3} {
+					if a[i] != v {
+						t.Errorf("Expected %d, got %d", v, a[i])
+						t.FailNow()
+					}
+				}
+			default:
+				// something went wrong
+				t.Errorf("Eval(%q, %q) -> wrong type: %T", p, src, blob)
+			}
+		}
+	*/
+
+	// Sub Array test
+	src = []byte(`{
+	"display_name": "Fred Zip",
+	"sort_name": "Zip, Fred",
+	"name": {
+		"first": "Fred",
+		"last": "Zip"
+	},
+	"works": [
+		{"title":"One"},
+		{"title": "two"},
+		{"title": "three"}
+	],
+	"dates": [
+		{ "year": 1992, "month": 10, "day": 23 },
+		{ "year": 2016, "month": 2, "day": 21 }
+	]
+}`)
+
+	data := map[string]interface{}{}
+	blob, err := JSONDecode(src)
+	if err != nil {
+		t.Errorf("JSONDecode error for %q, %s", src, err)
+		t.FailNow()
+	}
+	data = blob.(map[string]interface{})
+
+	// Check to make sure simple data worked
+	if expected, ok := data["display_name"]; ok == true {
+		switch expected.(type) {
+		case string:
+		default:
+			t.Errorf("Expected a string for display_name")
+			t.FailNow()
+		}
+		p = ".display_name"
+		blob, err := Eval(p, data)
+		if err != nil {
+			t.Errorf("Eval() returned an error, %s", err)
+			t.FailNow()
+		}
+		switch blob.(type) {
+		case string:
+		default:
+			t.Errorf("Expected display_string to be type string, %T", blob)
+		}
+		if expected.(string) != blob.(string) {
+			t.Errorf("Expected %q, got %q", expected, blob)
+			t.FailNow()
+		}
+	}
+	// Now see how we handle object in an object
 }
-*/
