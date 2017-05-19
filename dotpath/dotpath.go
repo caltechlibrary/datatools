@@ -135,7 +135,6 @@ func findInMap(p []string, m map[string]interface{}) (interface{}, error) {
 func findInArray(p []string, a []interface{}) (interface{}, error) {
 	if len(p) > 0 {
 		if strings.Contains(p[0], ":") == true {
-			//FIXME: Need to return array of remaining dot paths
 			pts := strings.Split(p[0], ":")
 			if len(pts) != 2 {
 				return nil, fmt.Errorf("%q is an invalid range", p[0])
@@ -153,7 +152,7 @@ func findInArray(p []string, a []interface{}) (interface{}, error) {
 				return nil, fmt.Errorf("error parsing start of range %q, %s", p[0], err)
 			}
 			if strings.TrimSpace(pts[1]) == "" {
-				j = len(a) - 1
+				j = len(a)
 			} else {
 				j, err = strconv.Atoi(pts[1])
 			}
@@ -161,7 +160,6 @@ func findInArray(p []string, a []interface{}) (interface{}, error) {
 				return nil, fmt.Errorf("error parsing end of range %q, %s", p[0], err)
 			}
 			if len(p) > 1 {
-				fmt.Printf("DEBUG rest of p: %+v, a -> %+v\n", p[1:], a[i:j])
 				v := []interface{}{}
 				for _, sVal := range a[i:j] {
 					if d, err := find(p[1:], sVal); err != nil {
@@ -170,8 +168,7 @@ func findInArray(p []string, a []interface{}) (interface{}, error) {
 						v = append(v, d)
 					}
 				}
-				fmt.Printf("DEBUG v: %T -> %+v\n", v, v)
-				return v, nil //fmt.Errorf("range with sub-paths not implemented")
+				return v, nil
 			}
 			return a[i:j], nil
 		}

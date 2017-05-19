@@ -268,13 +268,18 @@ func TestEval(t *testing.T) {
 		"last": "Zip"
 	},
 	"works": [
-		{"title":"One"},
-		{"title": "two"},
-		{"title": "three"}
-	],
-	"dates": [
-		{ "year": 1992, "month": 10, "day": 23 },
-		{ "year": 2016, "month": 2, "day": 21 }
+		{
+			"title":"One",
+			"pubdate": { "year": 1992, "month": 10, "day": 23 }
+		},
+		{
+			"title": "Two",
+			"pubdate": { "year": 2017, "month": 2, "day": 21 }
+		},
+		{
+			"title": "Three",
+			"pubdate": { "year": 2003, "month": 12, "day": 1 }
+		}
 	]
 }`)
 
@@ -413,19 +418,62 @@ func TestEval(t *testing.T) {
 		}
 		switch blob.(type) {
 		case []interface{}:
-			t.Errorf("DEBUG, %T -> %+v", blob, blob)
+			obj := blob.([]interface{})
 			for i, s := range []string{"One", "Two", "Three"} {
-				if blob.([]interface{})[i].(string) != s {
-					t.Errorf("Expected %q, got %T -> %+v", s, blob, blob)
+				if i < len(obj) && obj[i].(string) != s {
+					t.Errorf("Expected %q, got %T -> %+v", s, obj, obj)
 					t.FailNow()
+				} else if i >= len(obj) {
+					t.Errorf("Missing array value at %d -> %+v", i, obj)
 				}
 			}
 		default:
 			t.Errorf("Expected string, %T", blob)
 			t.FailNow()
 		}
+
+		// Test return a sub-slice
+		p = ".works[1:3].pubdate"
+		blob, err = Eval(p, data)
+		if err != nil {
+			t.Errorf("Eval() returned an error, %s", err)
+			t.FailNow()
+		}
+		switch blob.(type) {
+		case []interface{}:
+			obj := blob.([]interface{})
+			if len(obj) != 2 {
+				t.Errorf("Expected two elements in array, got %T -> %+v", obj, obj)
+				t.FailNow()
+			}
+			pubdate := obj[0].(map[string]interface{})
+			if day, ok := pubdate["day"]; ok == true {
+				if dy, err := day.(json.Number).Int64(); err == nil && dy != int64(21) {
+					t.Errorf("Expected day == 21, got %d", day)
+				} else if err != nil {
+					t.Errorf("Error getting a day for %T %+v, %s", obj, obj, err)
+				}
+			} else {
+				t.Errorf("Expected a day, day missing, %T %+v", obj, obj)
+			}
+			pubdate = obj[1].(map[string]interface{})
+			if year, ok := pubdate["year"]; ok == true {
+				if yr, err := year.(json.Number).Int64(); err == nil && yr != int64(2003) {
+					t.Errorf("Expected year == 2003, got %d", year)
+				} else if err != nil {
+					t.Errorf("Error getting a year for %T %+v, %s", obj, obj, err)
+				}
+			} else {
+				t.Errorf("Expected a year, year missing, %T %+v", obj, obj)
+			}
+		default:
+			t.Errorf("Expected string, %T", blob)
+			t.FailNow()
+		}
+
 	} else {
 		t.Errorf("Expected data to have %q, %T -> %+v", p, data, data)
 		t.FailNow()
 	}
+
 }
