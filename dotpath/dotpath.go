@@ -51,6 +51,9 @@ func EvalJSON(p string, src []byte) (interface{}, error) {
 // returns a value from the dot ath or error
 func Eval(p string, data interface{}) (interface{}, error) {
 	// Parse the dotpath into an array representing map keys or array indexes
+	if p == "." {
+		return data, nil
+	}
 	keys, err := parse(p)
 	if err != nil {
 		return nil, err
@@ -131,6 +134,47 @@ func findInMap(p []string, m map[string]interface{}) (interface{}, error) {
 // or an error if element not present.
 func findInArray(p []string, a []interface{}) (interface{}, error) {
 	if len(p) > 0 {
+		if strings.Contains(p[0], ":") == true {
+			//FIXME: Need to return array of remaining dot paths
+			pts := strings.Split(p[0], ":")
+			if len(pts) != 2 {
+				return nil, fmt.Errorf("%q is an invalid range", p[0])
+			}
+			var (
+				i, j int
+				err  error
+			)
+			if strings.TrimSpace(pts[0]) == "" {
+				i = 0
+			} else {
+				i, err = strconv.Atoi(pts[0])
+			}
+			if err != nil {
+				return nil, fmt.Errorf("error parsing start of range %q, %s", p[0], err)
+			}
+			if strings.TrimSpace(pts[1]) == "" {
+				j = len(a) - 1
+			} else {
+				j, err = strconv.Atoi(pts[1])
+			}
+			if err != nil {
+				return nil, fmt.Errorf("error parsing end of range %q, %s", p[0], err)
+			}
+			if len(p) > 1 {
+				fmt.Printf("DEBUG rest of p: %+v, a -> %+v\n", p[1:], a[i:j])
+				v := []interface{}{}
+				for _, sVal := range a[i:j] {
+					if d, err := find(p[1:], sVal); err != nil {
+						return nil, fmt.Errorf("Can't find %q in %+v", p[1], sVal)
+					} else {
+						v = append(v, d)
+					}
+				}
+				fmt.Printf("DEBUG v: %T -> %+v\n", v, v)
+				return v, nil //fmt.Errorf("range with sub-paths not implemented")
+			}
+			return a[i:j], nil
+		}
 		i, err := strconv.Atoi(p[0])
 		if err != nil {
 			return nil, fmt.Errorf("Can't parse array index %q", p[0])
