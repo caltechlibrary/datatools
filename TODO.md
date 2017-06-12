@@ -8,7 +8,10 @@
 
 ## Someday, Maybe
 
++ [ ] csvrows would output a range of rows (e.g. [2:] would be all rows but the first row)
 + [ ] csvcols -col option should not be a boolean, it should take a range like other csv cli
++ [ ] csvcols, csvrows should have a filter mechanism should provide a mechanism to filter by column or row
+    + using a prefix notation (e.g. '(and (eq (join (cols (colNo "Last Name") (colNo "First Name")) ", ") "Doiel, R. S.") (gt (cols 4) "2017-06-12"))')
 + [ ] a range should accept the word "all" as well as comma delimited list of rows and ranges
 + [ ] Add -uuid and -skip-header-row options constistantly to all csv tools
     + [ ] csvcols
