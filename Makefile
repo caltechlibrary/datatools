@@ -65,7 +65,6 @@ publish:
 clean: 
 	if [ -d bin ]; then /bin/rm -fR bin; fi
 	if [ -d dist ]; then /bin/rm -fR dist; fi
-	if [ -f $(PROJECT)-$(VERSION)-release.zip ]; then rm -f $(PROJECT)-$(VERSION)-release.zip; fi
 
 install:
 	env GOBIN=$(HOME)/bin go install cmds/csvcols/csvcols.go
@@ -80,68 +79,85 @@ install:
 	env GOBIN=$(HOME)/bin go install cmds/csv2json/csv2json.go
 
 dist/linux-amd64:
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvcols cmds/csvcols/csvcols.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvfind cmds/csvfind/csvfind.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csvjoin cmds/csvjoin/csvjoin.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/jsoncols cmds/jsoncols/jsoncols.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/jsonrange cmds/jsonrange/jsonrange.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xlsx2json cmds/xlsx2json/xlsx2json.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/csv2json cmds/csv2json/csv2json.go
+	mkdir -p dist/bin
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csvfind cmds/csvfind/csvfind.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csvjoin cmds/csvjoin/csvjoin.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/jsoncols cmds/jsoncols/jsoncols.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/jsonrange cmds/jsonrange/jsonrange.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/xlsx2json cmds/xlsx2json/xlsx2json.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
+	cd dist && zip -r $(PROJECT)-$(VERSION)-linux-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
+	rm -fR dist/bin
 
 dist/macosx-amd64:
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvcols cmds/csvcols/csvcols.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvfind cmds/csvfind/csvfind.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csvjoin cmds/csvjoin/csvjoin.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/jsoncols cmds/jsoncols/jsoncols.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/jsonrange cmds/jsonrange/jsonrange.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/xlsx2json cmds/xlsx2json/xlsx2json.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/macosx-amd64/csv2json cmds/csv2json/csv2json.go
+	mkdir -p dist/bin
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvfind cmds/csvfind/csvfind.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvjoin cmds/csvjoin/csvjoin.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/jsoncols cmds/jsoncols/jsoncols.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/jsonrange cmds/jsonrange/jsonrange.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/xlsx2json cmds/xlsx2json/xlsx2json.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
+	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
+	rm -fR dist/bin
 
 dist/windows-amd64:
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvcols.exe cmds/csvcols/csvcols.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvfind.exe cmds/csvfind/csvfind.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csvjoin.exe cmds/csvjoin/csvjoin.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/jsoncols.exe cmds/jsoncols/jsoncols.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/jsonrange.exe cmds/jsonrange/jsonrange.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/xlsx2json.exe cmds/xlsx2json/xlsx2json.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/xlsx2csv.exe cmds/xlsx2csv/xlsx2csv.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2mdtable.exe cmds/csv2mdtable/csv2mdtable.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2xlsx.exe cmds/csv2xlsx/csv2xlsx.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/windows-amd64/csv2json.exe cmds/csv2json/csv2json.go
+	mkdir -p dist/bin
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csvcols.exe cmds/csvcols/csvcols.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csvfind.exe cmds/csvfind/csvfind.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csvjoin.exe cmds/csvjoin/csvjoin.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/jsoncols.exe cmds/jsoncols/jsoncols.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/jsonrange.exe cmds/jsonrange/jsonrange.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/xlsx2json.exe cmds/xlsx2json/xlsx2json.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/xlsx2csv.exe cmds/xlsx2csv/xlsx2csv.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csv2mdtable.exe cmds/csv2mdtable/csv2mdtable.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csv2xlsx.exe cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csv2json.exe cmds/csv2json/csv2json.go
+	cd dist && zip -r $(PROJECT)-$(VERSION)-windows-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
+	rm -fR dist/bin
+
 
 dist/raspbian-arm7:
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvcols cmds/csvcols/csvcols.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvfind cmds/csvfind/csvfind.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csvjoin cmds/csvjoin/csvjoin.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/jsoncols cmds/jsoncols/jsoncols.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/jsonrange cmds/jsonrange/jsonrange.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/xlsx2json cmds/xlsx2json/xlsx2json.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/raspbian-arm7/csv2json cmds/csv2json/csv2json.go
+	mkdir -p dist/bin
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csvfind cmds/csvfind/csvfind.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csvjoin cmds/csvjoin/csvjoin.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/jsoncols cmds/jsoncols/jsoncols.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/jsonrange cmds/jsonrange/jsonrange.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/xlsx2json cmds/xlsx2json/xlsx2json.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/xlsx2csv cmds/xlsx2csv/xlsx2csv.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
+	cd dist && zip -r $(PROJECT)-$(VERSION)-raspbian-arm7.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
+	rm -fR dist/bin
 
-release: dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7
-	mkdir -p dist
+distribute_docs:
+	mkdir -p dist/docs
+	mkdir -p dist/how-to
 	cp -v README.md dist/
 	cp -v LICENSE dist/
 	cp -v INSTALL.md dist/
-	cp -v docs/csv2json.md dist/
-	cp -v docs/csv2mdtable.md dist/
-	cp -v docs/csv2xlsx.md dist/
-	cp -v docs/csvcols.md dist/
-	cp -v docs/csvfind.md dist/
-	cp -v docs/csvjoin.md dist/
-	cp -v docs/index.md dist/
-	cp -v docs/jsoncols.md dist/
-	cp -v docs/jsonrange.md dist/
-	cp -v docs/xlsx2csv.md dist/
-	cp -v docs/xlsx2json.md dist/
-	zip -r $(PROJECT)-$(VERSION)-release.zip dist/
+	cp -v docs/csv2json.md dist/docs/
+	cp -v docs/csv2mdtable.md dist/docs/
+	cp -v docs/csv2xlsx.md dist/docs/
+	cp -v docs/csvcols.md dist/docs/
+	cp -v docs/csvfind.md dist/docs/
+	cp -v docs/csvjoin.md dist/docs/
+	cp -v docs/index.md dist/docs/
+	cp -v docs/jsoncols.md dist/docs/
+	cp -v docs/jsonrange.md dist/docs/
+	cp -v docs/xlsx2csv.md dist/docs/
+	cp -v docs/xlsx2json.md dist/docs/
+	cp -v how-to/*.md dist/how-to/
+	cp -vR demos dist/
+	
+release: distribute_docs dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7
 
