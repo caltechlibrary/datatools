@@ -15,10 +15,10 @@ bin/csvcols: datatools.go cmds/csvcols/csvcols.go
 bin/csvjoin: datatools.go cmds/csvjoin/csvjoin.go
 	go build -o bin/csvjoin cmds/csvjoin/csvjoin.go 
 
-bin/jsoncols: datatools.go dotpath/dotpath.go cmds/jsoncols/jsoncols.go
+bin/jsoncols: datatools.go cmds/jsoncols/jsoncols.go
 	go build -o bin/jsoncols cmds/jsoncols/jsoncols.go 
 
-bin/jsonrange: datatools.go dotpath/dotpath.go cmds/jsonrange/jsonrange.go
+bin/jsonrange: datatools.go cmds/jsonrange/jsonrange.go
 	go build -o bin/jsonrange cmds/jsonrange/jsonrange.go 
 
 bin/xlsx2json: datatools.go cmds/xlsx2json/xlsx2json.go
@@ -41,7 +41,6 @@ bin/csvfind: datatools.go cmds/csvfind/csvfind.go
 
 
 test:
-	cd dotpath && go test
 	go test
 
 website:

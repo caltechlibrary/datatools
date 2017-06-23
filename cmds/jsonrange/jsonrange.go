@@ -243,7 +243,7 @@ func init() {
 	flag.StringVar(&delimiter, "d", "", "set delimiter for range output")
 	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for range output")
 	flag.IntVar(&limit, "limit", 0, "limit the number of items output")
-	flag.BoolVar(&permissive, "permissive", false, "Suppress errors messages")
+	flag.BoolVar(&permissive, "permissive", false, "suppress errors messages")
 }
 
 func main() {

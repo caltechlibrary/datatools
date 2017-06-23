@@ -1,17 +1,16 @@
 
 # jsoncols
 
-## USAGE
+## USAGE: 
 
     jsoncols [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]
 
 ## SYSNOPSIS
 
-jsoncols provides for both interactive exploration of JSON structures like jid 
-and command line scripting flexibility for data extraction into delimited
-columns. This is helpful in flattening content extracted from JSON blobs.
-The default delimiter for each value extracted is a comma. This can be
-overridden with an option.
+jsoncols provides scripting flexibility for data extraction from JSON data 
+returning the results in columns.  This is helpful in flattening content 
+extracted from JSON blobs.  The default delimiter for each value 
+extracted is a comma. This can be overridden with an option.
 
 + EXPRESSION can be an empty stirng or dot notation for an object's path
 + INPUT_FILENAME is the filename to read or a dash "-" if you want to 
@@ -24,16 +23,20 @@ overridden with an option.
 ## OPTIONS
 
 ```
-	-d	set the delimiter for multi-field output
-	-h	display help
-	-i	read JSON from a file
-	-input	read JSON from a file
-	-l	display license
-	-m	display output in monochrome
-	-r	run interactively
-	-repl	run interactively
-	-v	display version
+	-d	        set the delimiter for multi-field output
+	-h	        display help
+	-i	        input filename
+	-input	    input filename
+	-l	        display license
+	-m	        display output in monochrome
+	-o	        output filename
+	-output	    output filename
+	-permissive	suppress error messages
+	-r	        run interactively
+	-repl	    run interactively
+	-v	        display version
 ```
+
 
 ## EXAMPLES
 
@@ -45,8 +48,8 @@ If myblob.json contained
 
 Getting just the name could be done with
 
-```
-    jsoncols .name myblob.json
+```shell
+    jsoncols -i myblob.json .name
 ```
 
 This would yeild
@@ -59,8 +62,8 @@ Flipping .name and .age into pipe delimited columns is as
 easy as listing each field in the expression inside a 
 space delimited string.
 
-```
-    jsoncols -d\|  ".name .age" myblob.json
+```shell
+    jsoncols -i myblob.json -d\|  .name .age 
 ```
 
 This would yeild
@@ -69,3 +72,17 @@ This would yeild
     "Doe, Jane"|42
 ```
 
+You can also pipe JSON data in.
+
+```shell
+    cat myblob.json | jsoncols .name .email .age
+```
+
+Would yield
+
+```
+   "Doe, Jane",jane.doe@xample.org,42
+```
+
+
+jsoncols v0.0.9
