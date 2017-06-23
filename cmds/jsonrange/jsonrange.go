@@ -18,7 +18,7 @@ import (
 	// CaltechLibrary Packages
 	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
-	"github.com/caltechlibrary/datatools/dotpath"
+	"github.com/caltechlibrary/dotpath"
 )
 
 var (
@@ -137,6 +137,7 @@ would yield
 	showValues bool
 	delimiter  string
 	limit      int
+	permissive bool
 )
 
 func mapKeys(data map[string]interface{}, limit int) ([]string, error) {
@@ -242,6 +243,7 @@ func init() {
 	flag.StringVar(&delimiter, "d", "", "set delimiter for range output")
 	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for range output")
 	flag.IntVar(&limit, "limit", 0, "limit the number of items output")
+	flag.BoolVar(&permissive, "permissive", false, "Suppress errors messages")
 }
 
 func main() {
@@ -296,9 +298,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	if len(buf) == 0 {
+	if len(buf) == 0 && permissive == false {
 		fmt.Fprintln(os.Stderr, cfg.Usage())
 		os.Exit(1)
+	}
+	if len(buf) == 0 && permissive == true {
+		os.Exit(0)
 	}
 
 	var (

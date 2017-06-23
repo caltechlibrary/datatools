@@ -18,7 +18,7 @@ import (
 	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
-	"github.com/caltechlibrary/datatools/dotpath"
+	"github.com/caltechlibrary/dotpath"
 )
 
 var (
@@ -87,6 +87,7 @@ Would yield
 	runInteractive bool
 	delimiter      = ","
 	expressions    []string
+	permissive     bool
 )
 
 func init() {
@@ -104,6 +105,7 @@ func init() {
 	flag.BoolVar(&runInteractive, "r", false, "run interactively")
 	flag.BoolVar(&runInteractive, "repl", false, "run interactively")
 	flag.StringVar(&delimiter, "d", delimiter, "set the delimiter for multi-field output")
+	flag.BoolVar(&permissive, "permissive", false, "suppress error messages")
 }
 
 func main() {
@@ -167,7 +169,12 @@ func main() {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
 		os.Exit(1)
 	}
+	// JSON Decode our document
 	data, err := dotpath.JSONDecode(buf)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+		os.Exit(1)
+	}
 
 	// For each dotpath expression return a result
 	for i, qry := range expressions {
@@ -178,22 +185,23 @@ func main() {
 			fmt.Fprintf(out, "%s", buf)
 		} else {
 			result, err := dotpath.Eval(qry, data)
-			if err != nil {
+			if err == nil {
+				switch result.(type) {
+				case string:
+					fmt.Fprintf(out, "%s", result)
+				case json.Number:
+					fmt.Fprintf(out, "%s", result.(json.Number).String())
+				default:
+					src, err := json.Marshal(result)
+					if err != nil {
+						fmt.Fprintf(os.Stderr, "%s\n", err)
+						os.Exit(1)
+					}
+					fmt.Fprintf(out, "%s", src)
+				}
+			} else if permissive == false {
 				fmt.Fprintf(os.Stderr, "%s\n", err)
 				os.Exit(1)
-			}
-			switch result.(type) {
-			case string:
-				fmt.Fprintf(out, "%s", result)
-			case json.Number:
-				fmt.Fprintf(out, "%s", result.(json.Number).String())
-			default:
-				src, err := json.Marshal(result)
-				if err != nil {
-					fmt.Fprintf(os.Stderr, "%s\n", err)
-					os.Exit(1)
-				}
-				fmt.Fprintf(out, "%s", src)
 			}
 		}
 	}
