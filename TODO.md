@@ -3,6 +3,11 @@
 
 ## Next
 
++ [ ] csvsort should allow a multi-column sort respecting column headings
+    + plus column number would be ascending by that column
+    + minos column number would be descending by that column
+    + sort would be read from left to right
+    + it would be good to include support for column names and not just column numbers to describe the sort
 + [ ] csvfind, csvjoin should have an inverted match operation
 + [ ] csv utilities to support integer ranges notation for columns and rows references, E.g. "1,3-4,7" or all
 + [ ] jsonmodify takes a JSON document, a dotpath and value then creates/updates the dotpath in the JSON document with the new value
