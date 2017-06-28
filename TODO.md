@@ -11,7 +11,11 @@
 + [ ] csvfind, csvjoin should have an inverted match operation
 + [ ] csv utilities to support integer ranges notation for columns and rows references, E.g. "1,3-4,7" or all
 + [ ] jsonmodify takes a JSON document, a dotpath and value then creates/updates the dotpath in the JSON document with the new value
-    + "-remove" option with remove the property described by dotpath
+    + "(delete DOTPATH)" would remove the property described by the dotpath
+    + "(update DOTPATH NEW_VALUE)" would replace the property described by the dotpath with a new value (value can be a string, number, or JSON)
+    + "(create" DOTPATH NEW_VALUE)" would add a new property at the described dotpath with a new value (value can be a string, number, or JSON)
+    + "(join DOTH_PATH SEP)" would take a JSON array and replace it with a joined version of it
+    + "(concat DOTPATH1 DOTPATH2... SEP)" would take one or more dotpath values (must be string or number) and return them as a concatenated value (concat .last_name .first_name ", ") would return a last name comma first name string.
 
 ## Someday, Maybe
 
