@@ -3,7 +3,8 @@
 
 Command line utilities for simplifying work with CSV, JSON, Excel Workbooks and plain text files or content.
 
-+ [csvcols](docs/csvcols.html) - a tool for formatting command line arguments intoa CSV row or filtering CSV rows for specific columns
++ [csvcols](docs/csvcols.html) - a tool for formatting command line arguments into CSV row of columns or filtering CSV rows for specific columns
++ [csvrows](docs/csvrows.html) - a tool for formatting command line arguments into CSV columns of rows or filtering CSV columns for specific rows
 + [csvfind](docs/csvfind.html) - a tool for filtering a CSV file by column's value 
 + [csvjoin](docs/csvjoin.html) - a tool to join to CSV files on common values in designated columns, writes combined CSV rows to stdout
 + [csv2json](docs/csv2json.html) - a tool to take a CSV file and convert it into a JSON blob array or a list of JSON blobs one per line

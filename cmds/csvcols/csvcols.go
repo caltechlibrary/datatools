@@ -27,7 +27,6 @@ import (
 	"log"
 	"os"
 	"path"
-	"strconv"
 	"strings"
 
 	// Caltech Library packages
@@ -38,15 +37,20 @@ import (
 	"github.com/google/uuid"
 )
 
+const (
+	//FIXME: maxColumns needs to be calculated from the data rather than being a constant
+	maxColumns = 2048
+)
+
 var (
-	usage = `USAGE: %s [OPTIONS] ARGS_AS_COLS`
+	usage = `USAGE: %s [OPTIONS] [ARGS_AS_COL_VALUES]`
 
 	description = `
 SYNOPSIS
 
 %s converts a set of command line args into columns output in CSV format.
-It can also be used to filter input CSV and rendering only the column numbers
-listed on the commandline (first column is 1 not 0)
+It can also be used CSV input rows and rendering only the column numbers
+listed on the commandline (first column is 1 not 0).
 `
 
 	examples = `
@@ -64,13 +68,13 @@ Example parsing a pipe delimited string into a CSV line
     %s -delimiter "|" "1|2|3" >> 3col.csv
     cat 3col.csv
 
-Filter a 10 column CSV file for columns 1,4,6 (left most column is number zero)
+Filter a 10 column CSV file for columns 1,4,6 (left most column is one)
 
-    cat 10col.csv | csvcols -col 1 4 6 > 3col.csv
+    cat 10col.csv | %s -col 1,4,6 > 3col.csv
 
-Filter a 10 columns CSV file for columns 1,4,6 from input file
+Filter a 10 columns CSV file for columns 1,4,6 from file named "10col.csv"
 
-    %s -i 10col.csv -col 1 4 6 > 3col.csv
+    %s -i 10col.csv -col 1,4,6 > 3col.csv
 `
 
 	// Standard Options
@@ -81,10 +85,10 @@ Filter a 10 columns CSV file for columns 1,4,6 from input file
 	outputFName string
 
 	// App Options
-	delimiter     string
-	filterColumns bool
+	outputColumns string
 	prefixUUID    bool
 	skipHeaderRow bool
+	delimiter     string
 )
 
 func selectedColumns(rowNo int, record []string, columnNos []int, prefixUUID bool, skipHeaderRow bool) []string {
@@ -156,10 +160,10 @@ func init() {
 	// App Options
 	flag.StringVar(&delimiter, "d", "", "set delimiter for conversion")
 	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for conversion")
-	flag.BoolVar(&filterColumns, "col", false, "filter CSV input for columns requested")
-	flag.BoolVar(&filterColumns, "filter-columns", false, "filter CSV input for columns requested")
-	flag.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
+	flag.StringVar(&outputColumns, "col", "", "output specified columns (e.g. -col 1,12:14,2,4))")
+	flag.StringVar(&outputColumns, "cols", "", "output specified columns (e.g. -col 1,12:14,2,4))")
 	flag.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
+	flag.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
 }
 
 func main() {
@@ -171,7 +175,7 @@ func main() {
 	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName)
+	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
 
 	if showHelp == true {
 		fmt.Println(cfg.Usage())
@@ -202,20 +206,18 @@ func main() {
 	}
 	defer cli.CloseFile(outputFName, out)
 
-	if filterColumns == true {
-		columnNos := []int{}
-		for _, arg := range args {
-			i, err := strconv.Atoi(arg)
-			// NOTE: We need to adjust from humans counting from 1 to counting from zero
-			i--
-			if i < 0 {
-				i = 0
+	if outputColumns != "" {
+		columnNos, err := datatools.ParseRange(outputColumns, maxColumns)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s\n", err)
+			os.Exit(1)
+		}
+		// NOTE: We need to adjust from humans counting from 1 to counting from zero
+		for i := 0; i < len(columnNos); i++ {
+			columnNos[i] = columnNos[i] - 1
+			if columnNos[i] < 0 {
+				columnNos[i] = 0
 			}
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "Expected a column number in range of 1 to N, %q, %s\n", arg, err)
-				os.Exit(1)
-			}
-			columnNos = append(columnNos, i)
 		}
 		CSVColumns(in, out, columnNos, prefixUUID, skipHeaderRow)
 		os.Exit(0)
@@ -225,18 +227,18 @@ func main() {
 		args = strings.Split(args[0], datatools.NormalizeDelimiter(delimiter))
 	}
 
-	// Clean up fields removing outer quotes if necessary
-	fields := []string{}
+	// Clean up cells removing outer quotes if necessary
+	cells := []string{}
 	for _, val := range args {
 		if strings.HasPrefix(val, "\"") && strings.HasSuffix(val, "\"") {
 			val = strings.TrimPrefix(strings.TrimSuffix(val, "\""), "\"")
 		}
-		fields = append(fields, strings.TrimSpace(val))
+		cells = append(cells, strings.TrimSpace(val))
 	}
 
 	w := csv.NewWriter(out)
-	if err := w.Write(fields); err != nil {
-		log.Fatalf("error wrint args as csv, %s", err)
+	if err := w.Write(cells); err != nil {
+		log.Fatalf("error writing args as csv, %s", err)
 	}
 	w.Flush()
 	if err := w.Error(); err != nil {

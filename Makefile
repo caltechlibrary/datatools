@@ -7,10 +7,13 @@ VERSION = $(shell grep -m1 'Version = ' $(PROJECT).go | cut -d\"  -f 2)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-build: bin/csvcols bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json
+build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json
 
 bin/csvcols: datatools.go cmds/csvcols/csvcols.go
 	go build -o bin/csvcols cmds/csvcols/csvcols.go 
+
+bin/csvrows: datatools.go cmds/csvrows/csvrows.go
+	go build -o bin/csvrows cmds/csvrows/csvrows.go 
 
 bin/csvjoin: datatools.go cmds/csvjoin/csvjoin.go
 	go build -o bin/csvjoin cmds/csvjoin/csvjoin.go 
@@ -67,6 +70,7 @@ clean:
 
 install:
 	env GOBIN=$(HOME)/bin go install cmds/csvcols/csvcols.go
+	env GOBIN=$(HOME)/bin go install cmds/csvrows/csvrows.go
 	env GOBIN=$(HOME)/bin go install cmds/csvfind/csvfind.go
 	env GOBIN=$(HOME)/bin go install cmds/csvjoin/csvjoin.go
 	env GOBIN=$(HOME)/bin go install cmds/jsoncols/jsoncols.go
@@ -80,6 +84,7 @@ install:
 dist/linux-amd64:
 	mkdir -p dist/bin
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csvrows cmds/csvrows/csvrows.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csvfind cmds/csvfind/csvfind.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csvjoin cmds/csvjoin/csvjoin.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/jsoncols cmds/jsoncols/jsoncols.go
@@ -95,6 +100,7 @@ dist/linux-amd64:
 dist/macosx-amd64:
 	mkdir -p dist/bin
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvrows cmds/csvrows/csvrows.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvfind cmds/csvfind/csvfind.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvjoin cmds/csvjoin/csvjoin.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/jsoncols cmds/jsoncols/jsoncols.go
@@ -110,6 +116,7 @@ dist/macosx-amd64:
 dist/windows-amd64:
 	mkdir -p dist/bin
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csvcols.exe cmds/csvcols/csvcols.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csvrows.exe cmds/csvrows/csvrows.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csvfind.exe cmds/csvfind/csvfind.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csvjoin.exe cmds/csvjoin/csvjoin.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/jsoncols.exe cmds/jsoncols/jsoncols.go
@@ -126,6 +133,7 @@ dist/windows-amd64:
 dist/raspbian-arm7:
 	mkdir -p dist/bin
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csvcols cmds/csvcols/csvcols.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csvrows cmds/csvrows/csvrows.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csvfind cmds/csvfind/csvfind.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csvjoin cmds/csvjoin/csvjoin.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/jsoncols cmds/jsoncols/jsoncols.go
@@ -148,6 +156,7 @@ distribute_docs:
 	cp -v docs/csv2mdtable.md dist/docs/
 	cp -v docs/csv2xlsx.md dist/docs/
 	cp -v docs/csvcols.md dist/docs/
+	cp -v docs/csvrows.md dist/docs/
 	cp -v docs/csvfind.md dist/docs/
 	cp -v docs/csvjoin.md dist/docs/
 	cp -v docs/index.md dist/docs/

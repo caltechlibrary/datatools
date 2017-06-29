@@ -14,20 +14,20 @@ listed on the commandline (first column is 1 not 0)
 ## OPTIONS
 
 ```
-	-col	filter CSV input for columns requested
-	-d	set delimiter for conversion
-	-delimiter	set delimiter for conversion
-	-filter-columns	filter CSV input for columns requested
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+    -col        filter CSV input for columns requested
+    -cols       filter CSV input for columns requested
+    -d          set delimiter for conversion
+    -delimiter  set delimiter for conversion
+    -h          display help
+    -help       display help
+    -i          input filename
+    -input      input filename
+    -l          display license
+    -license    display license
+    -o          output filename
+    -output     output filename
+    -v          display version
+    -version    display version
 ```
 
 ## EXAMPLES
@@ -51,13 +51,13 @@ Example parsing a pipe delimited string into a CSV line
 Filter a 10 column CSV file for columns 1,4,6 (left most column is number zero)
 
 ```shell
-    cat 10col.csv | csvcols -col 1 4 6 > 3col.csv
+    cat 10col.csv | csvcols -col 1,4,6 > 3col.csv
 ```
 
 Filter a 10 columns CSV file for columns 1,4,6 from input file
 
 ```shell
-    csvcols -i 10col.csv -col 1 4 6 > 3col.csv
+    csvcols -i 10col.csv -col 1,4,6 > 3col.csv
 ```
 
 
