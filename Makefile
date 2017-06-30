@@ -42,7 +42,7 @@ bin/csv2json: datatools.go cmds/csv2json/csv2json.go
 bin/csvfind: datatools.go cmds/csvfind/csvfind.go
 	go build -o bin/csvfind cmds/csvfind/csvfind.go
 
-bin/vcard2json: datatools.go vcard.go cmds/vcard2json/vcard2json.go
+bin/vcard2json: datatools.go cmds/vcard2json/vcard2json.go
 	go build -o bin/vcard2json cmds/vcard2json/vcard2json.go
 
 
