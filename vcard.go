@@ -39,6 +39,12 @@ type VCard struct {
 	Ext          map[string]string `xml:"ext,omitempty" json:"ext,omitempty"`
 }
 
+func NewVCard() *VCard {
+	v := new(VCard)
+	v.Ext = make(map[string]string)
+	return v
+}
+
 func (vcard *VCard) Parse(src []byte) error {
 	var (
 		err          error

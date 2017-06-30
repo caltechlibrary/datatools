@@ -122,7 +122,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Can't read file, %s", err)
 	}
-	vcard := new(datatools.VCard)
+	vcard := datatools.NewVCard()
 	if err := vcard.Parse(src); err != nil {
 		log.Fatalf("Can't parse vcard, %s", err)
 	}
