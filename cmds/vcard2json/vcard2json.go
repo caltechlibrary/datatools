@@ -21,23 +21,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
-	"path"
-
-	// Caltech Library packages
-	"github.com/caltechlibrary/cli"
-	"github.com/clatechlibrary/datatools"
-)
-
-import (
-	"encoding/csv"
-	"flag"
-	"fmt"
-	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
-	"strings"
 
 	// Caltech Library packages
 	"github.com/caltechlibrary/cli"
@@ -90,19 +77,11 @@ func init() {
 	flag.StringVar(&outputFName, "output", "", "output filename")
 
 	// Application specific options
-	flag.StringVar(&delimiter, "d", "", "set delimiter for conversion")
-	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for conversion")
-	flag.StringVar(&outputRows, "row", "", "output specified rows in order (e.g. -row 1,5,2:4))")
-	flag.StringVar(&outputRows, "rows", "", "output specified rows in order (e.g. -rows 1,5,2:4))")
-	flag.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2:")
-	flag.BoolVar(&showHeader, "header", false, "display the header row (alias for '-rows 1')")
 }
 
 func main() {
 	appName := path.Base(os.Args[0])
 	flag.Parse()
-
-	args := flag.Args()
 
 	// Configuration and command line interation
 	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
@@ -147,9 +126,9 @@ func main() {
 	if err := vcard.Parse(src); err != nil {
 		log.Fatalf("Can't parse vcard, %s", err)
 	}
-	buf, err := json.Marshal(vcard)
+	src, err = vcard.AsJSON()
 	if err != nil {
 		log.Fatalf("Can't marshal json, %+v, %s", vcard, err)
 	}
-	fmt.Fprintf(out, "%s\n", buf)
+	fmt.Fprintf(out, "%s\n", src)
 }

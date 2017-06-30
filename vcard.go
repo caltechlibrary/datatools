@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
+	"strings"
+	//"time"
 )
 
 /*
@@ -31,8 +34,8 @@ type VCard struct {
 	Organization []string          `xml:"organization" json:"organization,omitempty"`
 	Title        string            `xml:"title,omitempty" json:"title,omitempty"`
 	EMail        []string          `xml:"email,omitempty" json:"email,omitempty"`
-	Source       map[string]string `xml:"source" json:"source"`
-	Revision     time.Time         `xml:"revision" json:"revision"`
+	Source       string            `xml:"source" json:"source"`
+	Revision     string            `xml:"revision" json:"revision"`
 	Ext          map[string]string `xml:"ext,omitempty" json:"ext,omitempty"`
 }
 
@@ -40,11 +43,12 @@ func (vcard *VCard) Parse(src []byte) error {
 	var (
 		err          error
 		field, value string
+		inVCard      bool
 	)
 	// Break out text into lines
 	lines := bytes.Split(src, []byte("\n"))
 	for i, line := range lines {
-		if bytes.Compare(line, "BEGIN:VCARD") == true {
+		if bytes.Compare(line, []byte("BEGIN:VCARD")) == 0 {
 			if inVCard == true {
 				err = fmt.Errorf("line %d, unexpected BEGIN:VCARD", i)
 				break
@@ -54,7 +58,7 @@ func (vcard *VCard) Parse(src []byte) error {
 			value = ""
 		}
 		if inVCard == true {
-			if bytes.Compare("END:VCARD", line) == true {
+			if bytes.Compare(line, []byte("END:VCARD")) == 0 {
 				inVCard = false
 				break
 			} else {
@@ -66,15 +70,15 @@ func (vcard *VCard) Parse(src []byte) error {
 					switch field {
 					case "BEGIN":
 					case "N":
-						vcard.Name = string.Split(value, ";")
+						vcard.Name = strings.Split(value, ";")
 					case "FN":
 						vcard.FullName = value
 					case "ORG":
-						vcard.Organization = string.Split(value, ";")
+						vcard.Organization = strings.Split(value, ";")
 					case "TITLE":
 						vcard.Title = value
 					case "EMAIL":
-						vcard.Email = value
+						vcard.EMail = strings.Split(value, ";")
 					case "SOURCE":
 						vcard.Source = value
 					case "REV":
@@ -89,5 +93,10 @@ func (vcard *VCard) Parse(src []byte) error {
 	if inVCard == true && err == nil {
 		err = fmt.Errorf("line %d unexpected end of vCard", len(lines))
 	}
-	return vcard, err
+	return err
+}
+
+// AsJSON takes a vcard and returns it as a JSON doc
+func (vcard *VCard) AsJSON() ([]byte, error) {
+	return json.Marshal(vcard)
 }

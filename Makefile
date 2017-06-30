@@ -7,7 +7,7 @@ VERSION = $(shell grep -m1 'Version = ' $(PROJECT).go | cut -d\"  -f 2)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json
+build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json
 
 bin/csvcols: datatools.go cmds/csvcols/csvcols.go
 	go build -o bin/csvcols cmds/csvcols/csvcols.go 
@@ -41,6 +41,10 @@ bin/csv2json: datatools.go cmds/csv2json/csv2json.go
 
 bin/csvfind: datatools.go cmds/csvfind/csvfind.go
 	go build -o bin/csvfind cmds/csvfind/csvfind.go
+
+bin/vcard2json: datatools.go vcard.go cmds/vcard2json/vcard2json.go
+	go build -o bin/vcard2json cmds/vcard2json/vcard2json.go
+
 
 
 test:
@@ -80,6 +84,7 @@ install:
 	env GOBIN=$(HOME)/bin go install cmds/csv2mdtable/csv2mdtable.go
 	env GOBIN=$(HOME)/bin go install cmds/csv2xlsx/csv2xlsx.go
 	env GOBIN=$(HOME)/bin go install cmds/csv2json/csv2json.go
+	env GOBIN=$(HOME)/bin go install cmds/vcard2json/vcard2json.go
 
 dist/linux-amd64:
 	mkdir -p dist/bin
