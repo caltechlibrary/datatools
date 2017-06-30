@@ -1,5 +1,5 @@
 //
-// vcard2 - converts a single VCard version4.0 to a JSON document
+// vcard2json - converts a single VCard version4.0 to a JSON document
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
@@ -29,6 +29,7 @@ import (
 	// Caltech Library packages
 	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
+	"github.com/caltechlibrary/vcard"
 )
 
 var (
@@ -122,13 +123,13 @@ func main() {
 	if err != nil {
 		log.Fatalf("Can't read file, %s", err)
 	}
-	vcard := datatools.NewVCard()
-	if err := vcard.Parse(src); err != nil {
+	vcf := vcard.NewVCard()
+	if err := vcf.Parse(src); err != nil {
 		log.Fatalf("Can't parse vcard, %s", err)
 	}
-	src, err = vcard.AsJSON()
+	src, err = vcf.AsJSON()
 	if err != nil {
-		log.Fatalf("Can't marshal json, %+v, %s", vcard, err)
+		log.Fatalf("Can't marshal json, %+v, %s", vcf, err)
 	}
 	fmt.Fprintf(out, "%s\n", src)
 }
