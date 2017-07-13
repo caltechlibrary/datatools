@@ -20,9 +20,14 @@
 </nav>
 
 <section>
-<p>USAGE: jsonmunge [OPTIONS] TEMPLATE_FILENAME</p>
+<h1>jsonmunch</h1>
 
-<p>SYSNOPSIS</p>
+<h2>USAGE</h2>
+
+<pre><code>jsonmunge [OPTIONS] TEMPLATE_FILENAME
+</code></pre>
+
+<h2>SYSNOPSIS</h2>
 
 <p>jsonmunge is a command line tool that takes a JSON document and
 one or more Go templates rendering the results. Useful for
@@ -34,35 +39,37 @@ or filter for specific content.</p>
 the outbound JSON document</li>
 </ul>
 
-<p>OPTIONS</p>
+<h2>OPTIONS</h2>
 
-<pre><code>-h  display help
--i  input filename
--input  input filename
--l  display license
--o  output filename
--output output filename
--v  display version
+<pre><code>	-h	display help
+	-i	input filename
+	-input	input filename
+	-l	display license
+	-o	output filename
+	-output	output filename
+	-v	display version
 </code></pre>
 
-<p>EXAMPLES</p>
+<h2>EXAMPLES</h2>
 
 <p>If data.json contained</p>
 
-<p>{&ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jd@example.org&rdquo;, &ldquo;age&rdquo;: 42}</p>
+<pre><code class="language-json">   {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42}
+</code></pre>
 
 <p>and the template, name.tmpl, contained</p>
 
-<p>{{- .name -}}</p>
+<pre><code>   {{- .name -}}
+</code></pre>
 
 <p>Getting just the name could be done with</p>
 
-<pre><code>cat data.json | jsonmunge name.tmpl
+<pre><code class="language-shell">    cat data.json | jsonmunge name.tmpl
 </code></pre>
 
 <p>This would yeild</p>
 
-<pre><code>&quot;Doe, Jane&quot;
+<pre><code>    Doe, Jane
 </code></pre>
 
 <p>jsonmunge v0.0.9</p>
