@@ -41,7 +41,7 @@ or filter for specific content.
 	examples = `
 EXAMPLES
 
-If data.json contained
+If person.json contained
 
    {"name": "Doe, Jane", "email":"jd@example.org", "age": 42}
 
@@ -51,7 +51,7 @@ and the template, name.tmpl, contained
 
 Getting just the name could be done with
 
-    cat data.json | %s name.tmpl
+    cat person.json | %s name.tmpl
 
 This would yeild
 
