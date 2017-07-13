@@ -7,7 +7,7 @@ VERSION = $(shell grep -m1 'Version = ' $(PROJECT).go | cut -d\"  -f 2)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json
+build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json bin/jsonmunge
 
 bin/csvcols: datatools.go cmds/csvcols/csvcols.go
 	go build -o bin/csvcols cmds/csvcols/csvcols.go 
@@ -45,6 +45,8 @@ bin/csvfind: datatools.go cmds/csvfind/csvfind.go
 bin/vcard2json: datatools.go cmds/vcard2json/vcard2json.go
 	go build -o bin/vcard2json cmds/vcard2json/vcard2json.go
 
+bin/jsonmunge: datatools.go cmds/jsonmunge/jsonmunge.go
+	go build -o bin/jsonmunge cmds/jsonmunge/jsonmunge.go
 
 
 test:
@@ -85,6 +87,7 @@ install:
 	env GOBIN=$(HOME)/bin go install cmds/csv2xlsx/csv2xlsx.go
 	env GOBIN=$(HOME)/bin go install cmds/csv2json/csv2json.go
 	env GOBIN=$(HOME)/bin go install cmds/vcard2json/vcard2json.go
+	env GOBIN=$(HOME)/bin go install cmds/jsonmunge/jsonmunge.go
 
 dist/linux-amd64:
 	mkdir -p dist/bin
@@ -99,6 +102,8 @@ dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/jsonmunge cmds/jsonmunge/jsonmunge.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/vcard2json cmds/vcard2json/vcard2json.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-linux-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
@@ -115,6 +120,8 @@ dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/vcard2json cmds/vcard2json/vcard2json.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/jsonmunge cmds/jsonmunge/jsonmunge.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
@@ -131,6 +138,8 @@ dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csv2mdtable.exe cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csv2xlsx.exe cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csv2json.exe cmds/csv2json/csv2json.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/vcard2json.exe cmds/vcard2json/vcard2json.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/jsonmunge.exe cmds/jsonmunge/jsonmunge.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-windows-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
@@ -148,6 +157,8 @@ dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/vcard2json cmds/vcard2json/vcard2json.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/jsonmunge cmds/jsonmunge/jsonmunge.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-raspbian-arm7.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
@@ -157,19 +168,12 @@ distribute_docs:
 	cp -v README.md dist/
 	cp -v LICENSE dist/
 	cp -v INSTALL.md dist/
-	cp -v docs/csv2json.md dist/docs/
-	cp -v docs/csv2mdtable.md dist/docs/
-	cp -v docs/csv2xlsx.md dist/docs/
-	cp -v docs/csvcols.md dist/docs/
-	cp -v docs/csvrows.md dist/docs/
-	cp -v docs/csvfind.md dist/docs/
-	cp -v docs/csvjoin.md dist/docs/
-	cp -v docs/index.md dist/docs/
-	cp -v docs/jsoncols.md dist/docs/
-	cp -v docs/jsonrange.md dist/docs/
-	cp -v docs/xlsx2csv.md dist/docs/
-	cp -v docs/xlsx2json.md dist/docs/
+	cp -v docs/*.md dist/docs/
+	if [ -f dist/docs/nav.md ]; then rm dist/docs/nav.md; fi
+	if [ -f dist/docs/index.md ]; then rm dist/docs/index.md; fi
 	cp -v how-to/*.md dist/how-to/
+	if [ -f dist/how-to/nav.md ]; then rm dist/how-to/nav.md; fi
+	if [ -f dist/how-to/index.md ]; then rm dist/how-to/index.md; fi
 	cp -vR demos dist/
 	
 release: distribute_docs dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7

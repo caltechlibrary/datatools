@@ -102,7 +102,7 @@ done
 
 
 # Generate the individual command docuumentation pages
-for FNAME in csvcols csvfind csvjoin csv2json csv2mdtable csv2xlsx jsoncols jsonrange xlsx2json xlsx2csv; do
+for FNAME in csvcols csvfind csvjoin csv2json csv2mdtable csv2xlsx jsoncols jsonrange xlsx2json xlsx2csv vcard2json jsonmunge; do
 	echo "Generating docs/$FNAME.html"
 	MakePage docs/nav.md "docs/$FNAME.md" "docs/$FNAME.html"
 done
