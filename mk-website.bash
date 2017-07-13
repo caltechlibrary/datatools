@@ -60,7 +60,7 @@ cat <<EOF2 >docs/index.md
 
 EOF2
 
-find cmds -type d -depth 1 | while read DNAME; do
+find cmds -maxdepth 1 -type d | while read DNAME; do
 	FNAME="$(basename "$DNAME")"
 	echo "+ [$FNAME](${FNAME}.html)"
 done >>docs/index.md
