@@ -7,7 +7,8 @@
 
 ## SYNOPSIS
 
-vcard2json converts a VCard to JSON. The vcard can be read from stdin or form a file
+vcard2json is an experimental tool that  converts a VCard to JSON. 
+The vcard can be read from stdin or form a file
 with the usual options. The JSON version will be written to stdout.
 
 
