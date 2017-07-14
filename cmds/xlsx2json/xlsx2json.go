@@ -109,10 +109,7 @@ func xlsx2JSON(out *os.File, workBookName, sheetName string) error {
 		for _, row := range sheet.Rows {
 			cells = []string{}
 			for _, cell := range row.Cells {
-				val, err := cell.String()
-				if err != nil {
-					//val = fmt.Sprintf("%s", err)
-				}
+				val := cell.String()
 				cells = append(cells, val)
 			}
 			results = append(results, cells)

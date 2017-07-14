@@ -76,8 +76,6 @@ Putting it all together in a shell script.
 	// Application Options
 	showSheetCount bool
 	showSheetNames bool
-	verbose        bool
-	permissive     bool
 )
 
 func sheetCount(workBookName string) (int, error) {
@@ -108,23 +106,12 @@ func xlsx2CSV(out io.Writer, workBookName, sheetName string) error {
 	results := [][]string{}
 	cells := []string{}
 	if sheet, ok := xlFile.Sheet[sheetName]; ok == true {
-		for i, row := range sheet.Rows {
+		for _, row := range sheet.Rows {
 			//FIXME: I would be nice to optionally only the columns you wanted to output from the sheet...
 			cells = []string{}
-			for j, cell := range row.Cells {
-				val, err := cell.String()
-				if err != nil {
-					if permissive == true {
-						cells = append(cells, fmt.Sprintf("%s", val))
-					} else {
-						cells = append(cells, fmt.Sprintf("%s", err))
-					}
-					if verbose == true {
-						fmt.Fprintf(os.Stderr, "row %d, col %d %s\n", i, j, err)
-					}
-				} else {
-					cells = append(cells, val)
-				}
+			for _, cell := range row.Cells {
+				val := cell.String()
+				cells = append(cells, val)
 			}
 			results = append(results, cells)
 		}
@@ -156,8 +143,6 @@ func init() {
 	// App Specific Options
 	flag.BoolVar(&showSheetCount, "c", false, "display number of sheets in Excel Workbook")
 	flag.BoolVar(&showSheetNames, "n", false, "display sheet names in Excel W9rkbook")
-	flag.BoolVar(&verbose, "verbose", false, "output cell level errors")
-	flag.BoolVar(&verbose, "permissive", false, "ignore cell level errors")
 }
 
 func main() {
