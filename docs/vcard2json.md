@@ -7,10 +7,8 @@
 
 ## SYNOPSIS
 
-vcard2json is an experimental tool that  converts a VCard to JSON. 
-The vcard can be read from stdin or form a file
+vcard2json converts a VCard to JSON. The vcard can be read from stdin or form a file
 with the usual options. The JSON version will be written to stdout.
-
 
 ## OPTIONS
 
@@ -32,7 +30,7 @@ with the usual options. The JSON version will be written to stdout.
 Simple usage of building a CSV file one rows at a time.
 
 ```shell
-	cat my.cvf | vcard2json > myVCard.json
+    cat my.cvf | vcard2json > myVCard.json
 ```
 
 Or reading, writing to specific file

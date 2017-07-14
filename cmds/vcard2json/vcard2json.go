@@ -47,7 +47,7 @@ EXAMPLES
 
 Simple usage of building a CSV file one rows at a time.
 
-	cat my.cvf | %s > myVCard.json
+    cat my.cvf | %s > myVCard.json
 
 Or reading, writing to specific file
 
