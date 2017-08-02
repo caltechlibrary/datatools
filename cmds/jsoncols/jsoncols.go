@@ -90,6 +90,15 @@ Would yield
 	permissive     bool
 )
 
+func handleError(err error, exitCode int) {
+	if permissive == false {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+	}
+	if exitCode >= 0 {
+		os.Exit(exitCode)
+	}
+}
+
 func init() {
 	// Basic Options
 	flag.BoolVar(&showHelp, "h", false, "display help")
@@ -106,6 +115,7 @@ func init() {
 	flag.BoolVar(&runInteractive, "repl", false, "run interactively")
 	flag.StringVar(&delimiter, "d", delimiter, "set the delimiter for multi-field output")
 	flag.BoolVar(&permissive, "permissive", false, "suppress error messages")
+	flag.BoolVar(&permissive, "quiet", false, "suppress error messages")
 }
 
 func main() {
@@ -139,15 +149,13 @@ func main() {
 
 	in, err := cli.Open(inputFName, os.Stdin)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		handleError(err, 1)
 	}
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		handleError(err, 1)
 	}
 	defer cli.CloseFile(outputFName, out)
 
@@ -166,14 +174,12 @@ func main() {
 	// READ in the JSON document
 	buf, err := ioutil.ReadAll(in)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		handleError(err, 1)
 	}
 	// JSON Decode our document
 	data, err := dotpath.JSONDecode(buf)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		handleError(err, 1)
 	}
 
 	// For each dotpath expression return a result
@@ -194,14 +200,12 @@ func main() {
 				default:
 					src, err := json.Marshal(result)
 					if err != nil {
-						fmt.Fprintf(os.Stderr, "%s\n", err)
-						os.Exit(1)
+						handleError(err, 1)
 					}
 					fmt.Fprintf(out, "%s", src)
 				}
-			} else if permissive == false {
-				fmt.Fprintf(os.Stderr, "%s\n", err)
-				os.Exit(1)
+			} else {
+				handleError(err, 1)
 			}
 		}
 	}
