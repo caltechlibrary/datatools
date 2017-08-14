@@ -52,24 +52,24 @@ the outbound JSON document</li>
 
 <h2>EXAMPLES</h2>
 
-<p>If data.json contained</p>
+<p>If person.json contained</p>
 
 <pre><code class="language-json">   {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42}
 </code></pre>
 
 <p>and the template, name.tmpl, contained</p>
 
-<pre><code>   {{- .name -}}
+<pre><code class="language-template">   {{- .name -}}
 </code></pre>
 
 <p>Getting just the name could be done with</p>
 
-<pre><code class="language-shell">    cat data.json | jsonmunge name.tmpl
+<pre><code class="language-shell">    cat person.json | jsonmunge name.tmpl
 </code></pre>
 
 <p>This would yeild</p>
 
-<pre><code>    Doe, Jane
+<pre><code class="language-shell">    &quot;Doe, Jane&quot;
 </code></pre>
 
 <p>jsonmunge v0.0.9</p>
