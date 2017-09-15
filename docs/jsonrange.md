@@ -23,32 +23,35 @@ select the parts of the JSON data structure you want from the range.
 DOT_PATH_EXPRESSION is a dot path stale expression indicating what you want range over.
 E.g.
 
-+ _._ would indicate the whole JSON data structure read is used to range over
-+ _.name_ would indicate to range over the value pointed at by the "name" attribute 
-+ _["name"]_ would indicate to range over the value pointed at by the "name" attribute
-+ _[0]_ would indicate to range over the value held in the zero-th element of the array
++ . would indicate the whole JSON data structure read is used to range over
++ .name would indicate to range over the value pointed at by the "name" attribute 
++ ["name"] would indicate to range over the value pointed at by the "name" attribute
++ [0] would indicate to range over the value held in the zero-th element of the array
 
 The path can be chained together
 
-+ _.name.family_ would point to the value heald by the "name" attributes' "family" attribute.
++ .name.family would point to the value heald by the "name" attributes' "family" attribute.
+
 
 ## OPTIONS
 
 ```
-	-d	set delimiter for range output
+	-d	        set delimiter for range output
 	-delimiter	set delimiter for range output
-	-h	display help
-	-i	read JSON from file
-	-input	read JSON from file
-	-l	display license
-	-last	return the index of the last element in list (e.g. length - 1)
-	-length	return the number of keys or values
-	-limit	limit the number of items output
-	-o	write to output file
-	-output	write to output file
-	-v	display version
-	-values	return the values instead of the keys
+	-h	        display help
+	-i	        read JSON from file
+	-input	    read JSON from file
+	-l	        display license
+	-last	    return the index of the last element in list (e.g. length - 1)
+	-length	    return the number of keys or values
+	-limit	    limit the number of items output
+	-o	        write to output file
+	-output	    write to output file
+	-permissive	suppress errors messages
+	-v	        display version
+	-values	    return the values instead of the keys
 ```
+
 
 ## EXAMPLES
 
@@ -81,6 +84,7 @@ This would yield
     "jane.doe@example.org"
     42
 ```
+
 
 Working with an array
 
@@ -147,3 +151,4 @@ would yield
     2
 ```
 
+jsonrange v0.0.9

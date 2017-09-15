@@ -18,7 +18,7 @@ import (
 	// CaltechLibrary Packages
 	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
-	"github.com/caltechlibrary/datatools/dotpath"
+	"github.com/caltechlibrary/dotpath"
 )
 
 var (
@@ -137,6 +137,7 @@ would yield
 	showValues bool
 	delimiter  string
 	limit      int
+	permissive bool
 )
 
 func mapKeys(data map[string]interface{}, limit int) ([]string, error) {
@@ -225,6 +226,15 @@ func srcVals(data interface{}, limit int) ([]string, error) {
 	return nil, fmt.Errorf("%T does not support for range", data)
 }
 
+func handleError(err error, exitCode int) {
+	if permissive == false {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+	}
+	if exitCode >= 0 {
+		os.Exit(exitCode)
+	}
+}
+
 func init() {
 	// Standard Options
 	flag.BoolVar(&showHelp, "h", false, "display help")
@@ -242,6 +252,8 @@ func init() {
 	flag.StringVar(&delimiter, "d", "", "set delimiter for range output")
 	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for range output")
 	flag.IntVar(&limit, "limit", 0, "limit the number of items output")
+	flag.BoolVar(&permissive, "permissive", false, "suppress errors messages")
+	flag.BoolVar(&permissive, "quiet", false, "suppress errors messages")
 }
 
 func main() {
@@ -272,15 +284,13 @@ func main() {
 
 	in, err := cli.Open(inputFName, os.Stdin)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		handleError(err, 1)
 	}
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		handleError(err, 1)
 	}
 	defer cli.CloseFile(outputFName, out)
 
@@ -292,13 +302,11 @@ func main() {
 	// Read in the complete JSON data structure
 	buf, err := ioutil.ReadAll(in)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		handleError(err, 1)
 	}
 
 	if len(buf) == 0 {
-		fmt.Fprintln(os.Stderr, cfg.Usage())
-		os.Exit(1)
+		handleError(fmt.Errorf("%s", cfg.Usage()), 1)
 	}
 
 	var (
@@ -318,34 +326,31 @@ func main() {
 			data, err = dotpath.EvalJSON(p, buf)
 		}
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
+			handleError(err, 1)
 		}
 		switch {
 		case showLength:
 			if l, err := getLength(data); err == nil {
 				fmt.Fprintf(out, "%d", l)
 			} else {
-				fmt.Fprintf(os.Stderr, "%s\n", err)
+				handleError(err, -1)
 			}
 		case showLast:
 			if l, err := getLength(data); err == nil {
 				fmt.Fprintf(out, "%d", l-1)
 			} else {
-				fmt.Fprintf(os.Stderr, "%s\n", err)
+				handleError(err, -1)
 			}
 		case showValues:
 			elems, err := srcVals(data, limit-1)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "%s\n", err)
-				os.Exit(1)
+				handleError(err, 1)
 			}
 			fmt.Fprintln(out, strings.Join(elems, delimiter))
 		default:
 			elems, err := srcKeys(data, limit-1)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "%s\n", err)
-				os.Exit(1)
+				handleError(err, 1)
 			}
 			fmt.Fprintln(out, strings.Join(elems, delimiter))
 		}

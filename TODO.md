@@ -3,12 +3,29 @@
 
 ## Next
 
-+ [ ] csvfind, csvjoin should have an inverted match operation
-+ [ ] csv utilities to support integer ranges notation for columns and rows references, E.g. "1,3-4,7" or all
++ [x] csvcols -col option should not be a boolean, it should take a range like other csv cli
++ [ ] csvrows would output a range of rows (e.g. [2:] would be all rows but the first row)
++ [ ] csv utilities to support integer ranges notation for columns and rows references, E.g. "1,3:4,7,10:" or all
 
 ## Someday, Maybe
 
-+ [ ] csvcols -col option should not be a boolean, it should take a range like other csv cli
++ [ ] csvcols, csvrows should have a length option to give you a number of columns or rows respectively
++ [ ] csvcols, csvrows should have a filter option to filter to support filting output conditionally
++ [ ] csvsort should allow a multi-column sort respecting column headings
+    + plus column number would be ascending by that column
+    + minos column number would be descending by that column
+    + sort would be read from left to right
+    + it would be good to include support for column names and not just column numbers to describe the sort
++ [ ] jsonmodify takes a JSON document, a dotpath and value then creates/updates the dotpath in the JSON document with the new value
+    + "(delete DOTPATH)" would remove the property described by the dotpath
+    + "(update DOTPATH NEW_VALUE)" would replace the property described by the dotpath with a new value (value can be a string, number, or JSON)
+    + "(create" DOTPATH NEW_VALUE)" would add a new property at the described dotpath with a new value (value can be a string, number, or JSON)
+    + "(join DOTH_PATH SEP)" combines JSON array elements into a string version using separator
+    + "(concat DOTPATH1 DOTPATH2... SEP)" combines values into a concatenated string, it takes one or more dotpath values (must be string or number) and return them as a concatenated value (concat .last_name .first_name ", ") would return a last name comma first name string.
+    + "(split DOTH_PATH SEP)" turns a string into an array of strings using separator
++ [ ] csvcols, csvrows should have a filter mechanism should provide a mechanism to filter by column or row
+    + using a prefix notation (e.g. '(and (eq (join (cols (colNo "Last Name") (colNo "First Name")) ", ") "Doiel, R. S.") (gt (cols 4) "2017-06-12"))')
++ [ ] csvfind, csvjoin should have an inverted match operation
 + [ ] a range should accept the word "all" as well as comma delimited list of rows and ranges
 + [ ] Add -uuid and -skip-header-row options constistantly to all csv tools
     + [ ] csvcols
@@ -27,6 +44,10 @@
 + [ ] csvrotate would take a CSV file as import and output columns as rows
 + [ ] json2csv would convert a 2d JSON array to CSV output, it would comvert a JSON object/map to a column of keys next to a column of values
     + E.g. `cat data.json | json2csv`
++ [ ] smartcat would function like cat but with support for ranges of lines (e.g. show me last 20 lines: smartcat -start=0 -end="-20" file.txt; cat starting with 10th line: smartcat -start=10 file.txt)
+    + [ ] allow prefix line number with a specific delimiter (E.g. comma would let you cat a CSV file adding row numbers as first column)
+    + [ ] show lines with prefix, suffix, containing or regxp
+    + [ ] show lines without prefix, suffix, containing or regexp
 
 ## Completed
 

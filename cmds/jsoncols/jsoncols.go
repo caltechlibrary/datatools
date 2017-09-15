@@ -18,7 +18,7 @@ import (
 	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
-	"github.com/caltechlibrary/datatools/dotpath"
+	"github.com/caltechlibrary/dotpath"
 )
 
 var (
@@ -87,7 +87,17 @@ Would yield
 	runInteractive bool
 	delimiter      = ","
 	expressions    []string
+	permissive     bool
 )
+
+func handleError(err error, exitCode int) {
+	if permissive == false {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+	}
+	if exitCode >= 0 {
+		os.Exit(exitCode)
+	}
+}
 
 func init() {
 	// Basic Options
@@ -104,6 +114,8 @@ func init() {
 	flag.BoolVar(&runInteractive, "r", false, "run interactively")
 	flag.BoolVar(&runInteractive, "repl", false, "run interactively")
 	flag.StringVar(&delimiter, "d", delimiter, "set the delimiter for multi-field output")
+	flag.BoolVar(&permissive, "permissive", false, "suppress error messages")
+	flag.BoolVar(&permissive, "quiet", false, "suppress error messages")
 }
 
 func main() {
@@ -137,15 +149,13 @@ func main() {
 
 	in, err := cli.Open(inputFName, os.Stdin)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		handleError(err, 1)
 	}
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		handleError(err, 1)
 	}
 	defer cli.CloseFile(outputFName, out)
 
@@ -164,10 +174,13 @@ func main() {
 	// READ in the JSON document
 	buf, err := ioutil.ReadAll(in)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+		handleError(err, 1)
 	}
+	// JSON Decode our document
 	data, err := dotpath.JSONDecode(buf)
+	if err != nil {
+		handleError(err, 1)
+	}
 
 	// For each dotpath expression return a result
 	for i, qry := range expressions {
@@ -178,22 +191,21 @@ func main() {
 			fmt.Fprintf(out, "%s", buf)
 		} else {
 			result, err := dotpath.Eval(qry, data)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "%s\n", err)
-				os.Exit(1)
-			}
-			switch result.(type) {
-			case string:
-				fmt.Fprintf(out, "%s", result)
-			case json.Number:
-				fmt.Fprintf(out, "%s", result.(json.Number).String())
-			default:
-				src, err := json.Marshal(result)
-				if err != nil {
-					fmt.Fprintf(os.Stderr, "%s\n", err)
-					os.Exit(1)
+			if err == nil {
+				switch result.(type) {
+				case string:
+					fmt.Fprintf(out, "%s", result)
+				case json.Number:
+					fmt.Fprintf(out, "%s", result.(json.Number).String())
+				default:
+					src, err := json.Marshal(result)
+					if err != nil {
+						handleError(err, 1)
+					}
+					fmt.Fprintf(out, "%s", src)
 				}
-				fmt.Fprintf(out, "%s", src)
+			} else {
+				handleError(err, 1)
 			}
 		}
 	}

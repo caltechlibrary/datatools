@@ -107,12 +107,10 @@ func xlsx2CSV(out io.Writer, workBookName, sheetName string) error {
 	cells := []string{}
 	if sheet, ok := xlFile.Sheet[sheetName]; ok == true {
 		for _, row := range sheet.Rows {
+			//FIXME: I would be nice to optionally only the columns you wanted to output from the sheet...
 			cells = []string{}
 			for _, cell := range row.Cells {
-				val, err := cell.String()
-				if err != nil {
-					//val = fmt.Sprintf("%s", err)
-				}
+				val := cell.String()
 				cells = append(cells, val)
 			}
 			results = append(results, cells)

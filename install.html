@@ -11,7 +11,7 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">home</a></li>
+<li><a href="/">Home</a></li>
 <li><a href="./">README</a></li>
 <li><a href="license.html">LICENSE</a></li>
 <li><a href="install.html">INSTALL</a></li>
@@ -25,86 +25,175 @@
 <section>
 <h1>Installation</h1>
 
+<p><em>datatools</em> is a collection of command line programs run from a shell like Bash.</p>
+
 <h2>Compiled version</h2>
 
-<p><em>datatools</em> is a collection of command line programs run from a shell like Bash (or Powershell in Windows). If you download the repository a compiled version is in the dist directory. The compiled VERSION_NO matching your computer type and operating system can be copied to a bin directory in your PATH.</p>
+<p>This is generalized instructions for a release.</p>
 
-<p>Compiled versions are available for Mac OS X (amd64 processor), Linux (amd64), Windows (amd64) and Rapsberry Pi (both ARM6 and ARM7)</p>
+<p>Compiled versions are available for Mac OS X (amd64 processor, macosx-amd64), Linux (amd64 process, linux-amd64),
+Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7 processor, raspbian-arm7)</p>
+
+<p>VERSION_NUMBER is a <a href="http://semver.org/">symantic version number</a> (e.g. v0.1.2)</p>
+
+<p>For all the released version go to the project page on Github and click latest release</p>
+
+<blockquote>
+<p><a href="https://github.com/caltechlibrary/datatools/releases/latest">https://github.com/caltechlibrary/datatools/releases/latest</a></p>
+</blockquote>
+
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Zip Filename</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Windows</td>
+<td>datatools-VERSION_NUMBER-windows-amd64.zip</td>
+</tr>
+
+<tr>
+<td>Mac OS X</td>
+<td>datatools-VERSION_NUMBER-macosx-amd64.zip</td>
+</tr>
+
+<tr>
+<td>Linux/Intel</td>
+<td>datatools-VERSION_NUMBER-linux-amd64.zip</td>
+</tr>
+
+<tr>
+<td>Raspbery Pi</td>
+<td>datatools-VERSION_NUMBER-raspbian-arm7.zip</td>
+</tr>
+</tbody>
+</table>
+
+<h2>The basic recipe</h2>
+
+<ul>
+<li>Find the Zip file listed matching the architecture you&rsquo;re running and download it
+
+<ul>
+<li>(e.g. if you&rsquo;re on a Windows 10 laptop/Surface with a amd64 style CPU you&rsquo;d choose the Zip file with &ldquo;windows-amd64&rdquo; in the name).</li>
+</ul></li>
+<li>Download the zip file and unzip the file.<br /></li>
+<li>Copy the contents of the folder named &ldquo;bin&rdquo; to a folder that is in your path
+
+<ul>
+<li>(e.g. &ldquo;$HOME/bin&rdquo; is common).</li>
+</ul></li>
+<li>Adjust your PATH if needed
+
+<ul>
+<li>(e.g. <code>export PATH=&quot;$HOME/bin:$PATH&quot;</code>)</li>
+</ul></li>
+<li>Test</li>
+</ul>
 
 <h3>Mac OS X</h3>
 
 <ol>
-<li>Download <strong>datatools-VERSION_NO-release.zip</strong> from <a href="https://github.com/caltechlibrary/datatools/releases/latest">https://github.com/caltechlibrary/datatools/releases/latest</a></li>
-<li>Open a finder window, find and unzip <strong>datatools-VERSION_NO-release.zip</strong></li>
-<li>Look in the unziped folder and find <em>dist/macosx-amd64/</em></li>
-<li>Drag (or copy) <em>jsoncols</em>, <em>jsonrange</em>, etc. to a &ldquo;bin&rdquo; directory in your path</li>
-<li>Open and &ldquo;Terminal&rdquo; and run <code>jsoncols -h</code> to confirm you were successful</li>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Make sure the new location in in our path</li>
+<li>Test</li>
 </ol>
+
+<p>Here&rsquo;s an example of the commands run in the Terminal App after downloading the
+zip file.</p>
+
+<pre><code class="language-shell">    cd Downloads/
+    unzip datatools-*-macosx-amd64.zip
+    mkdir -p $HOME/bin
+    cp -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    csvfind -version
+</code></pre>
 
 <h3>Windows</h3>
 
 <ol>
-<li>Download <strong>datatools-VERSION_NO-release.zip</strong> from <a href="https://github.com/caltechlibrary/datatools/releases/latest">https://github.com/caltechlibrary/datatools/releases/latest</a></li>
-<li>Open the file manager find and unzip <strong>datatools-VERSION_NO-release.zip</strong></li>
-<li>Look in the unziped folder and find <em>dist/windows-amd64/</em></li>
-<li>Drag (or copy) <em>jsoncols.exe</em>, <em>jsonrange.exe</em>, etc. to a &ldquo;bin&rdquo; directory in your path</li>
-<li>Open Bash and and run <code>jsoncols -h</code> to confirm you were successful</li>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Test</li>
 </ol>
+
+<p>Here&rsquo;s an example of the commands run in from the Bash shell on Windows 10 after
+downloading the zip file.</p>
+
+<pre><code class="language-shell">    cd Downloads/
+    unzip datatools-*-windows-amd64.zip
+    mkdir -p $HOME/bin
+    cp -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    csvfind -version
+</code></pre>
 
 <h3>Linux</h3>
 
 <ol>
-<li>Download <strong>datatools-VERSION_NO-release.zip</strong> from <a href="https://github.com/caltechlibrary/datatools/releases/latest">https://github.com/caltechlibrary/datatools/releases/latest</a></li>
-<li>Find and unzip <strong>datatools-VERSION_NO-release.zip</strong></li>
-<li>In the unziped directory and find for <em>dist/linux-amd64/</em></li>
-<li>Copy <em>jsoncols</em>, <em>jsonrange</em>, etc. to a &ldquo;bin&rdquo; directory (e.g. cp ~/Downloads/datatools-VERSION_NO-release/dist/linux-amd64/* ~/bin/)</li>
-<li>From the shell prompt run <code>jsoncols -h</code> to confirm you were successful</li>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Test</li>
 </ol>
+
+<p>Here&rsquo;s an example of the commands run in from the Bash shell after
+downloading the zip file.</p>
+
+<pre><code class="language-shell">    cd Downloads/
+    unzip datatools-*-linux-amd64.zip
+    mkdir -p $HOME/bin
+    cp -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    csvfind -version
+</code></pre>
 
 <h3>Raspberry Pi</h3>
 
-<p>If you are using a Raspberry Pi 2 or later use the ARM7 VERSION_NO, ARM6 is only for the first generaiton Raspberry Pi.</p>
+<p>Released version is for a Raspberry Pi 2 or later use (i.e. requires ARM 7 support).</p>
 
 <ol>
-<li>Download <strong>datatools-VERSION_NO-release.zip</strong> from <a href="https://github.com/caltechlibrary/datatools/releases/latest">https://github.com/caltechlibrary/datatools/releases/latest</a></li>
-<li>Find and unzip <strong>datatools-VERSION_NO-release.zip</strong></li>
-<li>In the unziped directory and find for <em>dist/raspberrypi-arm7/</em></li>
-<li>Copy <em>jsoncols</em>, <em>jsonrange</em>, etc. to a &ldquo;bin&rdquo; directory (e.g. cp ~/Downloads/datatools-VERSION_NO-release/dist/raspberrypi-arm7/* ~/bin/)
-
-<ul>
-<li>if you are using an original Raspberry Pi you should copy the ARM6 version instead</li>
-</ul></li>
-<li>From the shell prompt run <code>jsoncols -h</code> to confirm you were successful</li>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Test</li>
 </ol>
+
+<p>Here&rsquo;s an example of the commands run in from the Bash shell after
+downloading the zip file.</p>
+
+<pre><code class="language-shell">    cd Downloads/
+    unzip datatools-*-raspbian-arm7.zip
+    mkdir -p $HOME/bin
+    cp -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    csvfind -version
+</code></pre>
 
 <h2>Compiling from source</h2>
 
-<p>If you have go v1.7.4 or better installed then should be able to &ldquo;go get&rdquo; to install all the <strong>datatools</strong> utilities and</p>
+<p><em>datatools</em> is &ldquo;go gettable&rdquo;.  Use the &ldquo;go get&rdquo; command to download the dependant packages
+as well as <em>datatools</em>&rsquo;s source code.</p>
 
-<pre><code>    go get -u github.com/caltechlibrary/datatools/...
+<pre><code class="language-shell">    go get -u github.com/caltechlibrary/datatools/...
 </code></pre>
 
-<p>Or for Windows 10 Powershell (assumes the Windows versions of Go and Git are previously installed)</p>
+<p>Or clone the repstory and then compile</p>
 
-<pre><code class="language-powershell">    $Env:GOPATH = &quot;$HOME&quot;
-    go get -u github.com/caltechlibrary/datatools/...
-</code></pre>
-
-<p>or to install from source on Linux/Unix systems</p>
-
-<pre><code class="language-bash">    git clone https://github.com/caltechlibrary/datatools src/github.com/caltechlibrary/datatools
+<pre><code class="language-shell">    cd
+    git clone https://github.com/caltechlibrary/datatools src/github.com/caltechlibrary/datatools
     cd src/github.com/caltechlibrary/datatools
     make
     make test
     make install
-</code></pre>
-
-<p>Or for Windows 10 Powershell</p>
-
-<pre><code class="language-powershell">    $Env:GOBIN = &quot;$HOME\bin&quot;
-    git clone https://github.com/caltechlibrary/datatools src/github.com/caltechlibrary/datatools
-    cd src\github.com\caltechlibrary\datatools
-    go install cmds\jsoncols\filefile.go
 </code></pre>
 
 </section>
