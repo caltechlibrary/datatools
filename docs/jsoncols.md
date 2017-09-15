@@ -23,19 +23,6 @@ extracted is a comma. This can be overridden with an option.
 ## OPTIONS
 
 ```
-<<<<<<< HEAD
-	-d	set the delimiter for multi-field output
-	-h	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-m	display output in monochrome
-	-o	output filename
-	-output	output filename
-	-r	run interactively
-	-repl	run interactively
-	-v	display version
-=======
 	-d	        set the delimiter for multi-field output
 	-h	        display help
 	-i	        input filename
@@ -48,7 +35,6 @@ extracted is a comma. This can be overridden with an option.
 	-r	        run interactively
 	-repl	    run interactively
 	-v	        display version
->>>>>>> a812d3b88a56421bbee98f590bda48afc4cb94be
 ```
 
 
@@ -98,8 +84,3 @@ Would yield
    "Doe, Jane",jane.doe@xample.org,42
 ```
 
-<<<<<<< HEAD
-=======
-
-jsoncols v0.0.9
->>>>>>> a812d3b88a56421bbee98f590bda48afc4cb94be
