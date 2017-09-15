@@ -25,7 +25,8 @@
 <section>
 <h1>datatools</h1>
 
-<p>Command line utilities for simplifying work with CSV, JSON, Excel Workbooks and plain text files or content.</p>
+<p>Command line utilities for simplifying work with CSV, JSON, Excel Workbooks and plain text files or content. It also now includes
+shelltools which are utilities useful for shell scripting.</p>
 
 <ul>
 <li><a href="docs/csvcols.html">csvcols</a> - a tool for formatting command line arguments into CSV row of columns or filtering CSV rows for specific columns</li>
@@ -53,6 +54,35 @@ Windows 10 (amd64) and Raspbian (ARM7). See <a href="https://github.com/caltechl
 <p><em>datatools</em> is go get-able.</p>
 
 <pre><code>    go get github.com/caltechlibrary/datatools/...
+</code></pre>
+
+<p>Or see <a href="install.html">INSTALL.md</a> for details for installing
+compiled versions of the programs.</p>
+
+<h2>shelltools</h2>
+
+<p>Various utilities for simplifying work on the command line.</p>
+
+<ul>
+<li><a href="docs/findfile.html">findfile</a> - find files based on prefix, suffix or contained string</li>
+<li><a href="docs/finddir.html">finddir</a> - find directories based on prefix, suffix or contained string</li>
+<li><a href="docs/mergepath.html">mergepath</a> - prefix, append, clip path variables</li>
+<li><a href="docs/range.html">range</a> - emit a range of integers (useful for numbered loops in Bash)</li>
+<li><a href="docs/reldate.html">reldate</a> - display a relative date in YYYY-MM-DD format</li>
+<li><a href="docs/timefmt.html">timefmt</a> - format a time value based on Golang&rsquo;s time format language</li>
+<li><a href="docs/urlparse.html">urlparse</a> - split a URL into parts</li>
+</ul>
+
+<p>Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
+Windows 10 (amd64) and Raspbian (ARM7). See <a href="https://github.com/caltechlibrary/shelltools/releases">https://github.com/caltechlibrary/shelltools/releases</a>.</p>
+
+<p>Use the utilities try &ldquo;-help&rdquo; option for a full list of options.</p>
+
+<h2>Installation</h2>
+
+<p><em>shelltools</em> is go get-able.</p>
+
+<pre><code>    go get github.com/caltechlibrary/shelltools/...
 </code></pre>
 
 <p>Or see <a href="install.html">INSTALL.md</a> for details for installing

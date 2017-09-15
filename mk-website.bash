@@ -60,11 +60,17 @@ cat <<EOF2 >docs/index.md
 
 EOF2
 
-find cmds -maxdepth 1 -type d | while read DNAME; do
-	FNAME="$(basename "$DNAME")"
+# Generate the index for command docuumentation pages
+for FNAME in csv2json csv2mdtable csv2xlsx csvcols csvfind csvjoin finddir findfile index jsoncols jsonmunge jsonrange mergepath range reldate timefmt urlparse vcard2json xlsx2csv xlsx2json; do
 	echo "+ [$FNAME](${FNAME}.html)"
 done >>docs/index.md
 git add docs/index.md
+
+# Generate the individual command docuumentation pages
+for FNAME in csv2json csv2mdtable csv2xlsx csvcols csvfind csvjoin finddir findfile index jsoncols jsonmunge jsonrange mergepath range reldate timefmt urlparse vcard2json xlsx2csv xlsx2json; do
+	echo "Generating docs/$FNAME.html"
+	MakePage docs/nav.md "docs/$FNAME.md" "docs/$FNAME.html"
+done
 
 MakePage "docs/nav.md" "docs/index.md" "docs/index.html"
 
@@ -101,8 +107,3 @@ find ./how-to -type f | grep -E "\.md$" | while read FNAME; do
 done
 
 
-# Generate the individual command docuumentation pages
-for FNAME in csvcols csvfind csvjoin csv2json csv2mdtable csv2xlsx jsoncols jsonrange xlsx2json xlsx2csv vcard2json jsonmunge; do
-	echo "Generating docs/$FNAME.html"
-	MakePage docs/nav.md "docs/$FNAME.md" "docs/$FNAME.html"
-done
