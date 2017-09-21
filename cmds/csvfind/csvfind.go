@@ -184,13 +184,14 @@ func main() {
 	defer cli.CloseFile(outputFName, out)
 
 	csvIn := csv.NewReader(in)
+	csvOut := csv.NewWriter(out)
 	if delimiter != "" {
 		runes := []rune(delimiter)
 		if len(runes) > 0 {
 			csvIn.Comma = runes[0]
+			csvOut.Comma = runes[0]
 		}
 	}
-	csvOut := csv.NewWriter(out)
 	lineNo := 0
 	if skipHeaderRow == true {
 		_, _ = csvIn.Read()
