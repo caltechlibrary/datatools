@@ -72,6 +72,15 @@ func NormalizeDelimiter(s string) string {
 	return s
 }
 
+// NormalizeDelimiterRune take a delimiter string and returns a single Rune
+func NormalizeDelimiterRune(s string) rune {
+	runes := []rune(NormalizeDelimiter(s))
+	if len(runes) > 0 {
+		return runes[0]
+	}
+	return ','
+}
+
 // ApplyStopWords takes a list of words (array of strings) and
 // removes any occurrences of the stop words return a revised list of
 // words.
