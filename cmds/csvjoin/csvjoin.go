@@ -79,6 +79,7 @@ merged-data.csv..
 	stopWordsOption string
 	allowDuplicates bool
 	asInMemory      bool
+	delimiter       string
 )
 
 // cellsMatch checks if two cells' values match
@@ -178,6 +179,8 @@ func init() {
 	flag.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
 	flag.BoolVar(&trimSpaces, "trim-spaces", false, "trim spaces around cell values before comparing")
 	flag.BoolVar(&asInMemory, "in-memory", false, "if true read both CSV files")
+	flag.StringVar(&delimiter, "d", "", "set delimiter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
 }
 
 func main() {
@@ -265,6 +268,13 @@ func main() {
 	defer fp2.Close()
 	csv2 := csv.NewReader(fp2)
 
+	w := csv.NewWriter(out)
+	if delimiter != "" {
+		csv1.Comma = datatools.NormalizeDelimiterRune(delimiter)
+		csv2.Comma = datatools.NormalizeDelimiterRune(delimiter)
+		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	}
+
 	// Note: we read one of the tables into memory to speed things up and limit disc reads
 	csv2Table := [][]string{}
 	for {
@@ -280,7 +290,6 @@ func main() {
 	}
 
 	stopWords := strings.Split(stopWordsOption, ":")
-	w := csv.NewWriter(out)
 	lineNo := 0 // line number of csv 1 table
 	if asInMemory == false {
 		for {

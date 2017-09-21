@@ -70,6 +70,7 @@ Convert data1.csv to JSON blobs, one line per blob
 	// Application Options
 	useHeader bool
 	asBlobs   bool
+	delimiter string
 )
 
 func init() {
@@ -88,6 +89,8 @@ func init() {
 	// App Options
 	flag.BoolVar(&useHeader, "use-header", true, "treat the first row as field names")
 	flag.BoolVar(&asBlobs, "as-blobs", false, "output as one JSON blob per line")
+	flag.StringVar(&delimiter, "d", "", "set the delimter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set the delimter character")
 }
 
 func main() {
@@ -132,6 +135,9 @@ func main() {
 	rowNo := 0
 	fieldNames := []string{}
 	r := csv.NewReader(in)
+	if delimiter != "" {
+		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	}
 	if useHeader == true {
 		row, err := r.Read()
 		if err == io.EOF {

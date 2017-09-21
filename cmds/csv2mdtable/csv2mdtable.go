@@ -61,6 +61,9 @@ Convert data1.csv to data1.md using options.
 	showVersion bool
 	inputFName  string
 	outputFName string
+
+	// Application Options
+	delimiter string
 )
 
 func init() {
@@ -75,6 +78,10 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+
+	// Application Options
+	flag.StringVar(&delimiter, "d", "", "set delimiter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
 }
 
 func main() {
@@ -117,6 +124,9 @@ func main() {
 	defer cli.CloseFile(outputFName, out)
 
 	r := csv.NewReader(in)
+	if delimiter != "" {
+		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	}
 	writeHeader := true
 	fmt.Fprintln(out, "")
 	for {

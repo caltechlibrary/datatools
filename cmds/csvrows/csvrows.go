@@ -104,11 +104,15 @@ func selectedRow(rowNo int, record []string, rowNos []int) []string {
 	return nil
 }
 
-func CSVRows(in *os.File, out *os.File, rowNos []int) {
+func CSVRows(in *os.File, out *os.File, rowNos []int, delimiter string) {
 	var err error
 
 	r := csv.NewReader(in)
 	w := csv.NewWriter(out)
+	if delimiter != "" {
+		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
+		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	}
 	for i := 0; err != io.EOF; i++ {
 		rec, err := r.Read()
 		if err == io.EOF {
@@ -148,8 +152,8 @@ func init() {
 	flag.StringVar(&outputFName, "output", "", "output filename")
 
 	// Application specific options
-	flag.StringVar(&delimiter, "d", "", "set delimiter for conversion")
-	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for conversion")
+	flag.StringVar(&delimiter, "d", "", "set delimiter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
 	flag.StringVar(&outputRows, "row", "", "output specified rows in order (e.g. -row 1,5,2:4))")
 	flag.StringVar(&outputRows, "rows", "", "output specified rows in order (e.g. -rows 1,5,2:4))")
 	flag.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2:")
@@ -220,7 +224,7 @@ func main() {
 				rowNos[i] = 0
 			}
 		}
-		CSVRows(in, out, rowNos)
+		CSVRows(in, out, rowNos, delimiter)
 		os.Exit(0)
 	}
 
@@ -230,8 +234,14 @@ func main() {
 
 	// Clean up cells removing outer quotes if necessary
 	w := csv.NewWriter(out)
+	if delimiter != "" {
+		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	}
 	for _, val := range args {
 		r := csv.NewReader(strings.NewReader(val))
+		if delimiter != "" {
+			r.Comma = datatools.NormalizeDelimiterRune(delimiter)
+		}
 		record, err := r.Read()
 		if err != nil {
 			log.Fatalf("%q isn't a CSV row, %s", val, err)

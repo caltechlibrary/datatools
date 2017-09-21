@@ -68,9 +68,10 @@ the workbook's sheet.
 	// App Specific Options
 	workbookName string
 	sheetName    string
+	delimiter    string
 )
 
-func csv2XLSXSheet(in *os.File, workbookName string, sheetName string) error {
+func csv2XLSXSheet(in *os.File, workbookName string, sheetName string, delimiter string) error {
 	var workbook *xlsx.File
 
 	// Open the workbook
@@ -89,6 +90,9 @@ func csv2XLSXSheet(in *os.File, workbookName string, sheetName string) error {
 	}
 
 	r := csv.NewReader(in)
+	if delimiter != "" {
+		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	}
 	for {
 		record, err := r.Read()
 		if err == io.EOF {
@@ -121,6 +125,8 @@ func init() {
 	// App Specific Options
 	flag.StringVar(&workbookName, "workbook", "", "Workbook name")
 	flag.StringVar(&sheetName, "sheet", "", "Sheet name to create/replace")
+	flag.StringVar(&delimiter, "d", "", "set delimiter character (input)")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character (input)")
 }
 
 func main() {
@@ -176,7 +182,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, "Missing sheet name")
 		os.Exit(1)
 	}
-	err = csv2XLSXSheet(in, workbookName, sheetName)
+	err = csv2XLSXSheet(in, workbookName, sheetName, delimiter)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s", err)
 		os.Exit(1)

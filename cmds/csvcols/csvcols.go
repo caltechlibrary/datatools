@@ -116,11 +116,15 @@ func selectedColumns(rowNo int, record []string, columnNos []int, prefixUUID boo
 	return result
 }
 
-func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, skipHeaderRow bool) {
+func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, skipHeaderRow bool, delimiter string) {
 	var err error
 
 	r := csv.NewReader(in)
 	w := csv.NewWriter(out)
+	if delimiter != "" {
+		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
+		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	}
 	for i := 0; err != io.EOF; i++ {
 		rec, err := r.Read()
 		if err == io.EOF {
@@ -158,10 +162,10 @@ func init() {
 	flag.StringVar(&outputFName, "output", "", "output filename")
 
 	// App Options
-	flag.StringVar(&delimiter, "d", "", "set delimiter for conversion")
-	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for conversion")
 	flag.StringVar(&outputColumns, "col", "", "output specified columns (e.g. -col 1,12:14,2,4))")
 	flag.StringVar(&outputColumns, "cols", "", "output specified columns (e.g. -col 1,12:14,2,4))")
+	flag.StringVar(&delimiter, "d", "", "set delimiter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
 	flag.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
 	flag.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
 }
@@ -219,7 +223,7 @@ func main() {
 				columnNos[i] = 0
 			}
 		}
-		CSVColumns(in, out, columnNos, prefixUUID, skipHeaderRow)
+		CSVColumns(in, out, columnNos, prefixUUID, skipHeaderRow, delimiter)
 		os.Exit(0)
 	}
 
@@ -237,6 +241,9 @@ func main() {
 	}
 
 	w := csv.NewWriter(out)
+	if delimiter != "" {
+		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	}
 	if err := w.Write(cells); err != nil {
 		log.Fatalf("error writing args as csv, %s", err)
 	}

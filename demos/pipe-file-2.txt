@@ -1,0 +1,4 @@
+1|one|ein
+2|two|zwei
+3|three|drwei
+4|four|vier

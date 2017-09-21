@@ -105,8 +105,8 @@ func init() {
 	// App Options
 	flag.IntVar(&col, "col", 0, "column to search for match in the CSV file")
 	flag.BoolVar(&useContains, "contains", false, "use contains phrase for matching")
-	flag.StringVar(&delimiter, "d", "", "set delimiter for conversion")
-	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for conversion")
+	flag.StringVar(&delimiter, "d", "", "set delimiter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
 	flag.BoolVar(&useLevenshtein, "levenshtein", false, "use levenshtein matching")
 	flag.IntVar(&maxEditDistance, "max-edit-distance", 5, "set the edit distance thresh hold for match, default 0")
 	flag.IntVar(&insertCost, "insert-cost", 1, "set the insert cost to use for levenshtein matching")
@@ -184,13 +184,11 @@ func main() {
 	defer cli.CloseFile(outputFName, out)
 
 	csvIn := csv.NewReader(in)
-	if delimiter != "" {
-		runes := []rune(delimiter)
-		if len(runes) > 0 {
-			csvIn.Comma = runes[0]
-		}
-	}
 	csvOut := csv.NewWriter(out)
+	if delimiter != "" {
+		csvIn.Comma = datatools.NormalizeDelimiterRune(delimiter)
+		csvOut.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	}
 	lineNo := 0
 	if skipHeaderRow == true {
 		_, _ = csvIn.Read()
