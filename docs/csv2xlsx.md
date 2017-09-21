@@ -13,6 +13,8 @@ If the Workbook does not exist then it is created.
 ## OPTIONS
 
 ```
+    -d          set delimiter character
+    -delimiter  set delimiter character
 	-h	display help
 	-help	display help
 	-i	input filename (CSV content)

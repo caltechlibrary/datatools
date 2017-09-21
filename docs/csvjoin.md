@@ -21,6 +21,8 @@ compared as strings. Columns are counted from one rather than zero.
 	-contains	match columns based on csv1/col1 contained in csv2/col2
 	-csv1	first CSV filename
 	-csv2	second CSV filename
+    -d          set delimiter character
+    -delimiter  set delimiter character
 	-delete-cost	deletion cost to use when calculating Levenshtein edit distance
 	-h	display help
 	-help	display help

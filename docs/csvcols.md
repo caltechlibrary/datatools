@@ -16,8 +16,8 @@ listed on the commandline (first column is 1 not 0)
 ```
     -col        filter CSV input for columns requested
     -cols       filter CSV input for columns requested
-    -d          set delimiter for conversion
-    -delimiter  set delimiter for conversion
+    -d          set delimiter character
+    -delimiter  set delimiter character
     -h          display help
     -help       display help
     -i          input filename

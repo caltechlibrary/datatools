@@ -15,6 +15,8 @@ per line.
 
 ```
 	-as-blobs	output as one JSON blob per line
+    -d          set delimiter character
+    -delimiter  set delimiter character
 	-h	display help
 	-help	display help
 	-i	input filename

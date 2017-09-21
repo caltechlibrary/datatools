@@ -13,6 +13,8 @@ table to stdout.
 ## OPTIONS
 
 ```
+    -d          set delimiter character
+    -delimiter  set delimiter character
 	-h	display help
 	-help	display help
 	-i	set input file
