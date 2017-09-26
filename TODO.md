@@ -9,6 +9,8 @@
 
 ## Someday, Maybe
 
++ [ ] textscraper - a tool for select out text and storing it as a JSON field value, sort grep plus sed cleanup and semi-structured text (e.g. webpage)
+    + look at how cut, sed, grep are commonly used in my scripts and merge that functionality into a single tool
 + [ ] csvcols, csvrows should have a length option to give you a number of columns or rows respectively
 + [ ] csvcols, csvrows should have a filter option to filter to support filting output conditionally
 + [ ] csvsort should allow a multi-column sort respecting column headings
