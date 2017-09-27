@@ -7,7 +7,7 @@ VERSION = $(shell grep -m1 'Version = ' $(PROJECT).go | cut -d\"  -f 2)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json bin/jsonmunge bin/findfile bin/finddir bin/mergepath bin/reldate bin/range bin/timefmt bin/urlparse
+build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json bin/jsonmunge bin/jsonjoin bin/findfile bin/finddir bin/mergepath bin/reldate bin/range bin/timefmt bin/urlparse
 
 
 bin/csvcols: datatools.go cmds/csvcols/csvcols.go
@@ -48,6 +48,9 @@ bin/vcard2json: datatools.go cmds/vcard2json/vcard2json.go
 
 bin/jsonmunge: datatools.go cmds/jsonmunge/jsonmunge.go
 	go build -o bin/jsonmunge cmds/jsonmunge/jsonmunge.go
+
+bin/jsonjoin: datatools.go cmds/jsonjoin/jsonjoin.go
+	go build -o bin/jsonjoin cmds/jsonjoin/jsonjoin.go
 
 bin/findfile: datatools.go cmds/findfile/findfile.go
 	go build -o bin/findfile cmds/findfile/findfile.go 
@@ -110,6 +113,7 @@ install:
 	env GOBIN=$(HOME)/bin go install cmds/csv2json/csv2json.go
 	env GOBIN=$(HOME)/bin go install cmds/vcard2json/vcard2json.go
 	env GOBIN=$(HOME)/bin go install cmds/jsonmunge/jsonmunge.go
+	env GOBIN=$(HOME)/bin go install cmds/jsonjoin/jsonjoin.go
 	env GOBIN=$(HOME)/bin go install cmds/findfile/findfile.go
 	env GOBIN=$(HOME)/bin go install cmds/finddir/finddir.go
 	env GOBIN=$(HOME)/bin go install cmds/mergepath/mergepath.go
@@ -132,6 +136,7 @@ dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/jsonmunge cmds/jsonmunge/jsonmunge.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/jsonjoin cmds/jsonjoin/jsonjoin.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/vcard2json cmds/vcard2json/vcard2json.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/findfile cmds/findfile/findfile.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/finddir cmds/finddir/finddir.go
@@ -159,6 +164,7 @@ dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/vcard2json cmds/vcard2json/vcard2json.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/jsonmunge cmds/jsonmunge/jsonmunge.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/jsonjoin cmds/jsonjoin/jsonjoin.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/findfile cmds/findfile/findfile.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/finddir cmds/finddir/finddir.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/mergepath cmds/mergepath/mergepath.go
@@ -186,6 +192,7 @@ dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csv2json.exe cmds/csv2json/csv2json.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/vcard2json.exe cmds/vcard2json/vcard2json.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/jsonmunge.exe cmds/jsonmunge/jsonmunge.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/jsonjoin.exe cmds/jsonjoin/jsonjoin.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/findfile.exe cmds/findfile/findfile.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/finddir.exe cmds/finddir/finddir.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/mergepath.exe cmds/mergepath/mergepath.go
@@ -214,6 +221,7 @@ dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/vcard2json cmds/vcard2json/vcard2json.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/jsonmunge cmds/jsonmunge/jsonmunge.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/jsonjoin cmds/jsonjoin/jsonjoin.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/findfile cmds/findfile/findfile.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/finddir cmds/finddir/finddir.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/mergepath cmds/mergepath/mergepath.go
