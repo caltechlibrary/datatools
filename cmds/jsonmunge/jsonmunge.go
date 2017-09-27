@@ -71,8 +71,10 @@ This would yeild
 func init() {
 	// Basic Options
 	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
+	flag.BoolVar(&showVersion, "version", false, "display version")
 	flag.StringVar(&inputFName, "i", "", "input filename")
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
