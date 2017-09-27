@@ -50,13 +50,13 @@ the options chosen.</p>
 
 <p>person.json containes</p>
 
-<pre><code class="language-json">   {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42}
+<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42 }
 </code></pre>
 
 <p>profile.json containes</p>
 
-<pre><code class="language-json">   {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
-   	&quot;email&quot;: &quot;jane.doe@example.edu&quot;}
+<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
+     &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
 </code></pre>
 
 <p>A simple join of person.json with profile.json</p>
@@ -67,15 +67,15 @@ the options chosen.</p>
 <p>would yeild</p>
 
 <pre><code class="language-json">   {
-   	&quot;person&quot;: {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42},
-    &quot;profile&quot;: {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;, 
-				&quot;email&quot;: &quot;jane.doe@example.edu&quot;}
-	}
+     &quot;person&quot;:  { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42},
+     &quot;profile&quot;: { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;, 
+                  &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
+   }
 </code></pre>
 
-<p>You can modify this behavor with -add or -merge. Both options are
-order dependant (i.e. not guaranteed to be associative, A add B does
-not necessarily equal B add A).</p>
+<p>You can modify this behavor with -update or -overwrite. Both options are
+order dependant (e.g. not associative, A update B does
+not necessarily equal B update A).</p>
 
 <ul>
 <li>-update will add unique key/values from the second object to the first object</li>
@@ -84,7 +84,7 @@ not necessarily equal B add A).</p>
 
 <p>Running</p>
 
-<pre><code class="language-shell">	jsonjoin -update person.json profile.json
+<pre><code class="language-shell">    jsonjoin -update person.json profile.json
 </code></pre>
 
 <p>would yield</p>
@@ -95,25 +95,25 @@ not necessarily equal B add A).</p>
 
 <p>Running</p>
 
-<pre><code class="language-shell">	jsonjoin -update profile.json person.json
+<pre><code class="language-shell">    jsonjoin -update profile.json person.json
 </code></pre>
 
 <p>would yield</p>
 
-<pre><code class="language-json">   	{ &quot;name&quot;: &quot;Doe, Jane&quot;,  &quot;age&quot;: 42, 
-		&quot;bio&quot;: &quot;World renowned geophysist.&quot;, 
-		&quot;email&quot;: &quot;jane.doe@example.edu&quot; }
+<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;,  &quot;age&quot;: 42, 
+     &quot;bio&quot;: &quot;World renowned geophysist.&quot;, 
+     &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
 </code></pre>
 
 <p>Running</p>
 
-<pre><code class="language-shell">	jsonjoin -overwrite person.json profile.json
+<pre><code class="language-shell">    jsonjoin -overwrite person.json profile.json
 </code></pre>
 
 <p>would yield</p>
 
-<pre><code class="language-json">   	{ &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jane.doe@example.edu&quot;, &quot;age&quot;: 42,
-    	&quot;bio&quot;: &quot;World renowned geophysist.&quot; }
+<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jane.doe@example.edu&quot;, &quot;age&quot;: 42,
+     &quot;bio&quot;: &quot;World renowned geophysist.&quot; }
 </code></pre>
 
 <p>jsonjoin v0.0.12</p>

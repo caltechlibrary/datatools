@@ -1,3 +1,4 @@
+
 # USAGE
 
 ## jsonjoin [OPTIONS] JSON_FILE_1 JSON_FILE_2
@@ -28,14 +29,14 @@ the options chosen.
 person.json containes
 
 ```json
-   {"name": "Doe, Jane", "email":"jd@example.org", "age": 42}
+   { "name": "Doe, Jane", "email":"jd@example.org", "age": 42 }
 ```
 
 profile.json containes
 
 ```json
-   {"name": "Doe, Jane", "bio": "World renowned geophysist.",
-   	"email": "jane.doe@example.edu"}
+   { "name": "Doe, Jane", "bio": "World renowned geophysist.",
+     "email": "jane.doe@example.edu" }
 ```
 
 A simple join of person.json with profile.json
@@ -48,15 +49,15 @@ would yeild
 
 ```json
    {
-   	"person": {"name": "Doe, Jane", "email":"jd@example.org", "age": 42},
-    "profile": {"name": "Doe, Jane", "bio": "World renowned geophysist.", 
-				"email": "jane.doe@example.edu"}
-	}
+     "person":  { "name": "Doe, Jane", "email":"jd@example.org", "age": 42},
+     "profile": { "name": "Doe, Jane", "bio": "World renowned geophysist.", 
+                  "email": "jane.doe@example.edu" }
+   }
 ```
 
-You can modify this behavor with -add or -merge. Both options are
-order dependant (i.e. not guaranteed to be associative, A add B does
-not necessarily equal B add A). 
+You can modify this behavor with -update or -overwrite. Both options are
+order dependant (e.g. not associative, A update B does
+not necessarily equal B update A). 
 
 + -update will add unique key/values from the second object to the first object
 + -overwrite replace key/values in first object one with second objects'
@@ -64,7 +65,7 @@ not necessarily equal B add A).
 Running
 
 ```shell
-	jsonjoin -update person.json profile.json
+    jsonjoin -update person.json profile.json
 ```
 
 would yield
@@ -77,29 +78,28 @@ would yield
 Running
 
 ```shell
-	jsonjoin -update profile.json person.json
+    jsonjoin -update profile.json person.json
 ```
 
 would yield
 
 ```json
-   	{ "name": "Doe, Jane",  "age": 42, 
-		"bio": "World renowned geophysist.", 
-		"email": "jane.doe@example.edu" }
+   { "name": "Doe, Jane",  "age": 42, 
+     "bio": "World renowned geophysist.", 
+     "email": "jane.doe@example.edu" }
 ```
 
 Running 
 
 ```shell
-	jsonjoin -overwrite person.json profile.json
+    jsonjoin -overwrite person.json profile.json
 ```
 
 would yield
 
 ```json
-   	{ "name": "Doe, Jane", "email":"jane.doe@example.edu", "age": 42,
-    	"bio": "World renowned geophysist." }
+   { "name": "Doe, Jane", "email":"jane.doe@example.edu", "age": 42,
+     "bio": "World renowned geophysist." }
 ```
-
 
 jsonjoin v0.0.12
