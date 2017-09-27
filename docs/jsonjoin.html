@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../">up</a></li>
+<li><a href="./">Documentation</a></li>
+<li><a href="../how-to/">How To &hellip;</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<h2>jsonjoin [OPTIONS] JSON_FILE_1 JSON_FILE_2</h2>
+
+<h2>SYSNOPSIS</h2>
+
+<p>jsonjoin is a command line tool that takes two (or more) JSON object
+documents and combines into a new JSON object document based on
+the options chosen.</p>
+
+<h2>OPTIONS</h2>
+
+<pre><code>-h  display help
+-help   display help
+-l  display license
+-license    display license
+-o  output filename
+-output output filename
+-overwrite  copy all key/values from second object into the first
+-update copy unique key/values from second object into the first
+-v  display version
+-version    display version
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<h3>Joining two JSON objects (maps)</h3>
+
+<p>person.json containes</p>
+
+<pre><code class="language-json">   {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42}
+</code></pre>
+
+<p>profile.json containes</p>
+
+<pre><code class="language-json">   {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
+   	&quot;email&quot;: &quot;jane.doe@example.edu&quot;}
+</code></pre>
+
+<p>A simple join of person.json with profile.json</p>
+
+<pre><code class="language-shell">   jsonjoin person.json profile.json
+</code></pre>
+
+<p>would yeild</p>
+
+<pre><code class="language-json">   {
+   	&quot;person&quot;: {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42},
+    &quot;profile&quot;: {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;, 
+				&quot;email&quot;: &quot;jane.doe@example.edu&quot;}
+	}
+</code></pre>
+
+<p>You can modify this behavor with -add or -merge. Both options are
+order dependant (i.e. not guaranteed to be associative, A add B does
+not necessarily equal B add A).</p>
+
+<ul>
+<li>-update will add unique key/values from the second object to the first object</li>
+<li>-overwrite replace key/values in first object one with second objects&rsquo;</li>
+</ul>
+
+<p>Running</p>
+
+<pre><code class="language-shell">	jsonjoin -update person.json profile.json
+</code></pre>
+
+<p>would yield</p>
+
+<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42,
+     &quot;bio&quot;: &quot;World renowned geophysist.&quot; }
+</code></pre>
+
+<p>Running</p>
+
+<pre><code class="language-shell">	jsonjoin -update profile.json person.json
+</code></pre>
+
+<p>would yield</p>
+
+<pre><code class="language-json">   	{ &quot;name&quot;: &quot;Doe, Jane&quot;,  &quot;age&quot;: 42, 
+		&quot;bio&quot;: &quot;World renowned geophysist.&quot;, 
+		&quot;email&quot;: &quot;jane.doe@example.edu&quot; }
+</code></pre>
+
+<p>Running</p>
+
+<pre><code class="language-shell">	jsonjoin -overwrite person.json profile.json
+</code></pre>
+
+<p>would yield</p>
+
+<pre><code class="language-json">   	{ &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jane.doe@example.edu&quot;, &quot;age&quot;: 42,
+    	&quot;bio&quot;: &quot;World renowned geophysist.&quot; }
+</code></pre>
+
+<p>jsonjoin v0.0.12</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

@@ -61,13 +61,13 @@ cat <<EOF2 >docs/index.md
 EOF2
 
 # Generate the index for command docuumentation pages
-for FNAME in csv2json csv2mdtable csv2xlsx csvcols csvfind csvjoin finddir findfile index jsoncols jsonmunge jsonrange mergepath range reldate timefmt urlparse vcard2json xlsx2csv xlsx2json; do
+for FNAME in csv2json csv2mdtable csv2xlsx csvcols csvfind csvjoin finddir findfile index jsoncols jsonmunge jsonjoin jsonrange mergepath range reldate timefmt urlparse vcard2json xlsx2csv xlsx2json; do
 	echo "+ [$FNAME](${FNAME}.html)"
 done >>docs/index.md
 git add docs/index.md
 
 # Generate the individual command docuumentation pages
-for FNAME in csv2json csv2mdtable csv2xlsx csvcols csvfind csvjoin finddir findfile index jsoncols jsonmunge jsonrange mergepath range reldate timefmt urlparse vcard2json xlsx2csv xlsx2json; do
+for FNAME in csv2json csv2mdtable csv2xlsx csvcols csvfind csvjoin finddir findfile index jsoncols jsonmunge jsonjoin jsonrange mergepath range reldate timefmt urlparse vcard2json xlsx2csv xlsx2json; do
 	echo "Generating docs/$FNAME.html"
 	MakePage docs/nav.md "docs/$FNAME.md" "docs/$FNAME.html"
 done

@@ -12,8 +12,9 @@ shelltools which are utilities useful for shell scripting.
 + [csv2mdtable](docs/csv2mdtable.html) - a tool to render CSV as a Github Flavored Markdown table
 + [csv2xlsx](docs/csv2xlsx.html) - a tool to take a CSV file and add it as a sheet to a Excel Workbook file.
 + [jsoncols](docs/jsoncols.html) - a tool for exploring and extracting JSON values into columns
-+ [jsonrange](docs/jsonrange.html) - a tool for iterating for JSON maps and arrays
++ [jsonjoin](docs/jsonjoin.html) - a tool for joining JSON object documents
 + [jsonmunge](docs/jsonmunge.html) - a tool to transform JSON documents into something else
++ [jsonrange](docs/jsonrange.html) - a tool for iterating for JSON maps and arrays
 + [vcard2json](docs/vcard2json.html) - an experimental tool to convert vCards to JSON
 + [xlsx2json](docs/xlsx2json.html) - a tool for converting Excel Workbooks to JSON files
 + [xlsx2csv](docs/xlsx2csv.html) - a tool for converting Excel Workbooks sheets to a CSV file(s)

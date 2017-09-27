@@ -12,6 +12,7 @@
 + [index](index.html)
 + [jsoncols](jsoncols.html)
 + [jsonmunge](jsonmunge.html)
++ [jsonjoin](jsonjoin.html)
 + [jsonrange](jsonrange.html)
 + [mergepath](mergepath.html)
 + [range](range.html)
