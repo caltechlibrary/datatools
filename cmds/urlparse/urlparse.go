@@ -100,8 +100,8 @@ func init() {
 	)
 
 	// Standard Options
-	flag.BoolVar(&showHelp, "help", false, "display help")
 	flag.BoolVar(&showHelp, "h", false, "display help")
+	flag.BoolVar(&showHelp, "help", false, "display help")
 	flag.BoolVar(&showLicense, "l", false, "display license")
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display verison")

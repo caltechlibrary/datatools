@@ -7,7 +7,7 @@ VERSION = $(shell grep -m1 'Version = ' $(PROJECT).go | cut -d\"  -f 2)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json bin/jsonmunge bin/jsonjoin bin/findfile bin/finddir bin/mergepath bin/reldate bin/range bin/timefmt bin/urlparse
+build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json bin/jsonjoin bin/jsonmunge bin/findfile bin/finddir bin/mergepath bin/reldate bin/range bin/timefmt bin/urlparse
 
 
 bin/csvcols: datatools.go cmds/csvcols/csvcols.go
@@ -104,23 +104,23 @@ install:
 	env GOBIN=$(HOME)/bin go install cmds/csvrows/csvrows.go
 	env GOBIN=$(HOME)/bin go install cmds/csvfind/csvfind.go
 	env GOBIN=$(HOME)/bin go install cmds/csvjoin/csvjoin.go
-	env GOBIN=$(HOME)/bin go install cmds/jsoncols/jsoncols.go
-	env GOBIN=$(HOME)/bin go install cmds/jsonrange/jsonrange.go
-	env GOBIN=$(HOME)/bin go install cmds/xlsx2json/xlsx2json.go
-	env GOBIN=$(HOME)/bin go install cmds/xlsx2csv/xlsx2csv.go
 	env GOBIN=$(HOME)/bin go install cmds/csv2mdtable/csv2mdtable.go
 	env GOBIN=$(HOME)/bin go install cmds/csv2xlsx/csv2xlsx.go
 	env GOBIN=$(HOME)/bin go install cmds/csv2json/csv2json.go
-	env GOBIN=$(HOME)/bin go install cmds/vcard2json/vcard2json.go
-	env GOBIN=$(HOME)/bin go install cmds/jsonmunge/jsonmunge.go
-	env GOBIN=$(HOME)/bin go install cmds/jsonjoin/jsonjoin.go
 	env GOBIN=$(HOME)/bin go install cmds/findfile/findfile.go
 	env GOBIN=$(HOME)/bin go install cmds/finddir/finddir.go
+	env GOBIN=$(HOME)/bin go install cmds/jsoncols/jsoncols.go
+	env GOBIN=$(HOME)/bin go install cmds/jsonrange/jsonrange.go
+	env GOBIN=$(HOME)/bin go install cmds/jsonmunge/jsonmunge.go
+	env GOBIN=$(HOME)/bin go install cmds/jsonjoin/jsonjoin.go
 	env GOBIN=$(HOME)/bin go install cmds/mergepath/mergepath.go
 	env GOBIN=$(HOME)/bin go install cmds/reldate/reldate.go
 	env GOBIN=$(HOME)/bin go install cmds/range/range.go
 	env GOBIN=$(HOME)/bin go install cmds/timefmt/timefmt.go
 	env GOBIN=$(HOME)/bin go install cmds/urlparse/urlparse.go
+	env GOBIN=$(HOME)/bin go install cmds/vcard2json/vcard2json.go
+	env GOBIN=$(HOME)/bin go install cmds/xlsx2json/xlsx2json.go
+	env GOBIN=$(HOME)/bin go install cmds/xlsx2csv/xlsx2csv.go
 
 dist/linux-amd64:
 	mkdir -p dist/bin

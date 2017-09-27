@@ -75,8 +75,11 @@ Yields "02 Jul 16 08:08 UTC"
 
 func init() {
 	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showVersion, "v", false, "display version")
+	flag.BoolVar(&showHelp, "help", false, "display help")
 	flag.BoolVar(&showLicense, "l", false, "display license")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "v", false, "display version")
+	flag.BoolVar(&showVersion, "version", false, "display version")
 
 	flag.BoolVar(&useUTC, "utc", false, "timestamps in UTC")
 	flag.StringVar(&inputFormat, "input", inputFormat, "Set format for input")

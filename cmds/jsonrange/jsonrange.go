@@ -238,8 +238,11 @@ func handleError(err error, exitCode int) {
 func init() {
 	// Standard Options
 	flag.BoolVar(&showHelp, "h", false, "display help")
+	flag.BoolVar(&showHelp, "help", false, "display help")
 	flag.BoolVar(&showLicense, "l", false, "display license")
+	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
+	flag.BoolVar(&showVersion, "version", false, "display version")
 	flag.StringVar(&inputFName, "i", "", "read JSON from file")
 	flag.StringVar(&inputFName, "input", "", "read JSON from file")
 	flag.StringVar(&outputFName, "o", "", "write to output file")
