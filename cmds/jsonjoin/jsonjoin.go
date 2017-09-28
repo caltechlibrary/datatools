@@ -22,20 +22,38 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] JSON_FILE_1 JSON_FILE_2`
+	usage = `USAGE: %s [OPTIONS] JSON_FILE_1 [JSON_FILE_2 ...]`
 
 	description = `
 SYSNOPSIS
 
-%s is a command line tool that takes two (or more) JSON object 
-documents and combines into a new JSON object document based on 
-the options chosen.
+%s is a command line tool that takes one (or more) JSON objects files 
+and joins them to a root JSON object read from standard input (or 
+file identified by -input option).  By default the resulting
+joined JSON object is written to standard out.
+
+The default behavior for %s is to create key/value pairs
+based on the joined JSON document names and their contents. 
+This can be thought of as a branching behavior. Each additional 
+file becomes a branch and its key/value pairs become leafs. 
+The root JSON object is assumed to come from standard input
+but can be designated by the -input option or created by the
+-create option. Each additional file specified as a command line
+argument is then treated as a new branch.
+
+In addition to the branching behavior you can join JSON objects in a 
+flat manner.  The flat joining process can be ether non-distructive 
+adding new key/value pairs (-update option) or distructive 
+overwriting key/value pairs (-overwrite option).
+
+Note: %s doesn't support a JSON array as the root JSON object.
 `
 
 	examples = `
 EXAMPLES
 
-    Joining two JSON objects (maps)
+Consider two JSON objects one in person.json and another 
+in profile.json.
 
 person.json containes
 
@@ -46,20 +64,39 @@ profile.json containes
    { "name": "Doe, Jane", "bio": "World renowned geophysist.",
      "email": "jane.doe@example.edu" }
 
-A simple join of person.json with profile.json
+A simple join of person.json with profile.json (note the 
+-create option)
 
-   %s person.json profile.json
+   %s -create person.json profile.json
 
-would yeild
+would yeild and object like
 
    {
-     "person":  { "name": "Doe, Jane", "email":"jd@example.org", "age": 42},
+     "person":  { "name": "Doe, Jane", "email":"jd@example.org", 
+	 			"age": 42},
+     "profile": { "name": "Doe, Jane", "bio": "World renowned geophysist.", 
+                  "email": "jane.doe@example.edu" }
+   }
+
+Likewise if you want to treat person.json as the root object and add
+profile.json as a branch try
+
+   cat person.json | %s profile.json
+
+or
+
+   %s -i person.json profile.json
+
+this yields an object like
+
+   {
+     "name": "Doe, Jane", "email":"jd@example.org", "age": 42,
      "profile": { "name": "Doe, Jane", "bio": "World renowned geophysist.", 
                   "email": "jane.doe@example.edu" }
    }
 
 You can modify this behavor with -update or -overwrite. Both options are
-order dependant (e.g. not associative, A update B does
+order dependant (i.e. not associative, A update B does
 not necessarily equal B update A). 
 
 + -update will add unique key/values from the second object to the first object
@@ -67,7 +104,7 @@ not necessarily equal B update A).
 
 Running
 
-    %s -update person.json profile.json
+    %s -create -update person.json profile.json
 
 would yield
 
@@ -76,7 +113,7 @@ would yield
 
 Running
 
-    %s -update profile.json person.json
+    %s -create -update profile.json person.json
 
 would yield
    
@@ -86,7 +123,7 @@ would yield
 
 Running 
 
-    %s -overwrite person.json profile.json
+    %s -create -overwrite person.json profile.json
 
 would yield
 
@@ -98,11 +135,13 @@ would yield
 	showHelp    bool
 	showLicense bool
 	showVersion bool
+	inputFName  string
 	outputFName string
 
 	// Application Specific Options
-	update    bool
-	overwrite bool
+	update     bool
+	overwrite  bool
+	createRoot bool
 )
 
 func init() {
@@ -113,12 +152,15 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.StringVar(&inputFName, "i", "", "input filename (for root object)")
+	flag.StringVar(&inputFName, "input", "", "input filename (for root object)")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 
 	// Application Specific Options
-	flag.BoolVar(&update, "update", false, "copy unique key/values from second object into the first")
-	flag.BoolVar(&overwrite, "overwrite", false, "copy all key/values from second object into the first")
+	flag.BoolVar(&createRoot, "create", false, "create an empty root object, {}")
+	flag.BoolVar(&update, "update", false, "copy new key/values pairs into root object")
+	flag.BoolVar(&overwrite, "overwrite", false, "copy all key/values into root object")
 }
 
 func main() {
@@ -129,8 +171,8 @@ func main() {
 	// Configuration and command line interation
 	cfg := cli.New(appName, "DATATOOLS", fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName)
+	cfg.DescriptionText = fmt.Sprintf(description, appName, appName, appName)
+	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
 
 	if showHelp == true {
 		fmt.Println(cfg.Usage())
@@ -152,6 +194,13 @@ func main() {
 		os.Exit(1)
 	}
 
+	in, err := cli.Open(inputFName, os.Stdin)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+		os.Exit(1)
+	}
+	defer cli.CloseFile(inputFName, in)
+
 	out, err := cli.Create(outputFName, os.Stdout)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err)
@@ -159,13 +208,27 @@ func main() {
 	}
 	defer cli.CloseFile(outputFName, out)
 
-	if len(args) < 2 {
-		fmt.Println(cfg.Usage())
+	// Make sure we have some JSON objects to join...
+	if len(args) < 1 {
+		fmt.Fprintln(os.Stderr, cfg.Usage())
+		fmt.Fprintln(os.Stderr, "Missing JSON document(s) to join")
 		os.Exit(1)
 	}
 
 	outObject := map[string]interface{}{}
 	newObject := map[string]interface{}{}
+
+	// READ in the JSON document if present on standard in or specified with -i.
+	if createRoot == false {
+		buf, err := ioutil.ReadAll(in)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s\n", err)
+			os.Exit(1)
+		}
+		if err := json.Unmarshal(buf, &outObject); err != nil {
+			log.Fatal(err)
+		}
+	}
 
 	for _, arg := range args {
 		src, err := ioutil.ReadFile(arg)
