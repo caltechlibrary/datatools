@@ -14,6 +14,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
@@ -88,6 +89,7 @@ Would yield
 	delimiter      = ","
 	expressions    []string
 	permissive     bool
+	quote          bool
 )
 
 func handleError(err error, exitCode int) {
@@ -117,6 +119,7 @@ func init() {
 	flag.BoolVar(&runInteractive, "r", false, "run interactively")
 	flag.BoolVar(&runInteractive, "repl", false, "run interactively")
 	flag.StringVar(&delimiter, "d", delimiter, "set the delimiter for multi-field output")
+	flag.BoolVar(&quote, "quote", false, "if dilimiter is found in column value add quotes")
 	flag.BoolVar(&permissive, "permissive", false, "suppress error messages")
 	flag.BoolVar(&permissive, "quiet", false, "suppress error messages")
 }
@@ -197,7 +200,11 @@ func main() {
 			if err == nil {
 				switch result.(type) {
 				case string:
-					fmt.Fprintf(out, "%s", result)
+					if quote == true && strings.Contains(result.(string), delimiter) == true {
+						fmt.Fprintf(out, "%q", result)
+					} else {
+						fmt.Fprintf(out, "%s", result)
+					}
 				case json.Number:
 					fmt.Fprintf(out, "%s", result.(json.Number).String())
 				default:
@@ -205,7 +212,11 @@ func main() {
 					if err != nil {
 						handleError(err, 1)
 					}
-					fmt.Fprintf(out, "%s", src)
+					if quote == true {
+						fmt.Fprintf(out, "%q", src)
+					} else {
+						fmt.Fprintf(out, "%s", src)
+					}
 				}
 			} else {
 				handleError(err, 1)

@@ -32,7 +32,7 @@ import (
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
-	"github.com/caltechlibrary/shelltools"
+	"github.com/caltechlibrary/datatools"
 )
 
 var (
@@ -151,7 +151,7 @@ func main() {
 	flag.Parse()
 	args := flag.Args()
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(shelltools.LicenseText, appName, shelltools.Version), shelltools.Version)
+	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
 	cfg.ExampleText = fmt.Sprintf(examples, appName)
