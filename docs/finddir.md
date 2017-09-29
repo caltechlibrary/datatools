@@ -1,7 +1,7 @@
 
 # USAGE
 
-    finddir [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]
+## finddir [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]
 
 ## SYNOPSIS
 
@@ -9,7 +9,6 @@ finddir finds directory based on matching prefix, suffix or contained text in ba
 
 ## OPTIONS
 
-```
 	-c	find file(s) based on basename containing text
 	-contains	find file(s) based on basename containing text
 	-d	Limit depth of directories walked
@@ -31,8 +30,6 @@ finddir finds directory based on matching prefix, suffix or contained text in ba
 	-v	display version message
 	-version	display version message
 
-```
-
 ## EXAMPLE
 
 ```
@@ -41,3 +38,5 @@ finddir finds directory based on matching prefix, suffix or contained text in ba
 
 Find all subdirectories starting with "img". 
 
+
+finddir v0.0.14

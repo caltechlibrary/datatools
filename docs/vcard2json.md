@@ -1,9 +1,7 @@
 
-# vcard2json
+# USAGE
 
-## USAGE
-
-    vcard2json [OPTIONS]
+## vcard2json [OPTIONS]
 
 ## SYNOPSIS
 
@@ -12,7 +10,6 @@ with the usual options. The JSON version will be written to stdout.
 
 ## OPTIONS
 
-```
 	-h	display help
 	-help	display help
 	-i	input filename
@@ -23,7 +20,6 @@ with the usual options. The JSON version will be written to stdout.
 	-output	output filename
 	-v	display version
 	-version	display version
-```
 
 ## EXAMPLES
 
@@ -40,4 +36,4 @@ Or reading, writing to specific file
 ```
 
 
-vcard2json v0.0.9
+vcard2json v0.0.14

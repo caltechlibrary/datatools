@@ -20,12 +20,9 @@
 </nav>
 
 <section>
-<h1>csvfind</h1>
+<h1>USAGE</h1>
 
-<h2>USAGE</h2>
-
-<pre><code>csvfind [OPTIONS] TEXT_TO_MATCH
-</code></pre>
+<h2>csvfind [OPTIONS] TEXT_TO_MATCH</h2>
 
 <h2>SYNOPSIS</h2>
 
@@ -35,31 +32,31 @@ exact match as well as some Levenshtein matching.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-allow-duplicates	allow duplicates when searching for matches
-	-append-edit-distance	append column with edit distance found (useful for tuning levenshtein)
-	-case-sensitive	perform a case sensitive match (default is false)
-	-col	column to search for match in the CSV file
-	-contains	use contains phrase for matching
-	-delete-cost	set the delete cost to use for levenshtein matching
-    -d          set delimiter character
-    -delimiter  set delimiter character
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-insert-cost	set the insert cost to use for levenshtein matching
-	-l	display license
-	-levenshtein	use levenshtein matching
-	-license	display license
-	-max-edit-distance	set the edit distance thresh hold for match, default 0
-	-o	output filename
-	-output	output filename
-	-skip-header-row	skip the header row
-	-stop-words	use the colon delimited list of stop words
-	-substitute-cost	set the substitution cost to use for levenshtein matching
-	-trim-spaces	trim spaces around cell values before comparing
-	-v	display version
-	-version	display version
+<pre><code>-allow-duplicates   allow duplicates when searching for matches
+-append-edit-distance   append column with edit distance found (useful for tuning levenshtein)
+-case-sensitive perform a case sensitive match (default is false)
+-col    column to search for match in the CSV file
+-contains   use contains phrase for matching
+-d  set delimiter character
+-delete-cost    set the delete cost to use for levenshtein matching
+-delimiter  set delimiter character
+-h  display help
+-help   display help
+-i  input filename
+-input  input filename
+-insert-cost    set the insert cost to use for levenshtein matching
+-l  display license
+-levenshtein    use levenshtein matching
+-license    display license
+-max-edit-distance  set the edit distance thresh hold for match, default 0
+-o  output filename
+-output output filename
+-skip-header-row    skip the header row
+-stop-words use the colon delimited list of stop words
+-substitute-cost    set the substitution cost to use for levenshtein matching
+-trim-spaces    trim spaces around cell values before comparing
+-v  display version
+-version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -84,6 +81,8 @@ exact match as well as some Levenshtein matching.</p>
 
 <pre><code class="language-shell">    csvfind -i books.csv -col=2 -contains &quot;Red Book&quot;
 </code></pre>
+
+<p>csvfind v0.0.14</p>
 
 </section>
 
