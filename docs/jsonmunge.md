@@ -1,9 +1,7 @@
 
-# jsonmunge
+# USAGE
 
-## USAGE
-
-    jsonmunge [OPTIONS] TEMPLATE_FILENAME
+## jsonmunge [OPTIONS] TEMPLATE_FILENAME
 
 ## SYSNOPSIS
 
@@ -17,15 +15,15 @@ or filter for specific content.
 
 ## OPTIONS
 
-```
 	-h	display help
+	-help	display help
 	-i	input filename
 	-input	input filename
-	-l	display license
+	-license	display license
 	-o	output filename
 	-output	output filename
 	-v	display version
-```
+	-version	display version
 
 ## EXAMPLES
 
@@ -34,20 +32,24 @@ If person.json contained
 ```json
    {"name": "Doe, Jane", "email":"jd@example.org", "age": 42}
 ```
+
 and the template, name.tmpl, contained 
 
 ```template
    {{- .name -}}
 ```
+
 Getting just the name could be done with
 
 ```shell
     cat person.json | jsonmunge name.tmpl
 ```
+
 This would yeild
 
-```shell
+```csv
     "Doe, Jane"
 ```
 
-jsonmunge v0.0.9
+
+jsonmunge v0.0.14

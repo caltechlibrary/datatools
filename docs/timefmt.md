@@ -1,7 +1,7 @@
 
 # USAGE
 
-    timefmt [OPTIONS] TIME_STRING_TO_CONVERT
+## timefmt [OPTIONS] TIME_STRING_TO_CONVERT
 
 ## SYNOPSIS
 
@@ -18,14 +18,15 @@ One additional time layout provided by timefmt
 
 ## OPTIONS
 
-```
 	-h	display help
+	-help	display help
 	-input	Set format for input
 	-l	display license
+	-license	display license
 	-output	Set format for output
 	-utc	timestamps in UTC
 	-v	display version
-```
+	-version	display version
 
 ## EXAMPLES
 
@@ -41,3 +42,5 @@ Yields "07/02/2016"
 
 Yields "02 Jul 16 08:08 UTC"
 
+
+timefmt v0.0.14

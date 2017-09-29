@@ -22,8 +22,7 @@
 <section>
 <h1>USAGE</h1>
 
-<pre><code>reldate [OPTIONS] [TIME_DESCRPTION]
-</code></pre>
+<h2>reldate [OPTIONS] [TIME_DESCRPTION]</h2>
 
 <h2>SYNOPSIS</h2>
 
@@ -41,16 +40,16 @@ be Thu, Friday can be Fri or Saturday can be Sat.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-e	Display the end of month day. E.g. 2012-02-29
-	-end-of-month	Display the end of month day. E.g. 2012-02-29
-	-f	Date the relative time is calculated from.
-	-from	Date the relative time is calculated from.
-	-h	display help
-	-help	display help
-	-l	display license
-	-license	display license
-	-v	display version
-	-version	display version
+<pre><code>-e  Display the end of month day. E.g. 2012-02-29
+-end-of-month   Display the end of month day. E.g. 2012-02-29
+-f  Date the relative time is calculated from.
+-from   Date the relative time is calculated from.
+-h  display help
+-help   display help
+-l  display license
+-license    display license
+-v  display version
+-version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -60,9 +59,12 @@ be Thu, Friday can be Fri or Saturday can be Sat.</p>
 <pre><code>    reldate 3 days
 </code></pre>
 
-<p>The output would be &ldquo;2014-08-06&rdquo;</p>
+<p>The output would be</p>
 
-<h3>TIME UNITS</h3>
+<pre><code>    2014-08-06
+</code></pre>
+
+<p>TIME UNITS</p>
 
 <p>Supported time units are</p>
 
@@ -82,9 +84,11 @@ relative date from that specific date.</p>
 <pre><code>   reldate --from=2014-08-03 3 days
 </code></pre>
 
-<p>Will yield &ldquo;2014-08-06&rdquo;</p>
+<p>Will yield</p>
 
-<h3>NEGATIVE INCREMENTS</h3>
+<p>2014-08-06</p>
+
+<p>NEGATIVE INCREMENTS</p>
 
 <p>Command line arguments traditionally start with a dash which we also use to
 denote a nagative number. To tell the command line process that to not treat
@@ -94,9 +98,12 @@ with a double dash.</p>
 <pre><code>    reldate --from=2014-08-03 -- -3 days
 </code></pre>
 
-<p>Will yield &ldquo;2014-07-31&rdquo;</p>
+<p>Will yield</p>
 
-<h3>RELATIVE WEEK DAYS</h3>
+<pre><code>    2014-07-31
+</code></pre>
+
+<p>RELATIVE WEEK DAYS</p>
 
 <p>You can calculate a date from a weekday name (e.g. Saturday, Monday, Tuesday)
 knowning a day (e.g. 2015-02-10 or the current date of the week) occuring in
@@ -107,11 +114,16 @@ finish with Saturday (e.g. 6).</p>
 <pre><code>    reldate --from=2015-02-10 Monday
 </code></pre>
 
-<p>will yeild &ldquo;2015-02-09&rdquo;</p>
+<p>will yeild</p>
+
+<pre><code>    2015-02-09
+</code></pre>
 
 <p>As that is the Monday of the week containing 2015-02-10. Weekday names case
 insensitive and can be the first three letters of the English names or full
 English names (e.g. Monday, monday, Mon, mon).</p>
+
+<p>reldate v0.0.14</p>
 
 </section>
 

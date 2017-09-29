@@ -1,21 +1,20 @@
 
 # USAGE
 
-    range [OPTIONS] START_INTEGER END_INTEGER [INCREMENT_INTEGER]
+## range [OPTIONS] START_INTEGER END_INTEGER [INCREMENT_INTEGER]
 
 ## SYNOPSIS
 
 range is a simple utility for shell scripts that emits a list of 
 integers starting with the first command line argument and 
 ending with the last integer command line argument. It is a 
-subset of functionality found in the Unix _seq_ command.
+subset of functionality found in the Unix seq command.
 
 If the first argument is greater than the last then it counts 
 down otherwise it counts up.
 
 ## OPTIONS
 
-```
 	-e	The ending integer.
 	-end	The ending integer.
 	-h	display help
@@ -30,10 +29,9 @@ down otherwise it counts up.
 	-start	The starting integer.
 	-v	display version
 	-version	display version
-```
 
 ## EXAMPLES
-
+	
 ```
 	range 1 5
 ```
@@ -64,3 +62,5 @@ Yields 10 9 8 7 6 5 4 3 2 1
 
 Yields a random integer from 0 to 10
 
+
+range v0.0.14

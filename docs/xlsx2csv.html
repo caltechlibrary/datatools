@@ -20,12 +20,9 @@
 </nav>
 
 <section>
-<h1>xlsx2csv</h1>
+<h1>USAGE</h1>
 
-<h2>USAGE</h2>
-
-<pre><code>xlsx2csv [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
-</code></pre>
+<h2>xlsx2csv [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]</h2>
 
 <h2>SYNOPSIS</h2>
 
@@ -33,36 +30,43 @@
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-c	display number of sheets in Excel Workbook
-	-h	display help
-	-l	display license
-	-n	display sheet names in Excel W9rkbook
-	-v	display version
+<pre><code>-c  display number of sheets in Excel Workbook
+-h  display help
+-help   display help
+-l  display license
+-license    display license
+-n  display sheet names in Excel W9rkbook
+-o  output filename
+-output output filename
+-v  display version
+-version    display version
 </code></pre>
 
 <h2>EXAMPLE</h2>
 
-<pre><code>    xlsx2csv my-workbook.xlsx &quot;Sheet 1&quot; &gt; sheet1.csv
+<pre><code class="language-shell">    xlsx2csv my-workbook.xlsx &quot;Sheet 1&quot; &gt; sheet1.csv
 </code></pre>
 
 <p>This would get the first sheet from the workbook and save it as a CSV file.</p>
 
-<pre><code>    xlsx2csv -c my-workbook.xlsx
+<pre><code class="language-shell">    xlsx2csv -c my-workbook.xlsx
 </code></pre>
 
 <p>This will output the number of sheets in the Workbook.</p>
 
-<pre><code>    xlsx2csv -n my-workbook.xlsx
+<pre><code class="language-shell">    xlsx2csv -n my-workbook.xlsx
 </code></pre>
 
 <p>This will display a list of sheet names, one per line.
 Putting it all together in a shell script.</p>
 
-<pre><code>    for SHEET_NAME in $(xlsx2csv -n my-workbook.xlsx); do
+<pre><code class="language-shell">    for SHEET_NAME in $(xlsx2csv -n my-workbook.xlsx); do
        xlsx2csv my-workbook.xlsx &quot;$SHEET_NAME&quot; &gt; \
 	       &quot;${SHEET_NAME// /-}.csv&quot;
     done
 </code></pre>
+
+<p>xlsx2csv v0.0.14</p>
 
 </section>
 

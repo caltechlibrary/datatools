@@ -1,7 +1,7 @@
 
 # USAGE
 
-    mergepath NEW_PATH_PARTS
+## mergepath NEW_PATH_PARTS
 
 ## SYNOPSIS
 
@@ -11,7 +11,6 @@ path and removing the resulting duplicate.
 
 ## OPTIONS
 
-```
 	-a	Append the directory to the path removing any duplication
 	-append	Append the directory to the path removing any duplication
 	-c	Remove a directory from the path
@@ -28,7 +27,6 @@ path and removing the resulting duplicate.
 	-prepend	Prepend the directory to the path removing any duplication
 	-v	display version
 	-version	display version
-```
 
 ## EXAMPLE
 
@@ -38,3 +36,5 @@ path and removing the resulting duplicate.
 
 This would put your home bin directory at the beginning of your path.
 
+
+mergepath v0.0.14

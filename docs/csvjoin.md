@@ -1,9 +1,7 @@
 
-# csvjoin
+# USAGE
 
-## USAGE
-
-    csvjoin [OPTIONS] CSV1 CSV2 COL1 COL2
+## csvjoin [OPTIONS] CSV1 CSV2 COL1 COL2
 
 ## SYNOPSIS
 
@@ -13,7 +11,6 @@ compared as strings. Columns are counted from one rather than zero.
 
 ## OPTIONS
 
-```
 	-allow-duplicates	allow duplicates when searching for matches
 	-case-sensitive	make a case sensitive match (default is case insensitive)
 	-col1	column to on join on in first CSV file
@@ -21,11 +18,12 @@ compared as strings. Columns are counted from one rather than zero.
 	-contains	match columns based on csv1/col1 contained in csv2/col2
 	-csv1	first CSV filename
 	-csv2	second CSV filename
-    -d          set delimiter character
-    -delimiter  set delimiter character
+	-d	set delimiter character
 	-delete-cost	deletion cost to use when calculating Levenshtein edit distance
+	-delimiter	set delimiter character
 	-h	display help
 	-help	display help
+	-in-memory	if true read both CSV files
 	-insert-cost	insertion cost to use when calculating Levenshtein edit distance
 	-l	display license
 	-levenshtein	match columns using Levensthein edit distance
@@ -39,7 +37,6 @@ compared as strings. Columns are counted from one rather than zero.
 	-v	display version
 	-verbose	output processing count to stderr
 	-version	display version
-```
 
 ## EXAMPLES
 
@@ -54,4 +51,4 @@ merged-data.csv..
        -output=merged-data.csv
 ```
 
-
+csvjoin v0.0.14

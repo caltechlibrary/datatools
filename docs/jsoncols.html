@@ -20,12 +20,9 @@
 </nav>
 
 <section>
-<h1>jsoncols</h1>
+<h1>USAGE</h1>
 
-<h2>USAGE:</h2>
-
-<pre><code>jsoncols [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]
-</code></pre>
+<h2>jsoncols [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]</h2>
 
 <h2>SYSNOPSIS</h2>
 
@@ -52,18 +49,22 @@ explicity write to stdout
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-d	        set the delimiter for multi-field output
-	-h	        display help
-	-i	        input filename
-	-input	    input filename
-	-l	        display license
-	-m	        display output in monochrome
-	-o	        output filename
-	-output	    output filename
-	-permissive	suppress error messages
-	-r	        run interactively
-	-repl	    run interactively
-	-v	        display version
+<pre><code>-d  set the delimiter for multi-field output
+-h  display help
+-help   display help
+-i  input filename
+-input  input filename
+-l  display license
+-license    display license
+-m  display output in monochrome
+-o  output filename
+-output output filename
+-permissive suppress error messages
+-quiet  suppress error messages
+-r  run interactively
+-repl   run interactively
+-v  display version
+-version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -80,7 +81,7 @@ explicity write to stdout
 
 <p>This would yeild</p>
 
-<pre><code>    &quot;Doe, Jane&quot;
+<pre><code class="language-csv">    &quot;Doe, Jane&quot;
 </code></pre>
 
 <p>Flipping .name and .age into pipe delimited columns is as
@@ -102,9 +103,14 @@ space delimited string.</p>
 
 <p>Would yield</p>
 
-<pre><code>   &quot;Doe, Jane&quot;,jane.doe@xample.org,42
+<pre><code class="language-csv">   &quot;Doe, Jane&quot;,jane.doe@xample.org,42
 </code></pre>
 
+<<<<<<< HEAD
+=======
+<p>jsoncols v0.0.14</p>
+
+>>>>>>> 25fa0d856c527e91cd7efb24a6331b26291d07a7
 </section>
 
 <footer>

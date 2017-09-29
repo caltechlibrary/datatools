@@ -1,34 +1,32 @@
 
-# csvcols
+# USAGE
 
-## USAGE
-
-    csvcols [OPTIONS] ARGS_AS_COLS
+## csvcols [OPTIONS] [ARGS_AS_COL_VALUES]
 
 ## SYNOPSIS
 
 csvcols converts a set of command line args into columns output in CSV format.
-It can also be used to filter input CSV and rendering only the column numbers
-listed on the commandline (first column is 1 not 0)
+It can also be used CSV input rows and rendering only the column numbers
+listed on the commandline (first column is 1 not 0).
 
 ## OPTIONS
 
-```
-    -col        filter CSV input for columns requested
-    -cols       filter CSV input for columns requested
-    -d          set delimiter character
-    -delimiter  set delimiter character
-    -h          display help
-    -help       display help
-    -i          input filename
-    -input      input filename
-    -l          display license
-    -license    display license
-    -o          output filename
-    -output     output filename
-    -v          display version
-    -version    display version
-```
+	-col	output specified columns (e.g. -col 1,12:14,2,4))
+	-cols	output specified columns (e.g. -col 1,12:14,2,4))
+	-d	set delimiter character
+	-delimiter	set delimiter character
+	-h	display help
+	-help	display help
+	-i	input filename
+	-input	input filename
+	-l	display license
+	-license	display license
+	-o	output filename
+	-output	output filename
+	-skip-header-row	skip the header row
+	-uuid	add a prefix row with generated UUID cell
+	-v	display version
+	-version	display version
 
 ## EXAMPLES
 
@@ -48,16 +46,18 @@ Example parsing a pipe delimited string into a CSV line
     cat 3col.csv
 ```
 
-Filter a 10 column CSV file for columns 1,4,6 (left most column is number zero)
+Filter a 10 column CSV file for columns 1,4,6 (left most column is one)
 
 ```shell
     cat 10col.csv | csvcols -col 1,4,6 > 3col.csv
 ```
 
-Filter a 10 columns CSV file for columns 1,4,6 from input file
+
+Filter a 10 columns CSV file for columns 1,4,6 from file named "10col.csv"
 
 ```shell
     csvcols -i 10col.csv -col 1,4,6 > 3col.csv
 ```
 
 
+csvcols v0.0.14

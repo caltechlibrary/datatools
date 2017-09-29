@@ -8,6 +8,7 @@
 package main
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -186,30 +187,37 @@ func main() {
 	}
 
 	// For each dotpath expression return a result
-	for i, qry := range expressions {
-		if i > 0 {
-			fmt.Fprintf(out, "%s", delimiter)
-		}
-		if qry == "." {
-			fmt.Fprintf(out, "%s", buf)
-		} else {
-			result, err := dotpath.Eval(qry, data)
-			if err == nil {
-				switch result.(type) {
-				case string:
-					fmt.Fprintf(out, "%s", result)
-				case json.Number:
-					fmt.Fprintf(out, "%s", result.(json.Number).String())
-				default:
-					src, err := json.Marshal(result)
-					if err != nil {
-						handleError(err, 1)
-					}
-					fmt.Fprintf(out, "%s", src)
+	row := []string{}
+	for _, qry := range expressions {
+		result, err := dotpath.Eval(qry, data)
+		if err == nil {
+			switch result.(type) {
+			case string:
+				row = append(row, result.(string))
+			case json.Number:
+				row = append(row, result.(json.Number).String())
+			default:
+				src, err := json.Marshal(result)
+				if err != nil {
+					handleError(err, 1)
 				}
-			} else {
-				handleError(err, 1)
+				row = append(row, fmt.Sprintf("%s", src))
 			}
+		} else {
+			handleError(err, 1)
 		}
+	}
+
+	// Setup the CSV output
+	w := csv.NewWriter(out)
+	if delimiter != "" {
+		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	}
+	if err := w.Write(row); err != nil {
+		handleError(err, 1)
+	}
+	w.Flush()
+	if err := w.Error(); err != nil {
+		handleError(err, 1)
 	}
 }

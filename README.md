@@ -16,8 +16,8 @@ shelltools which are utilities useful for shell scripting.
 + [jsonmunge](docs/jsonmunge.html) - a tool to transform JSON documents into something else
 + [jsonrange](docs/jsonrange.html) - a tool for iterating for JSON maps and arrays
 + [vcard2json](docs/vcard2json.html) - an experimental tool to convert vCards to JSON
-+ [xlsx2json](docs/xlsx2json.html) - a tool for converting Excel Workbooks to JSON files
 + [xlsx2csv](docs/xlsx2csv.html) - a tool for converting Excel Workbooks sheets to a CSV file(s)
++ [xlsx2json](docs/xlsx2json.html) - a tool for converting Excel Workbooks to JSON files
 
 
 Compiled versions are provided for Linux (amd64), Mac OS X (amd64),

@@ -22,21 +22,21 @@
 <section>
 <h1>USAGE</h1>
 
-<h2>csvcols [OPTIONS] [ARGS_AS_COL_VALUES]</h2>
+<h2>csvrows [OPTIONS] [ARGS_AS_ROW_VALUES]</h2>
 
 <h2>SYNOPSIS</h2>
 
-<p>csvcols converts a set of command line args into columns output in CSV format.
-It can also be used CSV input rows and rendering only the column numbers
-listed on the commandline (first column is 1 not 0).</p>
+<p>csvrows converts a set of command line args into rows of CSV formated output.
+It can also be used to filter or list specific rows of CSV input
+The first row is 1 not 0. Often row 1 is the header row and %!s(MISSING) makes it
+easy to output only the data rows.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>-col    output specified columns (e.g. -col 1,12:14,2,4))
--cols   output specified columns (e.g. -col 1,12:14,2,4))
--d  set delimiter character
+<pre><code>-d  set delimiter character
 -delimiter  set delimiter character
 -h  display help
+-header display the header row (alias for '-rows 1')
 -help   display help
 -i  input filename
 -input  input filename
@@ -44,39 +44,40 @@ listed on the commandline (first column is 1 not 0).</p>
 -license    display license
 -o  output filename
 -output output filename
--skip-header-row    skip the header row
--uuid   add a prefix row with generated UUID cell
+-row    output specified rows in order (e.g. -row 1,5,2:4))
+-rows   output specified rows in order (e.g. -rows 1,5,2:4))
+-skip-header-row    skip the header row (alias for -row 2:
 -v  display version
 -version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
 
-<p>Simple usage of building a CSV file one row at a time.</p>
+<p>Simple usage of building a CSV file one rows at a time.</p>
 
-<pre><code class="language-shell">    csvcols one two three &gt; 3col.csv
-    csvcols 1 2 3 &gt;&gt; 3col.csv
-    cat 3col.csv
+<pre><code class="language-shell">    csvrows &quot;First,Second,Third&quot; &quot;one,two,three&quot; &gt; 4rows.csv
+    csvrows &quot;ein,zwei,drei&quot; &quot;1,2,3&quot; &gt;&gt; 4rows.csv
+    cat 4row.csv
 </code></pre>
 
 <p>Example parsing a pipe delimited string into a CSV line</p>
 
-<pre><code class="language-shell">    csvcols -d &quot;|&quot; &quot;one|two|three&quot; &gt; 3col.csv
-    csvcols -delimiter &quot;|&quot; &quot;1|2|3&quot; &gt;&gt; 3col.csv
-    cat 3col.csv
+<pre><code class="language-shell">    csvrows -d &quot;|&quot; &quot;First,Second,Third|one,two,three&quot; &gt; 4rows.csv
+    csvrows -delimiter &quot;|&quot; &quot;ein,zwei,drei|1,2,3&quot; &gt;&gt; 4rows.csv
+    cat 4rows.csv
 </code></pre>
 
-<p>Filter a 10 column CSV file for columns 1,4,6 (left most column is one)</p>
+<p>Filter a 10 row CSV file for rows 1,4,6 (top most row is one)</p>
 
-<pre><code class="language-shell">    cat 10col.csv | csvcols -col 1,4,6 &gt; 3col.csv
+<pre><code class="language-shell">    cat 10row.csv | csvrows -row 1,4,6 &gt; 3rows.csv
 </code></pre>
 
-<p>Filter a 10 columns CSV file for columns 1,4,6 from file named &ldquo;10col.csv&rdquo;</p>
+<p>Filter a 10 row CSV file for rows 1,4,6 from file named &ldquo;10row.csv&rdquo;</p>
 
-<pre><code class="language-shell">    csvcols -i 10col.csv -col 1,4,6 &gt; 3col.csv
+<pre><code class="language-shell">    csvrows -i 10row.csv -row 1,4,6 &gt; 3rows.csv
 </code></pre>
 
-<p>csvcols v0.0.14</p>
+<p>csvrows v0.0.14</p>
 
 </section>
 

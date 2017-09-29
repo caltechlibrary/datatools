@@ -20,12 +20,9 @@
 </nav>
 
 <section>
-<h1>csv2mdtable</h1>
+<h1>USAGE</h1>
 
-<h2>USAGE</h2>
-
-<pre><code>csv2mdtable [OPTIONS]
-</code></pre>
+<h2>csv2mdtable [OPTIONS]</h2>
 
 <h2>SYNOPSIS</h2>
 
@@ -34,29 +31,33 @@ table to stdout.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>    -d          set delimiter character
-    -delimiter  set delimiter character
-	-h	display help
-	-help	display help
-	-i	set input file
-	-l	display license
-	-license	display license
-	-o	set output file
-	-v	display version
-	-version	display version
+<pre><code>-d  set delimiter character
+-delimiter  set delimiter character
+-h  display help
+-help   display help
+-i  input filename
+-input  input filename
+-l  display license
+-license    display license
+-o  output filename
+-output output filename
+-v  display version
+-version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
 
 <p>Convert data1.csv to data1.md using Unix pipes.</p>
 
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md
+<pre><code class="language-shell">    cat data1.csv | csv2mdtable &gt; data1.md
 </code></pre>
 
 <p>Convert data1.csv to data1.md using options.</p>
 
-<pre><code>    csv2mdtable -i data1.csv -o data1.md
+<pre><code class="language-shell">    csv2mdtable -i data1.csv -o data1.md
 </code></pre>
+
+<p>csv2mdtable v0.0.14</p>
 
 </section>
 

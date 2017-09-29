@@ -28,8 +28,8 @@ import (
 
 	// CaltechLibrary Packages
 	"github.com/caltechlibrary/cli"
-	"github.com/caltechlibrary/shelltools"
-	"github.com/caltechlibrary/shelltools/timefmt"
+	"github.com/caltechlibrary/datatools"
+	"github.com/caltechlibrary/datatools/timefmt"
 )
 
 var (
@@ -130,7 +130,7 @@ func main() {
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(shelltools.LicenseText, appName, shelltools.Version), shelltools.Version)
+	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName, appName)
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName)

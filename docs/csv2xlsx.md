@@ -1,9 +1,7 @@
 
-# csv2xlsx
+# USAGE
 
-## USAGE
-
-    csv2xlsx [OPTIONS] WORKBOOK_NAME SHEET_NAME
+## csv2xlsx [OPTIONS] WORKBOOK_NAME SHEET_NAME
 
 ## SYNOPSIS
 
@@ -12,9 +10,8 @@ If the Workbook does not exist then it is created.
 
 ## OPTIONS
 
-```
-    -d          set delimiter character
-    -delimiter  set delimiter character
+	-d	set delimiter character (input)
+	-delimiter	set delimiter character (input)
 	-h	display help
 	-help	display help
 	-i	input filename (CSV content)
@@ -25,21 +22,22 @@ If the Workbook does not exist then it is created.
 	-v	display version
 	-version	display version
 	-workbook	Workbook name
-```
 
 ## EXAMPLE
 
-```
+```shell
 	csv2xlsx -i data.csv MyWorkbook.xlsx 'My worksheet'
 ```
 
 This creates a new 'My worksheet' in the Excel Workbook
 called 'MyWorkbook.xlsx' with the contents of data.csv.
 
-```
+```shell
 	cat data.csv | csv2xlsx MyWorkbook.xlsx 'My worksheet'
 ```
 
 This does the same but the contents of data.csv are piped into
 the workbook's sheet.
 
+
+csv2xlsx v0.0.14

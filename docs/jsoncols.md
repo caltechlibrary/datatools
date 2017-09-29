@@ -1,9 +1,7 @@
 
-# jsoncols
+# USAGE
 
-## USAGE: 
-
-    jsoncols [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]
+## jsoncols [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]
 
 ## SYSNOPSIS
 
@@ -22,21 +20,22 @@ extracted is a comma. This can be overridden with an option.
 
 ## OPTIONS
 
-```
-	-d	        set the delimiter for multi-field output
-	-h	        display help
-	-i	        input filename
-	-input	    input filename
-	-l	        display license
-	-m	        display output in monochrome
-	-o	        output filename
-	-output	    output filename
+	-d	set the delimiter for multi-field output
+	-h	display help
+	-help	display help
+	-i	input filename
+	-input	input filename
+	-l	display license
+	-license	display license
+	-m	display output in monochrome
+	-o	output filename
+	-output	output filename
 	-permissive	suppress error messages
-	-r	        run interactively
-	-repl	    run interactively
-	-v	        display version
-```
-
+	-quiet	suppress error messages
+	-r	run interactively
+	-repl	run interactively
+	-v	display version
+	-version	display version
 
 ## EXAMPLES
 
@@ -54,7 +53,7 @@ Getting just the name could be done with
 
 This would yeild
 
-```
+```csv
     "Doe, Jane"
 ```
 
@@ -80,7 +79,12 @@ You can also pipe JSON data in.
 
 Would yield
 
-```
+```csv
    "Doe, Jane",jane.doe@xample.org,42
 ```
 
+<<<<<<< HEAD
+=======
+
+jsoncols v0.0.14
+>>>>>>> 25fa0d856c527e91cd7efb24a6331b26291d07a7

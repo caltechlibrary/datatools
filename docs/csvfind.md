@@ -1,9 +1,7 @@
 
-# csvfind
+# USAGE
 
-## USAGE
-
-    csvfind [OPTIONS] TEXT_TO_MATCH
+## csvfind [OPTIONS] TEXT_TO_MATCH
 
 ## SYNOPSIS
 
@@ -13,15 +11,14 @@ exact match as well as some Levenshtein matching.
 
 ## OPTIONS
 
-```
 	-allow-duplicates	allow duplicates when searching for matches
 	-append-edit-distance	append column with edit distance found (useful for tuning levenshtein)
 	-case-sensitive	perform a case sensitive match (default is false)
 	-col	column to search for match in the CSV file
 	-contains	use contains phrase for matching
+	-d	set delimiter character
 	-delete-cost	set the delete cost to use for levenshtein matching
-    -d          set delimiter character
-    -delimiter  set delimiter character
+	-delimiter	set delimiter character
 	-h	display help
 	-help	display help
 	-i	input filename
@@ -39,7 +36,6 @@ exact match as well as some Levenshtein matching.
 	-trim-spaces	trim spaces around cell values before comparing
 	-v	display version
 	-version	display version
-```
 
 ## EXAMPLES
 
@@ -68,3 +64,4 @@ You can also search for phrases in columns.
 ```
 
 
+csvfind v0.0.14
