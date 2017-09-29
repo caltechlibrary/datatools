@@ -100,27 +100,27 @@ clean:
 	if [ -d dist ]; then /bin/rm -fR dist; fi
 
 install:
-	env GOBIN=$(HOME)/bin go install cmds/csvcols/csvcols.go
-	env GOBIN=$(HOME)/bin go install cmds/csvrows/csvrows.go
-	env GOBIN=$(HOME)/bin go install cmds/csvfind/csvfind.go
-	env GOBIN=$(HOME)/bin go install cmds/csvjoin/csvjoin.go
-	env GOBIN=$(HOME)/bin go install cmds/csv2mdtable/csv2mdtable.go
-	env GOBIN=$(HOME)/bin go install cmds/csv2xlsx/csv2xlsx.go
-	env GOBIN=$(HOME)/bin go install cmds/csv2json/csv2json.go
-	env GOBIN=$(HOME)/bin go install cmds/findfile/findfile.go
-	env GOBIN=$(HOME)/bin go install cmds/finddir/finddir.go
-	env GOBIN=$(HOME)/bin go install cmds/jsoncols/jsoncols.go
-	env GOBIN=$(HOME)/bin go install cmds/jsonrange/jsonrange.go
-	env GOBIN=$(HOME)/bin go install cmds/jsonmunge/jsonmunge.go
-	env GOBIN=$(HOME)/bin go install cmds/jsonjoin/jsonjoin.go
-	env GOBIN=$(HOME)/bin go install cmds/mergepath/mergepath.go
-	env GOBIN=$(HOME)/bin go install cmds/reldate/reldate.go
-	env GOBIN=$(HOME)/bin go install cmds/range/range.go
-	env GOBIN=$(HOME)/bin go install cmds/timefmt/timefmt.go
-	env GOBIN=$(HOME)/bin go install cmds/urlparse/urlparse.go
-	env GOBIN=$(HOME)/bin go install cmds/vcard2json/vcard2json.go
-	env GOBIN=$(HOME)/bin go install cmds/xlsx2json/xlsx2json.go
-	env GOBIN=$(HOME)/bin go install cmds/xlsx2csv/xlsx2csv.go
+	env GOBIN=$(GOPATH)/bin go install cmds/csvcols/csvcols.go
+	env GOBIN=$(GOPATH)/bin go install cmds/csvrows/csvrows.go
+	env GOBIN=$(GOPATH)/bin go install cmds/csvfind/csvfind.go
+	env GOBIN=$(GOPATH)/bin go install cmds/csvjoin/csvjoin.go
+	env GOBIN=$(GOPATH)/bin go install cmds/csv2mdtable/csv2mdtable.go
+	env GOBIN=$(GOPATH)/bin go install cmds/csv2xlsx/csv2xlsx.go
+	env GOBIN=$(GOPATH)/bin go install cmds/csv2json/csv2json.go
+	env GOBIN=$(GOPATH)/bin go install cmds/findfile/findfile.go
+	env GOBIN=$(GOPATH)/bin go install cmds/finddir/finddir.go
+	env GOBIN=$(GOPATH)/bin go install cmds/jsoncols/jsoncols.go
+	env GOBIN=$(GOPATH)/bin go install cmds/jsonrange/jsonrange.go
+	env GOBIN=$(GOPATH)/bin go install cmds/jsonmunge/jsonmunge.go
+	env GOBIN=$(GOPATH)/bin go install cmds/jsonjoin/jsonjoin.go
+	env GOBIN=$(GOPATH)/bin go install cmds/mergepath/mergepath.go
+	env GOBIN=$(GOPATH)/bin go install cmds/reldate/reldate.go
+	env GOBIN=$(GOPATH)/bin go install cmds/range/range.go
+	env GOBIN=$(GOPATH)/bin go install cmds/timefmt/timefmt.go
+	env GOBIN=$(GOPATH)/bin go install cmds/urlparse/urlparse.go
+	env GOBIN=$(GOPATH)/bin go install cmds/vcard2json/vcard2json.go
+	env GOBIN=$(GOPATH)/bin go install cmds/xlsx2json/xlsx2json.go
+	env GOBIN=$(GOPATH)/bin go install cmds/xlsx2csv/xlsx2csv.go
 
 dist/linux-amd64:
 	mkdir -p dist/bin
