@@ -5,6 +5,7 @@
 + [csv2mdtable](csv2mdtable.html)
 + [csv2xlsx](csv2xlsx.html)
 + [csvcols](csvcols.html)
++ [csvrows](csvrows.html)
 + [csvfind](csvfind.html)
 + [csvjoin](csvjoin.html)
 + [finddir](finddir.html)
