@@ -66,7 +66,7 @@ space delimited string.
 
 This would yeild
 
-    "Doe, Jane"|42
+    Doe, Jane|42
 
 You can also pipe JSON data in.
 
