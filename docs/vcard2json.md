@@ -36,4 +36,4 @@ Or reading, writing to specific file
 ```
 
 
-vcard2json v0.0.14
+vcard2json v0.0.15

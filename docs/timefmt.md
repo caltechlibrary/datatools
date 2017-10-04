@@ -43,4 +43,4 @@ Yields "07/02/2016"
 Yields "02 Jul 16 08:08 UTC"
 
 
-timefmt v0.0.14
+timefmt v0.0.15

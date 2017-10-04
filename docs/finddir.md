@@ -39,4 +39,4 @@ finddir finds directory based on matching prefix, suffix or contained text in ba
 Find all subdirectories starting with "img". 
 
 
-finddir v0.0.14
+finddir v0.0.15

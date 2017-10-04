@@ -60,4 +60,4 @@ Filter a 10 columns CSV file for columns 1,4,6 from file named "10col.csv"
 ```
 
 
-csvcols v0.0.14
+csvcols v0.0.15

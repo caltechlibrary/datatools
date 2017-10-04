@@ -52,4 +52,4 @@ This would yeild
 ```
 
 
-jsonmunge v0.0.14
+jsonmunge v0.0.15

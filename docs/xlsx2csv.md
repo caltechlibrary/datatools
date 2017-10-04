@@ -49,4 +49,4 @@ Putting it all together in a shell script.
 ```
 
 
-xlsx2csv v0.0.14
+xlsx2csv v0.0.15

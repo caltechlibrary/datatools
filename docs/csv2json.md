@@ -41,4 +41,4 @@ Convert data1.csv to JSON blobs, one line per blob
 ```
 
 
-csv2json v0.0.14
+csv2json v0.0.15

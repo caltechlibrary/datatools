@@ -90,5 +90,9 @@ Would yield
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 jsoncols v0.0.14
 >>>>>>> 25fa0d856c527e91cd7efb24a6331b26291d07a7
+=======
+jsoncols v0.0.15
+>>>>>>> 7529c2e1714005625d0888ac8664dacc66ea8a3c
