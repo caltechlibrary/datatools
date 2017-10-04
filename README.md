@@ -1,6 +1,8 @@
 
 # datatools
 
+## For data
+
 Command line utilities for simplifying work with CSV, JSON, Excel Workbooks and plain text files or content and
 general purpose shell scripting. 
 
