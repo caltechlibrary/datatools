@@ -37,4 +37,4 @@ path and removing the resulting duplicate.
 This would put your home bin directory at the beginning of your path.
 
 
-mergepath v0.0.14
+mergepath v0.0.15

@@ -88,4 +88,4 @@ Would yield
 ```
 
 
-jsoncols v0.0.14
+jsoncols v0.0.15

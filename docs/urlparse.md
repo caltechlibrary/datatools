@@ -73,4 +73,4 @@ Without options urlparse returns protocol, host and path
 fields separated by a tab.
 
 
-urlparse v0.0.14
+urlparse v0.0.15

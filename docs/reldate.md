@@ -107,4 +107,4 @@ insensitive and can be the first three letters of the English names or full
 English names (e.g. Monday, monday, Mon, mon).
 
 
-reldate v0.0.14
+reldate v0.0.15
