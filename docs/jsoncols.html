@@ -49,7 +49,9 @@ explicity write to stdout
 
 <h2>OPTIONS</h2>
 
-<pre><code>-d  set the delimiter for multi-field output
+<pre><code>-csv    output as CSV or other flat delimiter row
+-d  set the delimiter for multi-field csv output
+-dimiter    set the delimiter for multi-field csv output
 -h  display help
 -help   display help
 -i  input filename
@@ -61,6 +63,7 @@ explicity write to stdout
 -output output filename
 -permissive suppress error messages
 -quiet  suppress error messages
+-quote  if dilimiter is found in column value add quotes for non-CSV output
 -r  run interactively
 -repl   run interactively
 -v  display version
@@ -81,7 +84,7 @@ explicity write to stdout
 
 <p>This would yeild</p>
 
-<pre><code class="language-csv">    &quot;Doe, Jane&quot;
+<pre><code class="language-json">    &quot;Doe, Jane&quot;
 </code></pre>
 
 <p>Flipping .name and .age into pipe delimited columns is as

@@ -20,7 +20,9 @@ extracted is a comma. This can be overridden with an option.
 
 ## OPTIONS
 
-	-d	set the delimiter for multi-field output
+	-csv	output as CSV or other flat delimiter row
+	-d	set the delimiter for multi-field csv output
+	-dimiter	set the delimiter for multi-field csv output
 	-h	display help
 	-help	display help
 	-i	input filename
@@ -32,6 +34,7 @@ extracted is a comma. This can be overridden with an option.
 	-output	output filename
 	-permissive	suppress error messages
 	-quiet	suppress error messages
+	-quote	if dilimiter is found in column value add quotes for non-CSV output
 	-r	run interactively
 	-repl	run interactively
 	-v	display version
@@ -45,6 +48,7 @@ If myblob.json contained
     {"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}
 ```
 
+
 Getting just the name could be done with
 
 ```shell
@@ -53,7 +57,7 @@ Getting just the name could be done with
 
 This would yeild
 
-```csv
+```json
     "Doe, Jane"
 ```
 

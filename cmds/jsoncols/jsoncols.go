@@ -15,6 +15,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
@@ -65,7 +66,7 @@ space delimited string.
 
 This would yeild
 
-    "Doe, Jane"|42
+    Doe, Jane|42
 
 You can also pipe JSON data in.
 
@@ -86,9 +87,11 @@ Would yield
 	// Application Specific Options
 	monochrome     bool
 	runInteractive bool
+	csvOutput      bool
 	delimiter      = ","
 	expressions    []string
 	permissive     bool
+	quote          bool
 )
 
 func handleError(err error, exitCode int) {
@@ -117,7 +120,10 @@ func init() {
 	flag.BoolVar(&monochrome, "m", false, "display output in monochrome")
 	flag.BoolVar(&runInteractive, "r", false, "run interactively")
 	flag.BoolVar(&runInteractive, "repl", false, "run interactively")
-	flag.StringVar(&delimiter, "d", delimiter, "set the delimiter for multi-field output")
+	flag.BoolVar(&csvOutput, "csv", false, "output as CSV or other flat delimiter row")
+	flag.StringVar(&delimiter, "d", delimiter, "set the delimiter for multi-field csv output")
+	flag.StringVar(&delimiter, "dimiter", delimiter, "set the delimiter for multi-field csv output")
+	flag.BoolVar(&quote, "quote", true, "if dilimiter is found in column value add quotes for non-CSV output")
 	flag.BoolVar(&permissive, "permissive", false, "suppress error messages")
 	flag.BoolVar(&permissive, "quiet", false, "suppress error messages")
 }
@@ -186,38 +192,78 @@ func main() {
 		handleError(err, 1)
 	}
 
-	// For each dotpath expression return a result
-	row := []string{}
-	for _, qry := range expressions {
-		result, err := dotpath.Eval(qry, data)
-		if err == nil {
-			switch result.(type) {
-			case string:
-				row = append(row, result.(string))
-			case json.Number:
-				row = append(row, result.(json.Number).String())
-			default:
-				src, err := json.Marshal(result)
-				if err != nil {
-					handleError(err, 1)
+	if csvOutput == true {
+		// For each dotpath expression return a result
+		row := []string{}
+		for _, qry := range expressions {
+			result, err := dotpath.Eval(qry, data)
+			if err == nil {
+				switch result.(type) {
+				case string:
+					row = append(row, result.(string))
+				case json.Number:
+					row = append(row, result.(json.Number).String())
+				default:
+					src, err := json.Marshal(result)
+					if err != nil {
+						handleError(err, 1)
+					}
+					row = append(row, fmt.Sprintf("%s", src))
 				}
-				row = append(row, fmt.Sprintf("%s", src))
+			} else {
+				handleError(err, 1)
 			}
-		} else {
+		}
+
+		// Setup the CSV output
+		w := csv.NewWriter(out)
+		if delimiter != "" {
+			w.Comma = datatools.NormalizeDelimiterRune(delimiter)
+		}
+		if err := w.Write(row); err != nil {
 			handleError(err, 1)
 		}
+		w.Flush()
+		if err := w.Error(); err != nil {
+			handleError(err, 1)
+		}
+		os.Exit(0)
 	}
 
-	// Setup the CSV output
-	w := csv.NewWriter(out)
-	if delimiter != "" {
-		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
-	}
-	if err := w.Write(row); err != nil {
-		handleError(err, 1)
-	}
-	w.Flush()
-	if err := w.Error(); err != nil {
-		handleError(err, 1)
+	// Output JSON format (default)
+	// For each dotpath expression return a result
+	for i, qry := range expressions {
+		if i > 0 {
+			fmt.Fprintf(out, "%s", delimiter)
+		}
+		if qry == "." {
+			fmt.Fprintf(out, "%s", buf)
+		} else {
+			result, err := dotpath.Eval(qry, data)
+			if err == nil {
+				switch result.(type) {
+				case string:
+					if quote == true && strings.Contains(result.(string), delimiter) == true {
+						fmt.Fprintf(out, "%q", result)
+					} else {
+						fmt.Fprintf(out, "%s", result)
+					}
+				case json.Number:
+					fmt.Fprintf(out, "%s", result.(json.Number).String())
+				default:
+					src, err := json.Marshal(result)
+					if err != nil {
+						handleError(err, 1)
+					}
+					if quote == true {
+						fmt.Fprintf(out, "%q", src)
+					} else {
+						fmt.Fprintf(out, "%s", src)
+					}
+				}
+			} else {
+				handleError(err, 1)
+			}
+		}
 	}
 }
