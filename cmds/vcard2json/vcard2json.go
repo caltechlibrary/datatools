@@ -39,7 +39,8 @@ var (
 	description = `SYNOPSIS
 
 %s converts a VCard to JSON. The vcard can be read from stdin or form a file
-with the usual options. The JSON version will be written to stdout.`
+with the usual options. The JSON version will be written to stdout.
+`
 
 	examples = `EXAMPLES
 
@@ -49,7 +50,8 @@ Simple usage of building a CSV file one rows at a time.
 
 Or reading, writing to specific file
 
-    %s -i mv.cvf -o myVCard.json`
+    %s -i mv.cvf -o myVCard.json
+`
 
 	// Standard options
 	showHelp     bool

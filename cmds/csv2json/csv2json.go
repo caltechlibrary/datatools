@@ -44,7 +44,8 @@ var (
 
 %s reads CSV from stdin and writes a JSON to stdout. JSON output
 can be either an array of JSON blobs or one JSON blob (row as object)
-per line.`
+per line.
+`
 
 	examples = `EXAMPLES
 
@@ -54,7 +55,8 @@ Convert data1.csv to data1.json using Unix pipes.
 
 Convert data1.csv to JSON blobs, one line per blob
 
-    %s -as-blobs -i data1.csv`
+    %s -as-blobs -i data1.csv
+`
 
 	// Standard Options
 	showHelp     bool

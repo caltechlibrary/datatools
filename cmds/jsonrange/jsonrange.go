@@ -49,7 +49,8 @@ E.g.
 
 The path can be chained together
 
-+ .name.family would point to the value heald by the "name" attributes' "family" attribute.`
++ .name.family would point to the value heald by the "name" attributes' "family" attribute.
+`
 
 	examples = `EXAMPLES
 
@@ -119,7 +120,8 @@ Limitting the number of items returned
 would yield
 
     1
-    2`
+    2
+`
 
 	// Basic Options
 	showHelp     bool

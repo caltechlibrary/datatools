@@ -46,7 +46,8 @@ ending with the last integer command line argument. It is a
 subset of functionality found in the Unix seq command.
 
 If the first argument is greater than the last then it counts 
-down otherwise it counts up.`
+down otherwise it counts up.
+`
 
 	examples = `EXAMPLES
 	
@@ -68,7 +69,8 @@ Yields 10 9 8 7 6 5 4 3 2 1
 
 	%s -r 0 10
 
-Yields a random integer from 0 to 10`
+Yields a random integer from 0 to 10
+`
 
 	// Standard Options
 	showHelp     bool

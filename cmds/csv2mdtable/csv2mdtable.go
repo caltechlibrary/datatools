@@ -39,7 +39,8 @@ var (
 	description = `SYNOPSIS
 
 %s reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.`
+table to stdout.
+`
 
 	examples = `EXAMPLES
 
@@ -49,7 +50,8 @@ Convert data1.csv to data1.md using Unix pipes.
 
 Convert data1.csv to data1.md using options.
 
-    %s -i data1.csv -o data1.md`
+    %s -i data1.csv -o data1.md
+`
 
 	// Standard Options
 	showHelp     bool

@@ -49,7 +49,8 @@ either day(s), week(s), month(s), or year(s). Weekday names are
 case insentive (e.g. Monday and monday). They can be abbreviated
 to the first three letters of the name, e.g. Sunday can be Sun, Monday
 can be Mon, Tuesday can be Tue, Wednesday can be Wed, Thursday can
-be Thu, Friday can be Fri or Saturday can be Sat.`
+be Thu, Friday can be Fri or Saturday can be Sat.
+`
 
 	examples = `EXAMPLES
 
@@ -111,7 +112,8 @@ will yeild
 
 As that is the Monday of the week containing 2015-02-10. Weekday names case 
 insensitive and can be the first three letters of the English names or full 
-English names (e.g. Monday, monday, Mon, mon).`
+English names (e.g. Monday, monday, Mon, mon).
+`
 
 	// Standard Options
 	showHelp     bool

@@ -45,7 +45,8 @@ flat manner.  The flat joining process can be ether non-distructive
 adding new key/value pairs (-update option) or distructive 
 overwriting key/value pairs (-overwrite option).
 
-Note: %s doesn't support a JSON array as the root JSON object.`
+Note: %s doesn't support a JSON array as the root JSON object.
+`
 
 	examples = `EXAMPLES
 
@@ -125,7 +126,8 @@ Running
 would yield
 
    { "name": "Doe, Jane", "email":"jane.doe@example.edu", "age": 42,
-     "bio": "World renowned geophysist." }`
+     "bio": "World renowned geophysist." }
+`
 
 	// Basic Options
 	showHelp     bool

@@ -37,13 +37,15 @@ var (
 
 %s can merge the new path parts with the existing path with creating duplications.
 It can also re-order existing path elements by prefixing or appending to the existing
-path and removing the resulting duplicate.`
+path and removing the resulting duplicate.
+`
 
 	examples = `EXAMPLE
 
 	export PATH=$(%s -p $HOME/bin)
 
-This would put your home bin directory at the beginning of your path.`
+This would put your home bin directory at the beginning of your path.
+`
 
 	// Standard Options
 	showHelp     bool

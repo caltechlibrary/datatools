@@ -47,7 +47,8 @@ var (
 %s converts a set of command line args into rows of CSV formated output.
 It can also be used to filter or list specific rows of CSV input
 The first row is 1 not 0. Often row 1 is the header row and %s makes it
-easy to output only the data rows.`
+easy to output only the data rows.
+`
 
 	examples = `EXAMPLES
 
@@ -69,7 +70,8 @@ Filter a 10 row CSV file for rows 1,4,6 (top most row is one)
 
 Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 
-    %s -i 10row.csv -row 1,4,6 > 3rows.csv`
+    %s -i 10row.csv -row 1,4,6 > 3rows.csv
+`
 
 	// Standard options
 	showHelp     bool

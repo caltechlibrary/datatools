@@ -39,7 +39,8 @@ var (
 
 %s processes a CSV file as input returning rows that contain the column
 with matched text. Columns are count from one instead of zero. Supports 
-exact match as well as some Levenshtein matching.`
+exact match as well as some Levenshtein matching.
+`
 
 	examples = `EXAMPLES
 
@@ -59,7 +60,8 @@ In this example we've appended the edit distance to see how close the matches ar
 
 You can also search for phrases in columns.
 
-    %s -i books.csv -col=2 -contains "Red Book"`
+    %s -i books.csv -col=2 -contains "Red Book"
+`
 
 	// Standard Options
 	showHelp     bool

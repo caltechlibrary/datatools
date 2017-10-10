@@ -39,7 +39,8 @@ extracted is a comma. This can be overridden with an option.
 	+ if not provided then %s reads from stdin
 + OUTPUT_FILENAME is the filename to write or a dash "-" if you want to 
   explicity write to stdout
-	+ if not provided then %s write to stdout`
+	+ if not provided then %s write to stdout
+`
 
 	examples = `EXAMPLES
 
@@ -71,7 +72,8 @@ You can also pipe JSON data in.
 
 Would yield
 
-   "Doe, Jane",jane.doe@xample.org,42`
+   "Doe, Jane",jane.doe@xample.org,42
+`
 
 	// Basic Options
 	showHelp     bool

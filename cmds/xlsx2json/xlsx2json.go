@@ -41,7 +41,8 @@ var (
 	description = `SYNOPSIS
 
 %s is a tool that converts individual Excel Workbook Sheets into
-JSON output.`
+JSON output.
+`
 
 	examples = `EXAMPLE
 
@@ -61,7 +62,8 @@ Putting it all together in a shell script.
     for SHEET_NAME in $(%s -n my-workbook.xlsx); do
        %s my-workbook.xlsx "$SHEET_NAME" > \
 	       "${SHEET_NAME// /-}.json"
-    done`
+    done
+`
 
 	// Standard Options
 	showHelp     bool

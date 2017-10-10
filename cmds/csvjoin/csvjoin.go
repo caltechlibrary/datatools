@@ -39,7 +39,8 @@ var (
 
 %s outputs CSV content based on two CSV files with matching column values.
 Each CSV input file has a designated column to match on. The values are
-compared as strings. Columns are counted from one rather than zero.`
+compared as strings. Columns are counted from one rather than zero.
+`
 
 	examples = `EXAMPLES
 
@@ -50,7 +51,8 @@ merged-data.csv..
 
     %s -csv1=data1.csv -col1=2 \
        -csv2=data2.csv -col2=4 \
-       -output=merged-data.csv`
+       -output=merged-data.csv
+`
 
 	// Standard Options
 	showHelp     bool

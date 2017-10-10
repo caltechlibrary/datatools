@@ -35,7 +35,8 @@ reshaping a JSON document, transforming into a new format,
 or filter for specific content.
 
 + TEMPLATE_FILENAME is the name of a Go text tempate file used to render
-  the outbound JSON document`
+  the outbound JSON document
+`
 
 	examples = `EXAMPLES
 
@@ -53,7 +54,8 @@ Getting just the name could be done with
 
 This would yeild
 
-    "Doe, Jane"`
+    "Doe, Jane"
+`
 
 	// Basic Options
 	showHelp     bool

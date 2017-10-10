@@ -42,7 +42,8 @@ var (
 	description = `SYNOPSIS
 
 %s will take CSV input and create a new sheet in an Excel Workbook.
-If the Workbook does not exist then it is created.`
+If the Workbook does not exist then it is created.
+`
 
 	examples = `EXAMPLE
 
@@ -54,7 +55,8 @@ called 'MyWorkbook.xlsx' with the contents of data.csv.
 	cat data.csv | %s MyWorkbook.xlsx 'My worksheet'
 
 This does the same but the contents of data.csv are piped into
-the workbook's sheet.`
+the workbook's sheet.
+`
 
 	// Standard Options
 	showHelp     bool

@@ -36,7 +36,8 @@ var (
 	description = `SYNOPSIS
 
 %s can parse a URL and return the specific elements
-requested (e.g. protocol, hostname, path, query string)`
+requested (e.g. protocol, hostname, path, query string)
+`
 
 	examples = `EXAMPLE
 
@@ -65,7 +66,8 @@ Get extension. Returns ".html".
     %s --extension http://example.com/my/page.html
 
 Without options urlparse returns protocol, host and path
-fields separated by a tab.`
+fields separated by a tab.
+`
 
 	// Standard Options
 	showHelp     bool

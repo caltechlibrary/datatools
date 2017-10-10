@@ -47,7 +47,8 @@ var (
 
 	%s -s .md
 
-Search the current directory and subdirectories for Markdown files with extension of ".md".`
+Search the current directory and subdirectories for Markdown files with extension of ".md".
+`
 
 	// Standard Options
 	showHelp     bool

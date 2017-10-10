@@ -46,7 +46,8 @@ For details see https://golang.org/pkg/time/#Time.Format.
 
 One additional time layout provided by %s 
  
-+ mysql "2006-01-02 15:04:05 -0700"`
++ mysql "2006-01-02 15:04:05 -0700"
+`
 
 	examples = `EXAMPLES
 
@@ -56,7 +57,8 @@ Yields "07/02/2016"
 
     %s -input mysql -output RFC822  "2016-07-02 08:08:08"
 
-Yields "02 Jul 16 08:08 UTC"`
+Yields "02 Jul 16 08:08 UTC"
+`
 
 	// Standard Options
 	showHelp     bool

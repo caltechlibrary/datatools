@@ -40,13 +40,15 @@ var (
 
 	description = `SYNOPSIS
 
-%s finds directory based on matching prefix, suffix or contained text in base filename.`
+%s finds directory based on matching prefix, suffix or contained text in base filename.
+`
 
 	examples = `EXAMPLE
 
 	%s -p img
 
-Find all subdirectories starting with "img".`
+Find all subdirectories starting with "img".
+`
 
 	// Standard Options
 	showHelp     bool
