@@ -37,8 +37,7 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] [TIME_DESCRPTION]`
 
-	description = `
-SYNOPSIS
+	description = `SYNOPSIS
 
 %s is a small command line utility which returns the relative date in 
 YYYY-MM-DD format. This is helpful when scripting various time 
@@ -50,11 +49,9 @@ either day(s), week(s), month(s), or year(s). Weekday names are
 case insentive (e.g. Monday and monday). They can be abbreviated
 to the first three letters of the name, e.g. Sunday can be Sun, Monday
 can be Mon, Tuesday can be Tue, Wednesday can be Wed, Thursday can
-be Thu, Friday can be Fri or Saturday can be Sat.
-`
+be Thu, Friday can be Fri or Saturday can be Sat.`
 
-	examples = `
-EXAMPLES
+	examples = `EXAMPLES
 
 If today was 2014-08-03 and you wanted the date three days in the past try–
 
@@ -114,12 +111,15 @@ will yeild
 
 As that is the Monday of the week containing 2015-02-10. Weekday names case 
 insensitive and can be the first three letters of the English names or full 
-English names (e.g. Monday, monday, Mon, mon).
-`
-	showHelp    bool
-	showVersion bool
-	showLicense bool
+English names (e.g. Monday, monday, Mon, mon).`
 
+	// Standard Options
+	showHelp     bool
+	showVersion  bool
+	showLicense  bool
+	showExamples bool
+
+	// Application Options
 	endOfMonthFor bool
 	relativeTo    string
 	relativeT     time.Time
@@ -138,6 +138,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 
 	// App Specific Options
 	flag.StringVar(&relativeTo, "from", relativeTo, relativeToUsage)
@@ -160,17 +161,34 @@ func main() {
 	)
 	appName := path.Base(os.Args[0])
 	flag.Parse()
+	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTION"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
 		os.Exit(0)
 	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
+		os.Exit(0)
+	}
+
 	if showLicense == true {
 		fmt.Println(cfg.License())
 		os.Exit(0)

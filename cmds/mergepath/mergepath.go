@@ -33,26 +33,23 @@ import (
 var (
 	usage = `USAGE: %s NEW_PATH_PARTS`
 
-	description = `
-SYNOPSIS
+	description = `SYNOPSIS
 
 %s can merge the new path parts with the existing path with creating duplications.
 It can also re-order existing path elements by prefixing or appending to the existing
-path and removing the resulting duplicate.
-`
+path and removing the resulting duplicate.`
 
-	examples = `
-EXAMPLE
+	examples = `EXAMPLE
 
 	export PATH=$(%s -p $HOME/bin)
 
-This would put your home bin directory at the beginning of your path.
-`
+This would put your home bin directory at the beginning of your path.`
 
 	// Standard Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
 
 	// Application Specific Options
 
@@ -78,6 +75,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 
 	envPath = "$PATH"
 
@@ -108,15 +106,31 @@ func clip(envPath string, dir string) string {
 func main() {
 	appName := path.Base(os.Args[0])
 	flag.Parse()
+	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

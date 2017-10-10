@@ -35,16 +35,13 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] CSV1 CSV2 COL1 COL2`
 
-	description = `
-SYNOPSIS
+	description = `SYNOPSIS
 
 %s outputs CSV content based on two CSV files with matching column values.
 Each CSV input file has a designated column to match on. The values are
-compared as strings. Columns are counted from one rather than zero.
-`
+compared as strings. Columns are counted from one rather than zero.`
 
-	examples = `
-EXAMPLES
+	examples = `EXAMPLES
 
 Simple usage of building a merged CSV file from data1.csv
 and data2.csv where column 1 in data1.csv matches the value in
@@ -53,14 +50,14 @@ merged-data.csv..
 
     %s -csv1=data1.csv -col1=2 \
        -csv2=data2.csv -col2=4 \
-       -output=merged-data.csv
-`
+       -output=merged-data.csv`
 
 	// Standard Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
-	outputFName string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	outputFName  string
 
 	// App Options
 	verbose         bool
@@ -159,6 +156,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 
@@ -186,15 +184,31 @@ func init() {
 func main() {
 	appName := path.Base(os.Args[0])
 	flag.Parse()
+	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

@@ -26,8 +26,7 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]`
 
-	description = `
-SYSNOPSIS
+	description = `SYSNOPSIS
 
 %s provides scripting flexibility for data extraction from JSON data 
 returning the results in columns.  This is helpful in flattening content 
@@ -40,11 +39,9 @@ extracted is a comma. This can be overridden with an option.
 	+ if not provided then %s reads from stdin
 + OUTPUT_FILENAME is the filename to write or a dash "-" if you want to 
   explicity write to stdout
-	+ if not provided then %s write to stdout
-`
+	+ if not provided then %s write to stdout`
 
-	examples = `
-EXAMPLES
+	examples = `EXAMPLES
 
 If myblob.json contained
 
@@ -74,15 +71,15 @@ You can also pipe JSON data in.
 
 Would yield
 
-   "Doe, Jane",jane.doe@xample.org,42
-`
+   "Doe, Jane",jane.doe@xample.org,42`
 
 	// Basic Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
-	inputFName  string
-	outputFName string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	inputFName   string
+	outputFName  string
 
 	// Application Specific Options
 	monochrome     bool
@@ -111,6 +108,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&inputFName, "i", "", "input filename")
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
@@ -134,16 +132,31 @@ func main() {
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, "DATATOOLS", fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName, appName, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName)
 
 	//NOTE: Need to handle JSONQUERY_MONOCHROME setting
 	monochrome = cfg.MergeEnvBool("monochrome", monochrome)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

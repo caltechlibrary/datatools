@@ -27,6 +27,7 @@ import (
 	"os"
 	"path"
 	"strconv"
+	"strings"
 	"time"
 
 	// CaltechLibrary Packages
@@ -37,8 +38,7 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] START_INTEGER END_INTEGER [INCREMENT_INTEGER]`
 
-	description = `
-SYNOPSIS
+	description = `SYNOPSIS
 
 %s is a simple utility for shell scripts that emits a list of 
 integers starting with the first command line argument and 
@@ -46,11 +46,9 @@ ending with the last integer command line argument. It is a
 subset of functionality found in the Unix seq command.
 
 If the first argument is greater than the last then it counts 
-down otherwise it counts up.
-`
+down otherwise it counts up.`
 
-	examples = `
-EXAMPLES
+	examples = `EXAMPLES
 	
 	%s 1 5
 
@@ -70,13 +68,13 @@ Yields 10 9 8 7 6 5 4 3 2 1
 
 	%s -r 0 10
 
-Yields a random integer from 0 to 10
-`
+Yields a random integer from 0 to 10`
 
 	// Standard Options
-	showVersion bool
-	showHelp    bool
-	showLicense bool
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
 
 	// Application Specific Options
 	start         int
@@ -99,6 +97,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 
 	// App specific options
 	flag.IntVar(&start, "start", 0, startUsage)
@@ -131,14 +130,31 @@ func inRange(i, start, end int) bool {
 func main() {
 	appName := path.Base(os.Args[0])
 	flag.Parse()
+	args := flag.Args()
+
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

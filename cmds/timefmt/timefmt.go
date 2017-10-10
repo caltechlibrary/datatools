@@ -35,8 +35,7 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] TIME_STRING_TO_CONVERT`
 
-	description = `
-SYNOPSIS
+	description = `SYNOPSIS
 
 %s formats the current date or INPUT_DATE based on the output format
 provided in options. The default input and  output format is RFC3339. 
@@ -47,11 +46,9 @@ For details see https://golang.org/pkg/time/#Time.Format.
 
 One additional time layout provided by %s 
  
-+ mysql "2006-01-02 15:04:05 -0700" 
-`
++ mysql "2006-01-02 15:04:05 -0700"`
 
-	examples = `
-EXAMPLES
+	examples = `EXAMPLES
 
     %s -input "2006-01-02" -output "01/02/2006" "2016-07-02"
 
@@ -59,13 +56,13 @@ Yields "07/02/2016"
 
     %s -input mysql -output RFC822  "2016-07-02 08:08:08"
 
-Yields "02 Jul 16 08:08 UTC"
-`
+Yields "02 Jul 16 08:08 UTC"`
 
 	// Standard Options
-	showHelp    bool
-	showVersion bool
-	showLicense bool
+	showHelp     bool
+	showVersion  bool
+	showLicense  bool
+	showExamples bool
 
 	// Application Specific Options
 	useUTC       bool
@@ -74,13 +71,16 @@ Yields "02 Jul 16 08:08 UTC"
 )
 
 func init() {
+	// Standard Options
 	flag.BoolVar(&showHelp, "h", false, "display help")
 	flag.BoolVar(&showHelp, "help", false, "display help")
 	flag.BoolVar(&showLicense, "l", false, "display license")
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 
+	// Application Options
 	flag.BoolVar(&useUTC, "utc", false, "timestamps in UTC")
 	flag.StringVar(&inputFormat, "input", inputFormat, "Set format for input")
 	flag.StringVar(&outputFormat, "output", outputFormat, "Set format for output")
@@ -130,13 +130,28 @@ func main() {
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

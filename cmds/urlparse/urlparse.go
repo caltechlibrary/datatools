@@ -33,15 +33,12 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] URL_TO_PARSE`
 
-	description = `
-SYNOPSIS
+	description = `SYNOPSIS
 
 %s can parse a URL and return the specific elements
-requested (e.g. protocol, hostname, path, query string)
-`
+requested (e.g. protocol, hostname, path, query string)`
 
-	examples = `
-EXAMPLE
+	examples = `EXAMPLE
 
 With no options returns "http\texample.com\t/my/page.html"
 
@@ -68,12 +65,13 @@ Get extension. Returns ".html".
     %s --extension http://example.com/my/page.html
 
 Without options urlparse returns protocol, host and path
-fields separated by a tab.
-`
+fields separated by a tab.`
+
 	// Standard Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
 
 	// App Specific Options
 	showProtocol  bool
@@ -106,6 +104,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display verison")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 
 	// App Specific Options
 	flag.StringVar(&delimiter, "delimiter", delimiter, delimiterUsage)
@@ -127,15 +126,31 @@ func init() {
 func main() {
 	appName := path.Base(os.Args[0])
 	flag.Parse()
+	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

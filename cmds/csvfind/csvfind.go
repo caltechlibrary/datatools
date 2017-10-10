@@ -35,16 +35,13 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] TEXT_TO_MATCH`
 
-	description = `
-SYNOPSIS
+	description = `SYNOPSIS
 
 %s processes a CSV file as input returning rows that contain the column
 with matched text. Columns are count from one instead of zero. Supports 
-exact match as well as some Levenshtein matching.
-`
+exact match as well as some Levenshtein matching.`
 
-	examples = `
-EXAMPLES
+	examples = `EXAMPLES
 
 Find the rows where the third column matches "The Red Book of Westmarch" exactly
 
@@ -62,15 +59,15 @@ In this example we've appended the edit distance to see how close the matches ar
 
 You can also search for phrases in columns.
 
-    %s -i books.csv -col=2 -contains "Red Book"
-`
+    %s -i books.csv -col=2 -contains "Red Book"`
 
 	// Standard Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
-	inputFName  string
-	outputFName string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	inputFName   string
+	outputFName  string
 
 	// App Options
 	skipHeaderRow      bool
@@ -97,6 +94,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&inputFName, "i", "", "input filename")
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
@@ -123,15 +121,31 @@ func init() {
 func main() {
 	appName := path.Base(os.Args[0])
 	flag.Parse()
+	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 
@@ -151,7 +165,6 @@ func main() {
 	}
 	col = col - 1
 
-	args := flag.Args()
 	if len(args) == 0 {
 		fmt.Fprintf(os.Stderr, "Missing string to match, try %s --help", appName)
 		os.Exit(1)

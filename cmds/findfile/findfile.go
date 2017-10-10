@@ -38,24 +38,22 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]`
 
-	description = `
-SYNOPSIS
+	description = `SYNOPSIS
 
 %s finds files based on matching prefix, suffix or contained text in base filename.
 `
 
-	examples = `
-EXAMPLE
+	examples = `EXAMPLE
 
 	%s -s .md
 
-Search the current directory and subdirectories for Markdown files with extension of ".md".
-`
+Search the current directory and subdirectories for Markdown files with extension of ".md".`
 
 	// Standard Options
-	showHelp    bool
-	showVersion bool
-	showLicense bool
+	showHelp     bool
+	showVersion  bool
+	showLicense  bool
+	showExamples bool
 
 	// App Specific Options
 	showModificationTime bool
@@ -127,6 +125,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license information")
 	flag.BoolVar(&showVersion, "v", false, "display version message")
 	flag.BoolVar(&showVersion, "version", false, "display version message")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 
 	// App Specific Options
 	flag.BoolVar(&showModificationTime, "m", false, "display file modification time before the path")
@@ -151,13 +150,28 @@ func main() {
 	flag.Parse()
 	args := flag.Args()
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

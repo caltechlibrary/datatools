@@ -42,17 +42,14 @@ const (
 var (
 	usage = `USAGE: %s [OPTIONS] [ARGS_AS_ROW_VALUES]`
 
-	description = `
-SYNOPSIS
+	description = `SYNOPSIS
 
 %s converts a set of command line args into rows of CSV formated output.
 It can also be used to filter or list specific rows of CSV input
 The first row is 1 not 0. Often row 1 is the header row and %s makes it
-easy to output only the data rows.
-`
+easy to output only the data rows.`
 
-	examples = `
-EXAMPLES
+	examples = `EXAMPLES
 
 Simple usage of building a CSV file one rows at a time.
 
@@ -72,15 +69,15 @@ Filter a 10 row CSV file for rows 1,4,6 (top most row is one)
 
 Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 
-    %s -i 10row.csv -row 1,4,6 > 3rows.csv
-`
+    %s -i 10row.csv -row 1,4,6 > 3rows.csv`
 
 	// Standard options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
-	inputFName  string
-	outputFName string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	inputFName   string
+	outputFName  string
 
 	// Application specific options
 	validateRows  bool
@@ -146,6 +143,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&inputFName, "i", "", "input filename")
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
@@ -163,17 +161,31 @@ func init() {
 func main() {
 	appName := path.Base(os.Args[0])
 	flag.Parse()
-
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

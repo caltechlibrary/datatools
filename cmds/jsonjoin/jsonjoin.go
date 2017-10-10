@@ -24,8 +24,7 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] JSON_FILE_1 [JSON_FILE_2 ...]`
 
-	description = `
-SYSNOPSIS
+	description = `SYSNOPSIS
 
 %s is a command line tool that takes one (or more) JSON objects files 
 and joins them to a root JSON object read from standard input (or 
@@ -46,11 +45,9 @@ flat manner.  The flat joining process can be ether non-distructive
 adding new key/value pairs (-update option) or distructive 
 overwriting key/value pairs (-overwrite option).
 
-Note: %s doesn't support a JSON array as the root JSON object.
-`
+Note: %s doesn't support a JSON array as the root JSON object.`
 
-	examples = `
-EXAMPLES
+	examples = `EXAMPLES
 
 Consider two JSON objects one in person.json and another 
 in profile.json.
@@ -128,15 +125,15 @@ Running
 would yield
 
    { "name": "Doe, Jane", "email":"jane.doe@example.edu", "age": 42,
-     "bio": "World renowned geophysist." }
-`
+     "bio": "World renowned geophysist." }`
 
 	// Basic Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
-	inputFName  string
-	outputFName string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	inputFName   string
+	outputFName  string
 
 	// Application Specific Options
 	update     bool
@@ -152,6 +149,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&inputFName, "i", "", "input filename (for root object)")
 	flag.StringVar(&inputFName, "input", "", "input filename (for root object)")
 	flag.StringVar(&outputFName, "o", "", "output filename")
@@ -169,13 +167,28 @@ func main() {
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, "DATATOOLS", fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName, appName, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

@@ -26,6 +26,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"strings"
 
 	// CaltechLibrary packages
 	"github.com/caltechlibrary/cli"
@@ -38,15 +39,12 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] WORKBOOK_NAME SHEET_NAME`
 
-	description = `
-SYNOPSIS
+	description = `SYNOPSIS
 
 %s will take CSV input and create a new sheet in an Excel Workbook.
-If the Workbook does not exist then it is created. 
-`
+If the Workbook does not exist then it is created.`
 
-	examples = `
-EXAMPLE
+	examples = `EXAMPLE
 
 	%s -i data.csv MyWorkbook.xlsx 'My worksheet'
 
@@ -56,14 +54,14 @@ called 'MyWorkbook.xlsx' with the contents of data.csv.
 	cat data.csv | %s MyWorkbook.xlsx 'My worksheet'
 
 This does the same but the contents of data.csv are piped into
-the workbook's sheet.
-`
+the workbook's sheet.`
 
 	// Standard Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
-	inputFName  string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	inputFName   string
 
 	// App Specific Options
 	workbookName string
@@ -119,6 +117,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&inputFName, "i", "", "input filename (CSV content)")
 	flag.StringVar(&inputFName, "input", "", "input filename (CSV content)")
 
@@ -135,13 +134,28 @@ func main() {
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 
