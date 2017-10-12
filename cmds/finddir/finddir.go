@@ -38,16 +38,22 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]`
 
-	description = `SYNOPSIS
+	description = `
+
+SYNOPSIS
 
 %s finds directory based on matching prefix, suffix or contained text in base filename.
+
 `
 
-	examples = `EXAMPLE
+	examples = `
+
+EXAMPLE
 
 	%s -p img
 
 Find all subdirectories starting with "img".
+
 `
 
 	// Standard Options

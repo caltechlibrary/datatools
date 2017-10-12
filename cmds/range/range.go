@@ -38,7 +38,9 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] START_INTEGER END_INTEGER [INCREMENT_INTEGER]`
 
-	description = `SYNOPSIS
+	description = `
+
+SYNOPSIS
 
 %s is a simple utility for shell scripts that emits a list of 
 integers starting with the first command line argument and 
@@ -47,9 +49,12 @@ subset of functionality found in the Unix seq command.
 
 If the first argument is greater than the last then it counts 
 down otherwise it counts up.
+
 `
 
-	examples = `EXAMPLES
+	examples = `
+
+EXAMPLES
 	
 	%s 1 5
 
@@ -70,6 +75,7 @@ Yields 10 9 8 7 6 5 4 3 2 1
 	%s -r 0 10
 
 Yields a random integer from 0 to 10
+
 `
 
 	// Standard Options

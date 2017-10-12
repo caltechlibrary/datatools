@@ -35,7 +35,9 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] TIME_STRING_TO_CONVERT`
 
-	description = `SYNOPSIS
+	description = `
+
+SYNOPSIS
 
 %s formats the current date or INPUT_DATE based on the output format
 provided in options. The default input and  output format is RFC3339. 
@@ -47,9 +49,12 @@ For details see https://golang.org/pkg/time/#Time.Format.
 One additional time layout provided by %s 
  
 + mysql "2006-01-02 15:04:05 -0700"
+
 `
 
-	examples = `EXAMPLES
+	examples = `
+
+EXAMPLES
 
     %s -input "2006-01-02" -output "01/02/2006" "2016-07-02"
 
@@ -58,6 +63,7 @@ Yields "07/02/2016"
     %s -input mysql -output RFC822  "2016-07-02 08:08:08"
 
 Yields "02 Jul 16 08:08 UTC"
+
 `
 
 	// Standard Options

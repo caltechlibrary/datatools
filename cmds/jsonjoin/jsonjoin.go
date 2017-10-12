@@ -24,7 +24,9 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] JSON_FILE_1 [JSON_FILE_2 ...]`
 
-	description = `SYSNOPSIS
+	description = `
+
+SYSNOPSIS
 
 %s is a command line tool that takes one (or more) JSON objects files 
 and joins them to a root JSON object read from standard input (or 
@@ -46,9 +48,12 @@ adding new key/value pairs (-update option) or distructive
 overwriting key/value pairs (-overwrite option).
 
 Note: %s doesn't support a JSON array as the root JSON object.
+
 `
 
-	examples = `EXAMPLES
+	examples = `
+
+EXAMPLES
 
 Consider two JSON objects one in person.json and another 
 in profile.json.
@@ -127,6 +132,7 @@ would yield
 
    { "name": "Doe, Jane", "email":"jane.doe@example.edu", "age": 42,
      "bio": "World renowned geophysist." }
+
 `
 
 	// Basic Options

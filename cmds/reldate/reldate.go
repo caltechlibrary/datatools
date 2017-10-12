@@ -37,7 +37,9 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] [TIME_DESCRPTION]`
 
-	description = `SYNOPSIS
+	description = `
+
+SYNOPSIS
 
 %s is a small command line utility which returns the relative date in 
 YYYY-MM-DD format. This is helpful when scripting various time 
@@ -50,9 +52,12 @@ case insentive (e.g. Monday and monday). They can be abbreviated
 to the first three letters of the name, e.g. Sunday can be Sun, Monday
 can be Mon, Tuesday can be Tue, Wednesday can be Wed, Thursday can
 be Thu, Friday can be Fri or Saturday can be Sat.
+
 `
 
-	examples = `EXAMPLES
+	examples = `
+
+EXAMPLES
 
 If today was 2014-08-03 and you wanted the date three days in the past try–
 
@@ -81,7 +86,7 @@ relative date from that specific date.
 
 Will yield
 
-2014-08-06
+    2014-08-06
 
 NEGATIVE INCREMENTS
 
@@ -113,6 +118,7 @@ will yeild
 As that is the Monday of the week containing 2015-02-10. Weekday names case 
 insensitive and can be the first three letters of the English names or full 
 English names (e.g. Monday, monday, Mon, mon).
+
 `
 
 	// Standard Options

@@ -27,7 +27,9 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] TEMPLATE_FILENAME`
 
-	description = `SYSNOPSIS
+	description = `
+
+SYSNOPSIS
 
 %s is a command line tool that takes a JSON document and
 one or more Go templates rendering the results. Useful for
@@ -36,9 +38,12 @@ or filter for specific content.
 
 + TEMPLATE_FILENAME is the name of a Go text tempate file used to render
   the outbound JSON document
+
 `
 
-	examples = `EXAMPLES
+	examples = `
+
+EXAMPLES
 
 If person.json contained
 
@@ -55,6 +60,7 @@ Getting just the name could be done with
 This would yeild
 
     "Doe, Jane"
+
 `
 
 	// Basic Options

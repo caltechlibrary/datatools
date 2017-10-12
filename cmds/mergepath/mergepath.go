@@ -33,18 +33,24 @@ import (
 var (
 	usage = `USAGE: %s NEW_PATH_PARTS`
 
-	description = `SYNOPSIS
+	description = `
+
+SYNOPSIS
 
 %s can merge the new path parts with the existing path with creating duplications.
 It can also re-order existing path elements by prefixing or appending to the existing
 path and removing the resulting duplicate.
+
 `
 
-	examples = `EXAMPLE
+	examples = `
+
+EXAMPLE
 
 	export PATH=$(%s -p $HOME/bin)
 
 This would put your home bin directory at the beginning of your path.
+
 `
 
 	// Standard Options

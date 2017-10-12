@@ -26,7 +26,9 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]`
 
-	description = `SYSNOPSIS
+	description = `
+
+SYSNOPSIS
 
 %s provides scripting flexibility for data extraction from JSON data 
 returning the results in columns.  This is helpful in flattening content 
@@ -40,9 +42,12 @@ extracted is a comma. This can be overridden with an option.
 + OUTPUT_FILENAME is the filename to write or a dash "-" if you want to 
   explicity write to stdout
 	+ if not provided then %s write to stdout
+
 `
 
-	examples = `EXAMPLES
+	examples = `
+
+EXAMPLES
 
 If myblob.json contained
 
@@ -73,6 +78,7 @@ You can also pipe JSON data in.
 Would yield
 
    "Doe, Jane",jane.doe@xample.org,42
+
 `
 
 	// Basic Options

@@ -33,13 +33,18 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] URL_TO_PARSE`
 
-	description = `SYNOPSIS
+	description = `
+
+SYNOPSIS
 
 %s can parse a URL and return the specific elements
 requested (e.g. protocol, hostname, path, query string)
+
 `
 
-	examples = `EXAMPLE
+	examples = `
+
+EXAMPLE
 
 With no options returns "http\texample.com\t/my/page.html"
 
@@ -67,6 +72,7 @@ Get extension. Returns ".html".
 
 Without options urlparse returns protocol, host and path
 fields separated by a tab.
+
 `
 
 	// Standard Options

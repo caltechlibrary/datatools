@@ -45,14 +45,19 @@ const (
 var (
 	usage = `USAGE: %s [OPTIONS] [ARGS_AS_COL_VALUES]`
 
-	description = `SYNOPSIS
+	description = `
+
+SYNOPSIS
 
 %s converts a set of command line args into columns output in CSV format.
 It can also be used CSV input rows and rendering only the column numbers
 listed on the commandline (first column is 1 not 0).
+
 `
 
-	examples = `EXAMPLES
+	examples = `
+
+EXAMPLES
 
 Simple usage of building a CSV file one row at a time.
 
@@ -73,6 +78,7 @@ Filter a 10 column CSV file for columns 1,4,6 (left most column is one)
 Filter a 10 columns CSV file for columns 1,4,6 from file named "10col.csv"
 
     %s -i 10col.csv -col 1,4,6 > 3col.csv
+
 `
 
 	// Standard Options

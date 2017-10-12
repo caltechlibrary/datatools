@@ -24,7 +24,9 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] [DOT_PATH_EXPRESSION]`
 
-	description = `SYSNOPSIS
+	description = `
+
+SYSNOPSIS
 
 %s returns returns a range of values based on the JSON structure being read and
 options applied.  Without options the JSON structure is read from standard input
@@ -50,9 +52,12 @@ E.g.
 The path can be chained together
 
 + .name.family would point to the value heald by the "name" attributes' "family" attribute.
+
 `
 
-	examples = `EXAMPLES
+	examples = `
+
+EXAMPLES
 
 Working with a map
 
@@ -121,6 +126,7 @@ would yield
 
     1
     2
+
 `
 
 	// Basic Options

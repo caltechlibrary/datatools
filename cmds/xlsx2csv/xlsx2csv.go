@@ -39,12 +39,17 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]`
 
-	description = `SYNOPSIS
+	description = `
+
+SYNOPSIS
 
 %s is a tool that converts individual Excel Sheets to CSV output.
+
 `
 
-	examples = `EXAMPLE
+	examples = `
+
+EXAMPLE
 
     %s my-workbook.xlsx "Sheet 1" > sheet1.csv
 
@@ -63,6 +68,7 @@ Putting it all together in a shell script.
        %s my-workbook.xlsx "$SHEET_NAME" > \
 	       "${SHEET_NAME// /-}.csv"
     done
+
 `
 
 	// Standard Options

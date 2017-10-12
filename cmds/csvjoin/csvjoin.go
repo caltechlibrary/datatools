@@ -35,14 +35,19 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] CSV1 CSV2 COL1 COL2`
 
-	description = `SYNOPSIS
+	description = `
+
+SYNOPSIS
 
 %s outputs CSV content based on two CSV files with matching column values.
 Each CSV input file has a designated column to match on. The values are
 compared as strings. Columns are counted from one rather than zero.
+
 `
 
-	examples = `EXAMPLES
+	examples = `
+
+EXAMPLES
 
 Simple usage of building a merged CSV file from data1.csv
 and data2.csv where column 1 in data1.csv matches the value in
@@ -52,6 +57,7 @@ merged-data.csv..
     %s -csv1=data1.csv -col1=2 \
        -csv2=data2.csv -col2=4 \
        -output=merged-data.csv
+
 `
 
 	// Standard Options

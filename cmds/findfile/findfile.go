@@ -38,16 +38,22 @@ import (
 var (
 	usage = `USAGE: %s [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]`
 
-	description = `SYNOPSIS
+	description = `
+
+SYNOPSIS
 
 %s finds files based on matching prefix, suffix or contained text in base filename.
+
 `
 
-	examples = `EXAMPLE
+	examples = `
+
+EXAMPLE
 
 	%s -s .md
 
 Search the current directory and subdirectories for Markdown files with extension of ".md".
+
 `
 
 	// Standard Options
