@@ -97,7 +97,7 @@ func sheetNames(workBookName string) ([]string, error) {
 		return []string{}, err
 	}
 	result := []string{}
-	for sheetName, _ := range xlFile.Sheet {
+	for sheetName := range xlFile.Sheet {
 		result = append(result, sheetName)
 	}
 	return result, nil

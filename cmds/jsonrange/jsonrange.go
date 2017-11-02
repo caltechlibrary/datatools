@@ -161,7 +161,7 @@ func mapKeys(data map[string]interface{}, limit int) ([]string, error) {
 
 func arrayKeys(data []interface{}, limit int) ([]string, error) {
 	result := []string{}
-	for i, _ := range data {
+	for i := range data {
 		if i == limit {
 			return result, nil
 		}
