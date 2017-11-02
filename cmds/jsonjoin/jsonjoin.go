@@ -28,23 +28,23 @@ var (
 
 SYSNOPSIS
 
-%s is a command line tool that takes one (or more) JSON objects files 
-and joins them to a root JSON object read from standard input (or 
+%s is a command line tool that takes one (or more) JSON objects files
+and joins them to a root JSON object read from standard input (or
 file identified by -input option).  By default the resulting
 joined JSON object is written to standard out.
 
 The default behavior for %s is to create key/value pairs
-based on the joined JSON document names and their contents. 
-This can be thought of as a branching behavior. Each additional 
-file becomes a branch and its key/value pairs become leafs. 
+based on the joined JSON document names and their contents.
+This can be thought of as a branching behavior. Each additional
+file becomes a branch and its key/value pairs become leafs.
 The root JSON object is assumed to come from standard input
 but can be designated by the -input option or created by the
 -create option. Each additional file specified as a command line
 argument is then treated as a new branch.
 
-In addition to the branching behavior you can join JSON objects in a 
-flat manner.  The flat joining process can be ether non-distructive 
-adding new key/value pairs (-update option) or distructive 
+In addition to the branching behavior you can join JSON objects in a
+flat manner.  The flat joining process can be ether non-destructive
+adding new key/value pairs (-update option) or destructive
 overwriting key/value pairs (-overwrite option).
 
 Note: %s doesn't support a JSON array as the root JSON object.
@@ -55,29 +55,29 @@ Note: %s doesn't support a JSON array as the root JSON object.
 
 EXAMPLES
 
-Consider two JSON objects one in person.json and another 
+Consider two JSON objects one in person.json and another
 in profile.json.
 
-person.json containes
+person.json contains
 
    { "name": "Doe, Jane", "email":"jd@example.org", "age": 42 }
 
-profile.json containes
+profile.json contains
 
    { "name": "Doe, Jane", "bio": "World renowned geophysist.",
      "email": "jane.doe@example.edu" }
 
-A simple join of person.json with profile.json (note the 
+A simple join of person.json with profile.json (note the
 -create option)
 
    %s -create person.json profile.json
 
-would yeild and object like
+would yield and object like
 
    {
-     "person":  { "name": "Doe, Jane", "email":"jd@example.org", 
+     "person":  { "name": "Doe, Jane", "email":"jd@example.org",
 	 			"age": 42},
-     "profile": { "name": "Doe, Jane", "bio": "World renowned geophysist.", 
+     "profile": { "name": "Doe, Jane", "bio": "World renowned geophysist.",
                   "email": "jane.doe@example.edu" }
    }
 
@@ -94,13 +94,13 @@ this yields an object like
 
    {
      "name": "Doe, Jane", "email":"jd@example.org", "age": 42,
-     "profile": { "name": "Doe, Jane", "bio": "World renowned geophysist.", 
+     "profile": { "name": "Doe, Jane", "bio": "World renowned geophysist.",
                   "email": "jane.doe@example.edu" }
    }
 
 You can modify this behavor with -update or -overwrite. Both options are
 order dependant (i.e. not associative, A update B does
-not necessarily equal B update A). 
+not necessarily equal B update A).
 
 + -update will add unique key/values from the second object to the first object
 + -overwrite replace key/values in first object one with second objects'
@@ -119,12 +119,12 @@ Running
     %s -create -update profile.json person.json
 
 would yield
-   
-   { "name": "Doe, Jane",  "age": 42, 
-     "bio": "World renowned geophysist.", 
+
+   { "name": "Doe, Jane",  "age": 42,
+     "bio": "World renowned geophysist.",
      "email": "jane.doe@example.edu" }
 
-Running 
+Running
 
     %s -create -overwrite person.json profile.json
 

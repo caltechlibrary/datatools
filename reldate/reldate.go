@@ -88,7 +88,7 @@ func relativeWeekday(t time.Time, weekday time.Weekday) (time.Time, error) {
 	return t, errors.New("Expecting Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, or Saturday.")
 }
 
-// RelativeTime takes a time, an integer ammount (positive or negative)
+// RelativeTime takes a time, an integer amount (positive or negative)
 // and a unit value (day of week, days, weeks, month, years) and
 // computes the relative time in days from time returning a new
 // time and error.

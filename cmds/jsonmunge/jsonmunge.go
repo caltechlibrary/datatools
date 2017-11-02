@@ -49,7 +49,7 @@ If person.json contained
 
    {"name": "Doe, Jane", "email":"jd@example.org", "age": 42}
 
-and the template, name.tmpl, contained 
+and the template, name.tmpl, contained
 
    {{- .name -}}
 
@@ -57,7 +57,7 @@ Getting just the name could be done with
 
     cat person.json | %s name.tmpl
 
-This would yeild
+This would yield
 
     "Doe, Jane"
 

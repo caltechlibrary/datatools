@@ -61,7 +61,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 )
 
 // NormalizeDelimiters handles the messy translation from a format string
-// recieved as an option in the cli to something useful to pass to Join.
+// received as an option in the cli to something useful to pass to Join.
 func NormalizeDelimiter(s string) string {
 	if strings.Contains(s, `\n`) {
 		s = strings.Replace(s, `\n`, "\n", -1)
