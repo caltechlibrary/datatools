@@ -245,6 +245,7 @@ distribute_docs:
 	if [ -f dist/how-to/nav.md ]; then rm dist/how-to/nav.md; fi
 	if [ -f dist/how-to/index.md ]; then rm dist/how-to/index.md; fi
 	cp -vR demos dist/
+	./package-versions.bash > dist/package-versions.txt
 	
 release: distribute_docs dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7
 
