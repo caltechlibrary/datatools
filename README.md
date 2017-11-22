@@ -13,6 +13,7 @@ general purpose shell scripting.
 + [csvfind](docs/csvfind.html) - a tool for filtering a CSV file by column's value 
 + [csvjoin](docs/csvjoin.html) - a tool to join to CSV files on common values in designated columns, writes combined CSV rows to stdout
 + [csvrows](docs/csvrows.html) - a tool for formatting command line arguments into CSV columns of rows or filtering CSV columns for specific rows
++ [csvcleaner](docs/csvcleaner.html) - normalize a CSV column by column count, delimiter handling, space trimming
 + [jsoncols](docs/jsoncols.html) - a tool for exploring and extracting JSON values into columns
 + [jsonjoin](docs/jsonjoin.html) - a tool for joining JSON object documents
 + [jsonmunge](docs/jsonmunge.html) - a tool to transform JSON documents into something else
