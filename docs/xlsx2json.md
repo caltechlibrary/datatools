@@ -50,4 +50,4 @@ Putting it all together in a shell script.
 ```
 
 
-xlsx2json v0.0.16
+xlsx2json v0.0.17

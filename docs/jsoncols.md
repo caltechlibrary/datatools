@@ -87,4 +87,9 @@ Would yield
    "Doe, Jane",jane.doe@xample.org,42
 ```
 
+<<<<<<< HEAD
 jsoncols v0.0.16
+=======
+
+jsoncols v0.0.17
+>>>>>>> fb30e509335a1835d3e5cb550ebf8e3712347bcd

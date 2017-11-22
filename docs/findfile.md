@@ -39,4 +39,4 @@ findfile finds files based on matching prefix, suffix or contained text in base 
 Search the current directory and subdirectories for Markdown files with extension of ".md".
 
 
-findfile v0.0.16
+findfile v0.0.17

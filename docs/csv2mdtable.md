@@ -38,4 +38,4 @@ Convert data1.csv to data1.md using options.
 ```
 
 
-csv2mdtable v0.0.16
+csv2mdtable v0.0.17
