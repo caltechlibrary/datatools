@@ -1,109 +1,52 @@
 #!/bin/bash
 
-PROJECT="datatools"
-
-function checkApp() {
-	APP_NAME=$(which "$1")
-	if [ "$APP_NAME" = "" ] && [ ! -f "./bin/$1" ]; then
-		echo "Missing $APP_NAME"
-		exit 1
-	fi
+function cleanUpHTML() {
+    findfile -s ".html" . | while read P; do
+        rm "$P"
+    done
 }
 
-function softwareCheck() {
-	for APP_NAME in "$@"; do
-		checkApp "$APP_NAME"
-	done
-}
-
-function MakePage() {
-	nav="$1"
-	content="$2"
-	html="$3"
-	# Always use the latest compiled mkpage
-	APP=$(which mkpage)
-
-	echo "Rendering $html"
-	$APP \
-		"Nav=$nav" \
-		"Content=$content" \
-		page.tmpl >"$html"
-	git add "$html"
-}
-
-echo "Checking necessary software is installed"
-softwareCheck mkpage
-
-echo "Generating website index.html"
-MakePage nav.md README.md index.html
-echo "Generating install.html"
-MakePage nav.md INSTALL.md install.html
-echo "Generating license.html"
-MakePage nav.md "markdown:$(cat LICENSE)" license.html
-
-# Generate docs/nav.md
-cat <<EOF1 >docs/nav.md
-
-+ [Home](/)
-+ [up](../)
-EOF1
-INDEX_MENU=$(cat docs/nav.md)
-
-echo "+ [Documentation](./)" >> docs/nav.md
-echo "+ [How To ...](../how-to/)" >> docs/nav.md
-git add docs/nav.md
-
-# Generate docs/index.md
-cat <<EOF2 >docs/index.md
-
-# $PROJECT command help
-
-EOF2
-
-# Generate the index for command docuumentation pages
-for FNAME in csv2json csv2mdtable csv2xlsx csvcols csvfind csvjoin csvrows finddir findfile jsoncols jsonjoin jsonmunge jsonrange mergepath range reldate timefmt urlparse vcard2json xlsx2csv xlsx2json; do
-	echo "+ [$FNAME](${FNAME}.html)"
-done >>docs/index.md
-git add docs/index.md
-
-# Generate the individual command docuumentation pages
-for FNAME in csv2json csv2mdtable csv2xlsx csvcols csvfind csvjoin csvrows finddir findfile jsoncols jsonjoin jsonmunge jsonrange mergepath range reldate timefmt urlparse vcard2json xlsx2csv xlsx2json; do
-	echo "Generating docs/$FNAME.html"
-	MakePage docs/nav.md "docs/$FNAME.md" "docs/$FNAME.html"
-done
-
-MakePage "docs/nav.md" "docs/index.md" "docs/index.html"
-
-
-# Generate nav for How To section
-echo "$INDEX_MENU" > how-to/nav.md
-echo "+ [Documentation](../docs/)" >> how-to/nav.md
-echo "+ [How To ...](./)" >> how-to/nav.md
-git add how-to/nav.md
-
-# Generate index page for How To section
-cat <<EOF3 >how-to/index.md
-
-# How To ...
-
-EOF3
-
-find ./how-to -type f | grep -E "\.md$" | while read FNAME; do
-    TITLE="$(titleline -i "$FNAME")"
-    FNAME="$(basename "$FNAME" ".md")"
-    if [ "$FNAME" != "nav" ] && [ "$FNAME" != "index" ]; then
-        echo "+ [${TITLE}](${FNAME}.html)"
+function FindNavMD() {
+    DNAME="$1"
+    if [ -f "${DNAME}/nav.md" ]; then
+        echo "${DNAME}/nav.md"
+        return
     fi
-done >>how-to/index.md
-git add how-to/index.md
+    DNAME=$(dirname "${DNAME}")
+    FindNavMD "${DNAME}"
+}
 
-MakePage "markdown:${INDEX_MENU}" "how-to/index.md" "how-to/index.html"
-git add how-to/index.html
+# Cleanup stale HTML files
+cleanUpHTML
 
-# Generate the individual How To documents
-find ./how-to -type f | grep -E "\.md$" | while read FNAME; do
-    FNAME="$(basename "$FNAME" ".md")"
-    MakePage "how-to/nav.md" "how-to/${FNAME}.md"  "how-to/${FNAME}.html"
+# Look through files and build new site
+mkpage "nav=nav.md" "content=markdown:$(cat LICENSE)" page.tmpl > license.html
+findfile -s ".md" . | while read P; do
+    DNAME=$(dirname "$P")
+    FNAME=$(basename "$P")
+    case "$FNAME" in
+        "INSTALL.md")
+        HTML_NAME="${DNAME}/install.html"
+        ;;
+        "README.md")
+        if [ ! -f "${DNAME}/index.md" ]; then
+            HTML_NAME="${DNAME}/index.html"
+        else
+            HTML_NAME="${DNAME}/README.html"
+        fi
+        ;;
+        *)
+        HTML_NAME=$(echo "$P" | sed -E 's/.md$/.html/g')
+        ;;
+    esac
+    if [ "${DNAME:0:4}" != "dist" ] && [ "${FNAME}" != "nav.md" ]; then
+        NAV=$(FindNavMD "$DNAME")
+        echo "Building $HTML_NAME from $DNAME/$FNAME and $NAV"
+        mkpage "nav=$NAV" "content=${DNAME}/${FNAME}" page.tmpl >"${HTML_NAME}"
+        git add "${HTML_NAME}"
+    else
+        echo "Skipping $P"
+    fi
 done
 
 

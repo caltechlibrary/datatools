@@ -149,4 +149,4 @@ would yield
     2
 ```
 
-jsonrange v0.0.15
+jsonrange v0.0.16

@@ -40,4 +40,4 @@ This does the same but the contents of data.csv are piped into
 the workbook's sheet.
 
 
-csv2xlsx v0.0.15
+csv2xlsx v0.0.16

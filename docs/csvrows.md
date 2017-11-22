@@ -60,4 +60,4 @@ Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 ```
 
 
-csvrows v0.0.15
+csvrows v0.0.16
