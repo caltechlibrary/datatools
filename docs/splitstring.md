@@ -11,24 +11,24 @@ stdin in with the -i or --input option. By default the split
 strings are render as a JSON array but with the option -nl or
 --newline you can render each split string one per line.
 
-## OPTIONS	
+## OPTIONS    
 
 ```
-    -d	set the delimiting string value
-	-delimiter	set the delimiting string value
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-newline	output as one substring per line rather than JSON
-	-nl	output as one substring per line rather than JSON
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+    -d    set the delimiting string value
+    -delimiter    set the delimiting string value
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -newline    output as one substring per line rather than JSON
+    -nl    output as one substring per line rather than JSON
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES
@@ -44,8 +44,8 @@ This should yield
 
 ```
     one
-	two
-	three
+    two
+    three
 ```
 
 Splitting a string that is double pipe delimited rendering JSON
