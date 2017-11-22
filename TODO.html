@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="./">README</a></li>
+<li><a href="license.html">LICENSE</a></li>
+<li><a href="install.html">INSTALL</a></li>
+<li><a href="docs/">Documentation</a></li>
+<li><a href="how-to/">How To</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>Action Items</h1>
+
+<h2>Bug</h2>
+
+<h2>Next</h2>
+
+<ul>
+<li>[ ] csvrows would output a range of rows (e.g. [2:] would be all rows but the first row)</li>
+<li>[ ] csv utilities to support integer ranges notation for columns and rows references, E.g. &ldquo;1,3:4,7,10:&rdquo; or all</li>
+</ul>
+
+<h2>Someday, Maybe</h2>
+
+<ul>
+<li>[ ] finddir should have an option to exclude directories (e.g. exclude .git directories from a listing)</li>
+<li>[ ] textscraper - a tool for select out text and storing it as a JSON field value, sort grep plus sed cleanup and semi-structured text (e.g. webpage)
+
+<ul>
+<li>look at how cut, sed, grep are commonly used in my scripts and merge that functionality into a single tool</li>
+</ul></li>
+<li>[ ] csvcols, csvrows should have a length option to give you a number of columns or rows respectively</li>
+<li>[ ] csvcols, csvrows should have a filter option to filter to support filting output conditionally</li>
+<li>[ ] csvsort should allow a multi-column sort respecting column headings
+
+<ul>
+<li>plus column number would be ascending by that column</li>
+<li>minos column number would be descending by that column</li>
+<li>sort would be read from left to right</li>
+<li>it would be good to include support for column names and not just column numbers to describe the sort</li>
+</ul></li>
+<li>[ ] jsonmodify takes a JSON document, a dotpath and value then creates/updates the dotpath in the JSON document with the new value
+
+<ul>
+<li>&rdquo;(delete DOTPATH)&rdquo; would remove the property described by the dotpath</li>
+<li>&rdquo;(update DOTPATH NEW_VALUE)&rdquo; would replace the property described by the dotpath with a new value (value can be a string, number, or JSON)</li>
+<li>&rdquo;(create&rdquo; DOTPATH NEW_VALUE)&rdquo; would add a new property at the described dotpath with a new value (value can be a string, number, or JSON)</li>
+<li>&rdquo;(join DOTH_PATH SEP)&rdquo; combines JSON array elements into a string version using separator</li>
+<li>&rdquo;(concat DOTPATH1 DOTPATH2&hellip; SEP)&rdquo; combines values into a concatenated string, it takes one or more dotpath values (must be string or number) and return them as a concatenated value (concat .last_name .first_name &ldquo;, &ldquo;) would return a last name comma first name string.</li>
+<li>&rdquo;(split DOTH_PATH SEP)&rdquo; turns a string into an array of strings using separator</li>
+</ul></li>
+<li>[ ] csvcols, csvrows should have a filter mechanism should provide a mechanism to filter by column or row
+
+<ul>
+<li>using a prefix notation (e.g. &lsquo;(and (eq (join (cols (colNo &ldquo;Last Name&rdquo;) (colNo &ldquo;First Name&rdquo;)) &ldquo;, &ldquo;) &ldquo;Doiel, R. S.&rdquo;) (gt (cols 4) &ldquo;2017-06-12&rdquo;))&rsquo;)</li>
+</ul></li>
+<li>[ ] csvfind, csvjoin should have an inverted match operation</li>
+<li>[ ] a range should accept the word &ldquo;all&rdquo; as well as comma delimited list of rows and ranges</li>
+<li>[ ] Add -uuid and -skip-header-row options constistantly to all csv tools
+
+<ul>
+<li>[ ] csvcols</li>
+</ul></li>
+<li>[ ] unify the options vocabulary to work the same between each cli
+
+<ul>
+<li>Need a common approach to column ranges in csvcols, csvfind, csvjoin</li>
+<li>csv2json, csv2mdtable, csv2xlsx should accept a column and row range option for output</li>
+</ul></li>
+<li>[ ] csvfind add filter by row number (helpful when combined with csvcols for snapshotting the middle of a table)</li>
+<li>[ ] csv2json should have an option that will include a row number in JSON blob output</li>
+<li>[ ] csv2json should have the options to normalize property names in JSON objects
+
+<ul>
+<li>camel case</li>
+<li>snake case</li>
+<li>lower case/upper case</li>
+<li>space to underscores</li>
+<li>strip punctuation</li>
+<li>rename keys</li>
+</ul></li>
+<li>[ ] csvrotate would take a CSV file as import and output columns as rows</li>
+<li>[ ] smartcat would function like cat but with support for ranges of lines (e.g. show me last 20 lines: smartcat -start=0 -end=&ldquo;-20&rdquo; file.txt; cat starting with 10th line: smartcat -start=10 file.txt)
+
+<ul>
+<li>[ ] allow prefix line number with a specific delimiter (E.g. comma would let you cat a CSV file adding row numbers as first column)</li>
+<li>[ ] show lines with prefix, suffix, containing or regxp</li>
+<li>[ ] show lines without prefix, suffix, containing or regexp</li>
+</ul></li>
+</ul>
+
+<h2>Completed</h2>
+
+<ul>
+<li>[x] csvcols -col option should not be a boolean, it should take a range like other csv cli</li>
+<li>[x] utilities should use starting index of 1 instead of zero as humans refer to column 1 when intending to work on the first column</li>
+<li>[x] for all cli the -delimiter option should support special characters like \t, \n, \r</li>
+<li>[x] csvfind would accept CSV input from stdin and output rows with matching column values
+
+<ul>
+<li>E.g. <code>cat file1.csv | csvfind -levenshtein -stop-words=&quot;the:a:of&quot; -col=1 &quot;This Red Book of West March&quot;</code></li>
+<li>E.g. <code>cat file1.csv | csvfind -inverted -levenstein -stop-words=&quot;the:a:of&quot; -col=1 &quot;This Red Book of West March&quot;</code></li>
+<li>E.g. <code>cat file1.csv | csvfind -contains -col=1 &quot;Red Book&quot;</code></li>
+</ul></li>
+<li>[x] csvjoin should have option for fuzzy match on columns (e.g. comparing titles)</li>
+</ul>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

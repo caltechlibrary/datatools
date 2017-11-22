@@ -17,6 +17,7 @@
 + [mergepath](mergepath.html)
 + [range](range.html)
 + [reldate](reldate.html)
++ [splitstring](splitstring.html)
 + [timefmt](timefmt.html)
 + [urlparse](urlparse.html)
 + [vcard2json](vcard2json.html)

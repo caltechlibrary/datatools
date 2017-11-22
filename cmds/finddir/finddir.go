@@ -39,23 +39,28 @@ var (
 	usage = `USAGE: %s [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]`
 
 	description = `
+
 SYNOPSIS
 
 %s finds directory based on matching prefix, suffix or contained text in base filename.
+
 `
 
 	examples = `
+
 EXAMPLE
 
 	%s -p img
 
-Find all subdirectories starting with "img". 
+Find all subdirectories starting with "img".
+
 `
 
 	// Standard Options
-	showHelp    bool
-	showVersion bool
-	showLicense bool
+	showHelp     bool
+	showVersion  bool
+	showLicense  bool
+	showExamples bool
 
 	// Application Options
 	showModificationTime bool
@@ -127,6 +132,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license information")
 	flag.BoolVar(&showVersion, "v", false, "display version message")
 	flag.BoolVar(&showVersion, "version", false, "display version message")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 
 	// Application Specific Options
 	flag.BoolVar(&showModificationTime, "m", false, "display file modification time before the path")
@@ -152,13 +158,28 @@ func main() {
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTION"
 	cfg.ExampleText = fmt.Sprintf(examples, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

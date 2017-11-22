@@ -14,6 +14,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 	"text/template"
 
 	// Caltech Library Packages
@@ -27,6 +28,7 @@ var (
 	usage = `USAGE: %s [OPTIONS] TEMPLATE_FILENAME`
 
 	description = `
+
 SYSNOPSIS
 
 %s is a command line tool that takes a JSON document and
@@ -36,16 +38,18 @@ or filter for specific content.
 
 + TEMPLATE_FILENAME is the name of a Go text tempate file used to render
   the outbound JSON document
+
 `
 
 	examples = `
+
 EXAMPLES
 
 If person.json contained
 
    {"name": "Doe, Jane", "email":"jd@example.org", "age": 42}
 
-and the template, name.tmpl, contained 
+and the template, name.tmpl, contained
 
    {{- .name -}}
 
@@ -53,17 +57,19 @@ Getting just the name could be done with
 
     cat person.json | %s name.tmpl
 
-This would yeild
+This would yield
 
     "Doe, Jane"
+
 `
 
 	// Basic Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
-	inputFName  string
-	outputFName string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	inputFName   string
+	outputFName  string
 
 	// Application Specific Options
 )
@@ -75,6 +81,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&inputFName, "i", "", "input filename")
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
@@ -89,13 +96,28 @@ func main() {
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, "DATATOOLS", fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

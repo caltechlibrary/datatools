@@ -27,23 +27,26 @@ var (
 	usage = `USAGE: %s [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]`
 
 	description = `
+
 SYSNOPSIS
 
-%s provides scripting flexibility for data extraction from JSON data 
-returning the results in columns.  This is helpful in flattening content 
-extracted from JSON blobs.  The default delimiter for each value 
+%s provides scripting flexibility for data extraction from JSON data
+returning the results in columns.  This is helpful in flattening content
+extracted from JSON blobs.  The default delimiter for each value
 extracted is a comma. This can be overridden with an option.
 
 + EXPRESSION can be an empty stirng or dot notation for an object's path
-+ INPUT_FILENAME is the filename to read or a dash "-" if you want to 
-  explicity read from stdin
++ INPUT_FILENAME is the filename to read or a dash "-" if you want to
+  explicitly read from stdin
 	+ if not provided then %s reads from stdin
-+ OUTPUT_FILENAME is the filename to write or a dash "-" if you want to 
-  explicity write to stdout
++ OUTPUT_FILENAME is the filename to write or a dash "-" if you want to
+  explicitly write to stdout
 	+ if not provided then %s write to stdout
+
 `
 
 	examples = `
+
 EXAMPLES
 
 If myblob.json contained
@@ -54,17 +57,17 @@ Getting just the name could be done with
 
     %s -i myblob.json .name
 
-This would yeild
+This would yield
 
     "Doe, Jane"
 
-Flipping .name and .age into pipe delimited columns is as 
-easy as listing each field in the expression inside a 
+Flipping .name and .age into pipe delimited columns is as
+easy as listing each field in the expression inside a
 space delimited string.
 
-    %s -i myblob.json -d\|  .name .age 
+    %s -i myblob.json -d\|  .name .age
 
-This would yeild
+This would yield
 
     Doe, Jane|42
 
@@ -75,14 +78,16 @@ You can also pipe JSON data in.
 Would yield
 
    "Doe, Jane",jane.doe@xample.org,42
+
 `
 
 	// Basic Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
-	inputFName  string
-	outputFName string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	inputFName   string
+	outputFName  string
 
 	// Application Specific Options
 	monochrome     bool
@@ -111,6 +116,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&inputFName, "i", "", "input filename")
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
@@ -123,7 +129,7 @@ func init() {
 	flag.BoolVar(&csvOutput, "csv", false, "output as CSV or other flat delimiter row")
 	flag.StringVar(&delimiter, "d", delimiter, "set the delimiter for multi-field csv output")
 	flag.StringVar(&delimiter, "dimiter", delimiter, "set the delimiter for multi-field csv output")
-	flag.BoolVar(&quote, "quote", true, "if dilimiter is found in column value add quotes for non-CSV output")
+	flag.BoolVar(&quote, "quote", false, "if dilimiter is found in column value add quotes for non-CSV output")
 	flag.BoolVar(&permissive, "permissive", false, "suppress error messages")
 	flag.BoolVar(&permissive, "quiet", false, "suppress error messages")
 }
@@ -134,16 +140,31 @@ func main() {
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, "DATATOOLS", fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName, appName, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName)
 
 	//NOTE: Need to handle JSONQUERY_MONOCHROME setting
 	monochrome = cfg.MergeEnvBool("monochrome", monochrome)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

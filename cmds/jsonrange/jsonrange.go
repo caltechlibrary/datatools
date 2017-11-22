@@ -22,9 +22,10 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] [DOT_PATH_EXPRESSION] `
+	usage = `USAGE: %s [OPTIONS] [DOT_PATH_EXPRESSION]`
 
 	description = `
+
 SYSNOPSIS
 
 %s returns returns a range of values based on the JSON structure being read and
@@ -51,9 +52,11 @@ E.g.
 The path can be chained together
 
 + .name.family would point to the value heald by the "name" attributes' "family" attribute.
+
 `
 
 	examples = `
+
 EXAMPLES
 
 Working with a map
@@ -122,14 +125,17 @@ Limitting the number of items returned
 would yield
 
     1
-    2`
+    2
+
+`
 
 	// Basic Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
-	inputFName  string
-	outputFName string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	inputFName   string
+	outputFName  string
 
 	// Application Specific Options
 	showLength bool
@@ -155,7 +161,7 @@ func mapKeys(data map[string]interface{}, limit int) ([]string, error) {
 
 func arrayKeys(data []interface{}, limit int) ([]string, error) {
 	result := []string{}
-	for i, _ := range data {
+	for i := range data {
 		if i == limit {
 			return result, nil
 		}
@@ -243,6 +249,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&inputFName, "i", "", "read JSON from file")
 	flag.StringVar(&inputFName, "input", "", "read JSON from file")
 	flag.StringVar(&outputFName, "o", "", "write to output file")
@@ -262,17 +269,31 @@ func init() {
 func main() {
 	appName := path.Base(os.Args[0])
 	flag.Parse()
-
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, "DATATOOLS", fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

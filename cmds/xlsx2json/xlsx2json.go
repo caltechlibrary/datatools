@@ -39,13 +39,16 @@ var (
 	usage = `USAGE: %s [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]`
 
 	description = `
+
 SYNOPSIS
 
 %s is a tool that converts individual Excel Workbook Sheets into
 JSON output.
+
 `
 
 	examples = `
+
 EXAMPLE
 
     %s my-workbook.xlsx "Sheet 1" > sheet1.json
@@ -65,13 +68,15 @@ Putting it all together in a shell script.
        %s my-workbook.xlsx "$SHEET_NAME" > \
 	       "${SHEET_NAME// /-}.json"
     done
+
 `
 
 	// Standard Options
-	showHelp    bool
-	showLicense bool
-	showVersion bool
-	outputFName string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	outputFName  string
 
 	// Application Options
 	showSheetCount bool
@@ -92,7 +97,7 @@ func sheetNames(workBookName string) ([]string, error) {
 		return []string{}, err
 	}
 	result := []string{}
-	for sheetName, _ := range xlFile.Sheet {
+	for sheetName := range xlFile.Sheet {
 		result = append(result, sheetName)
 	}
 	return result, nil
@@ -132,6 +137,7 @@ func init() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 
@@ -146,13 +152,28 @@ func main() {
 	args := flag.Args()
 
 	// Configuration and command line interation
-	cfg := cli.New(appName, appName, fmt.Sprintf(datatools.LicenseText, appName, datatools.Version), datatools.Version)
+	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
+	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
+	cfg.OptionText = "OPTIONS"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName)
 
 	if showHelp == true {
-		fmt.Println(cfg.Usage())
+		if len(args) > 0 {
+			fmt.Println(cfg.Help(args...))
+		} else {
+			fmt.Println(cfg.Usage())
+		}
+		os.Exit(0)
+	}
+
+	if showExamples == true {
+		if len(args) > 0 {
+			fmt.Println(cfg.Example(args...))
+		} else {
+			fmt.Println(cfg.ExampleText)
+		}
 		os.Exit(0)
 	}
 

@@ -1,6 +1,8 @@
 
 # datatools
 
+## For data
+
 Command line utilities for simplifying work with CSV, JSON, Excel Workbooks and plain text files or content and
 general purpose shell scripting. 
 
@@ -15,6 +17,7 @@ general purpose shell scripting.
 + [jsonjoin](docs/jsonjoin.html) - a tool for joining JSON object documents
 + [jsonmunge](docs/jsonmunge.html) - a tool to transform JSON documents into something else
 + [jsonrange](docs/jsonrange.html) - a tool for iterating for JSON maps and arrays
++ [splitstring](docs/splitstring.html) - splits a string using a delimiting string and returns a JSON array
 + [vcard2json](docs/vcard2json.html) - an experimental tool to convert vCards to JSON
 + [xlsx2csv](docs/xlsx2csv.html) - a tool for converting Excel Workbooks sheets to a CSV file(s)
 + [xlsx2json](docs/xlsx2json.html) - a tool for converting Excel Workbooks to JSON files
