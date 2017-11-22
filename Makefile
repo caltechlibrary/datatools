@@ -7,7 +7,7 @@ VERSION = $(shell grep -m1 'Version = ' $(PROJECT).go | cut -d\`  -f 2)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json bin/jsonjoin bin/jsonmunge bin/findfile bin/finddir bin/mergepath bin/reldate bin/range bin/timefmt bin/urlparse
+build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json bin/jsonjoin bin/jsonmunge bin/findfile bin/finddir bin/mergepath bin/reldate bin/range bin/timefmt bin/urlparse bin/splitstring
 
 
 bin/csvcols: datatools.go cmds/csvcols/csvcols.go
@@ -73,6 +73,8 @@ bin/timefmt: datatools.go cmds/timefmt/timefmt.go
 bin/urlparse: datatools.go cmds/urlparse/urlparse.go
 	go build -o bin/urlparse cmds/urlparse/urlparse.go 
 
+bin/splitstring: datatools.go cmds/splitstring/splitstring.go
+	go build -o bin/splitstring cmds/splitstring/splitstring.go
 
 test:
 	go test
@@ -121,6 +123,7 @@ install:
 	env GOBIN=$(GOPATH)/bin go install cmds/vcard2json/vcard2json.go
 	env GOBIN=$(GOPATH)/bin go install cmds/xlsx2json/xlsx2json.go
 	env GOBIN=$(GOPATH)/bin go install cmds/xlsx2csv/xlsx2csv.go
+	env GOBIN=$(GOPATH)/bin go install cmds/splitstring/splitstring.go
 
 dist/linux-amd64:
 	mkdir -p dist/bin
@@ -145,6 +148,7 @@ dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/range cmds/range/range.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/timefmt cmds/timefmt/timefmt.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/urlparse cmds/urlparse/urlparse.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/splitstring cmds/splitstring/splitstring.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-linux-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
@@ -172,6 +176,7 @@ dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/range cmds/range/range.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/timefmt cmds/timefmt/timefmt.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/urlparse cmds/urlparse/urlparse.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/splitstring cmds/splitstring/splitstring.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 	
@@ -200,6 +205,7 @@ dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/range.exe cmds/range/range.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/timefmt.exe cmds/timefmt/timefmt.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/urlparse.exe cmds/urlparse/urlparse.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/splitstring.exe cmds/splitstring/splitstring.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-windows-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
@@ -229,6 +235,7 @@ dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/range cmds/range/range.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/timefmt cmds/timefmt/timefmt.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/urlparse cmds/urlparse/urlparse.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/splitstring cmds/splitstring/splitstring.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-raspbian-arm7.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
