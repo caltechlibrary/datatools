@@ -8,6 +8,7 @@
 + [csvfind](csvfind.html)
 + [csvjoin](csvjoin.html)
 + [csvrows](csvrows.html)
++ [csvcleaner](csvcleaner.html)
 + [finddir](finddir.html)
 + [findfile](findfile.html)
 + [jsoncols](jsoncols.html)
