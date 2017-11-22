@@ -64,4 +64,4 @@ You can also search for phrases in columns.
 ```
 
 
-csvfind v0.0.16
+csvfind v0.0.17

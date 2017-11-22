@@ -60,4 +60,4 @@ This should yield
    ["one","two","three"]
 ```
 
-splitstring v0.0.16
+splitstring v0.0.17

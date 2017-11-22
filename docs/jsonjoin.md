@@ -149,4 +149,4 @@ would yield
 ```
 
 
-jsonjoin v0.0.16
+jsonjoin v0.0.17

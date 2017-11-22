@@ -9,11 +9,11 @@ general purpose shell scripting.
 + [csv2json](docs/csv2json.html) - a tool to take a CSV file and convert it into a JSON blob array or a list of JSON blobs one per line
 + [csv2mdtable](docs/csv2mdtable.html) - a tool to render CSV as a Github Flavored Markdown table
 + [csv2xlsx](docs/csv2xlsx.html) - a tool to take a CSV file and add it as a sheet to a Excel Workbook file.
++ [csvcleaner](docs/csvcleaner.html) - normalize a CSV column by column count, delimiter handling, space trimming
 + [csvcols](docs/csvcols.html) - a tool for formatting command line arguments into CSV row of columns or filtering CSV rows for specific columns
 + [csvfind](docs/csvfind.html) - a tool for filtering a CSV file by column's value 
 + [csvjoin](docs/csvjoin.html) - a tool to join to CSV files on common values in designated columns, writes combined CSV rows to stdout
 + [csvrows](docs/csvrows.html) - a tool for formatting command line arguments into CSV columns of rows or filtering CSV columns for specific rows
-+ [csvcleaner](docs/csvcleaner.html) - normalize a CSV column by column count, delimiter handling, space trimming
 + [jsoncols](docs/jsoncols.html) - a tool for exploring and extracting JSON values into columns
 + [jsonjoin](docs/jsonjoin.html) - a tool for joining JSON object documents
 + [jsonmunge](docs/jsonmunge.html) - a tool to transform JSON documents into something else
