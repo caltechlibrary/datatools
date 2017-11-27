@@ -20,7 +20,7 @@ var (
 	description = `
 
 %s splits a string based on a delimiting string provided. The default
-delimiter is a space. You can specify a delimiting string via 
+delimiter is a space. You can specify a delimiting string via
 the -d or --delimiter option.  %s will split the string provided
 as a command line argument but can read split string(s) recieved on
 stdin in with the -i or --input option. By default the split
@@ -95,8 +95,8 @@ func main() {
 
 	cfg := cli.New(appName, "", datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS"
+	cfg.DescriptionText = fmt.Sprintf(description, appName, appName)
+	cfg.OptionText = "OPTIONS\n\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName)
 
 	if showHelp == true {
@@ -140,6 +140,14 @@ func main() {
 		os.Exit(1)
 	}
 	defer cli.CloseFile(outputFName, out)
+
+	// Normalize the delimiter if \n or \t
+	switch delimiter {
+	case `\n`:
+		delimiter = "\n"
+	case `\t`:
+		delimiter = "\t"
+	}
 
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)

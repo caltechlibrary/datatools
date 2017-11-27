@@ -3,6 +3,8 @@
 
 ## csvcleaner [OPTIONS]
 
+## SYNOPSIS
+
 csvcleaner normalizes a CSV file based on the options selected. It
 helps to address issues like variable number of columns, leading/trailing
 spaces in columns, and non-UTF-8 encoding issues.
@@ -12,7 +14,7 @@ standard out (errors to standard error). These can be modified by
 appropriate options. The csv file is processed as a stream of rows so 
 minimal memory is used to operate on the file. 
 
-## OPTIONS    
+## OPTIONS
 
 ```
     -comma    if set use this character in place of a comma for delimiting cells
@@ -40,7 +42,6 @@ minimal memory is used to operate on the file.
     -version    display version
 ```
 
-
 ## EXAMPLES
 
 Normalizing a spread sheet's column count to 5 padding columns as needed per row.
@@ -67,4 +68,4 @@ Trim leading and trailing spaces
     cat mysheet.csv | csvcleaner -trim-spaces
 ```
 
-csvcleaner v0.0.17
+csvcleaner v0.0.18

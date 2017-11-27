@@ -36,50 +36,61 @@ down otherwise it counts up.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>-e  The ending integer.
--end    The ending integer.
--h  display help
--help   display help
--i  The non-zero integer increment value.
--increment  The non-zero integer increment value.
--l  display license
--license    display license
--r  Pick a range value from range
--random Pick a range value from range
--s  The starting integer.
--start  The starting integer.
--v  display version
--version    display version
+<pre><code>    -e    The ending integer.
+    -end    The ending integer.
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    The non-zero integer increment value.
+    -increment    The non-zero integer increment value.
+    -l    display license
+    -license    display license
+    -r    Pick a range value from range
+    -random    Pick a range value from range
+    -s    The starting integer.
+    -start    The starting integer.
+    -v    display version
+    -version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
 
-<pre><code>	range 1 5
+<p>Create a range of integers one through five</p>
+
+<pre><code class="language-shell">    range 1 5
 </code></pre>
 
 <p>Yields 1 2 3 4 5</p>
 
-<pre><code>	range -- -2 6
+<p>Create a range of integer negative two to six</p>
+
+<pre><code class="language-shell">    range -- -2 6
 </code></pre>
 
 <p>Yields -2 -1 0 1 2 3 4 5 6</p>
 
-<pre><code>	range -increment=2 2 10
+<p>Create a range of even integers two to ten</p>
+
+<pre><code class="language-shell">    range -increment=2 2 10
 </code></pre>
 
 <p>Yields 2 4 6 8 10</p>
 
-<pre><code>	range 10 1
+<p>Create a descending range of integers ten down to one</p>
+
+<pre><code class="language-shell">    range 10 1
 </code></pre>
 
 <p>Yields 10 9 8 7 6 5 4 3 2 1</p>
 
-<pre><code>	range -r 0 10
+<p>Pick a random integer between zero and ten</p>
+
+<pre><code class="language-shell">    range -r 0 10
 </code></pre>
 
 <p>Yields a random integer from 0 to 10</p>
 
-<p>range v0.0.17</p>
+<p>range v0.0.18</p>
 
 </section>
 

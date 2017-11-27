@@ -41,27 +41,28 @@ but can be designated by the -input option or created by the
 argument is then treated as a new branch.</p>
 
 <p>In addition to the branching behavior you can join JSON objects in a
-flat manner.  The flat joining process can be ether non-distructive
-adding new key/value pairs (-update option) or distructive
+flat manner.  The flat joining process can be ether non-destructive
+adding new key/value pairs (-update option) or destructive
 overwriting key/value pairs (-overwrite option).</p>
 
 <p>Note: jsonjoin doesn&rsquo;t support a JSON array as the root JSON object.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>-create create an empty root object, {}
--h  display help
--help   display help
--i  input filename (for root object)
--input  input filename (for root object)
--l  display license
--license    display license
--o  output filename
--output output filename
--overwrite  copy all key/values into root object
--update copy new key/values pairs into root object
--v  display version
--version    display version
+<pre><code>    -create    create an empty root object, {}
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename (for root object)
+    -input    input filename (for root object)
+    -l    display license
+    -license    display license
+    -o    output filename
+    -output    output filename
+    -overwrite    copy all key/values into root object
+    -update    copy new key/values pairs into root object
+    -v    display version
+    -version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -69,12 +70,12 @@ overwriting key/value pairs (-overwrite option).</p>
 <p>Consider two JSON objects one in person.json and another
 in profile.json.</p>
 
-<p>person.json containes</p>
+<p>person.json contains</p>
 
 <pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42 }
 </code></pre>
 
-<p>profile.json containes</p>
+<p>profile.json contains</p>
 
 <pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
      &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
@@ -86,12 +87,12 @@ in profile.json.</p>
 <pre><code class="language-shell">   jsonjoin -create person.json profile.json
 </code></pre>
 
-<p>would yeild and object like</p>
+<p>would yield and object like</p>
 
 <pre><code class="language-json">   {
-     &quot;person&quot;:  { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, 
-	 			&quot;age&quot;: 42},
-     &quot;profile&quot;: { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;, 
+     &quot;person&quot;:  { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;,
+                 &quot;age&quot;: 42},
+     &quot;profile&quot;: { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
                   &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
    }
 </code></pre>
@@ -111,7 +112,7 @@ profile.json as a branch try</p>
 
 <pre><code class="language-json">   {
      &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42,
-     &quot;profile&quot;: { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;, 
+     &quot;profile&quot;: { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
                   &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
    }
 </code></pre>
@@ -143,8 +144,8 @@ not necessarily equal B update A).</p>
 
 <p>would yield</p>
 
-<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;,  &quot;age&quot;: 42, 
-     &quot;bio&quot;: &quot;World renowned geophysist.&quot;, 
+<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;,  &quot;age&quot;: 42,
+     &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
      &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
 </code></pre>
 
@@ -159,7 +160,7 @@ not necessarily equal B update A).</p>
      &quot;bio&quot;: &quot;World renowned geophysist.&quot; }
 </code></pre>
 
-<p>jsonjoin v0.0.17</p>
+<p>jsonjoin v0.0.18</p>
 
 </section>
 

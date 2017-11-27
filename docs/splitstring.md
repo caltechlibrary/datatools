@@ -4,14 +4,14 @@
 ## splitstring [OPTIONS] [STRING_TO_SPLIT]
 
 splitstring splits a string based on a delimiting string provided. The default
-delimiter is a space. You can specify a delimiting string via 
-the -d or --delimiter option.  %!s(MISSING) will split the string provided
+delimiter is a space. You can specify a delimiting string via
+the -d or --delimiter option.  splitstring will split the string provided
 as a command line argument but can read split string(s) recieved on
 stdin in with the -i or --input option. By default the split
 strings are render as a JSON array but with the option -nl or
 --newline you can render each split string one per line.
 
-## OPTIONS    
+## OPTIONS
 
 ```
     -d    set the delimiting string value
@@ -60,4 +60,4 @@ This should yield
    ["one","two","three"]
 ```
 
-splitstring v0.0.17
+splitstring v0.0.18

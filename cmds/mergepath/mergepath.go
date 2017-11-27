@@ -47,9 +47,9 @@ path and removing the resulting duplicate.
 
 EXAMPLE
 
-	export PATH=$(%s -p $HOME/bin)
-
 This would put your home bin directory at the beginning of your path.
+
+	export PATH=$(%s -p $HOME/bin)
 
 `
 
@@ -121,7 +121,7 @@ func main() {
 	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS"
+	cfg.OptionText = "OPTIONS\n\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName)
 
 	if showHelp == true {

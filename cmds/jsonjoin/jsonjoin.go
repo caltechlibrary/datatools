@@ -53,7 +53,7 @@ Note: %s doesn't support a JSON array as the root JSON object.
 
 	examples = `
 
-EXAMPLES
+EXAMPLE
 
 Consider two JSON objects one in person.json and another
 in profile.json.
@@ -179,7 +179,7 @@ func main() {
 	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName, appName, appName)
-	cfg.OptionText = "OPTIONS"
+	cfg.OptionText = "OPTIONS\n\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
 
 	if showHelp == true {

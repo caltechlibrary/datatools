@@ -25,6 +25,9 @@
 <section>
 <h1>datatools</h1>
 
+<p><em>datatools</em> provides a variety of command line programs for working with data in different formats as well as to ease
+Posix shell scripting (e.g. writing scripts that run under Bash). The tools are group as data, strings and scripting.</p>
+
 <h2>For data</h2>
 
 <p>Command line utilities for simplifying work with CSV, JSON, Excel Workbooks and plain text files or content and
@@ -43,7 +46,6 @@ general purpose shell scripting.</p>
 <li><a href="docs/jsonjoin.html">jsonjoin</a> - a tool for joining JSON object documents</li>
 <li><a href="docs/jsonmunge.html">jsonmunge</a> - a tool to transform JSON documents into something else</li>
 <li><a href="docs/jsonrange.html">jsonrange</a> - a tool for iterating for JSON maps and arrays</li>
-<li><a href="docs/splitstring.html">splitstring</a> - splits a string using a delimiting string and returns a JSON array</li>
 <li><a href="docs/vcard2json.html">vcard2json</a> - an experimental tool to convert vCards to JSON</li>
 <li><a href="docs/xlsx2csv.html">xlsx2csv</a> - a tool for converting Excel Workbooks sheets to a CSV file(s)</li>
 <li><a href="docs/xlsx2json.html">xlsx2json</a> - a tool for converting Excel Workbooks to JSON files</li>
@@ -52,7 +54,21 @@ general purpose shell scripting.</p>
 <p>Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
 Windows 10 (amd64) and Raspbian (ARM7). See <a href="https://github.com/caltechlibrary/datatools/releases">https://github.com/caltechlibrary/datatools/releases</a>.</p>
 
-<p>Use the utilities try &ldquo;-help&rdquo; option for a full list of options.</p>
+<p>Use the utilities try &ldquo;-help&rdquo; option for a full list of options for each utility.</p>
+
+<h2>For strings</h2>
+
+<ul>
+<li><a href="docs/splitstring.html">splitstring</a> - splits a string using a delimiting string and returns a JSON array</li>
+<li><a href="docs/joinstring.html">joinstring</a> - joins a JSON array or delimited list of strings into a single string</li>
+<li><a href="docs/hasprefix.html">hasprefix</a> - return &lsquo;true&rsquo; or &lsquo;false&rsquo; based on whether or not a string contains a prefix</li>
+<li><a href="docs/hassuffix.html">hassuffix</a> - return &lsquo;true&rsquo; or &lsquo;false&rsquo; based on whether or not a string contains a suffix</li>
+<li><a href="docs/trimprefix.html">trimprefix</a> - returns the string without the prefix (returns string unchanged if prefix is not found)</li>
+<li><a href="docs/trimsuffix.html">trimsuffix</a> - returns the string without the suffix (returns string unchanged if suffix is not found)</li>
+<li><a href="docs/tolower.html">tolower</a> - lower cases a string with all Unicode letters mapped to their lower case</li>
+<li><a href="docs/toupper.html">toupper</a> - upper cases a string with all Unicode letters mapped to their upper case</li>
+<li><a href="docs/totitle.html">totitle</a> - title cases a with all Unicode letters mapped to their title case (or capitalizes words using options)</li>
+</ul>
 
 <h2>For scripting</h2>
 

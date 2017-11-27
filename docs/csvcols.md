@@ -11,22 +11,25 @@ listed on the commandline (first column is 1 not 0).
 
 ## OPTIONS
 
-	-col	output specified columns (e.g. -col 1,12:14,2,4))
-	-cols	output specified columns (e.g. -col 1,12:14,2,4))
-	-d	set delimiter character
-	-delimiter	set delimiter character
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-o	output filename
-	-output	output filename
-	-skip-header-row	skip the header row
-	-uuid	add a prefix row with generated UUID cell
-	-v	display version
-	-version	display version
+```
+    -col    output specified columns (e.g. -col 1,12:14,2,4))
+    -cols    output specified columns (e.g. -col 1,12:14,2,4))
+    -d    set delimiter character
+    -delimiter    set delimiter character
+    -example    display example
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -o    output filename
+    -output    output filename
+    -skip-header-row    skip the header row
+    -uuid    add a prefix row with generated UUID cell
+    -v    display version
+    -version    display version
+```
 
 ## EXAMPLES
 
@@ -52,12 +55,10 @@ Filter a 10 column CSV file for columns 1,4,6 (left most column is one)
     cat 10col.csv | csvcols -col 1,4,6 > 3col.csv
 ```
 
-
 Filter a 10 columns CSV file for columns 1,4,6 from file named "10col.csv"
 
 ```shell
     csvcols -i 10col.csv -col 1,4,6 > 3col.csv
 ```
 
-
-csvcols v0.0.17
+csvcols v0.0.18

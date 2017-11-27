@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../">up</a></li>
+<li><a href="./">Documentation</a></li>
+<li><a href="../how-to/">How To &hellip;</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<h2>hassuffix [OPTIONS] PREFIX_STRING [STRINGS_TO_CHECK]</h2>
+
+<h2>SYNOPSIS</h2>
+
+<p>hassuffix returns a string &ldquo;true&rdquo; or &ldquo;false&rdquo; based on whether or not the provided
+string(s) contains the prefix. Also %!s(MISSING) will exit with a status code 0 prefix
+is found in all string or status code 1 if one string does not have prefix.
+Can read string to check from standard in with an option
+of &ldquo;-i -&rdquo; or a file with &ldquo;-i FILENAME&rdquo;.</p>
+
+<h2>OPTIONS</h2>
+
+<pre><code>    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -new-line    include a trailing newline in output
+    -nl    include a trailing newline in output
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>See if the words &ldquo;unknown&rdquo; and &ldquo;unusual&rdquo; start with the prefix &ldquo;un&rdquo;</p>
+
+<pre><code class="language-shell">    hassuffix &quot;un&quot; &quot;unknown&quot; &quot;unusual&quot;
+</code></pre>
+
+<p>Should yield</p>
+
+<pre><code>    true
+    true
+</code></pre>
+
+<p>and exit with a status code of zero.</p>
+
+<p>See if the words &ldquo;unknown&rdquo; and &ldquo;common&rdquo; start with the prefix &ldquo;un&rdquo;</p>
+
+<pre><code>    hassuffix &quot;un&quot; &quot;unknown&quot; &quot;common&quot;
+</code></pre>
+
+<p>Should yield</p>
+
+<pre><code>    true
+    false
+</code></pre>
+
+<p>and exist with a status code of one.</p>
+
+<p>hassuffix v0.0.18</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

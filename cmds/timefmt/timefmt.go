@@ -56,9 +56,13 @@ One additional time layout provided by %s
 
 EXAMPLES
 
+Format the date July, 7, 2016 in YYYY-MM-DD format
+
     %s -input "2006-01-02" -output "01/02/2006" "2016-07-02"
 
 Yields "07/02/2016"
+
+Format the MySQL date/time of 8:08am, July 2, 2016
 
     %s -input mysql -output RFC822  "2016-07-02 08:08:08"
 
@@ -90,8 +94,8 @@ func init() {
 
 	// Application Options
 	flag.BoolVar(&useUTC, "utc", false, "timestamps in UTC")
-	flag.StringVar(&inputFormat, "input", inputFormat, "Set format for input")
-	flag.StringVar(&outputFormat, "output", outputFormat, "Set format for output")
+	flag.StringVar(&inputFormat, "input-format", inputFormat, "Set format for input")
+	flag.StringVar(&outputFormat, "output-format", outputFormat, "Set format for output")
 }
 
 func applyConstants(s string) string {
@@ -142,7 +146,7 @@ func main() {
 	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName, appName)
-	cfg.OptionText = "OPTIONS"
+	cfg.OptionText = "OPTIONS\n\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName)
 
 	if showHelp == true {

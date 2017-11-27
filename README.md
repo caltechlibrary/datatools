@@ -1,6 +1,9 @@
 
 # datatools
 
+_datatools_ provides a variety of command line programs for working with data in different formats as well as to ease
+Posix shell scripting (e.g. writing scripts that run under Bash). The tools are group as data, strings and scripting.
+
 ## For data
 
 Command line utilities for simplifying work with CSV, JSON, Excel Workbooks and plain text files or content and
@@ -18,7 +21,6 @@ general purpose shell scripting.
 + [jsonjoin](docs/jsonjoin.html) - a tool for joining JSON object documents
 + [jsonmunge](docs/jsonmunge.html) - a tool to transform JSON documents into something else
 + [jsonrange](docs/jsonrange.html) - a tool for iterating for JSON maps and arrays
-+ [splitstring](docs/splitstring.html) - splits a string using a delimiting string and returns a JSON array
 + [vcard2json](docs/vcard2json.html) - an experimental tool to convert vCards to JSON
 + [xlsx2csv](docs/xlsx2csv.html) - a tool for converting Excel Workbooks sheets to a CSV file(s)
 + [xlsx2json](docs/xlsx2json.html) - a tool for converting Excel Workbooks to JSON files
@@ -27,8 +29,19 @@ general purpose shell scripting.
 Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
 Windows 10 (amd64) and Raspbian (ARM7). See https://github.com/caltechlibrary/datatools/releases.
 
-Use the utilities try "-help" option for a full list of options.
+Use the utilities try "-help" option for a full list of options for each utility.
 
+## For strings
+
++ [splitstring](docs/splitstring.html) - splits a string using a delimiting string and returns a JSON array
++ [joinstring](docs/joinstring.html) - joins a JSON array or delimited list of strings into a single string 
++ [hasprefix](docs/hasprefix.html) - return 'true' or 'false' based on whether or not a string contains a prefix
++ [hassuffix](docs/hassuffix.html) - return 'true' or 'false' based on whether or not a string contains a suffix
++ [trimprefix](docs/trimprefix.html) - returns the string without the prefix (returns string unchanged if prefix is not found)
++ [trimsuffix](docs/trimsuffix.html) - returns the string without the suffix (returns string unchanged if suffix is not found)
++ [tolower](docs/tolower.html) - lower cases a string with all Unicode letters mapped to their lower case
++ [toupper](docs/toupper.html) - upper cases a string with all Unicode letters mapped to their upper case
++ [totitle](docs/totitle.html) - title cases a with all Unicode letters mapped to their title case (or capitalizes words using options)
 
 ## For scripting
 

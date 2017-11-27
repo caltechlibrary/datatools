@@ -40,23 +40,24 @@ be Thu, Friday can be Fri or Saturday can be Sat.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>-e  Display the end of month day. E.g. 2012-02-29
--end-of-month   Display the end of month day. E.g. 2012-02-29
--f  Date the relative time is calculated from.
--from   Date the relative time is calculated from.
--h  display help
--help   display help
--l  display license
--license    display license
--v  display version
--version    display version
+<pre><code>    -e    Display the end of month day. E.g. 2012-02-29
+    -end-of-month    Display the end of month day. E.g. 2012-02-29
+    -example    display example(s)
+    -f    Date the relative time is calculated from.
+    -from    Date the relative time is calculated from.
+    -h    display help
+    -help    display help
+    -l    display license
+    -license    display license
+    -v    display version
+    -version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
 
 <p>If today was 2014-08-03 and you wanted the date three days in the past try–</p>
 
-<pre><code>    reldate 3 days
+<pre><code class="language-shell">    reldate 3 days
 </code></pre>
 
 <p>The output would be</p>
@@ -64,7 +65,7 @@ be Thu, Friday can be Fri or Saturday can be Sat.</p>
 <pre><code>    2014-08-06
 </code></pre>
 
-<p>TIME UNITS</p>
+<h3>TIME UNITS</h3>
 
 <p>Supported time units are</p>
 
@@ -81,21 +82,22 @@ be Thu, Friday can be Fri or Saturday can be Sat.</p>
 time from. If you use the –from option you can it will calculate the
 relative date from that specific date.</p>
 
-<pre><code>   reldate --from=2014-08-03 3 days
+<pre><code class="language-shell">   reldate --from=2014-08-03 3 days
 </code></pre>
 
 <p>Will yield</p>
 
-<p>2014-08-06</p>
+<pre><code>    2014-08-06
+</code></pre>
 
-<p>NEGATIVE INCREMENTS</p>
+<h3>NEGATIVE INCREMENTS</h3>
 
 <p>Command line arguments traditionally start with a dash which we also use to
 denote a nagative number. To tell the command line process that to not treat
-negative numbers as an “option” preceed your time increment and time unit
+negative numbers as an “option” precede your time increment and time unit
 with a double dash.</p>
 
-<pre><code>    reldate --from=2014-08-03 -- -3 days
+<pre><code class="language-shell">    reldate --from=2014-08-03 -- -3 days
 </code></pre>
 
 <p>Will yield</p>
@@ -103,18 +105,18 @@ with a double dash.</p>
 <pre><code>    2014-07-31
 </code></pre>
 
-<p>RELATIVE WEEK DAYS</p>
+<h3>RELATIVE WEEK DAYS</h3>
 
 <p>You can calculate a date from a weekday name (e.g. Saturday, Monday, Tuesday)
-knowning a day (e.g. 2015-02-10 or the current date of the week) occuring in
+knowning a day (e.g. 2015-02-10 or the current date of the week) occurring in
 a week. A common case would be wanting to figure out the Monday date of a week
 containing 2015-02-10. The week is presumed to start on Sunday (i.e. 0) and
 finish with Saturday (e.g. 6).</p>
 
-<pre><code>    reldate --from=2015-02-10 Monday
+<pre><code class="language-shell">    reldate --from=2015-02-10 Monday
 </code></pre>
 
-<p>will yeild</p>
+<p>will yield</p>
 
 <pre><code>    2015-02-09
 </code></pre>
@@ -123,7 +125,7 @@ finish with Saturday (e.g. 6).</p>
 insensitive and can be the first three letters of the English names or full
 English names (e.g. Monday, monday, Mon, mon).</p>
 
-<p>reldate v0.0.17</p>
+<p>reldate v0.0.18</p>
 
 </section>
 

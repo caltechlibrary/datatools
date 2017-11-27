@@ -1,7 +1,7 @@
 
 # USAGE
 
-## jsonrange [OPTIONS] [DOT_PATH_EXPRESSION] 
+## jsonrange [OPTIONS] [DOT_PATH_EXPRESSION]
 
 ## SYSNOPSIS
 
@@ -32,24 +32,27 @@ The path can be chained together
 
 ## OPTIONS
 
-	-d	set delimiter for range output
-	-delimiter	set delimiter for range output
-	-h	display help
-	-help	display help
-	-i	read JSON from file
-	-input	read JSON from file
-	-l	display license
-	-last	return the index of the last element in list (e.g. length - 1)
-	-length	return the number of keys or values
-	-license	display license
-	-limit	limit the number of items output
-	-o	write to output file
-	-output	write to output file
-	-permissive	suppress errors messages
-	-quiet	suppress errors messages
-	-v	display version
-	-values	return the values instead of the keys
-	-version	display version
+```
+    -d    set delimiter for range output
+    -delimiter    set delimiter for range output
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    read JSON from file
+    -input    read JSON from file
+    -l    display license
+    -last    return the index of the last element in list (e.g. length - 1)
+    -length    return the number of keys or values
+    -license    display license
+    -limit    limit the number of items output
+    -o    write to output file
+    -output    write to output file
+    -permissive    suppress errors messages
+    -quiet    suppress errors messages
+    -v    display version
+    -values    return the values instead of the keys
+    -version    display version
+```
 
 ## EXAMPLES
 
@@ -149,4 +152,4 @@ would yield
     2
 ```
 
-jsonrange v0.0.17
+jsonrange v0.0.18

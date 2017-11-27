@@ -18,6 +18,9 @@ var (
 	usage = `USAGE: %s [OPTIONS]`
 
 	description = `
+
+SYNOPSIS
+
 %s normalizes a CSV file based on the options selected. It
 helps to address issues like variable number of columns, leading/trailing
 spaces in columns, and non-UTF-8 encoding issues.
@@ -114,7 +117,7 @@ func main() {
 	cfg := cli.New(appName, "", datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS"
+	cfg.OptionText = "OPTIONS\n\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName)
 
 	if showHelp == true {

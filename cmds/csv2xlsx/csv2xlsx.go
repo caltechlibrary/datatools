@@ -50,7 +50,7 @@ If the Workbook does not exist then it is created.
 
 	examples = `
 
-EXAMPLE
+EXAMPLES
 
 	%s -i data.csv MyWorkbook.xlsx 'My worksheet'
 
@@ -146,7 +146,7 @@ func main() {
 	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS"
+	cfg.OptionText = "OPTIONS\n\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName)
 
 	if showHelp == true {

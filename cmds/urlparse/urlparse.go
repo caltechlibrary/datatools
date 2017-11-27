@@ -44,7 +44,7 @@ requested (e.g. protocol, hostname, path, query string)
 
 	examples = `
 
-EXAMPLE
+EXAMPLES
 
 With no options returns "http\texample.com\t/my/page.html"
 
@@ -141,7 +141,7 @@ func main() {
 	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS"
+	cfg.OptionText = "OPTIONS\n\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
 
 	if showHelp == true {

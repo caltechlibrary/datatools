@@ -38,15 +38,16 @@ the outbound JSON document</li>
 
 <h2>OPTIONS</h2>
 
-<pre><code>-h  display help
--help   display help
--i  input filename
--input  input filename
--license    display license
--o  output filename
--output output filename
--v  display version
--version    display version
+<pre><code>    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -license    display license
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -58,7 +59,7 @@ the outbound JSON document</li>
 
 <p>and the template, name.tmpl, contained</p>
 
-<pre><code class="language-template">   {{- .name -}}
+<pre><code>   {{- .name -}}
 </code></pre>
 
 <p>Getting just the name could be done with</p>
@@ -66,12 +67,12 @@ the outbound JSON document</li>
 <pre><code class="language-shell">    cat person.json | jsonmunge name.tmpl
 </code></pre>
 
-<p>This would yeild</p>
+<p>This would yield</p>
 
-<pre><code class="language-csv">    &quot;Doe, Jane&quot;
+<pre><code>    &quot;Doe, Jane&quot;
 </code></pre>
 
-<p>jsonmunge v0.0.17</p>
+<p>jsonmunge v0.0.18</p>
 
 </section>
 
