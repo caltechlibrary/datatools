@@ -9,12 +9,14 @@ findfile finds files based on matching prefix, suffix or contained text in base 
 
 ## OPTIONS
 
+```
 	-c	find file(s) based on basename containing text
 	-contains	find file(s) based on basename containing text
 	-d	Limit depth of directories walked
 	-depth	Limit depth of directories walked
 	-e	Stop walk on file system errors (e.g. permissions)
 	-error-stop	Stop walk on file system errors (e.g. permissions)
+	-example	display example(s)
 	-f	list full path for files found
 	-full-path	list full path for files found
 	-h	display this help message
@@ -29,14 +31,15 @@ findfile finds files based on matching prefix, suffix or contained text in base 
 	-suffix	find file(s) based on basename suffix
 	-v	display version message
 	-version	display version message
+```
 
 ## EXAMPLE
+
+Search the current directory and subdirectories for Markdown files with extension of ".md".
 
 ```shell
 	findfile -s .md
 ```
 
-Search the current directory and subdirectories for Markdown files with extension of ".md".
 
-
-findfile v0.0.17
+findfile v0.0.18

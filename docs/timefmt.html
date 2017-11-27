@@ -41,30 +41,35 @@ common constants (e.g. RFC822, RFC1123).</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>-h  display help
--help   display help
--input  Set format for input
--l  display license
--license    display license
--output Set format for output
--utc    timestamps in UTC
--v  display version
--version    display version
+<pre><code>    -example	display example(s)
+	-h	display help
+	-help	display help
+	-input-format	Set format for input
+	-l	display license
+	-license	display license
+	-output-format	Set format for output
+	-utc	timestamps in UTC
+	-v	display version
+	-version	display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
 
-<pre><code>    timefmt -input &quot;2006-01-02&quot; -output &quot;01/02/2006&quot; &quot;2016-07-02&quot;
+<p>Format the date July, 7, 2016 in YYYY-MM-DD format</p>
+
+<pre><code>    timefmt -input-format &quot;2006-01-02&quot; -output-format &quot;01/02/2006&quot; &quot;2016-07-02&quot;
 </code></pre>
 
 <p>Yields &ldquo;07/02/2016&rdquo;</p>
 
-<pre><code>    timefmt -input mysql -output RFC822  &quot;2016-07-02 08:08:08&quot;
+<p>Format the MySQL date/time of 8:08am, July 2, 2016</p>
+
+<pre><code>    timefmt -input-format mysql -output-format RFC822  &quot;2016-07-02 08:08:08&quot;
 </code></pre>
 
 <p>Yields &ldquo;02 Jul 16 08:08 UTC&rdquo;</p>
 
-<p>timefmt v0.0.17</p>
+<p>timefmt v0.0.18</p>
 
 </section>
 

@@ -49,22 +49,24 @@ JSON output.
 
 	examples = `
 
-EXAMPLE
+EXAMPLES
+
+This would get the sheet named "Sheet 1" from "my-workbook.xlsx" and save as sheet1.json
 
     %s my-workbook.xlsx "Sheet 1" > sheet1.json
 
-This would get the first sheet from the workbook and save it as a JSON file.
+This would get the number of sheets in the workbook
 
     %s -c my-workbook.xlsx
 
-This will output the number of sheels in the Workbook.
+This will output the title of the sheets in the workbook
 
     %s -n my-workbook.xlsx
 
-This will display a list of sheet names, one per line.
-Putting it all together in a shell script.
+Putting it all together in a shell script and convert all sheets to
+into JSON documents..
 
-    for SHEET_NAME in $(%s -n my-workbook.xlsx); do
+	 %s -n my-workbook.xlsx | while read SHEET_NAME; do
        %s my-workbook.xlsx "$SHEET_NAME" > \
 	       "${SHEET_NAME// /-}.json"
     done
@@ -156,7 +158,7 @@ func main() {
 	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS"
+	cfg.OptionText = "OPTIONS\n\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName)
 
 	if showHelp == true {

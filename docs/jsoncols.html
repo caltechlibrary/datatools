@@ -34,13 +34,13 @@ extracted is a comma. This can be overridden with an option.</p>
 <ul>
 <li>EXPRESSION can be an empty stirng or dot notation for an object&rsquo;s path</li>
 <li>INPUT_FILENAME is the filename to read or a dash &ldquo;-&rdquo; if you want to
-explicity read from stdin
+explicitly read from stdin
 
 <ul>
 <li>if not provided then jsoncols reads from stdin</li>
 </ul></li>
 <li>OUTPUT_FILENAME is the filename to write or a dash &ldquo;-&rdquo; if you want to
-explicity write to stdout
+explicitly write to stdout
 
 <ul>
 <li>if not provided then jsoncols write to stdout</li>
@@ -49,25 +49,26 @@ explicity write to stdout
 
 <h2>OPTIONS</h2>
 
-<pre><code>-csv    output as CSV or other flat delimiter row
--d  set the delimiter for multi-field csv output
--dimiter    set the delimiter for multi-field csv output
--h  display help
--help   display help
--i  input filename
--input  input filename
--l  display license
--license    display license
--m  display output in monochrome
--o  output filename
--output output filename
--permissive suppress error messages
--quiet  suppress error messages
--quote  if dilimiter is found in column value add quotes for non-CSV output
--r  run interactively
--repl   run interactively
--v  display version
--version    display version
+<pre><code>	-csv	output as CSV or other flat delimiter row
+	-d	set the delimiter for multi-field csv output
+	-dimiter	set the delimiter for multi-field csv output
+	-example	display example(s)
+	-h	display help
+	-help	display help
+	-i	input filename
+	-input	input filename
+	-l	display license
+	-license	display license
+	-m	display output in monochrome
+	-o	output filename
+	-output	output filename
+	-permissive	suppress error messages
+	-quiet	suppress error messages
+	-quote	if dilimiter is found in column value add quotes for non-CSV output
+	-r	run interactively
+	-repl	run interactively
+	-v	display version
+	-version	display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -82,21 +83,21 @@ explicity write to stdout
 <pre><code class="language-shell">    jsoncols -i myblob.json .name
 </code></pre>
 
-<p>This would yeild</p>
+<p>This would yield</p>
 
-<pre><code class="language-json">    &quot;Doe, Jane&quot;
+<pre><code>    &quot;Doe, Jane&quot;
 </code></pre>
 
 <p>Flipping .name and .age into pipe delimited columns is as
 easy as listing each field in the expression inside a
 space delimited string.</p>
 
-<pre><code class="language-shell">    jsoncols -i myblob.json -d\|  .name .age 
+<pre><code class="language-shell">    jsoncols -i myblob.json -d\|  .name .age
 </code></pre>
 
-<p>This would yeild</p>
+<p>This would yield</p>
 
-<pre><code>    &quot;Doe, Jane&quot;|42
+<pre><code>    Doe, Jane|42
 </code></pre>
 
 <p>You can also pipe JSON data in.</p>
@@ -106,10 +107,10 @@ space delimited string.</p>
 
 <p>Would yield</p>
 
-<pre><code class="language-csv">   &quot;Doe, Jane&quot;,jane.doe@xample.org,42
+<pre><code>   &quot;Doe, Jane&quot;,jane.doe@xample.org,42
 </code></pre>
 
-<p>jsoncols v0.0.17</p>
+<p>jsoncols v0.0.18</p>
 
 </section>
 

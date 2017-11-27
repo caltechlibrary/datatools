@@ -12,8 +12,10 @@ easy to output only the data rows.
 
 ## OPTIONS
 
+```
 	-d	set delimiter character
 	-delimiter	set delimiter character
+	-example	display example(s)
 	-h	display help
 	-header	display the header row (alias for '-rows 1')
 	-help	display help
@@ -28,6 +30,7 @@ easy to output only the data rows.
 	-skip-header-row	skip the header row (alias for -row 2:
 	-v	display version
 	-version	display version
+```
 
 ## EXAMPLES
 
@@ -59,5 +62,4 @@ Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
     csvrows -i 10row.csv -row 1,4,6 > 3rows.csv
 ```
 
-
-csvrows v0.0.17
+csvrows v0.0.18

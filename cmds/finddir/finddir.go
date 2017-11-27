@@ -50,9 +50,9 @@ SYNOPSIS
 
 EXAMPLE
 
-	%s -p img
-
 Find all subdirectories starting with "img".
+
+	%s -p img
 
 `
 
@@ -162,7 +162,7 @@ func main() {
 	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTION"
+	cfg.OptionText = "OPTIONS\n\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName)
 
 	if showHelp == true {

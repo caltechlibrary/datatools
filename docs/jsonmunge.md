@@ -15,6 +15,8 @@ or filter for specific content.
 
 ## OPTIONS
 
+```
+	-example	display example(s)
 	-h	display help
 	-help	display help
 	-i	input filename
@@ -24,6 +26,7 @@ or filter for specific content.
 	-output	output filename
 	-v	display version
 	-version	display version
+```
 
 ## EXAMPLES
 
@@ -33,9 +36,9 @@ If person.json contained
    {"name": "Doe, Jane", "email":"jd@example.org", "age": 42}
 ```
 
-and the template, name.tmpl, contained 
+and the template, name.tmpl, contained
 
-```template
+```
    {{- .name -}}
 ```
 
@@ -45,11 +48,10 @@ Getting just the name could be done with
     cat person.json | jsonmunge name.tmpl
 ```
 
-This would yeild
+This would yield
 
-```csv
+```
     "Doe, Jane"
 ```
 
-
-jsonmunge v0.0.17
+jsonmunge v0.0.18

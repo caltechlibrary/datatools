@@ -35,7 +35,7 @@ import (
 )
 
 const (
-	Version = `v0.0.17`
+	Version = `v0.0.18`
 
 	LicenseText = `
 %s %s
@@ -248,4 +248,21 @@ func ParseRange(s string, max int) ([]int, error) {
 		}
 	}
 	return nums, nil
+}
+
+// EnglishTitle - uses an improve capitalization rules for English titles.
+// This is based on the approach suggested in the Go language Cookbook:
+//     http://golangcookbook.com/chapters/strings/title/
+func EnglishTitle(s string) string {
+	words := strings.Fields(s)
+	smallwords := " a an on the to of in "
+
+	for index, word := range words {
+		if strings.Contains(smallwords, " "+word+" ") && index != 0 {
+			words[index] = word
+		} else {
+			words[index] = strings.Title(word)
+		}
+	}
+	return strings.Join(words, " ")
 }

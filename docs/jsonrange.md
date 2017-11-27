@@ -1,7 +1,7 @@
 
 # USAGE
 
-## jsonrange [OPTIONS] [DOT_PATH_EXPRESSION] 
+## jsonrange [OPTIONS] [DOT_PATH_EXPRESSION]
 
 ## SYSNOPSIS
 
@@ -32,8 +32,10 @@ The path can be chained together
 
 ## OPTIONS
 
+```
 	-d	set delimiter for range output
 	-delimiter	set delimiter for range output
+	-example	display example(s)
 	-h	display help
 	-help	display help
 	-i	read JSON from file
@@ -50,6 +52,7 @@ The path can be chained together
 	-v	display version
 	-values	return the values instead of the keys
 	-version	display version
+```
 
 ## EXAMPLES
 
@@ -149,4 +152,4 @@ would yield
     2
 ```
 
-jsonrange v0.0.17
+jsonrange v0.0.18

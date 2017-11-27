@@ -31,43 +31,46 @@ JSON output.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>-c  display number of sheets in Excel Workbook
--h  display help
--help   display help
--l  display license
--license    display license
--n  display sheet names in Excel Workbook
--o  output filename
--output output filename
--v  display version
--version    display version
+<pre><code>    -c	display number of sheets in Excel Workbook
+	-example	display example(s)
+	-h	display help
+	-help	display help
+	-l	display license
+	-license	display license
+	-n	display sheet names in Excel Workbook
+	-o	output filename
+	-output	output filename
+	-v	display version
+	-version	display version
 </code></pre>
 
 <h2>EXAMPLE</h2>
 
+<p>This would get the sheet &ldquo;Sheet 1&rdquo; from &ldquo;my-workbook.xlsx&rdquo; and save as sheet1.json</p>
+
 <pre><code class="language-shell">    xlsx2json my-workbook.xlsx &quot;Sheet 1&quot; &gt; sheet1.json
 </code></pre>
 
-<p>This would get the first sheet from the workbook and save it as a JSON file.</p>
+<p>This would get the number of sheets in a workbook</p>
 
 <pre><code class="language-shell">    xlsx2json -c my-workbook.xlsx
 </code></pre>
 
-<p>This will output the number of sheels in the Workbook.</p>
+<p>This will output the title of the sheets in the Workbook.</p>
 
 <pre><code class="language-shell">    xlsx2json -n my-workbook.xlsx
 </code></pre>
 
-<p>This will display a list of sheet names, one per line.
-Putting it all together in a shell script.</p>
+<p>Putting it all together in a shell script and converting
+all sheets to JSON documents.</p>
 
-<pre><code class="language-shell">    for SHEET_NAME in $(xlsx2json -n my-workbook.xlsx); do
+<pre><code class="language-shell">    xlsx2json -n my-workbook.xlsx | while read SHEET_NAME; do
        xlsx2json my-workbook.xlsx &quot;$SHEET_NAME&quot; &gt; \
 	       &quot;${SHEET_NAME// /-}.json&quot;
     done
 </code></pre>
 
-<p>xlsx2json v0.0.17</p>
+<p>xlsx2json v0.0.18</p>
 
 </section>
 

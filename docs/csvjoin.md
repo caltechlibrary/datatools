@@ -11,6 +11,7 @@ compared as strings. Columns are counted from one rather than zero.
 
 ## OPTIONS
 
+```
 	-allow-duplicates	allow duplicates when searching for matches
 	-case-sensitive	make a case sensitive match (default is case insensitive)
 	-col1	column to on join on in first CSV file
@@ -21,6 +22,7 @@ compared as strings. Columns are counted from one rather than zero.
 	-d	set delimiter character
 	-delete-cost	deletion cost to use when calculating Levenshtein edit distance
 	-delimiter	set delimiter character
+	-example	display example(s)
 	-h	display help
 	-help	display help
 	-in-memory	if true read both CSV files
@@ -37,8 +39,9 @@ compared as strings. Columns are counted from one rather than zero.
 	-v	display version
 	-verbose	output processing count to stderr
 	-version	display version
+```
 
-## EXAMPLES
+## EXAMPLE
 
 Simple usage of building a merged CSV file from data1.csv
 and data2.csv where column 1 in data1.csv matches the value in
@@ -51,4 +54,4 @@ merged-data.csv..
        -output=merged-data.csv
 ```
 
-csvjoin v0.0.17
+csvjoin v0.0.18

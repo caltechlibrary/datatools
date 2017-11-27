@@ -11,6 +11,7 @@ exact match as well as some Levenshtein matching.
 
 ## OPTIONS
 
+```
 	-allow-duplicates	allow duplicates when searching for matches
 	-append-edit-distance	append column with edit distance found (useful for tuning levenshtein)
 	-case-sensitive	perform a case sensitive match (default is false)
@@ -19,6 +20,7 @@ exact match as well as some Levenshtein matching.
 	-d	set delimiter character
 	-delete-cost	set the delete cost to use for levenshtein matching
 	-delimiter	set delimiter character
+	-example	display example(s)
 	-h	display help
 	-help	display help
 	-i	input filename
@@ -36,6 +38,7 @@ exact match as well as some Levenshtein matching.
 	-trim-spaces	trim spaces around cell values before comparing
 	-v	display version
 	-version	display version
+```
 
 ## EXAMPLES
 
@@ -63,5 +66,4 @@ You can also search for phrases in columns.
     csvfind -i books.csv -col=2 -contains "Red Book"
 ```
 
-
-csvfind v0.0.17
+csvfind v0.0.18

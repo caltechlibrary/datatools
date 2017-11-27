@@ -32,32 +32,33 @@ path and removing the resulting duplicate.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>-a  Append the directory to the path removing any duplication
--append Append the directory to the path removing any duplication
--c  Remove a directory from the path
--clip   Remove a directory from the path
--d  The directory you want to add to the path.
--directory  The directory you want to add to the path.
--e  The path you want to merge with.
--envpath    The path you want to merge with.
--h  display help
--help   display help
--l  display license
--license    display license
--p  Prepend the directory to the path removing any duplication
--prepend    Prepend the directory to the path removing any duplication
--v  display version
--version    display version
+<pre><code>	-a	Append the directory to the path removing any duplication
+	-append	Append the directory to the path removing any duplication
+	-c	Remove a directory from the path
+	-clip	Remove a directory from the path
+	-d	The directory you want to add to the path.
+	-directory	The directory you want to add to the path.
+	-e	The path you want to merge with.
+	-envpath	The path you want to merge with.
+	-example	display example(s)
+	-h	display help
+	-help	display help
+	-l	display license
+	-license	display license
+	-p	Prepend the directory to the path removing any duplication
+	-prepend	Prepend the directory to the path removing any duplication
+	-v	display version
+	-version	display version
 </code></pre>
 
 <h2>EXAMPLE</h2>
 
+<p>This would put your home bin directory at the beginning of your path.</p>
+
 <pre><code>	export PATH=$(mergepath -p $HOME/bin)
 </code></pre>
 
-<p>This would put your home bin directory at the beginning of your path.</p>
-
-<p>mergepath v0.0.17</p>
+<p>mergepath v0.0.18</p>
 
 </section>
 

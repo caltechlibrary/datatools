@@ -7,9 +7,11 @@
 
 xlsx2csv is a tool that converts individual Excel Sheets to CSV output.
 
-## OPTIONS
+## OPTIONS	
 
-	-c	display number of sheets in Excel Workbook
+```
+    -c	display number of sheets in Excel Workbook
+	-example	display example(s)
 	-h	display help
 	-help	display help
 	-l	display license
@@ -19,8 +21,9 @@ xlsx2csv is a tool that converts individual Excel Sheets to CSV output.
 	-output	output filename
 	-v	display version
 	-version	display version
+```
 
-## EXAMPLE
+## EXAMPLES
 
 ```shell
     xlsx2csv my-workbook.xlsx "Sheet 1" > sheet1.csv
@@ -48,5 +51,4 @@ Putting it all together in a shell script.
     done
 ```
 
-
-xlsx2csv v0.0.17
+xlsx2csv v0.0.18

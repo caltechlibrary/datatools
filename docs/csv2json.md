@@ -11,9 +11,11 @@ per line.
 
 ## OPTIONS
 
+```
 	-as-blobs	output as one JSON blob per line
 	-d	set the delimter character
 	-delimiter	set the delimter character
+	-example	display example(s)
 	-h	display help
 	-help	display help
 	-i	input filename
@@ -25,6 +27,7 @@ per line.
 	-use-header	treat the first row as field names
 	-v	display version
 	-version	display version
+```
 
 ## EXAMPLES
 
@@ -40,5 +43,4 @@ Convert data1.csv to JSON blobs, one line per blob
     csv2json -as-blobs -i data1.csv
 ```
 
-
-csv2json v0.0.17
+csv2json v0.0.18

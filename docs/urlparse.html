@@ -31,64 +31,65 @@ requested (e.g. protocol, hostname, path, query string)</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>-D  Set the output delimited for parsed display. (defaults to tab)
--H  Display the hostname (and port if specified) found in URL.
--P  Display the protocol of URL (defaults to http)
--b  Display the base filename at the end of the path.
--base   Display the base filename at the end of the path.
--d  Display the base filename at the end of the path.
--delimiter  Set the output delimited for parsed display. (defaults to tab)
--directory  Display the base filename at the end of the path.
--e  Display the filename extension (e.g. .html).
--extension  Display the filename extension (e.g. .html).
--h  display help
--help   display help
--host   Display the hostname (and port if specified) found in URL.
--l  display license
--license    display license
--p  Display the path after the hostname.
--path   Display the path after the hostname.
--protocol   Display the protocol of URL (defaults to http)
--v  display verison
--version    display version
+<pre><code>    -D	Set the output delimited for parsed display. (defaults to tab)
+	-H	Display the hostname (and port if specified) found in URL.
+	-P	Display the protocol of URL (defaults to http)
+	-b	Display the base filename at the end of the path.
+	-base	Display the base filename at the end of the path.
+	-d	Display the base filename at the end of the path.
+	-delimiter	Set the output delimited for parsed display. (defaults to tab)
+	-directory	Display the base filename at the end of the path.
+	-e	Display the filename extension (e.g. .html).
+	-example	display example(s)
+	-extension	Display the filename extension (e.g. .html).
+	-h	display help
+	-help	display help
+	-host	Display the hostname (and port if specified) found in URL.
+	-l	display license
+	-license	display license
+	-p	Display the path after the hostname.
+	-path	Display the path after the hostname.
+	-protocol	Display the protocol of URL (defaults to http)
+	-v	display version
+	-version	display version
 </code></pre>
 
-<h2>EXAMPLE</h2>
+<h2>EXAMPLES</h2>
 
 <p>With no options returns &ldquo;http\texample.com\t/my/page.html&rdquo;</p>
 
-<pre><code class="language-shell">    urlparse http://example.com/my/page.html
+<pre><code>    urlparse http://example.com/my/page.html
 </code></pre>
 
 <p>Get protocol. Returns &ldquo;http&rdquo;.</p>
 
-<pre><code class="language-shell">    urlparse --protocol http://example.com/my/page.html
+<pre><code>    urlparse --protocol http://example.com/my/page.html
 </code></pre>
 
 <p>Get host or domain name.  Returns &ldquo;example.com&rdquo;.</p>
 
-<pre><code class="language-shell">    urlparse --host http://example.com/my/page.html
+<pre><code>    urlparse --host http://example.com/my/page.html
 </code></pre>
 
 <p>Get path. Returns &ldquo;/my/page.html&rdquo;.</p>
 
-<pre><code class="language-shell">    urlparse --path http://example.com/my/page.html
+<pre><code>    urlparse --path http://example.com/my/page.html
 </code></pre>
 
 <p>Get basename. Returns &ldquo;page.html&rdquo;.</p>
 
-<pre><code class="language-shell">    urlparse --basename http://example.com/my/page.html
+<pre><code>    urlparse --basename http://example.com/my/page.html
 </code></pre>
 
 <p>Get extension. Returns &ldquo;.html&rdquo;.</p>
 
-<pre><code class="language-shell">    urlparse --extension http://example.com/my/page.html
+<pre><code>    urlparse --extension http://example.com/my/page.html
 </code></pre>
 
 <p>Without options urlparse returns protocol, host and path
 fields separated by a tab.</p>
 
-<p>urlparse v0.0.17</p>
+<p>urlparse v0.0.18</p>
 
 </section>
 

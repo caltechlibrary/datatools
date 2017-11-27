@@ -51,7 +51,7 @@ EXAMPLES
 
 If myblob.json contained
 
-{"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}
+    {"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}
 
 Getting just the name could be done with
 
@@ -144,7 +144,7 @@ func main() {
 	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
 	cfg.UsageText = fmt.Sprintf(usage, appName)
 	cfg.DescriptionText = fmt.Sprintf(description, appName, appName, appName)
-	cfg.OptionText = "OPTIONS"
+	cfg.OptionText = "OPTIONS\n\n"
 	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName)
 
 	//NOTE: Need to handle JSONQUERY_MONOCHROME setting
