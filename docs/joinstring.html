@@ -31,28 +31,28 @@ a single string with output delimiter (default delimiter is an empty string).</p
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-d	set the output delimiting string value (default is empty string)
-	-delimiter	set output delimiting string value (default is empty string)
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-newline	input as one substring per line rather than JSON
-	-nl	input as one substring per line rather than JSON
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+<pre><code>    -d    set the output delimiting string value (default is empty string)
+    -delimiter    set output delimiting string value (default is empty string)
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -newline    input as one substring per line rather than JSON
+    -nl    input as one substring per line rather than JSON
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
 
 <p>Joining a JSON array into a single string delimited by a double pipe.</p>
 
-<pre><code>    joinstring -d '||' '[&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]'
+<pre><code class="language-shell">    joinstring -d '||' '[&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]'
 </code></pre>
 
 <p>This should yield</p>
@@ -62,14 +62,17 @@ a single string with output delimiter (default delimiter is an empty string).</p
 
 <p>Joining a newline delimited file into a single string</p>
 
-<pre><code>    cat &lt;&lt;EOF &gt; joinstring -nl -d '||' &quot;one||two||three&quot;
-    one
-	two
-	three
-    EOF
+<pre><code class="language-shell">    cat myfile.txt | joinstring -nl -d '||' &quot;one||two||three&quot;
 </code></pre>
 
-<p>This should yield</p>
+<p>where <em>myfile.txt</em> holds</p>
+
+<pre><code>    one
+    two
+    three
+</code></pre>
+
+<p>should yield</p>
 
 <pre><code>    one||two||three
 </code></pre>

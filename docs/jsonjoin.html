@@ -49,20 +49,20 @@ overwriting key/value pairs (-overwrite option).</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>	-create	create an empty root object, {}
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename (for root object)
-	-input	input filename (for root object)
-	-l	display license
-	-license	display license
-	-o	output filename
-	-output	output filename
-	-overwrite	copy all key/values into root object
-	-update	copy new key/values pairs into root object
-	-v	display version
-	-version	display version
+<pre><code>    -create    create an empty root object, {}
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename (for root object)
+    -input    input filename (for root object)
+    -l    display license
+    -license    display license
+    -o    output filename
+    -output    output filename
+    -overwrite    copy all key/values into root object
+    -update    copy new key/values pairs into root object
+    -v    display version
+    -version    display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -84,14 +84,14 @@ in profile.json.</p>
 <p>A simple join of person.json with profile.json (note the
 -create option)</p>
 
-<pre><code class="language-json">   jsonjoin -create person.json profile.json
+<pre><code class="language-shell">   jsonjoin -create person.json profile.json
 </code></pre>
 
 <p>would yield and object like</p>
 
 <pre><code class="language-json">   {
      &quot;person&quot;:  { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;,
-	 			&quot;age&quot;: 42},
+                 &quot;age&quot;: 42},
      &quot;profile&quot;: { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
                   &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
    }

@@ -31,17 +31,17 @@ JSON output.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>    -c	display number of sheets in Excel Workbook
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-l	display license
-	-license	display license
-	-n	display sheet names in Excel Workbook
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+<pre><code>    -c    display number of sheets in Excel Workbook
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -l    display license
+    -license    display license
+    -n    display sheet names in Excel Workbook
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 </code></pre>
 
 <h2>EXAMPLE</h2>
@@ -66,7 +66,7 @@ all sheets to JSON documents.</p>
 
 <pre><code class="language-shell">    xlsx2json -n my-workbook.xlsx | while read SHEET_NAME; do
        xlsx2json my-workbook.xlsx &quot;$SHEET_NAME&quot; &gt; \
-	       &quot;${SHEET_NAME// /-}.json&quot;
+           &quot;${SHEET_NAME// /-}.json&quot;
     done
 </code></pre>
 
