@@ -16,26 +16,26 @@ One additional time layout provided by timefmt
  
 + mysql "2006-01-02 15:04:05 -0700"
 
-## OPTIONS	
+## OPTIONS    
 
 ```
-    -example	display example(s)
-	-h	display help
-	-help	display help
-	-input-format	Set format for input
-	-l	display license
-	-license	display license
-	-output-format	Set format for output
-	-utc	timestamps in UTC
-	-v	display version
-	-version	display version
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -input-format    Set format for input
+    -l    display license
+    -license    display license
+    -output-format    Set format for output
+    -utc    timestamps in UTC
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES
 
 Format the date July, 7, 2016 in YYYY-MM-DD format
 
-```
+```shell
     timefmt -input-format "2006-01-02" -output-format "01/02/2006" "2016-07-02"
 ```
 
@@ -43,7 +43,7 @@ Yields "07/02/2016"
 
 Format the MySQL date/time of 8:08am, July 2, 2016
 
-```
+```shell
     timefmt -input-format mysql -output-format RFC822  "2016-07-02 08:08:08"
 ```
 

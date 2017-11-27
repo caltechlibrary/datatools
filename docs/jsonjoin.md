@@ -29,20 +29,20 @@ Note: jsonjoin doesn't support a JSON array as the root JSON object.
 ## OPTIONS
 
 ```
-	-create	create an empty root object, {}
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename (for root object)
-	-input	input filename (for root object)
-	-l	display license
-	-license	display license
-	-o	output filename
-	-output	output filename
-	-overwrite	copy all key/values into root object
-	-update	copy new key/values pairs into root object
-	-v	display version
-	-version	display version
+    -create    create an empty root object, {}
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename (for root object)
+    -input    input filename (for root object)
+    -l    display license
+    -license    display license
+    -o    output filename
+    -output    output filename
+    -overwrite    copy all key/values into root object
+    -update    copy new key/values pairs into root object
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES
@@ -66,7 +66,7 @@ profile.json contains
 A simple join of person.json with profile.json (note the
 -create option)
 
-```json
+```shell
    jsonjoin -create person.json profile.json
 ```
 
@@ -75,7 +75,7 @@ would yield and object like
 ```json
    {
      "person":  { "name": "Doe, Jane", "email":"jd@example.org",
-	 			"age": 42},
+                 "age": 42},
      "profile": { "name": "Doe, Jane", "bio": "World renowned geophysist.",
                   "email": "jane.doe@example.edu" }
    }

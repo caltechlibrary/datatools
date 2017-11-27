@@ -11,19 +11,19 @@ table to stdout.
 ## OPTIONS
 
 ```
-	-d	set delimiter character
-	-delimiter	set delimiter character
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+    -d    set delimiter character
+    -delimiter    set delimiter character
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES

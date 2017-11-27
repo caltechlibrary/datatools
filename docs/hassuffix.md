@@ -14,19 +14,19 @@ of "-i -" or a file with "-i FILENAME".
 ## OPTIONS
 
 ```
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-new-line	include a trailing newline in output
-	-nl	include a trailing newline in output
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -new-line    include a trailing newline in output
+    -nl    include a trailing newline in output
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES
@@ -41,7 +41,7 @@ Should yield
 
 ```
     true
-	true
+    true
 ```
 
 and exit with a status code of zero.
@@ -55,8 +55,8 @@ See if the words "unknown" and "common" start with the prefix "un"
 Should yield
 
 ```
-	true
-	false
+    true
+    false
 ```
 
 and exist with a status code of one.

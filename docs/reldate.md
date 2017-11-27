@@ -17,20 +17,20 @@ to the first three letters of the name, e.g. Sunday can be Sun, Monday
 can be Mon, Tuesday can be Tue, Wednesday can be Wed, Thursday can
 be Thu, Friday can be Fri or Saturday can be Sat.
 
-## OPTION	
+## OPTIONS
 
 ```
-    -e	Display the end of month day. E.g. 2012-02-29
-	-end-of-month	Display the end of month day. E.g. 2012-02-29
-	-example	display example(s)
-	-f	Date the relative time is calculated from.
-	-from	Date the relative time is calculated from.
-	-h	display help
-	-help	display help
-	-l	display license
-	-license	display license
-	-v	display version
-	-version	display version
+    -e    Display the end of month day. E.g. 2012-02-29
+    -end-of-month    Display the end of month day. E.g. 2012-02-29
+    -example    display example(s)
+    -f    Date the relative time is calculated from.
+    -from    Date the relative time is calculated from.
+    -h    display help
+    -help    display help
+    -l    display license
+    -license    display license
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES

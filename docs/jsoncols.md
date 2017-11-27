@@ -13,34 +13,34 @@ extracted is a comma. This can be overridden with an option.
 + EXPRESSION can be an empty stirng or dot notation for an object's path
 + INPUT_FILENAME is the filename to read or a dash "-" if you want to
   explicitly read from stdin
-	+ if not provided then jsoncols reads from stdin
+    + if not provided then jsoncols reads from stdin
 + OUTPUT_FILENAME is the filename to write or a dash "-" if you want to
   explicitly write to stdout
-	+ if not provided then jsoncols write to stdout
+    + if not provided then jsoncols write to stdout
 
 ## OPTIONS
 
 ```
-	-csv	output as CSV or other flat delimiter row
-	-d	set the delimiter for multi-field csv output
-	-dimiter	set the delimiter for multi-field csv output
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-m	display output in monochrome
-	-o	output filename
-	-output	output filename
-	-permissive	suppress error messages
-	-quiet	suppress error messages
-	-quote	if dilimiter is found in column value add quotes for non-CSV output
-	-r	run interactively
-	-repl	run interactively
-	-v	display version
-	-version	display version
+    -csv    output as CSV or other flat delimiter row
+    -d    set the delimiter for multi-field csv output
+    -dimiter    set the delimiter for multi-field csv output
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -m    display output in monochrome
+    -o    output filename
+    -output    output filename
+    -permissive    suppress error messages
+    -quiet    suppress error messages
+    -quote    if dilimiter is found in column value add quotes for non-CSV output
+    -r    run interactively
+    -repl    run interactively
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES

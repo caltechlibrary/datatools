@@ -50,7 +50,7 @@ If the Workbook does not exist then it is created.
 
 	examples = `
 
-EXAMPLE
+EXAMPLES
 
 	%s -i data.csv MyWorkbook.xlsx 'My worksheet'
 

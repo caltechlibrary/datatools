@@ -7,20 +7,20 @@
 
 xlsx2csv is a tool that converts individual Excel Sheets to CSV output.
 
-## OPTIONS	
+## OPTIONS    
 
 ```
-    -c	display number of sheets in Excel Workbook
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-l	display license
-	-license	display license
-	-n	display sheet names in Excel W9rkbook
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+    -c    display number of sheets in Excel Workbook
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -l    display license
+    -license    display license
+    -n    display sheet names in Excel W9rkbook
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES
@@ -45,9 +45,9 @@ This will display a list of sheet names, one per line.
 Putting it all together in a shell script.
 
 ```shell
-    for SHEET_NAME in $(xlsx2csv -n my-workbook.xlsx); do
+    xlsx2csv -n my-workbook.xlsx | while read SHEET_NAME; do
        xlsx2csv my-workbook.xlsx "$SHEET_NAME" > \
-	       "${SHEET_NAME// /-}.csv"
+           "${SHEET_NAME// /-}.csv"
     done
 ```
 

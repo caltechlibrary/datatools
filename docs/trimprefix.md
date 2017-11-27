@@ -10,26 +10,26 @@ trimprefix returns a version of the string(s) without the designated prefix stri
 ## OPTIONS
 
 ```
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-new-line	include a trailing newline in output
-	-nl	include a trailing newline in output
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -new-line    include a trailing newline in output
+    -nl    include a trailing newline in output
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES
 
 Trim the prefix "un" from the words "unknowning" and "unusual"
 
-```
+```shell
     trimprefix "un" "unknowning" "unusual"
 ```
 
@@ -42,7 +42,7 @@ Should yield
 
 Trim the prefix "un" from the words "unknown" and "common"
 
-```
+```shell
     trimprefix "un" "unknowning" "common"
 ```
 

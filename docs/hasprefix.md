@@ -14,19 +14,19 @@ of "-i -" or a file with "-i FILENAME".
 ## OPTIONS
 
 ```
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-new-line	include a trailing newline in output
-	-nl	include a trailing newline in output
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -new-line    include a trailing newline in output
+    -nl    include a trailing newline in output
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES

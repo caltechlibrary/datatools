@@ -54,12 +54,15 @@ This should yield
 
 Joining a newline delimited file into a single string
 
-    cat <<EOF > %s -nl -d '||' "one||two||three"
-    one
+    cat myfile.txt | %s -nl -d '||' "one||two||three"
+
+where myfile.txt holds
+
+	one
 	two
 	three
-    EOF
-This should yield
+
+should yield
 
     one||two||three
 

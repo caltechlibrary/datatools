@@ -13,30 +13,30 @@ added rules English specific capitalization rules will be used.
 ## OPTIONS
 
 ```
-	-c	capitalize words
-	-capitalize	capitalize words
-	-capitalize-english	english capitalization of words
-	-ce	english capitalization of words
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-newline	output a newline
-	-nl	output a newline
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+    -c    capitalize words
+    -capitalize    capitalize words
+    -capitalize-english    english capitalization of words
+    -ce    english capitalization of words
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -newline    output a newline
+    -nl    output a newline
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLE
 
 Title case the string "the cat in the hat"
 
-```
+```shell
     totitle "the cat in the hat"
 ```
 
@@ -48,7 +48,7 @@ This should yield
 
 Usage -c or -capitalize option "the cat in the hat"
 
-```
+```shell
     totitle -c "the cat in the hat"
 ```
 
@@ -60,7 +60,7 @@ should yeild
 
 Using -ce or -capitalize-english option "the cat in the hat"
 
-```
+```shell
     totitle -ce "the cat in the hat"
 ```
 

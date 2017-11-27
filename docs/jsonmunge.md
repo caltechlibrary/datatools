@@ -16,16 +16,16 @@ or filter for specific content.
 ## OPTIONS
 
 ```
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-license	display license
-	-o	output filename
-	-output	output filename
-	-v	display version
-	-version	display version
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -license    display license
+    -o    output filename
+    -output    output filename
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES

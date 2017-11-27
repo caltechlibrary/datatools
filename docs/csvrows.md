@@ -13,23 +13,23 @@ easy to output only the data rows.
 ## OPTIONS
 
 ```
-	-d	set delimiter character
-	-delimiter	set delimiter character
-	-example	display example(s)
-	-h	display help
-	-header	display the header row (alias for '-rows 1')
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-o	output filename
-	-output	output filename
-	-row	output specified rows in order (e.g. -row 1,5,2:4))
-	-rows	output specified rows in order (e.g. -rows 1,5,2:4))
-	-skip-header-row	skip the header row (alias for -row 2:
-	-v	display version
-	-version	display version
+    -d    set delimiter character
+    -delimiter    set delimiter character
+    -example    display example(s)
+    -h    display help
+    -header    display the header row (alias for '-rows 1')
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -o    output filename
+    -output    output filename
+    -row    output specified rows in order (e.g. -row 1,5,2:4))
+    -rows    output specified rows in order (e.g. -rows 1,5,2:4))
+    -skip-header-row    skip the header row (alias for -row 2:
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES

@@ -12,21 +12,21 @@ per line.
 ## OPTIONS
 
 ```
-	-as-blobs	output as one JSON blob per line
-	-d	set the delimter character
-	-delimiter	set the delimter character
-	-example	display example(s)
-	-h	display help
-	-help	display help
-	-i	input filename
-	-input	input filename
-	-l	display license
-	-license	display license
-	-o	output filename
-	-output	output filename
-	-use-header	treat the first row as field names
-	-v	display version
-	-version	display version
+    -as-blobs    output as one JSON blob per line
+    -d    set the delimter character
+    -delimiter    set the delimter character
+    -example    display example(s)
+    -h    display help
+    -help    display help
+    -i    input filename
+    -input    input filename
+    -l    display license
+    -license    display license
+    -o    output filename
+    -output    output filename
+    -use-header    treat the first row as field names
+    -v    display version
+    -version    display version
 ```
 
 ## EXAMPLES
