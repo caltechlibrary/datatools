@@ -71,6 +71,7 @@ Convert data1.csv to JSON blobs, one line per blob
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// Application Options
 	useHeader bool
@@ -91,6 +92,7 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error output")
 
 	// App Options
 	flag.BoolVar(&useHeader, "use-header", true, "treat the first row as field names")
@@ -141,17 +143,11 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	rowNo := 0
@@ -163,18 +159,15 @@ func main() {
 	if useHeader == true {
 		row, err := r.Read()
 		if err == io.EOF {
-			fmt.Fprintf(os.Stderr, "No data\n")
-			os.Exit(1)
+			cli.ExitOnError(os.Stderr, fmt.Errorf("No data"), quiet)
 		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
-		}
+		cli.ExitOnError(os.Stderr, err, quiet)
 		for _, val := range row {
 			fieldNames = append(fieldNames, strings.TrimSpace(val))
 		}
 		rowNo++
 	}
+	hasError := false
 	arrayOfObjects := []string{}
 	object := map[string]interface{}{}
 	for {
@@ -182,10 +175,8 @@ func main() {
 		if err == io.EOF {
 			break
 		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
-		}
+		cli.ExitOnError(os.Stderr, err, quiet)
+
 		// Pad the fieldnames if necessary
 		object = map[string]interface{}{}
 		for col, val := range row {
@@ -197,7 +188,8 @@ func main() {
 		}
 		src, err := json.Marshal(object)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "error row %d, %s\n", rowNo, err)
+			cli.OnError(os.Stderr, fmt.Errorf("error row %d, %s\n", rowNo, err), quiet)
+			hasError = true
 		}
 		if asBlobs == true {
 			fmt.Fprintf(out, "%s\n", src)
@@ -208,5 +200,8 @@ func main() {
 	}
 	if asBlobs == false {
 		fmt.Fprintf(out, "[%s]\n", strings.Join(arrayOfObjects, ","))
+	}
+	if hasError == true {
+		os.Exit(1)
 	}
 }

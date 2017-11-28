@@ -75,6 +75,7 @@ should yield
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// App Options
 	delimiter string
@@ -94,6 +95,7 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application specific options
 	flag.StringVar(&delimiter, "d", "", "set the output delimiting string value (default is empty string)")
@@ -142,17 +144,11 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	// Normalize the delimiter if \n or \t
@@ -166,28 +162,21 @@ func main() {
 	results := []string{}
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Can't read file, %s", err)
-			os.Exit(1)
-		}
+		cli.ExitOnError(os.Stderr, err, quiet)
 		if newLine == true {
 			results = strings.Split(string(src), "\n")
 		} else {
 			err := json.Unmarshal(src, &results)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "expected a JSON array of strings, %s\n", err)
-				os.Exit(1)
-			}
+			cli.ExitOnError(os.Stderr, err, quiet)
 		}
 	}
 
 	for _, arg := range args {
 		if strings.HasPrefix(arg, "[") && strings.HasSuffix(arg, "]") {
 			parts := []string{}
-			if err := json.Unmarshal([]byte(arg), &parts); err != nil {
-				fmt.Fprintf(os.Stderr, "expected a JSON array of strings, %s\n", err)
-				os.Exit(1)
-			}
+			err := json.Unmarshal([]byte(arg), &parts)
+			cli.ExitOnError(os.Stderr, err, quiet)
+
 			for _, s := range parts {
 				results = append(results, s)
 			}

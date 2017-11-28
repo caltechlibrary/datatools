@@ -66,6 +66,7 @@ merged-data.csv..
 	showVersion  bool
 	showExamples bool
 	outputFName  string
+	quiet        bool
 
 	// App Options
 	verbose         bool
@@ -167,6 +168,7 @@ func init() {
 	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "supress error messages")
 
 	// App Options
 	flag.BoolVar(&verbose, "verbose", false, "output processing count to stderr")
@@ -232,41 +234,32 @@ func main() {
 
 	// NOTE: We are counting columns for humans from 1 rather than zero.
 	if col1 <= 0 {
-		fmt.Fprintf(os.Stderr, "col1 must be one or greater, %d\n", col1)
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("col1 must be one or greater, %d\n", col1), quiet)
 	}
 	if col2 <= 0 {
-		fmt.Fprintf(os.Stderr, "col2 must be one or greater, %d\n", col2)
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("col2 must be one or greater, %d\n", col2), quiet)
 	}
 	col1--
 	col2--
 
 	// NOTE: we don't setup inputFName as we need at least two inputs to process the join.
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	if len(csv1FName) == 0 {
-		fmt.Fprintln(os.Stderr, "Missing first CSV filename")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing first CSV filename"), quiet)
 	}
 
 	if len(csv2FName) == 0 {
-		fmt.Fprintln(os.Stderr, "Missing second CSV filename")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing second CSV filename"), quiet)
 	}
 
 	if col1 < 0 {
-		fmt.Fprintf(os.Stderr, "Cannot use a negative column index %d\n", col1)
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Cannot use a negative column index %d\n", col1), quiet)
 	}
 	if col2 < 0 {
-		fmt.Fprintf(os.Stderr, "Cannot use a negative column index %d\n", col2)
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Cannot use a negative column index %d\n", col2), quiet)
 	}
 
 	// FIXME: Should only read the smaller of two files into memory
@@ -275,18 +268,12 @@ func main() {
 	// Read in CSV2 to memory then iterate over CSV1 output rows that have
 	// matching column's value
 	fp1, err := os.Open(csv1FName)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Can't read %s, %s\n", csv1FName, err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer fp1.Close()
 	csv1 := csv.NewReader(fp1)
 
 	fp2, err := os.Open(csv2FName)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Can't read %s, %s\n", csv2FName, err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer fp2.Close()
 	csv2 := csv.NewReader(fp2)
 
@@ -305,8 +292,7 @@ func main() {
 			break
 		}
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s, %s\n", csv2FName, err)
-			fmt.Fprintf(os.Stderr, "%T %+v\n", record, record)
+			cli.OnError(os.Stderr, fmt.Errorf("%s, %s (%T %+v)", csv2FName, err, record, record), quiet)
 		}
 		csv2Table = append(csv2Table, record)
 	}
@@ -320,19 +306,17 @@ func main() {
 				break
 			}
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "%d %s\n", lineNo, err)
+				cli.OnError(os.Stderr, fmt.Errorf("%d %s\n", lineNo, err), quiet)
 			} else {
 				if col1 < len(rowA) && rowA[col1] != "" {
 					// We are relying on the side effect of writing the CSV output in scanTable
 					if err := scanTable(w, rowA, col1, csv2Table, col2, stopWords); err != nil {
-						fmt.Fprintf(os.Stderr, "Can't write CSV at line %d of csv table 1, %s\n", lineNo, err)
+						cli.OnError(os.Stderr, fmt.Errorf("Can't write CSV at line %d of csv table 1, %s\n", lineNo, err), quiet)
 					}
 				}
 				if verbose == true {
 					if (lineNo%100) == 0 && lineNo > 0 {
-						fmt.Fprintf(os.Stderr, "\n%d rows of %s processed\n", lineNo, csv1FName)
-					} else {
-						fmt.Fprintf(os.Stderr, ".")
+						cli.OnError(os.Stderr, fmt.Errorf("\n%d rows of %s processed\n", lineNo, csv1FName), quiet)
 					}
 				}
 			}
@@ -348,8 +332,7 @@ func main() {
 				break
 			}
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "%s, %s\n", csv1FName, err)
-				fmt.Fprintf(os.Stderr, "%T %+v\n", record, record)
+				cli.OnError(os.Stderr, fmt.Errorf("%s, %s (%T %+v)", csv1FName, err, record, record), quiet)
 			}
 			csv1Table = append(csv1Table, record)
 		}
@@ -358,21 +341,18 @@ func main() {
 			if col1 < len(rowA) && rowA[col1] != "" {
 				// We are relying on the side effect of writing the CSV output in scanTable
 				if err := scanTable(w, rowA, col1, csv2Table, col2, stopWords); err != nil {
-					fmt.Fprintf(os.Stderr, "Can't write CSV at line %d of csv table 1, %s\n", lineNo, err)
+					cli.OnError(os.Stderr, fmt.Errorf("Can't write CSV at line %d of csv table 1, %s", lineNo, err), quiet)
 				}
 			}
 			if verbose == true {
 				if (lineNo%100) == 0 && lineNo > 0 {
-					fmt.Fprintf(os.Stderr, "\n%d rows of %s processed\n", lineNo, csv1FName)
-				} else {
-					fmt.Fprintf(os.Stderr, ".")
+					cli.OnError(os.Stderr, fmt.Errorf("%d rows of %s processed", lineNo, csv1FName), quiet)
 				}
 			}
 			lineNo = i
 		}
 	}
 	w.Flush()
-	if err := w.Error(); err != nil {
-		fmt.Fprintf(os.Stderr, "Can't write final CSV at line %d lines processed from CSV table 1, %s\n", lineNo+1, err)
-	}
+	err = w.Error()
+	cli.ExitOnError(os.Stderr, err, quiet)
 }

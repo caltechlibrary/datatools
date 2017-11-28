@@ -88,6 +88,7 @@ Filter a 10 columns CSV file for columns 1,4,6 from file named "10col.csv"
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// App Options
 	outputColumns string
@@ -135,22 +136,15 @@ func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, ski
 		if err == io.EOF {
 			break
 		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s, %s\n", inputFName, err)
-			fmt.Fprintf(os.Stderr, "%T %+v\n", rec, rec)
-		}
+		cli.OnError(os.Stderr, err, quiet)
+
 		row := selectedColumns(i, rec, columnNos, prefixUUID, skipHeaderRow)
-		if err := w.Write(row); err != nil {
-			fmt.Fprintf(os.Stderr, "Error writing record to csv: %s\n", err)
-			fmt.Fprintf(os.Stderr, "Row %T %+v\n", row, row)
-			os.Exit(1)
-		}
+		err = w.Write(row)
+		cli.ExitOnError(os.Stderr, err, quiet)
 	}
 	w.Flush()
-	if err := w.Error(); err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	err = w.Error()
+	cli.ExitOnError(os.Stderr, err, quiet)
 }
 
 func init() {
@@ -166,6 +160,7 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Options
 	flag.StringVar(&outputColumns, "col", "", "output specified columns (e.g. -col 1,12:14,2,4))")
@@ -218,25 +213,17 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	if outputColumns != "" {
 		columnNos, err := datatools.ParseRange(outputColumns, maxColumns)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
-		}
+		cli.ExitOnError(os.Stderr, err, quiet)
+
 		// NOTE: We need to adjust from humans counting from 1 to counting from zero
 		for i := 0; i < len(columnNos); i++ {
 			columnNos[i] = columnNos[i] - 1

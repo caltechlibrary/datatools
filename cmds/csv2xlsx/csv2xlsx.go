@@ -70,6 +70,7 @@ the workbook's sheet.
 	showVersion  bool
 	showExamples bool
 	inputFName   string
+	quiet        bool
 
 	// App Specific Options
 	workbookName string
@@ -104,9 +105,7 @@ func csv2XLSXSheet(in *os.File, workbookName string, sheetName string, delimiter
 		if err == io.EOF {
 			break
 		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-		}
+		cli.OnError(os.Stderr, err, quiet)
 		row := sheet.AddRow()
 		for _, val := range record {
 			cell := row.AddCell()
@@ -128,6 +127,7 @@ func init() {
 	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&inputFName, "i", "", "input filename (CSV content)")
 	flag.StringVar(&inputFName, "input", "", "input filename (CSV content)")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Specific Options
 	flag.StringVar(&workbookName, "workbook", "", "Workbook name")
@@ -178,10 +178,7 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	if len(workbookName) == 0 && len(args) > 0 {
@@ -197,16 +194,11 @@ func main() {
 	}
 
 	if len(workbookName) == 0 {
-		fmt.Fprintln(os.Stderr, "Missing workbook name")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing workbook name"), quiet)
 	}
 	if len(sheetName) == 0 {
-		fmt.Fprintln(os.Stderr, "Missing sheet name")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing sheet name"), quiet)
 	}
 	err = csv2XLSXSheet(in, workbookName, sheetName, delimiter)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 }

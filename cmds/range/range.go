@@ -94,6 +94,7 @@ Yields a random integer from 0 to 10
 	showLicense  bool
 	showVersion  bool
 	showExamples bool
+	quiet        bool
 
 	// Application Specific Options
 	start         int
@@ -117,6 +118,7 @@ func init() {
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
 	flag.BoolVar(&showExamples, "example", false, "display example(s)")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App specific options
 	flag.IntVar(&start, "start", 0, startUsage)
@@ -131,8 +133,7 @@ func init() {
 
 func assertOk(e error, failMsg string) {
 	if e != nil {
-		fmt.Fprintf(os.Stderr, " %s\n %s\n", failMsg, e)
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf(" %s, %s", failMsg, e), quiet)
 	}
 }
 
@@ -191,11 +192,9 @@ func main() {
 	argv := flag.Args()
 
 	if argc < 2 {
-		fmt.Fprintf(os.Stderr, "Must include start and end integers.")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Must include start and end integers."), quiet)
 	} else if argc > 3 {
-		fmt.Fprintf(os.Stderr, "Too many command line arguments.")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Too many command line arguments."), quiet)
 	}
 
 	start, err := strconv.Atoi(argv[0])

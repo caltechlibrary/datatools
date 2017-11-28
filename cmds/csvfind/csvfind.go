@@ -76,6 +76,7 @@ You can also search for phrases in columns.
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// App Options
 	skipHeaderRow      bool
@@ -107,6 +108,7 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Options
 	flag.IntVar(&col, "col", 0, "column to search for match in the CSV file")
@@ -168,14 +170,12 @@ func main() {
 	}
 
 	if col <= 0 {
-		fmt.Fprintf(os.Stderr, "Cannot have a zero or negative column reference %d\n", col)
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Cannot have a zero or negative column reference %d", col), quiet)
 	}
 	col = col - 1
 
 	if len(args) == 0 {
-		fmt.Fprintf(os.Stderr, "Missing string to match, try %s --help", appName)
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing string to match, try %s --help", appName), quiet)
 	}
 
 	target := args[0]
@@ -192,16 +192,10 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	csvIn := csv.NewReader(in)
@@ -221,7 +215,7 @@ func main() {
 			break
 		}
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "%d %s", lineNo, err)
+			cli.OnError(os.Stderr, fmt.Errorf("%d %s", lineNo, err), quiet)
 		} else {
 			// Find the value we're matching against
 			if col < len(record) {
@@ -242,7 +236,7 @@ func main() {
 					if strings.Contains(src, target) {
 						err := csvOut.Write(record)
 						if err != nil {
-							fmt.Fprintf(os.Stderr, "%d %s\n", lineNo, err)
+							cli.OnError(os.Stderr, fmt.Errorf("%d %s", lineNo, err), quiet)
 						}
 					}
 				case useLevenshtein == true:
@@ -253,14 +247,14 @@ func main() {
 						}
 						err := csvOut.Write(record)
 						if err != nil {
-							fmt.Fprintf(os.Stderr, "%d %s\n", lineNo, err)
+							cli.OnError(os.Stderr, fmt.Errorf("%d %s", lineNo, err), quiet)
 						}
 					}
 				default:
 					if strings.Compare(src, target) == 0 {
 						err := csvOut.Write(record)
 						if err != nil {
-							fmt.Fprintf(os.Stderr, "%d %s\n", lineNo, err)
+							cli.OnError(os.Stderr, fmt.Errorf("%d %s", lineNo, err), quiet)
 						}
 					}
 				}
@@ -268,13 +262,11 @@ func main() {
 					break
 				}
 			} else {
-				fmt.Fprintf(os.Stderr, "%d line skipped, missing column %d", lineNo, col)
+				cli.OnError(os.Stderr, fmt.Errorf("%d line skipped, missing column %d", lineNo, col), quiet)
 			}
 		}
 	}
 	csvOut.Flush()
-	if err := csvOut.Error(); err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	err = csvOut.Error()
+	cli.ExitOnError(os.Stderr, err, quiet)
 }

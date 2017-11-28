@@ -61,6 +61,7 @@ This should yield
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// App Options
 	delimiter string
@@ -80,6 +81,7 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application specific options
 	flag.StringVar(&delimiter, "d", " ", "set the delimiting string value")
@@ -128,17 +130,11 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	// Normalize the delimiter if \n or \t
@@ -151,10 +147,7 @@ func main() {
 
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Can't read file, %s", err)
-			os.Exit(1)
-		}
+		cli.ExitOnError(os.Stderr, err, quiet)
 		args = strings.Split(string(src), "\n")
 	}
 
@@ -170,10 +163,7 @@ func main() {
 		fmt.Fprintf(out, "%s\n", strings.Join(results, "\n"))
 	} else {
 		src, err := json.Marshal(results)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Can't marshal %+v", err)
-			os.Exit(1)
-		}
+		cli.ExitOnError(os.Stderr, err, quiet)
 		fmt.Fprintf(out, "%s\n", src)
 	}
 }

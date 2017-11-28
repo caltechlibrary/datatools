@@ -86,6 +86,7 @@ Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// Application specific options
 	validateRows  bool
@@ -124,23 +125,18 @@ func CSVRows(in *os.File, out *os.File, rowNos []int, delimiter string) {
 			break
 		}
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s, %s\n", inputFName, err)
-			fmt.Fprintf(os.Stderr, "%T %+v\n", rec, rec)
+			cli.OnError(os.Stderr, fmt.Errorf("%s, %s (%T %+v)", inputFName, err, rec, rec), quiet)
 		}
 		row := selectedRow(i, rec, rowNos)
 		if row != nil {
 			if err := w.Write(row); err != nil {
-				fmt.Fprintf(os.Stderr, "Error writing record to csv: %s\n", err)
-				fmt.Fprintf(os.Stderr, "Row %T %+v\n", row, row)
-				os.Exit(1)
+				cli.ExitOnError(os.Stderr, fmt.Errorf("Error writing record to csv: %s (Row %T %+v)", err, row, row), quiet)
 			}
 		}
 	}
 	w.Flush()
-	if err := w.Error(); err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	err = w.Error()
+	cli.ExitOnError(os.Stderr, err, quiet)
 }
 
 func init() {
@@ -156,6 +152,7 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application specific options
 	flag.StringVar(&delimiter, "d", "", "set delimiter character")
@@ -208,17 +205,11 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	if showHeader == true {
@@ -233,10 +224,8 @@ func main() {
 
 	if outputRows != "" {
 		rowNos, err := datatools.ParseRange(outputRows, maxRows)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
-		}
+		cli.ExitOnError(os.Stderr, err, quiet)
+
 		// NOTE: We need to adjust from humans counting from 1 to counting from zero
 		for i := 0; i < len(rowNos); i++ {
 			rowNos[i] = rowNos[i] - 1

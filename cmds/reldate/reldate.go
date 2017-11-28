@@ -126,6 +126,7 @@ English names (e.g. Monday, monday, Mon, mon).
 	showVersion  bool
 	showLicense  bool
 	showExamples bool
+	quiet        bool
 
 	// Application Options
 	endOfMonthFor bool
@@ -147,6 +148,7 @@ func init() {
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
 	flag.BoolVar(&showExamples, "example", false, "display example(s)")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Specific Options
 	flag.StringVar(&relativeTo, "from", relativeTo, relativeToUsage)
@@ -157,8 +159,7 @@ func init() {
 
 func assertOk(e error, failMsg string) {
 	if e != nil {
-		fmt.Fprintf(os.Stderr, " %s\n %s\n", failMsg, e)
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf(" %s, %s", failMsg, e), quiet)
 	}
 }
 
@@ -210,11 +211,9 @@ func main() {
 	argv := flag.Args()
 
 	if argc < 1 && endOfMonthFor == false {
-		fmt.Fprintf(os.Stderr, "Missing time increment and units (e.g. +2 days) or weekday name (e.g. Monday, Mon).\n")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing time increment and units (e.g. +2 days) or weekday name (e.g. Monday, Mon)."), quiet)
 	} else if argc > 2 {
-		fmt.Fprintf(os.Stderr, "Too many command line arguments.\n")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Too many command line arguments."), quiet)
 	}
 
 	relativeT = time.Now()

@@ -69,6 +69,7 @@ Should yield
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// App Options
 	newLine bool
@@ -87,6 +88,7 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application Options
 	flag.BoolVar(&newLine, "nl", true, "include a trailing newline in output")
@@ -133,31 +135,22 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	if len(args) < 1 {
-		fmt.Printf("Must include suffix to check")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Must include suffix to check"), quiet)
 	}
 	suffix := args[0]
 
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Can't read file, %s", err)
-			os.Exit(1)
-		}
+		cli.ExitOnError(os.Stderr, err, quiet)
+
 		lines := strings.Split(string(src), "\n")
 		for _, line := range lines {
 			args = append(args, strings.TrimSpace(line))

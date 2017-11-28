@@ -61,6 +61,7 @@ Search the current directory and subdirectories for Markdown files with extensio
 	showVersion  bool
 	showLicense  bool
 	showExamples bool
+	quiet        bool
 
 	// App Specific Options
 	showModificationTime bool
@@ -133,6 +134,7 @@ func init() {
 	flag.BoolVar(&showVersion, "v", false, "display version message")
 	flag.BoolVar(&showVersion, "version", false, "display version message")
 	flag.BoolVar(&showExamples, "example", false, "display example(s)")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Specific Options
 	flag.BoolVar(&showModificationTime, "m", false, "display file modification time before the path")
@@ -197,8 +199,7 @@ func main() {
 	}
 
 	if findAll == false && len(args) == 0 {
-		fmt.Println(cfg.Usage())
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("%s", cfg.Usage()), quiet)
 	}
 
 	// Shift the target filename so args holds the directories to search

@@ -142,6 +142,7 @@ would yield
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// Application Specific Options
 	update     bool
@@ -162,6 +163,7 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename (for root object)")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application Specific Options
 	flag.BoolVar(&createRoot, "create", false, "create an empty root object, {}")
@@ -211,29 +213,20 @@ func main() {
 	}
 
 	if len(args) == 0 {
-		fmt.Fprintf(os.Stderr, "Need to provide at least one template name\n")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Need to provide at least one template name\n"), quiet)
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	// Make sure we have some JSON objects to join...
 	if len(args) < 1 {
-		fmt.Fprintln(os.Stderr, cfg.Usage())
-		fmt.Fprintln(os.Stderr, "Missing JSON document(s) to join")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing JSON document(s) to join"), quiet)
 	}
 
 	outObject := map[string]interface{}{}
@@ -242,13 +235,9 @@ func main() {
 	// READ in the JSON document if present on standard in or specified with -i.
 	if createRoot == false {
 		buf, err := ioutil.ReadAll(in)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
-		}
-		if err := json.Unmarshal(buf, &outObject); err != nil {
-			log.Fatal(err)
-		}
+		cli.ExitOnError(os.Stderr, err, quiet)
+		err = json.Unmarshal(buf, &outObject)
+		cli.ExitOnError(os.Stderr, err, quiet)
 	}
 
 	for _, arg := range args {

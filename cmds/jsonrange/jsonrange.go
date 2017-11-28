@@ -136,6 +136,7 @@ would yield
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// Application Specific Options
 	showLength bool
@@ -232,15 +233,6 @@ func srcVals(data interface{}, limit int) ([]string, error) {
 	return nil, fmt.Errorf("%T does not support for range", data)
 }
 
-func handleError(err error, exitCode int) {
-	if permissive == false {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-	}
-	if exitCode >= 0 {
-		os.Exit(exitCode)
-	}
-}
-
 func init() {
 	// Standard Options
 	flag.BoolVar(&showHelp, "h", false, "display help")
@@ -254,6 +246,7 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "read JSON from file")
 	flag.StringVar(&outputFName, "o", "", "write to output file")
 	flag.StringVar(&outputFName, "output", "", "write to output file")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application Options
 	flag.BoolVar(&showLength, "length", false, "return the number of keys or values")
@@ -304,18 +297,15 @@ func main() {
 
 	if showVersion == true {
 		fmt.Println(cfg.Version())
+		os.Exit(0)
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		handleError(err, 1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		handleError(err, 1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	// If no args then assume "." is desired
@@ -325,12 +315,10 @@ func main() {
 
 	// Read in the complete JSON data structure
 	buf, err := ioutil.ReadAll(in)
-	if err != nil {
-		handleError(err, 1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 
 	if len(buf) == 0 {
-		handleError(fmt.Errorf("%s", cfg.Usage()), 1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("no data"), quiet)
 	}
 
 	var (
@@ -349,33 +337,24 @@ func main() {
 		} else {
 			data, err = dotpath.EvalJSON(p, buf)
 		}
-		if err != nil {
-			handleError(err, 1)
-		}
+		cli.ExitOnError(os.Stderr, err, quiet)
+
 		switch {
 		case showLength:
-			if l, err := getLength(data); err == nil {
-				fmt.Fprintf(out, "%d", l)
-			} else {
-				handleError(err, -1)
-			}
+			l, err := getLength(data)
+			cli.ExitOnError(os.Stderr, err, quiet)
+			fmt.Fprintf(out, "%d", l)
 		case showLast:
-			if l, err := getLength(data); err == nil {
-				fmt.Fprintf(out, "%d", l-1)
-			} else {
-				handleError(err, -1)
-			}
+			l, err := getLength(data)
+			cli.ExitOnError(os.Stderr, err, quiet)
+			fmt.Fprintf(out, "%d", l-1)
 		case showValues:
 			elems, err := srcVals(data, limit-1)
-			if err != nil {
-				handleError(err, 1)
-			}
+			cli.ExitOnError(os.Stderr, err, quiet)
 			fmt.Fprintln(out, strings.Join(elems, delimiter))
 		default:
 			elems, err := srcKeys(data, limit-1)
-			if err != nil {
-				handleError(err, 1)
-			}
+			cli.ExitOnError(os.Stderr, err, quiet)
 			fmt.Fprintln(out, strings.Join(elems, delimiter))
 		}
 	}

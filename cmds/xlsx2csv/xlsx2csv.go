@@ -77,6 +77,7 @@ Putting it all together in a shell script.
 	showVersion  bool
 	showExamples bool
 	outputFName  string
+	quiet        bool
 
 	// Application Options
 	showSheetCount bool
@@ -145,6 +146,7 @@ func init() {
 	flag.BoolVar(&showExamples, "example", false, "display example(s)")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Specific Options
 	flag.BoolVar(&showSheetCount, "c", false, "display number of sheets in Excel Workbook")
@@ -193,42 +195,30 @@ func main() {
 	}
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	if len(args) < 1 {
-		fmt.Println(cfg.Usage())
-		fmt.Fprintln(os.Stderr, "Missing Excel Workbook names")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing Excel Workbook names"), quiet)
 	}
 
 	workBookName := args[0]
 	if showSheetCount == true {
-		if cnt, err := sheetCount(workBookName); err == nil {
-			fmt.Printf("%d", cnt)
-			os.Exit(0)
-		} else {
-			fmt.Fprintf(os.Stderr, "%s, %s\n", workBookName, err)
-			os.Exit(1)
-		}
+		cnt, err := sheetCount(workBookName)
+		cli.ExitOnError(os.Stderr, err, quiet)
+		fmt.Printf("%d", cnt)
+		os.Exit(0)
 	}
 
 	if showSheetNames == true {
-		if names, err := sheetNames(workBookName); err == nil {
-			fmt.Println(strings.Join(names, "\n"))
-			os.Exit(0)
-		} else {
-			fmt.Fprintf(os.Stderr, "%s, %s\n", workBookName, err)
-			os.Exit(1)
-		}
+		names, err := sheetNames(workBookName)
+		cli.ExitOnError(os.Stderr, err, quiet)
+		fmt.Println(strings.Join(names, "\n"))
+		os.Exit(0)
 	}
 
 	if len(args) < 2 {
-		fmt.Fprintln(os.Stderr, "Missing worksheet name")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing worksheet name"), quiet)
 	}
 	for _, sheetName := range args[1:] {
 		if len(sheetName) > 0 {
