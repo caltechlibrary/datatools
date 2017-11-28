@@ -73,6 +73,7 @@ This would yield
 	quiet        bool
 
 	// Application Specific Options
+	templateExpr string
 )
 
 func init() {
@@ -90,6 +91,8 @@ func init() {
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application Specific Options
+	flag.StringVar(&templateExpr, "E", "", "use template expression as template")
+	flag.StringVar(&templateExpr, "expression", "", "use template expression as template")
 }
 
 func main() {
@@ -133,12 +136,23 @@ func main() {
 		os.Exit(0)
 	}
 
-	if len(args) == 0 {
+	if len(args) == 0 && templateExpr == "" {
 		cli.ExitOnError(os.Stderr, fmt.Errorf("Need to provide at least one template name"), quiet)
 	}
-	// Read in and compile our templates
-	tmpl, err := template.New(path.Base(args[0])).Funcs(tmplfn.AllFuncs()).ParseFiles(args...)
-	cli.ExitOnError(os.Stderr, err, quiet)
+
+	var (
+		tmpl *template.Template
+		err  error
+	)
+	if templateExpr != "" {
+		// Read in and compile our templates expression
+		tmpl, err = template.New("default").Funcs(tmplfn.AllFuncs()).Parse(templateExpr)
+		cli.ExitOnError(os.Stderr, err, quiet)
+	} else {
+		// Read in and compile our templates
+		tmpl, err = template.New(path.Base(args[0])).Funcs(tmplfn.AllFuncs()).ParseFiles(args...)
+		cli.ExitOnError(os.Stderr, err, quiet)
+	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
 	cli.ExitOnError(os.Stderr, err, quiet)
