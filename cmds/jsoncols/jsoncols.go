@@ -96,7 +96,6 @@ Would yield
 	csvOutput      bool
 	delimiter      = ","
 	expressions    []string
-	permissive     bool
 	quote          bool
 )
 
@@ -123,8 +122,6 @@ func init() {
 	flag.StringVar(&delimiter, "d", delimiter, "set the delimiter for multi-field csv output")
 	flag.StringVar(&delimiter, "dimiter", delimiter, "set the delimiter for multi-field csv output")
 	flag.BoolVar(&quote, "quote", false, "if dilimiter is found in column value add quotes for non-CSV output")
-	flag.BoolVar(&permissive, "permissive", false, "suppress error messages")
-	flag.BoolVar(&permissive, "quiet", false, "suppress error messages")
 }
 
 func main() {
