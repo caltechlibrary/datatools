@@ -222,5 +222,4 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-	fmt.Fprintf(out, "%s", nl)
 }

@@ -164,7 +164,7 @@ func main() {
 
 	nl := "\n"
 	if newLine == false {
-		nl := ""
+		nl = ""
 	}
 
 	// Loop through input CSV, apply options, write to output CSV
