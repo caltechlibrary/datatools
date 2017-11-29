@@ -77,6 +77,7 @@ You can also search for phrases in columns.
 	inputFName   string
 	outputFName  string
 	quiet        bool
+	newLine      bool
 
 	// App Options
 	skipHeaderRow      bool
@@ -109,6 +110,9 @@ func init() {
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline from output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline from output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline from output")
 
 	// App Options
 	flag.IntVar(&col, "col", 0, "column to search for match in the CSV file")
@@ -198,6 +202,11 @@ func main() {
 	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
+	nl := "\n"
+	if newLine == false {
+		nl = ""
+	}
+
 	csvIn := csv.NewReader(in)
 	csvOut := csv.NewWriter(out)
 	if delimiter != "" {
@@ -269,4 +278,5 @@ func main() {
 	csvOut.Flush()
 	err = csvOut.Error()
 	cli.ExitOnError(os.Stderr, err, quiet)
+	fmt.Fprintf(out, "%s", nl)
 }

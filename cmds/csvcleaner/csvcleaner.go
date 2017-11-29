@@ -62,6 +62,7 @@ Trim leading and trailing spaces
 	inputFName   string
 	outputFName  string
 	quiet        bool
+	newLine      bool
 
 	// App Options
 	comma             string
@@ -94,6 +95,9 @@ func init() {
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
 
 	// Application specific options
 	flag.IntVar(&fieldsPerRecord, "fields-per-row", 0, "set the number of columns to output right padding empty cells as needed")
@@ -157,6 +161,11 @@ func main() {
 	out, err := cli.Create(outputFName, os.Stdout)
 	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
+
+	nl := "\n"
+	if newLine == false {
+		nl := ""
+	}
 
 	// Loop through input CSV, apply options, write to output CSV
 	if trimSpace == true {
@@ -252,4 +261,5 @@ func main() {
 	if verbose == true {
 		cli.OnError(os.Stderr, fmt.Errorf("Processed %d rows\n", i), quiet)
 	}
+	fmt.Fprintf(out, "%s", nl)
 }

@@ -62,10 +62,11 @@ This should yield
 	inputFName   string
 	outputFName  string
 	quiet        bool
+	newLine      bool
 
 	// App Options
 	delimiter string
-	newLine   bool
+	plainText bool
 )
 
 func init() {
@@ -82,12 +83,15 @@ func init() {
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
 
 	// Application specific options
 	flag.StringVar(&delimiter, "d", " ", "set the delimiting string value")
 	flag.StringVar(&delimiter, "delimiter", " ", "set the delimiting string value")
-	flag.BoolVar(&newLine, "nl", false, "output as one substring per line rather than JSON")
-	flag.BoolVar(&newLine, "newline", false, "output as one substring per line rather than JSON")
+	flag.BoolVar(&plainText, "text", true, "output as plain text, one value per line rather than JSON")
+	flag.BoolVar(&plainText, "plain-text", true, "output as plain text, one value per line rather than JSON")
 }
 
 func main() {
@@ -159,11 +163,16 @@ func main() {
 		}
 	}
 
-	if newLine == true {
-		fmt.Fprintf(out, "%s\n", strings.Join(results, "\n"))
+	nl := "\n"
+	if newLine == false {
+		nl = ""
+	}
+
+	if plainText == true {
+		fmt.Fprintf(out, "%s%s", strings.Join(results, "\n"), nl)
 	} else {
 		src, err := json.Marshal(results)
 		cli.ExitOnError(os.Stderr, err, quiet)
-		fmt.Fprintf(out, "%s\n", src)
+		fmt.Fprintf(out, "%s%s", src, nl)
 	}
 }

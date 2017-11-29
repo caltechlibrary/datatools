@@ -76,10 +76,11 @@ should yield
 	inputFName   string
 	outputFName  string
 	quiet        bool
+	newLine      bool
 
 	// App Options
 	delimiter string
-	newLine   bool
+	inNewLine bool
 )
 
 func init() {
@@ -96,12 +97,15 @@ func init() {
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude newline in output")
+	flag.BoolVar(&newLine, "newline", true, "include newline in output")
+	flag.BoolVar(&newLine, "nl", true, "include newline in output")
 
 	// Application specific options
 	flag.StringVar(&delimiter, "d", "", "set the output delimiting string value (default is empty string)")
 	flag.StringVar(&delimiter, "delimiter", "", "set output delimiting string value (default is empty string)")
-	flag.BoolVar(&newLine, "nl", false, "input as one substring per line rather than JSON")
-	flag.BoolVar(&newLine, "newline", false, "input as one substring per line rather than JSON")
+	flag.BoolVar(&inNewLine, "input-nl", false, "input as one substring per line rather than JSON")
+	flag.BoolVar(&inNewLine, "input-newline", false, "input as one substring per line rather than JSON")
 }
 
 func main() {
@@ -163,7 +167,7 @@ func main() {
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
 		cli.ExitOnError(os.Stderr, err, quiet)
-		if newLine == true {
+		if inNewLine == true {
 			results = strings.Split(string(src), "\n")
 		} else {
 			err := json.Unmarshal(src, &results)
@@ -184,5 +188,10 @@ func main() {
 			results = append(results, arg)
 		}
 	}
-	fmt.Fprintf(out, "%s", strings.Join(results, delimiter))
+
+	nl := "\n"
+	if newLine == false {
+		nl = ""
+	}
+	fmt.Fprintf(out, "%s%s", strings.Join(results, delimiter), nl)
 }

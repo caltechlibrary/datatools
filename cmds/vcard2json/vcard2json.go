@@ -66,9 +66,9 @@ Or reading, writing to specific file
 	inputFName   string
 	outputFName  string
 	quiet        bool
+	newLine      bool
 
 	// Application specific options
-	newLine bool
 )
 
 func init() {
@@ -85,10 +85,11 @@ func init() {
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error message")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
 
 	// Application specific options
-	flag.BoolVar(&newLine, "nl", false, "add a trailing new line")
-	flag.BoolVar(&newLine, "new-line", false, "add a trailing new line")
 }
 
 func main() {

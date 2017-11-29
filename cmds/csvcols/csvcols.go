@@ -89,6 +89,7 @@ Filter a 10 columns CSV file for columns 1,4,6 from file named "10col.csv"
 	inputFName   string
 	outputFName  string
 	quiet        bool
+	newLine      bool
 
 	// App Options
 	outputColumns string
@@ -161,6 +162,9 @@ func init() {
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
 
 	// App Options
 	flag.StringVar(&outputColumns, "col", "", "output specified columns (e.g. -col 1,12:14,2,4))")
@@ -220,6 +224,11 @@ func main() {
 	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
+	nl := "\n"
+	if newLine == false {
+		nl = ""
+	}
+
 	if outputColumns != "" {
 		columnNos, err := datatools.ParseRange(outputColumns, maxColumns)
 		cli.ExitOnError(os.Stderr, err, quiet)
@@ -259,4 +268,5 @@ func main() {
 	if err := w.Error(); err != nil {
 		log.Fatal(err)
 	}
+	fmt.Fprintf(out, "%s", nl)
 }

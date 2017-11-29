@@ -61,6 +61,7 @@ Find all subdirectories starting with "img".
 	showVersion  bool
 	showLicense  bool
 	showExamples bool
+	outputFName  string
 	quiet        bool
 
 	// Application Options
@@ -221,4 +222,5 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+	fmt.Fprintf(out, "%s", nl)
 }

@@ -72,6 +72,7 @@ Convert data1.csv to JSON blobs, one line per blob
 	inputFName   string
 	outputFName  string
 	quiet        bool
+	newLine      bool
 
 	// Application Options
 	useHeader bool
@@ -93,6 +94,9 @@ func init() {
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error output")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
 
 	// App Options
 	flag.BoolVar(&useHeader, "use-header", true, "treat the first row as field names")
@@ -170,6 +174,10 @@ func main() {
 	hasError := false
 	arrayOfObjects := []string{}
 	object := map[string]interface{}{}
+	nl := "\n"
+	if newLine == false {
+		nl = ""
+	}
 	for {
 		row, err := r.Read()
 		if err == io.EOF {
@@ -192,14 +200,14 @@ func main() {
 			hasError = true
 		}
 		if asBlobs == true {
-			fmt.Fprintf(out, "%s\n", src)
+			fmt.Fprintf(out, "%s%s", src, nl)
 		} else {
 			arrayOfObjects = append(arrayOfObjects, string(src))
 		}
 		rowNo++
 	}
 	if asBlobs == false {
-		fmt.Fprintf(out, "[%s]\n", strings.Join(arrayOfObjects, ","))
+		fmt.Fprintf(out, "[%s]%s", strings.Join(arrayOfObjects, ","), nl)
 	}
 	if hasError == true {
 		os.Exit(1)

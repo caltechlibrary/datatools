@@ -67,6 +67,7 @@ merged-data.csv..
 	showExamples bool
 	outputFName  string
 	quiet        bool
+	newLine      bool
 
 	// App Options
 	verbose         bool
@@ -169,6 +170,9 @@ func init() {
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "supress error messages")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline from output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline from output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline from output")
 
 	// App Options
 	flag.BoolVar(&verbose, "verbose", false, "output processing count to stderr")
@@ -230,6 +234,11 @@ func main() {
 	if showVersion == true {
 		fmt.Println(cfg.Version())
 		os.Exit(0)
+	}
+
+	nl := "\n"
+	if newLine == false {
+		nl = ""
 	}
 
 	// NOTE: We are counting columns for humans from 1 rather than zero.
@@ -355,4 +364,5 @@ func main() {
 	w.Flush()
 	err = w.Error()
 	cli.ExitOnError(os.Stderr, err, quiet)
+	fmt.Fprintf(out, "%s", nl)
 }

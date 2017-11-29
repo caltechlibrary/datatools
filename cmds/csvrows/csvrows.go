@@ -87,6 +87,7 @@ Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 	inputFName   string
 	outputFName  string
 	quiet        bool
+	newLine      bool
 
 	// Application specific options
 	validateRows  bool
@@ -153,6 +154,9 @@ func init() {
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline from output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline from output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline from output")
 
 	// Application specific options
 	flag.StringVar(&delimiter, "d", "", "set delimiter character")
@@ -212,6 +216,11 @@ func main() {
 	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
+	nl := "\n"
+	if newLine == false {
+		nl = ""
+	}
+
 	if showHeader == true {
 		outputRows = "1"
 	}
@@ -264,4 +273,5 @@ func main() {
 	if err := w.Error(); err != nil {
 		log.Fatal(err)
 	}
+	fmt.Fprintf(out, "%s", nl)
 }
