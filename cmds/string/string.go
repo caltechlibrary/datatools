@@ -22,14 +22,15 @@ var (
 `
 
 	// Standard Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	inputFName   string
-	outputFName  string
-	newLine      bool
-	quiet        bool
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	newLine              bool
+	quiet                bool
+	generateMarkdownDocs bool
 
 	// App Options
 	nl           string
@@ -439,6 +440,7 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output file name")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "output a trailing newline")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "output documentation in Markdown")
 
 	// App Options
 	app.BoolVar(&plainText, "t,text", false, "handle arrays as plain text")
@@ -473,6 +475,10 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Handle options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
 	if showHelp || showExamples {
 		if len(args) > 0 {
 			fmt.Fprintf(app.Out, app.Help(args...))

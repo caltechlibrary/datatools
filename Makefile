@@ -15,7 +15,7 @@ ifeq ($(OS), Windows)
 endif
 
 
-build$(EXT): bin/csvcols$(EXT) bin/csvrows$(EXT) bin/csvfind$(EXT) bin/csvjoin$(EXT) bin/jsoncols$(EXT) bin/jsonrange$(EXT) bin/xlsx2json$(EXT) bin/xlsx2csv$(EXT) bin/csv2mdtable$(EXT) bin/csv2xlsx$(EXT) bin/csv2json$(EXT) bin/vcard2json$(EXT) bin/jsonjoin$(EXT) bin/jsonmunge$(EXT) bin/findfile$(EXT) bin/finddir$(EXT) bin/mergepath$(EXT) bin/reldate$(EXT) bin/range$(EXT) bin/timefmt$(EXT) bin/urlparse$(EXT) bin/splitstring$(EXT) bin/joinstring$(EXT) bin/hasprefix$(EXT) bin/hassuffix$(EXT) bin/trimprefix$(EXT) bin/trimsuffix$(EXT) bin/tolower$(EXT) bin/toupper$(EXT) bin/totitle$(EXT) bin/csvcleaner$(EXT) bin/string$(EXT) 
+build$(EXT): bin/csvcols$(EXT) bin/csvrows$(EXT) bin/csvfind$(EXT) bin/csvjoin$(EXT) bin/jsoncols$(EXT) bin/jsonrange$(EXT) bin/xlsx2json$(EXT) bin/xlsx2csv$(EXT) bin/csv2mdtable$(EXT) bin/csv2xlsx$(EXT) bin/csv2json$(EXT) bin/vcard2json$(EXT) bin/jsonjoin$(EXT) bin/jsonmunge$(EXT) bin/findfile$(EXT) bin/finddir$(EXT) bin/mergepath$(EXT) bin/reldate$(EXT) bin/range$(EXT) bin/timefmt$(EXT) bin/urlparse$(EXT) bin/csvcleaner$(EXT) bin/string$(EXT) 
 
 
 bin/csvcols$(EXT): datatools.go cmds/csvcols/csvcols.go
@@ -81,33 +81,6 @@ bin/timefmt$(EXT): datatools.go cmds/timefmt/timefmt.go
 bin/urlparse$(EXT): datatools.go cmds/urlparse/urlparse.go
 	go build -o bin/urlparse$(EXT) cmds/urlparse/urlparse.go 
 
-bin/splitstring$(EXT): datatools.go cmds/splitstring/splitstring.go
-	go build -o bin/splitstring$(EXT) cmds/splitstring/splitstring.go
-
-bin/joinstring$(EXT): datatools.go cmds/joinstring/joinstring.go
-	go build -o bin/joinstring$(EXT) cmds/joinstring/joinstring.go
-
-bin/hasprefix$(EXT): datatools.go cmds/hasprefix/hasprefix.go
-	go build -o bin/hasprefix$(EXT) cmds/hasprefix/hasprefix.go
-
-bin/hassuffix$(EXT): datatools.go cmds/hassuffix/hassuffix.go
-	go build -o bin/hassuffix$(EXT) cmds/hassuffix/hassuffix.go
-
-bin/trimprefix$(EXT): datatools.go cmds/trimprefix/trimprefix.go
-	go build -o bin/trimprefix$(EXT) cmds/trimprefix/trimprefix.go
-
-bin/trimsuffix$(EXT): datatools.go cmds/trimsuffix/trimsuffix.go
-	go build -o bin/trimsuffix$(EXT) cmds/trimsuffix/trimsuffix.go
-
-bin/tolower$(EXT): datatools.go cmds/tolower/tolower.go
-	go build -o bin/tolower$(EXT) cmds/tolower/tolower.go
-
-bin/toupper$(EXT): datatools.go cmds/toupper/toupper.go
-	go build -o bin/toupper$(EXT) cmds/toupper/toupper.go
-
-bin/totitle$(EXT): datatools.go cmds/totitle/totitle.go
-	go build -o bin/totitle$(EXT) cmds/totitle/totitle.go
-
 bin/csvcleaner$(EXT): datatools.go cmds/csvcleaner/csvcleaner.go
 	go build -o bin/csvcleaner$(EXT) cmds/csvcleaner/csvcleaner.go
 
@@ -161,15 +134,6 @@ install:
 	env GOBIN=$(GOPATH)/bin go install cmds/vcard2json/vcard2json.go
 	env GOBIN=$(GOPATH)/bin go install cmds/xlsx2json/xlsx2json.go
 	env GOBIN=$(GOPATH)/bin go install cmds/xlsx2csv/xlsx2csv.go
-	env GOBIN=$(GOPATH)/bin go install cmds/splitstring/splitstring.go
-	env GOBIN=$(GOPATH)/bin go install cmds/joinstring/joinstring.go
-	env GOBIN=$(GOPATH)/bin go install cmds/hasprefix/hasprefix.go
-	env GOBIN=$(GOPATH)/bin go install cmds/hassuffix/hassuffix.go
-	env GOBIN=$(GOPATH)/bin go install cmds/trimprefix/trimprefix.go
-	env GOBIN=$(GOPATH)/bin go install cmds/trimsuffix/trimsuffix.go
-	env GOBIN=$(GOPATH)/bin go install cmds/tolower/tolower.go
-	env GOBIN=$(GOPATH)/bin go install cmds/toupper/toupper.go
-	env GOBIN=$(GOPATH)/bin go install cmds/totitle/totitle.go
 	env GOBIN=$(GOPATH)/bin go install cmds/csvcleaner/csvcleaner.go
 	env GOBIN=$(GOPATH)/bin go install cmds/string/string.go
 
@@ -196,15 +160,6 @@ dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/range cmds/range/range.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/timefmt cmds/timefmt/timefmt.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/urlparse cmds/urlparse/urlparse.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/splitstring cmds/splitstring/splitstring.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/joinstring cmds/joinstring/joinstring.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/hasprefix cmds/hasprefix/hasprefix.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/hassuffix cmds/hassuffix/hassuffix.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/trimprefix cmds/trimprefix/trimprefix.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/trimsuffix cmds/trimsuffix/trimsuffix.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/tolower cmds/tolower/tolower.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/toupper cmds/toupper/toupper.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/totitle cmds/totitle/totitle.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csvcleaner cmds/csvcleaner/csvcleaner.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/string cmds/string/string.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-linux-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
@@ -234,15 +189,6 @@ dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/range cmds/range/range.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/timefmt cmds/timefmt/timefmt.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/urlparse cmds/urlparse/urlparse.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/splitstring cmds/splitstring/splitstring.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/joinstring cmds/joinstring/joinstring.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/hasprefix cmds/hasprefix/hasprefix.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/hassuffix cmds/hassuffix/hassuffix.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/trimprefix cmds/trimprefix/trimprefix.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/trimsuffix cmds/trimsuffix/trimsuffix.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/tolower cmds/tolower/tolower.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/toupper cmds/toupper/toupper.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/totitle cmds/totitle/totitle.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvcleaner cmds/csvcleaner/csvcleaner.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/string cmds/string/string.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
@@ -273,15 +219,6 @@ dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/range.exe cmds/range/range.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/timefmt.exe cmds/timefmt/timefmt.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/urlparse.exe cmds/urlparse/urlparse.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/splitstring.exe cmds/splitstring/splitstring.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/joinstring.exe cmds/joinstring/joinstring.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/hasprefix.exe cmds/hasprefix/hasprefix.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/hassuffix.exe cmds/hassuffix/hassuffix.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/trimprefix.exe cmds/trimprefix/trimprefix.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/trimsuffix.exe cmds/trimsuffix/trimsuffix.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/tolower.exe cmds/tolower/tolower.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/toupper.exe cmds/toupper/toupper.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/totitle.exe cmds/totitle/totitle.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csvcleaner.exe cmds/csvcleaner/csvcleaner.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/string.exe cmds/string/string.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-windows-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
@@ -313,15 +250,6 @@ dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/range cmds/range/range.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/timefmt cmds/timefmt/timefmt.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/urlparse cmds/urlparse/urlparse.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/splitstring cmds/splitstring/splitstring.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/joinstring cmds/joinstring/joinstring.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/hasprefix cmds/hasprefix/hasprefix.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/hassuffix cmds/hassuffix/hassuffix.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/trimprefix cmds/trimprefix/trimprefix.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/trimsuffix cmds/trimsuffix/trimsuffix.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/tolower cmds/tolower/tolower.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/toupper cmds/toupper/toupper.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/totitle cmds/totitle/totitle.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csvcleaner cmds/csvcleaner/csvcleaner.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/string cmds/string/string.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-raspbian-arm7.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*

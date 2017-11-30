@@ -6,6 +6,8 @@
 
 ## Next
 
++ [ ] consolidate string utilities (e.g. toupper, tolower, totitle) into string cli
++ [ ] upgrade to use the new cli v0.0.5-dev
 + [ ] csvrows would output a range of rows (e.g. [2:] would be all rows but the first row)
 + [ ] csv utilities to support integer ranges notation for columns and rows references, E.g. "1,3:4,7,10:" or all
 

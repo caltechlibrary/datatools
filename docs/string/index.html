@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../">up</a></li>
+<li><a href="./">Documentation</a></li>
+<li><a href="../how-to/">How To &hellip;</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>string [OPTIONS] [ACTION] [ACTION PARAMETERS...]
+</code></pre>
+
+<h2>OPTIONS</h2>
+
+<pre><code>    -e, -examples             display examples
+    -generate-markdown-docs   output documentation in Markdown
+    -h, -help                 display help
+    -i, -input                input file name
+    -l, -license              display license
+    -nl, -newline             output a trailing newline
+    -o, -output               output file name
+    -quiet                    suppress error messages
+    -t, -text                 handle arrays as plain text
+    -v, -version              display version
+</code></pre>
+
+<h2>ACTIONS</h2>
+
+<pre><code>    hasprefix   output true if string(s) have prefix otherwise false, first parameter is prefix
+    hassuffix   output true if string(s) have suffix otherwise false, first parameter is suffix
+    join        join JSON array(s) of strings or join delimited input, first parameter is delimiter
+    lower       converts a string(s) to lower case
+    split       splits a string into a JSON array or delimiter output, first parameter is delimiter
+    title       converts a string(s) to title case
+    trim        trims the cutset from beginning and end of string(s), first parameter is cutset
+    trimleft    left trim the cutset from a string(s), first parameter is cutset
+    trimprefix  trims the prefix from a string(s), first parameter is prefix
+    trimright   right trim the cutset from a string(s), first parameter is cutset
+    trimsuffix  trims the suffix from a string(s), first parameter is suffix
+    upper       converts a string(s) to upper case
+</code></pre>
+
+<p>string v0.0.19-dev</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>
