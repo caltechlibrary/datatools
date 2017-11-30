@@ -33,15 +33,19 @@ Use the utilities try "-help" option for a full list of options for each utility
 
 ## For strings
 
-+ [splitstring](docs/splitstring.html) - splits a string using a delimiting string and returns a JSON array
-+ [joinstring](docs/joinstring.html) - joins a JSON array or delimited list of strings into a single string 
-+ [hasprefix](docs/hasprefix.html) - return 'true' or 'false' based on whether or not a string contains a prefix
-+ [hassuffix](docs/hassuffix.html) - return 'true' or 'false' based on whether or not a string contains a suffix
-+ [trimprefix](docs/trimprefix.html) - returns the string without the prefix (returns string unchanged if prefix is not found)
-+ [trimsuffix](docs/trimsuffix.html) - returns the string without the suffix (returns string unchanged if suffix is not found)
-+ [tolower](docs/tolower.html) - lower cases a string with all Unicode letters mapped to their lower case
-+ [toupper](docs/toupper.html) - upper cases a string with all Unicode letters mapped to their upper case
-+ [totitle](docs/totitle.html) - title cases a with all Unicode letters mapped to their title case (or capitalizes words using options)
+_datatools_ provides for working with string data as this is commonly needed when cleanup data for
+analysis and the old Unix stand bys- grep, awk, sed, tr are at times unwieldly. For the
+time things that are common in most language like, trimming, spliting, joining and transforming
+case we provide the [string](docs/string/) command. The _string_ command also makes it easy
+to join JSON string arrays into a string using a delimiter or split a string into a JSON array
+based on a delimiter. The form of the command is `string [OPTIONS] [ACTION] [ARCTIONS_PARAMETERS...]`
+
+```shell
+    string upper "one two three"
+```
+
+Would yield "ONE TWO THREE".
+
 
 ## For scripting
 
