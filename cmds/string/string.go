@@ -454,7 +454,8 @@ func main() {
 	app.AddAction("hassuffix", doHasSuffix, "output true if string(s) have suffix otherwise false, first parameter is suffix")
 	app.AddAction("trimsuffix", doTrimSuffix, "trims the suffix from a string(s), first parameter is suffix")
 	app.AddAction("trim", doTrim, "trims the cutset from beginning and end of string(s), first parameter is cutset")
-	app.AddAction("lefttrim", doTrimLeft, "left trim the cutset from a string(s), first parameter is cutset")
+	app.AddAction("trimleft", doTrimLeft, "left trim the cutset from a string(s), first parameter is cutset")
+	app.AddAction("trimright", doTrimRight, "right trim the cutset from a string(s), first parameter is cutset")
 
 	// We're ready to process args
 	app.Parse()

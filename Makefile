@@ -15,7 +15,7 @@ ifeq ($(OS), Windows)
 endif
 
 
-build$(EXT): bin/csvcols$(EXT) bin/csvrows$(EXT) bin/csvfind$(EXT) bin/csvjoin$(EXT) bin/jsoncols$(EXT) bin/jsonrange$(EXT) bin/xlsx2json$(EXT) bin/xlsx2csv$(EXT) bin/csv2mdtable$(EXT) bin/csv2xlsx$(EXT) bin/csv2json$(EXT) bin/vcard2json$(EXT) bin/jsonjoin$(EXT) bin/jsonmunge$(EXT) bin/findfile$(EXT) bin/finddir$(EXT) bin/mergepath$(EXT) bin/reldate$(EXT) bin/range$(EXT) bin/timefmt$(EXT) bin/urlparse$(EXT) bin/splitstring$(EXT) bin/joinstring$(EXT) bin/hasprefix$(EXT) bin/hassuffix$(EXT) bin/trimprefix$(EXT) bin/trimsuffix$(EXT) bin/tolower$(EXT) bin/toupper$(EXT) bin/totitle$(EXT) bin/csvcleaner$(EXT) 
+build$(EXT): bin/csvcols$(EXT) bin/csvrows$(EXT) bin/csvfind$(EXT) bin/csvjoin$(EXT) bin/jsoncols$(EXT) bin/jsonrange$(EXT) bin/xlsx2json$(EXT) bin/xlsx2csv$(EXT) bin/csv2mdtable$(EXT) bin/csv2xlsx$(EXT) bin/csv2json$(EXT) bin/vcard2json$(EXT) bin/jsonjoin$(EXT) bin/jsonmunge$(EXT) bin/findfile$(EXT) bin/finddir$(EXT) bin/mergepath$(EXT) bin/reldate$(EXT) bin/range$(EXT) bin/timefmt$(EXT) bin/urlparse$(EXT) bin/splitstring$(EXT) bin/joinstring$(EXT) bin/hasprefix$(EXT) bin/hassuffix$(EXT) bin/trimprefix$(EXT) bin/trimsuffix$(EXT) bin/tolower$(EXT) bin/toupper$(EXT) bin/totitle$(EXT) bin/csvcleaner$(EXT) bin/string$(EXT) 
 
 
 bin/csvcols$(EXT): datatools.go cmds/csvcols/csvcols.go
@@ -111,6 +111,9 @@ bin/totitle$(EXT): datatools.go cmds/totitle/totitle.go
 bin/csvcleaner$(EXT): datatools.go cmds/csvcleaner/csvcleaner.go
 	go build -o bin/csvcleaner$(EXT) cmds/csvcleaner/csvcleaner.go
 
+bin/string$(EXT): datatools.go cmds/string/string.go
+	go build -o bin/string$(EXT) cmds/string/string.go
+
 test:
 	go test
 
@@ -133,8 +136,8 @@ publish:
 	./publish.bash
 
 clean: 
-	if [ -d bin ]; then /bin/rm -fR bin; fi
-	if [ -d dist ]; then /bin/rm -fR dist; fi
+	if [ -d bin ]; then rm -fR bin; fi
+	if [ -d dist ]; then rm -fR dist; fi
 
 install:
 	env GOBIN=$(GOPATH)/bin go install cmds/csvcols/csvcols.go
@@ -168,6 +171,7 @@ install:
 	env GOBIN=$(GOPATH)/bin go install cmds/toupper/toupper.go
 	env GOBIN=$(GOPATH)/bin go install cmds/totitle/totitle.go
 	env GOBIN=$(GOPATH)/bin go install cmds/csvcleaner/csvcleaner.go
+	env GOBIN=$(GOPATH)/bin go install cmds/string/string.go
 
 dist/linux-amd64:
 	mkdir -p dist/bin
@@ -202,6 +206,7 @@ dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/toupper cmds/toupper/toupper.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/totitle cmds/totitle/totitle.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csvcleaner cmds/csvcleaner/csvcleaner.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/string cmds/string/string.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-linux-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
@@ -239,6 +244,7 @@ dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/toupper cmds/toupper/toupper.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/totitle cmds/totitle/totitle.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvcleaner cmds/csvcleaner/csvcleaner.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/string cmds/string/string.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 	
@@ -277,6 +283,7 @@ dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/toupper.exe cmds/toupper/toupper.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/totitle.exe cmds/totitle/totitle.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csvcleaner.exe cmds/csvcleaner/csvcleaner.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/string.exe cmds/string/string.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-windows-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
@@ -316,6 +323,7 @@ dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/toupper cmds/toupper/toupper.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/totitle cmds/totitle/totitle.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csvcleaner cmds/csvcleaner/csvcleaner.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/string cmds/string/string.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-raspbian-arm7.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
