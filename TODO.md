@@ -3,13 +3,11 @@
 
 ## Bug
 
-
 ## Next
 
-+ [ ] consolidate string utilities (e.g. toupper, tolower, totitle) into string cli
 + [ ] upgrade to use the new cli v0.0.5-dev
 + [ ] csvrows would output a range of rows (e.g. [2:] would be all rows but the first row)
-+ [ ] csv utilities to support integer ranges notation for columns and rows references, E.g. "1,3:4,7,10:" or all
++ [ ] csv utilities should support integer ranges notation for columns and rows references, E.g. "1,3:4,7,10:" or all
 
 ## Someday, Maybe
 
@@ -56,6 +54,7 @@
 
 ## Completed
 
++ [x] consolidate string utilities (e.g. toupper, tolower, totitle) into string cli
 + [x] csvcols -col option should not be a boolean, it should take a range like other csv cli
 + [x] utilities should use starting index of 1 instead of zero as humans refer to column 1 when intending to work on the first column
 + [x] for all cli the -delimiter option should support special characters like \t, \n, \r
