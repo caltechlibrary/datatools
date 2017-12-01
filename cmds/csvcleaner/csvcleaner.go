@@ -61,6 +61,8 @@ Trim leading and trailing spaces
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
+	newLine      bool
 
 	// App Options
 	comma             string
@@ -92,6 +94,10 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
 
 	// Application specific options
 	flag.IntVar(&fieldsPerRecord, "fields-per-row", 0, "set the number of columns to output right padding empty cells as needed")
@@ -149,18 +155,17 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
+
+	nl := "\n"
+	if newLine == false {
+		nl = ""
+	}
 
 	// Loop through input CSV, apply options, write to output CSV
 	if trimSpace == true {
@@ -214,7 +219,7 @@ func main() {
 			serr := fmt.Sprintf("%s", err)
 			if strings.HasSuffix(serr, "wrong number of fields in line") == true && fieldsPerRecord >= 0 {
 				if verbose {
-					fmt.Fprintf(os.Stderr, "row %d: expected %d, got %d cells\n", i, expectedCellCount, len(row))
+					cli.OnError(os.Stderr, fmt.Errorf("row %d: expected %d, got %d cells\n", i, expectedCellCount, len(row)), quiet)
 				}
 				// Trim trailing cells if needed
 				if fieldsPerRecord > 0 && len(row) >= fieldsPerRecord {
@@ -227,7 +232,7 @@ func main() {
 			} else {
 				hasError = true
 				if verbose {
-					fmt.Fprintf(os.Stderr, "%s\n", err)
+					cli.OnError(os.Stderr, fmt.Errorf("%s", err), quiet)
 				}
 			}
 		}
@@ -238,11 +243,12 @@ func main() {
 			}
 		}
 		if err := w.Write(row); err != nil {
-			fmt.Fprintf(os.Stderr, "error writing row %d: %s\n", i, err)
+			cli.OnError(os.Stderr, fmt.Errorf("error writing row %d: %s", i, err), quiet)
+			hasError = true
 		}
 		i++
 		if verbose == true && (i%100) == 0 {
-			fmt.Fprintf(os.Stderr, "Processed %d rows\n", i)
+			cli.OnError(os.Stderr, fmt.Errorf("Processed %d rows\n", i), quiet)
 		}
 		if hasError && stopOnError {
 			os.Exit(1)
@@ -250,7 +256,10 @@ func main() {
 	}
 	// Finally we need to flush any remaining output...
 	w.Flush()
-	if verbose {
-		fmt.Fprintf(os.Stderr, "Processed %d rows\n", i)
+	err = w.Error()
+	cli.ExitOnError(os.Stderr, err, quiet)
+	if verbose == true {
+		cli.OnError(os.Stderr, fmt.Errorf("Processed %d rows\n", i), quiet)
 	}
+	fmt.Fprintf(out, "%s", nl)
 }

@@ -80,6 +80,7 @@ fields separated by a tab.
 	showLicense  bool
 	showVersion  bool
 	showExamples bool
+	quiet        bool
 
 	// App Specific Options
 	showProtocol  bool
@@ -113,6 +114,7 @@ func init() {
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
 	flag.BoolVar(&showExamples, "example", false, "display example(s)")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Specific Options
 	flag.StringVar(&delimiter, "delimiter", delimiter, delimiterUsage)
@@ -175,14 +177,10 @@ func main() {
 	results := []string{}
 	urlToParse := flag.Arg(0)
 	if urlToParse == "" {
-		fmt.Fprintf(os.Stderr, "Missing URL to parse")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing URL to parse"), quiet)
 	}
 	u, err := url.Parse(urlToParse)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 
 	useDelim := delimiter
 	if showProtocol == true {

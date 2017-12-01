@@ -58,6 +58,7 @@ This would put your home bin directory at the beginning of your path.
 	showLicense  bool
 	showVersion  bool
 	showExamples bool
+	quiet        bool
 
 	// Application Specific Options
 
@@ -84,6 +85,7 @@ func init() {
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
 	flag.BoolVar(&showExamples, "example", false, "display example(s)")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	envPath = "$PATH"
 
@@ -163,8 +165,7 @@ func main() {
 		envPath = os.Getenv("PATH")
 	}
 	if dir == "" {
-		fmt.Fprintf(os.Stderr, "Missing directory to add to path")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing directory to add to path"), quiet)
 	}
 	if clipPath == true {
 		fmt.Printf("%s", clip(envPath, dir))

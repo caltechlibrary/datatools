@@ -88,6 +88,7 @@ Would yield
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// Application Specific Options
 	monochrome     bool
@@ -95,18 +96,8 @@ Would yield
 	csvOutput      bool
 	delimiter      = ","
 	expressions    []string
-	permissive     bool
 	quote          bool
 )
-
-func handleError(err error, exitCode int) {
-	if permissive == false {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-	}
-	if exitCode >= 0 {
-		os.Exit(exitCode)
-	}
-}
 
 func init() {
 	// Basic Options
@@ -121,6 +112,7 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application Specific Options
 	flag.BoolVar(&monochrome, "m", false, "display output in monochrome")
@@ -130,8 +122,6 @@ func init() {
 	flag.StringVar(&delimiter, "d", delimiter, "set the delimiter for multi-field csv output")
 	flag.StringVar(&delimiter, "dimiter", delimiter, "set the delimiter for multi-field csv output")
 	flag.BoolVar(&quote, "quote", false, "if dilimiter is found in column value add quotes for non-CSV output")
-	flag.BoolVar(&permissive, "permissive", false, "suppress error messages")
-	flag.BoolVar(&permissive, "quiet", false, "suppress error messages")
 }
 
 func main() {
@@ -179,15 +169,11 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		handleError(err, 1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		handleError(err, 1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	// Handle ordered args to get expressions for each column output.
@@ -204,35 +190,27 @@ func main() {
 
 	// READ in the JSON document
 	buf, err := ioutil.ReadAll(in)
-	if err != nil {
-		handleError(err, 1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
+
 	// JSON Decode our document
 	data, err := dotpath.JSONDecode(buf)
-	if err != nil {
-		handleError(err, 1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 
 	if csvOutput == true {
 		// For each dotpath expression return a result
 		row := []string{}
 		for _, qry := range expressions {
 			result, err := dotpath.Eval(qry, data)
-			if err == nil {
-				switch result.(type) {
-				case string:
-					row = append(row, result.(string))
-				case json.Number:
-					row = append(row, result.(json.Number).String())
-				default:
-					src, err := json.Marshal(result)
-					if err != nil {
-						handleError(err, 1)
-					}
-					row = append(row, fmt.Sprintf("%s", src))
-				}
-			} else {
-				handleError(err, 1)
+			cli.ExitOnError(os.Stderr, err, quiet)
+			switch result.(type) {
+			case string:
+				row = append(row, result.(string))
+			case json.Number:
+				row = append(row, result.(json.Number).String())
+			default:
+				src, err := json.Marshal(result)
+				cli.ExitOnError(os.Stderr, err, quiet)
+				row = append(row, fmt.Sprintf("%s", src))
 			}
 		}
 
@@ -241,13 +219,11 @@ func main() {
 		if delimiter != "" {
 			w.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		}
-		if err := w.Write(row); err != nil {
-			handleError(err, 1)
-		}
+		err = w.Write(row)
+		cli.ExitOnError(os.Stderr, err, quiet)
 		w.Flush()
-		if err := w.Error(); err != nil {
-			handleError(err, 1)
-		}
+		err = w.Error()
+		cli.ExitOnError(os.Stderr, err, quiet)
 		os.Exit(0)
 	}
 
@@ -261,29 +237,24 @@ func main() {
 			fmt.Fprintf(out, "%s", buf)
 		} else {
 			result, err := dotpath.Eval(qry, data)
-			if err == nil {
-				switch result.(type) {
-				case string:
-					if quote == true && strings.Contains(result.(string), delimiter) == true {
-						fmt.Fprintf(out, "%q", result)
-					} else {
-						fmt.Fprintf(out, "%s", result)
-					}
-				case json.Number:
-					fmt.Fprintf(out, "%s", result.(json.Number).String())
-				default:
-					src, err := json.Marshal(result)
-					if err != nil {
-						handleError(err, 1)
-					}
-					if quote == true {
-						fmt.Fprintf(out, "%q", src)
-					} else {
-						fmt.Fprintf(out, "%s", src)
-					}
+			cli.ExitOnError(os.Stderr, err, quiet)
+			switch result.(type) {
+			case string:
+				if quote == true && strings.Contains(result.(string), delimiter) == true {
+					fmt.Fprintf(out, "%q", result)
+				} else {
+					fmt.Fprintf(out, "%s", result)
 				}
-			} else {
-				handleError(err, 1)
+			case json.Number:
+				fmt.Fprintf(out, "%s", result.(json.Number).String())
+			default:
+				src, err := json.Marshal(result)
+				cli.ExitOnError(os.Stderr, err, quiet)
+				if quote == true {
+					fmt.Fprintf(out, "%q", src)
+				} else {
+					fmt.Fprintf(out, "%s", src)
+				}
 			}
 		}
 	}

@@ -58,17 +58,29 @@ Windows 10 (amd64) and Raspbian (ARM7). See <a href="https://github.com/caltechl
 
 <h2>For strings</h2>
 
+<p><em>datatools</em> provides for working with string data (limited to memory available) as this is commonly needed when cleanup data for
+analysis and the old Unix stand bys- grep, awk, sed, tr are at times unwieldly. For the
+time things that are common in most language like, trimming, spliting, joining and transforming
+case we provide the <a href="docs/string/">string</a> command. The <em>string</em> command also makes it easy
+to join JSON string arrays into a string using a delimiter or split a string into a JSON array
+based on a delimiter. The form of the command is <code>string [OPTIONS] [ACTION] [ARCTIONS_PARAMETERS...]</code></p>
+
+<pre><code class="language-shell">    string toupper &quot;one two three&quot;
+</code></pre>
+
+<p>Would yield &ldquo;ONE TWO THREE&rdquo;.</p>
+
+<p>Some of the features included</p>
+
 <ul>
-<li><a href="docs/splitstring.html">splitstring</a> - splits a string using a delimiting string and returns a JSON array</li>
-<li><a href="docs/joinstring.html">joinstring</a> - joins a JSON array or delimited list of strings into a single string</li>
-<li><a href="docs/hasprefix.html">hasprefix</a> - return &lsquo;true&rsquo; or &lsquo;false&rsquo; based on whether or not a string contains a prefix</li>
-<li><a href="docs/hassuffix.html">hassuffix</a> - return &lsquo;true&rsquo; or &lsquo;false&rsquo; based on whether or not a string contains a suffix</li>
-<li><a href="docs/trimprefix.html">trimprefix</a> - returns the string without the prefix (returns string unchanged if prefix is not found)</li>
-<li><a href="docs/trimsuffix.html">trimsuffix</a> - returns the string without the suffix (returns string unchanged if suffix is not found)</li>
-<li><a href="docs/tolower.html">tolower</a> - lower cases a string with all Unicode letters mapped to their lower case</li>
-<li><a href="docs/toupper.html">toupper</a> - upper cases a string with all Unicode letters mapped to their upper case</li>
-<li><a href="docs/totitle.html">totitle</a> - title cases a with all Unicode letters mapped to their title case (or capitalizes words using options)</li>
+<li>change case (upper, lower, title, English title)</li>
+<li>length, position and count of substrings</li>
+<li>has prefix, suffix or contains</li>
+<li>trim prefix, suffix and cutsets</li>
+<li>split and join to/from JSON string arrays</li>
 </ul>
+
+<p>See <a href="docs/string/">string</a> for full details</p>
 
 <h2>For scripting</h2>
 

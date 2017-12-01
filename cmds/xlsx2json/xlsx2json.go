@@ -79,6 +79,7 @@ into JSON documents..
 	showVersion  bool
 	showExamples bool
 	outputFName  string
+	quiet        bool
 
 	// Application Options
 	showSheetCount bool
@@ -190,50 +191,35 @@ func main() {
 	}
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	if len(args) < 1 {
-		fmt.Println(cfg.Usage())
-		fmt.Fprintln(os.Stderr, "Missing Excel Workbook names")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing Excel Workbook names"), quiet)
 	}
 
 	workBookName := args[0]
 	if showSheetCount == true {
-		if cnt, err := sheetCount(workBookName); err == nil {
-			fmt.Fprintf(out, "%d", cnt)
-			os.Exit(0)
-		} else {
-			fmt.Fprintf(os.Stderr, "%s, %s\n", workBookName, err)
-			os.Exit(1)
-		}
+		cnt, err := sheetCount(workBookName)
+		cli.ExitOnError(os.Stderr, err, quiet)
+		fmt.Fprintf(out, "%d", cnt)
+		os.Exit(0)
 	}
 
 	if showSheetNames == true {
-		if names, err := sheetNames(workBookName); err == nil {
-			fmt.Fprintln(out, strings.Join(names, "\n"))
-			os.Exit(0)
-		} else {
-			fmt.Fprintf(os.Stderr, "%s, %s\n", workBookName, err)
-			os.Exit(1)
-		}
+		names, err := sheetNames(workBookName)
+		cli.ExitOnError(os.Stderr, err, quiet)
+		fmt.Fprintln(out, strings.Join(names, "\n"))
+		os.Exit(0)
 	}
 
 	if len(args) < 2 {
-		fmt.Fprintln(os.Stderr, "Missing worksheet name")
-		os.Exit(1)
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing worksheet name"), quiet)
 	}
 	for _, sheetName := range args[1:] {
 		if len(sheetName) > 0 {
 			err := xlsx2JSON(out, workBookName, sheetName)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "%s, %s, error: %s\n", workBookName, sheetName, err)
-				os.Exit(1)
-			}
+			cli.ExitOnError(os.Stderr, err, quiet)
 		}
 	}
 }

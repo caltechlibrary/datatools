@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../">up</a></li>
+<li><a href="./">Documentation</a></li>
+<li><a href="../how-to/">How To &hellip;</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>string [OPTIONS] [ACTION] [ACTION PARAMETERS...]
+</code></pre>
+
+<h2>SYNOPSIS</h2>
+
+<p>string is a command line tool for transforming strings in common ways.</p>
+
+<ul>
+<li>string length</li>
+<li>changing cases</li>
+<li>checking for prefixes, suffixes</li>
+<li>trimming prefixes, suffixes and cutsets (i.e. list of characters to cut)</li>
+<li>position, counting and replacing substrings</li>
+<li>splitting a string into a JSON array of strings, joining JSON a string arrays into a string</li>
+</ul>
+
+<h2>OPTIONS</h2>
+
+<p>Options are shared between all actions and must precede the action on the command line.</p>
+
+<pre><code>    -e, -examples             display examples
+    -generate-markdown-docs   output documentation in Markdown
+    -h, -help                 display help
+    -i, -input                input file name
+    -l, -license              display license
+    -nl, -newline             output a trailing newline
+    -o, -output               output file name
+    -quiet                    suppress error messages
+    -t, -text                 handle arrays as plain text
+    -v, -version              display version
+</code></pre>
+
+<h2>ACTIONS</h2>
+
+<pre><code>    contains       has substrings: SUBSTRING [STRINGS]
+    count          count substrings: SUBSTRING [STRINGS]
+    englishtitle   English style title case: [STRINGS]
+    hasprefix      true/false on prefix: PREFIX [STRINGS]
+    hassuffix      true/false on suffix: SUFFIX [STRINGS]
+    join           join JSON array into string: DELIMITER [STRINS]
+    length         length of string: [STRINGS]
+    pad            pad (beginning and end): PADDING MAX_LENGTH [STRINGS]
+    padleft        left pad: PADDING MAX_LENGTH [STRINGS]
+    position       position of substring: SUBSTRING [STRINGS]
+    replace        replace: TARGET REPLACEMENT [STRINGS]
+    replacen       replace n times: TARGET REPLACEMENT COUNT [STRINGS]
+    split          split into a JSON array: DELIMITER [STRINGS]
+    splitn         split into an N length JSON array: DELIMITER N [STRINGS]
+    tolower        to lower case: [STRINGS]
+    totitle        to title case: [STRINGS]
+    toupper        to upper case: [STRINGS]
+    trim           trim (beginning and end), CUTSET [STRINGS]
+    trimleft       left trim: CUTSET [STRINGS]
+    trimprefix     trims prefix: PREFIX [STRINGS]
+    trimright      right trim: CUTSET [STRINGS]
+    trimsuffix     trim suffix: SUFFIX [STRINGS]
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>Related: <a href="contains.html">contains</a>, <a href="count.html">count</a>, <a href="englishtitle.html">englishtitle</a>, <a href="hasprefix.html">hasprefix</a>, <a href="hassuffix.html">hassuffix</a>, <a href="join.html">join</a>, <a href="length.html">length</a>, <a href="pad.html">pad</a>, <a href="padleft.html">padleft</a>, <a href="position.html">position</a>, <a href="replace.html">replace</a>, <a href="replacen.html">replacen</a>, <a href="split.html">split</a>, <a href="splitn.html">splitn</a>, <a href="tolower.html">tolower</a>, <a href="totitle.html">totitle</a>, <a href="toupper.html">toupper</a>, <a href="trim.html">trim</a>, <a href="trimleft.html">trimleft</a>, <a href="trimprefix.html">trimprefix</a>, <a href="trimright.html">trimright</a>, <a href="trimsuffix.html">trimsuffix</a></p>
+
+<p>string v0.0.19-dev</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

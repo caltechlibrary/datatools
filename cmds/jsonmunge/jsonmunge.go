@@ -70,8 +70,10 @@ This would yield
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
 
 	// Application Specific Options
+	templateExpr string
 )
 
 func init() {
@@ -86,8 +88,11 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application Specific Options
+	flag.StringVar(&templateExpr, "E", "", "use template expression as template")
+	flag.StringVar(&templateExpr, "expression", "", "use template expression as template")
 }
 
 func main() {
@@ -131,47 +136,41 @@ func main() {
 		os.Exit(0)
 	}
 
-	if len(args) == 0 {
-		fmt.Fprintf(os.Stderr, "Need to provide at least one template name\n")
-		os.Exit(1)
+	if len(args) == 0 && templateExpr == "" {
+		cli.ExitOnError(os.Stderr, fmt.Errorf("Need to provide at least one template name"), quiet)
 	}
-	// Read in and compile our templates
-	tmpl, err := template.New(path.Base(args[0])).Funcs(tmplfn.AllFuncs()).ParseFiles(args...)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
+
+	var (
+		tmpl *template.Template
+		err  error
+	)
+	if templateExpr != "" {
+		// Read in and compile our templates expression
+		tmpl, err = template.New("default").Funcs(tmplfn.AllFuncs()).Parse(templateExpr)
+		cli.ExitOnError(os.Stderr, err, quiet)
+	} else {
+		// Read in and compile our templates
+		tmpl, err = template.New(path.Base(args[0])).Funcs(tmplfn.AllFuncs()).ParseFiles(args...)
+		cli.ExitOnError(os.Stderr, err, quiet)
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	// READ in the JSON document
 	buf, err := ioutil.ReadAll(in)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
+
 	// JSON Decode our document
 	data, err := dotpath.JSONDecode(buf)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 
 	// Execute template with data
-	if err := tmpl.Execute(out, data); err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	err = tmpl.Execute(out, data)
+	cli.ExitOnError(os.Stderr, err, quiet)
 }

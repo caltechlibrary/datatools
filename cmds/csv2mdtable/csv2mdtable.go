@@ -66,6 +66,8 @@ Convert data1.csv to data1.md using options.
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
+	newLine      bool
 
 	// Application Options
 	delimiter string
@@ -84,6 +86,10 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error message")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
 
 	// Application Options
 	flag.StringVar(&delimiter, "d", "", "set delimiter character")
@@ -132,43 +138,39 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	r := csv.NewReader(in)
 	if delimiter != "" {
 		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}
+	nl := "\n"
+	if newLine == false {
+		nl = ""
+	}
 	writeHeader := true
-	fmt.Fprintln(out, "")
+	fmt.Fprintln(out, "%s", nl)
 	for {
 		record, err := r.Read()
 		if err == io.EOF {
 			break
 		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
-			os.Exit(1)
-		}
-		fmt.Fprintf(out, "| %s |\n", strings.Join(record, " | "))
+		cli.ExitOnError(os.Stderr, err, quiet)
+
+		fmt.Fprintf(out, "| %s |%s", strings.Join(record, " | "), "\n")
 		if writeHeader == true {
 			headerRow := []string{}
 			for _, rec := range record {
 				headerRow = append(headerRow, strings.Repeat("-", len(rec)))
 			}
-			fmt.Fprintf(out, "| %s |\n", strings.Join(headerRow, " | "))
+			fmt.Fprintf(out, "| %s |%s", strings.Join(headerRow, " | "), "\n")
 			writeHeader = false
 		}
 	}
-	fmt.Fprintln(out, "")
+	fmt.Fprintln(out, "%s", nl)
 }

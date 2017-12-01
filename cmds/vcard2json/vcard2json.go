@@ -22,7 +22,6 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path"
 	"strings"
@@ -66,6 +65,8 @@ Or reading, writing to specific file
 	showExamples bool
 	inputFName   string
 	outputFName  string
+	quiet        bool
+	newLine      bool
 
 	// Application specific options
 )
@@ -83,6 +84,10 @@ func init() {
 	flag.StringVar(&inputFName, "input", "", "input filename")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error message")
+	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
 
 	// Application specific options
 }
@@ -129,30 +134,24 @@ func main() {
 	}
 
 	in, err := cli.Open(inputFName, os.Stdin)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(inputFName, in)
 
 	out, err := cli.Create(outputFName, os.Stdout)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
-		os.Exit(1)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	defer cli.CloseFile(outputFName, out)
 
 	src, err := ioutil.ReadAll(in)
-	if err != nil {
-		log.Fatalf("Can't read file, %s", err)
-	}
+	cli.ExitOnError(os.Stderr, err, quiet)
 	vcf := vcard.NewVCard()
-	if err := vcf.Parse(src); err != nil {
-		log.Fatalf("Can't parse vcard, %s", err)
-	}
+	err = vcf.Parse(src)
+	cli.ExitOnError(os.Stderr, err, quiet)
+
 	src, err = vcf.AsJSON()
-	if err != nil {
-		log.Fatalf("Can't marshal json, %+v, %s", vcf, err)
+	cli.ExitOnError(os.Stderr, err, quiet)
+	nl := "\n"
+	if newLine == false {
+		nl = ""
 	}
-	fmt.Fprintf(out, "%s\n", src)
+	fmt.Fprintf(out, "%s%s", src, nl)
 }

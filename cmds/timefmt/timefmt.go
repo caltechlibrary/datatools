@@ -75,6 +75,7 @@ Yields "02 Jul 16 08:08 UTC"
 	showVersion  bool
 	showLicense  bool
 	showExamples bool
+	quiet        bool
 
 	// Application Specific Options
 	useUTC       bool
@@ -91,6 +92,7 @@ func init() {
 	flag.BoolVar(&showVersion, "v", false, "display version")
 	flag.BoolVar(&showVersion, "version", false, "display version")
 	flag.BoolVar(&showExamples, "example", false, "display example(s)")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application Options
 	flag.BoolVar(&useUTC, "utc", false, "timestamps in UTC")
@@ -189,10 +191,7 @@ func main() {
 	if len(args) > 0 {
 		for i, dt := range args {
 			inputDate, err = time.Parse(inputFormat, dt)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "can't read %s, %s\n", dt, err)
-				os.Exit(1)
-			}
+			cli.ExitOnError(os.Stderr, err, quiet)
 			if i > 0 {
 				fmt.Print(" ")
 			}
