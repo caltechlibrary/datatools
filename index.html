@@ -58,7 +58,7 @@ Windows 10 (amd64) and Raspbian (ARM7). See <a href="https://github.com/caltechl
 
 <h2>For strings</h2>
 
-<p><em>datatools</em> provides for working with string data as this is commonly needed when cleanup data for
+<p><em>datatools</em> provides for working with string data (limited to memory available) as this is commonly needed when cleanup data for
 analysis and the old Unix stand bys- grep, awk, sed, tr are at times unwieldly. For the
 time things that are common in most language like, trimming, spliting, joining and transforming
 case we provide the <a href="docs/string/">string</a> command. The <em>string</em> command also makes it easy
@@ -69,6 +69,18 @@ based on a delimiter. The form of the command is <code>string [OPTIONS] [ACTION]
 </code></pre>
 
 <p>Would yield &ldquo;ONE TWO THREE&rdquo;.</p>
+
+<p>Some of the features included</p>
+
+<ul>
+<li>change case (upper, lower, title, English title)</li>
+<li>length, position and count of substrings</li>
+<li>has prefix, suffix or contains</li>
+<li>trim prefix, suffix and cutsets</li>
+<li>split and join to/from JSON string arrays</li>
+</ul>
+
+<p>See <a href="docs/string/">string</a> for full details</p>
 
 <h2>For scripting</h2>
 

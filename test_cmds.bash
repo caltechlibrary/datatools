@@ -71,6 +71,44 @@ function test_string() {
     RESULT=$(echo -n "$S" | bin/string -i - englishtitle)
     assert_same "englishtitle on pipe" "$EXPECTED" "$RESULT"
 
+    # Test Length
+    S="one"
+    EXPECTED="3"
+    RESULT=$(bin/string length "$S")
+    assert_same "length on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - length)
+    assert_same "length on pipe" "$EXPECTED" "$RESULT"
+
+    # Test Count
+    S="oingo boingo"
+    T="ngo"
+    EXPECTED="2"
+    RESULT=$(bin/string count "$T" "$S")
+    assert_same "count on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - count "$T")
+    assert_same "count on pie" "$EXPECTED" "$RESULT"
+
+# Test ToUpper
+# Test ToLower
+# Test ToTitle
+# Test EnglishTitle
+# Test Split
+# Test SplitN
+# Test Join
+# Test HasPrefix
+# Test TrimPrefix
+# Test HasSuffix
+# Test TrimSuffix
+# Test Trim
+# Test TrimLeft
+# Test TrimRight
+# Test Contains
+# Test Position
+# Test Replace
+# Test Replacen
+# Test Pad
+# Test PadLeft
+# Test PadRight
 }
 
 #
@@ -79,5 +117,4 @@ function test_string() {
 make bin/string
 test_string
 echo "Success!"
-
 

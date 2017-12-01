@@ -33,7 +33,7 @@ Use the utilities try "-help" option for a full list of options for each utility
 
 ## For strings
 
-_datatools_ provides for working with string data as this is commonly needed when cleanup data for
+_datatools_ provides for working with string data (limited to memory available) as this is commonly needed when cleanup data for
 analysis and the old Unix stand bys- grep, awk, sed, tr are at times unwieldly. For the
 time things that are common in most language like, trimming, spliting, joining and transforming
 case we provide the [string](docs/string/) command. The _string_ command also makes it easy
@@ -46,6 +46,15 @@ based on a delimiter. The form of the command is `string [OPTIONS] [ACTION] [ARC
 
 Would yield "ONE TWO THREE".
 
+Some of the features included
+
++ change case (upper, lower, title, English title)
++ length, position and count of substrings
++ has prefix, suffix or contains
++ trim prefix, suffix and cutsets
++ split and join to/from JSON string arrays
+
+See [string](docs/string/) for full details
 
 ## For scripting
 

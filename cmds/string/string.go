@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -19,12 +18,12 @@ var (
 	description = `
 string is a command line tool for transforming strings in common ways.
 
++ string length
 + changing cases
-+ checking for prefixes, suffixes or substrings
-+ trimming prefixes, suffixes or specific characters (i.e. cutsets)
-+ locating, counting and replacing substrings
++ checking for prefixes, suffixes 
++ trimming prefixes, suffixes and cutsets (i.e. list of characters to cut)
++ position, counting and replacing substrings
 + splitting a string into a JSON array of strings, joining JSON a string arrays into a string
-+ formatting and padding strings and numbers
 `
 
 	examples = `
@@ -63,52 +62,66 @@ func exitOnError(eout io.Writer, err error, suppress bool) {
 	}
 }
 
-func doToUpper(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	exitCode := 0
-	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			fmt.Fprintln(out, strings.ToUpper(s))
-		}
-		if err := scanner.Err(); err != nil {
-			onError(eout, err, quiet)
-			exitCode = 1
-		}
-	}
-	if len(args) > 0 {
-		fmt.Fprintf(out, "%s%s", strings.ToUpper(strings.Join(args, " ")), nl)
-	}
-	return exitCode
-}
-
-func doToLower(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	exitCode := 0
-	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			fmt.Fprintln(out, strings.ToLower(s))
-		}
-		if err := scanner.Err(); err != nil {
-			onError(eout, err, quiet)
-			exitCode = 1
-		}
-	}
-	if len(args) > 0 {
-		fmt.Fprintf(out, "%s%s", strings.ToLower(strings.Join(args, " ")), nl)
-	}
-	return exitCode
-}
-
-func doToTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	// Handle file input
+func doLength(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
 		exitOnError(eout, err, quiet)
 		args = append(args, string(src))
 	}
-	// Now title our args
+	for _, arg := range args {
+		fmt.Fprintf(out, "%d%s", len(arg), nl)
+	}
+	return 0
+}
+
+func doCount(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	if len(args) < 1 {
+		fmt.Fprintf(eout, "first parameter is the sub string you're counting\n")
+		return 1
+	}
+	target := args[0]
+	args = args[1:]
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+	for _, arg := range args {
+		fmt.Fprintf(out, "%d%s", strings.Count(arg, target), nl)
+	}
+	return 0
+}
+
+func doToUpper(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", strings.ToUpper(arg), nl)
+	}
+	return 0
+}
+
+func doToLower(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", strings.ToLower(arg), nl)
+	}
+	return 0
+}
+
+func doToTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
 	for _, arg := range args {
 		fmt.Fprintf(out, "%s%s", strings.ToTitle(arg), nl)
 	}
@@ -116,13 +129,11 @@ func doToTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 }
 
 func doEnglishTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	// Handle file input
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
 		exitOnError(eout, err, quiet)
 		args = append(args, string(src))
 	}
-	// Now title our args
 	for _, arg := range args {
 		fmt.Fprintf(out, "%s%s", datatools.EnglishTitle(arg), nl)
 	}
@@ -139,13 +150,9 @@ func doSplit(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	// Handle the case where out input is piped in or read from a file.
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
-		if err != nil {
-			fmt.Fprintf(eout, "can't read %s, %s\n", inputFName, err)
-			return 1
-		}
+		exitOnError(eout, err, quiet)
 		args = append(args, string(src))
 	}
-
 	// Now process the args
 	for _, arg := range args {
 		parts := strings.Split(arg, delimiter)
@@ -174,13 +181,9 @@ func doSplitN(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	// Handle the case where out input is piped in or read from a file.
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
-		if err != nil {
-			fmt.Fprintf(eout, "can't read %s, %s\n", inputFName, err)
-			return 1
-		}
+		exitOnError(eout, err, quiet)
 		args = append(args, string(src))
 	}
-
 	// Handle the case of args being used for input
 	for _, arg := range args {
 		parts := strings.SplitN(arg, delimiter, cnt)
@@ -204,13 +207,9 @@ func doJoin(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	// Handle the case where out input is piped in or read from a file.
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
-		if err != nil {
-			fmt.Fprintf(eout, "can't read %s, %s\n", inputFName, err)
-			return 1
-		}
+		exitOnError(eout, err, quiet)
 		args = append(args, string(src))
 	}
-
 	// Handle the case of args being used for input
 	for _, arg := range args {
 		parts := []string{}
@@ -226,210 +225,187 @@ func doJoin(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 func doHasPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	// Validate parameters
 	if len(args) < 1 {
-		fmt.Fprintf(eout, "first parameter is the prefix%s", nl)
+		fmt.Fprintf(eout, "first parameter is the prefix\n")
 		return 1
 	}
 	prefix := args[0]
 	args = args[1:]
 
-	// Handle content coming from input
-	exitCode := 0
+	// Handle content coming from a file
 	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			hasPrefix := strings.HasPrefix(s, prefix)
-			fmt.Fprintln(out, "%T", hasPrefix)
-			if hasPrefix == false {
-				exitCode = 1
-			}
-		}
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
 	}
 	// Handle content common from args
-	sep := ""
 	for _, s := range args {
-		hasPrefix := strings.HasPrefix(s, prefix)
-		fmt.Fprintf(out, "%s%T", sep, hasPrefix)
-		sep = " "
-		if hasPrefix == false {
-			exitCode = 1
-		}
+		fmt.Fprintf(out, "%T%s", strings.HasPrefix(s, prefix), nl)
 	}
-	fmt.Fprintf(out, "%s", nl)
-	return exitCode
+	return 0
 }
 
 func doTrimPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	// Validate parameters
 	if len(args) < 1 {
-		fmt.Fprintf(eout, "first parameter is the prefix%s", nl)
+		fmt.Fprintf(eout, "first parameter is the prefix\n")
 		return 1
 	}
 	prefix := args[0]
 	args = args[1:]
 
 	// Handle content coming from input
-	exitCode := 0
 	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			fmt.Fprintln(out, "%s", strings.TrimPrefix(s, prefix))
-		}
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
 	}
 	// Handle content common from args
-	sep := ""
-	for _, s := range args {
-		fmt.Fprintf(out, "%s%T", sep, strings.TrimPrefix(s, prefix))
-		sep = " "
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", strings.TrimPrefix(arg, prefix), nl)
 	}
-	fmt.Fprintf(out, "%s", nl)
-	return exitCode
+	return 0
 }
 
 func doHasSuffix(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	// Validate parameters
 	if len(args) < 1 {
-		fmt.Fprintf(eout, "first parameter is the suffix%s", nl)
+		fmt.Fprintf(eout, "first parameter is the suffix\n")
 		return 1
 	}
 	suffix := args[0]
 	args = args[1:]
 
 	// Handle content coming from input
-	exitCode := 0
 	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			hasSuffix := strings.HasSuffix(s, suffix)
-			fmt.Fprintln(out, "%T", hasSuffix)
-			if hasSuffix == false {
-				exitCode = 1
-			}
-		}
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
 	}
 	// Handle content common from args
-	sep := ""
-	for _, s := range args {
-		hasSuffix := strings.HasSuffix(s, suffix)
-		fmt.Fprintf(out, "%s%T", sep, hasSuffix)
-		sep = " "
-		if hasSuffix == false {
-			exitCode = 1
-		}
+	for _, arg := range args {
+		fmt.Fprintf(out, "%t%s", strings.HasSuffix(arg, suffix), nl)
 	}
-	fmt.Fprintf(out, "%s", nl)
-	return exitCode
+	return 0
 }
 
 func doTrimSuffix(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	// Validate parameters
 	if len(args) < 1 {
-		fmt.Fprintf(eout, "first parameter is the suffix%s", nl)
+		fmt.Fprintf(eout, "first parameter is the suffix\n")
 		return 1
 	}
 	suffix := args[0]
 	args = args[1:]
 
 	// Handle content coming from input
-	exitCode := 0
 	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			fmt.Fprintln(out, "%s", strings.TrimSuffix(s, suffix))
-		}
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
 	}
 	// Handle content common from args
-	sep := ""
-	for _, s := range args {
-		fmt.Fprintf(out, "%s%T", sep, strings.TrimSuffix(s, suffix))
-		sep = " "
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", strings.TrimSuffix(arg, suffix), nl)
 	}
-	fmt.Fprintf(out, "%s", nl)
-	return exitCode
+	return 0
 }
 
 func doTrim(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	if len(args) < 1 {
-		fmt.Fprintf(eout, "first parameter is the cutset%s", nl)
+		fmt.Fprintf(eout, "first parameter is the cutset\n")
 		return 1
 	}
 	cutset := args[0]
 	args = args[1:]
 
 	// Handle content coming from input
-	exitCode := 0
 	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			fmt.Fprintln(out, "%s", strings.Trim(s, cutset))
-		}
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
 	}
 	// Handle content common from args
-	sep := ""
-	for _, s := range args {
-		fmt.Fprintf(out, "%s%T", sep, strings.Trim(s, cutset))
-		sep = " "
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", strings.Trim(arg, cutset), nl)
 	}
-	fmt.Fprintf(out, "%s", nl)
-	return exitCode
+	return 0
 }
 
 func doTrimLeft(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	if len(args) < 1 {
-		fmt.Fprintf(eout, "first parameter is the cutset%s", nl)
+		fmt.Fprintf(eout, "first parameter is the cutset\n")
 		return 1
 	}
 	cutset := args[0]
 	args = args[1:]
 
-	// Handle content coming from input
-	exitCode := 0
+	// Handle content coming from file
 	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			fmt.Fprintln(out, "%s", strings.TrimLeft(s, cutset))
-		}
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
 	}
 	// Handle content common from args
-	sep := ""
-	for _, s := range args {
-		fmt.Fprintf(out, "%s%T", sep, strings.TrimLeft(s, cutset))
-		sep = " "
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", strings.TrimLeft(arg, cutset), nl)
 	}
-	fmt.Fprintf(out, "%s", nl)
-	return exitCode
+	return 0
 }
 
 func doTrimRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	if len(args) < 1 {
-		fmt.Fprintf(eout, "first parameter is the cutset%s", nl)
+		fmt.Fprintf(eout, "first parameter is the cutset\n")
 		return 1
 	}
 	cutset := args[0]
 	args = args[1:]
 
-	// Handle content coming from input
-	exitCode := 0
+	// Handle content coming from file
 	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			fmt.Fprintln(out, "%s", strings.TrimRight(s, cutset))
-		}
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
 	}
 	// Handle content common from args
-	sep := ""
-	for _, s := range args {
-		fmt.Fprintf(out, "%s%T", sep, strings.TrimRight(s, cutset))
-		sep = " "
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%T", strings.TrimRight(arg, cutset), nl)
 	}
-	fmt.Fprintf(out, "%s", nl)
-	return exitCode
+	return 0
+}
+
+func doContains(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	exitOnError(eout, fmt.Errorf("doContains not implemented"), false)
+	return 1
+}
+
+func doPosition(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	exitOnError(eout, fmt.Errorf("doPosition not implemented"), false)
+	return 1
+}
+
+func doReplace(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	exitOnError(eout, fmt.Errorf("doReplace not implemented"), false)
+	return 1
+}
+
+func doReplacen(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	exitOnError(eout, fmt.Errorf("doReplacen not implemented"), false)
+	return 1
+}
+
+func doPad(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	exitOnError(eout, fmt.Errorf("doPad not implemented"), false)
+	return 1
+}
+
+func doPadLeft(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	exitOnError(eout, fmt.Errorf("doPadLeft not implemented"), false)
+	return 1
+}
+
+func doPadRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	exitOnError(eout, fmt.Errorf("doPadRight not implemented"), false)
+	return 1
 }
 
 func main() {
@@ -455,20 +431,29 @@ func main() {
 	app.BoolVar(&plainText, "t,text", false, "handle arrays as plain text")
 
 	// Add verbs and functions
-	app.AddAction("toupper", doToUpper, "converts a string(s) to upper case")
-	app.AddAction("tolower", doToLower, "converts a string(s) to lower case")
-	app.AddAction("totitle", doToTitle, "converts a string(s) to title case")
-	app.AddAction("englishtitle", doEnglishTitle, "converts a string(s) to English style title case")
-	app.AddAction("split", doSplit, "splits a string into a JSON array on a delimiter, first parameter is the delimiter")
-	app.AddAction("splitn", doSplitN, "splits a string into an N length JSON array on delimiter, first parameter is the delimiter, second N")
-	app.AddAction("join", doJoin, "join JSON array(s) of strings or join delimited input, first parameter is delimiter")
-	app.AddAction("hasprefix", doHasPrefix, "output true if string(s) have prefix otherwise false, first parameter is prefix")
-	app.AddAction("trimprefix", doTrimPrefix, "trims the prefix from a string(s), first parameter is prefix")
-	app.AddAction("hassuffix", doHasSuffix, "output true if string(s) have suffix otherwise false, first parameter is suffix")
-	app.AddAction("trimsuffix", doTrimSuffix, "trims the suffix from a string(s), first parameter is suffix")
-	app.AddAction("trim", doTrim, "trims the cutset from beginning and end of string(s), first parameter is cutset")
-	app.AddAction("trimleft", doTrimLeft, "left trim the cutset from a string(s), first parameter is cutset")
-	app.AddAction("trimright", doTrimRight, "right trim the cutset from a string(s), first parameter is cutset")
+	app.AddAction("toupper", doToUpper, "to upper case: [STRINGS]")
+	app.AddAction("tolower", doToLower, "to lower case: [STRINGS]")
+	app.AddAction("totitle", doToTitle, "to title case: [STRINGS]")
+	app.AddAction("englishtitle", doEnglishTitle, "English style title case: [STRINGS]")
+	app.AddAction("split", doSplit, "split into a JSON array: DELIMITER [STRINGS]")
+	app.AddAction("splitn", doSplitN, "split into an N length JSON array: DELIMITER N [STRINGS]")
+	app.AddAction("join", doJoin, "join JSON array into string: DELIMITER [STRINS]")
+	app.AddAction("hasprefix", doHasPrefix, "true/false on prefix: PREFIX [STRINGS]")
+	app.AddAction("trimprefix", doTrimPrefix, "trims prefix: PREFIX [STRINGS]")
+	app.AddAction("hassuffix", doHasSuffix, "true/false on suffix: SUFFIX [STRINGS]")
+	app.AddAction("trimsuffix", doTrimSuffix, "trim suffix: SUFFIX [STRINGS]")
+	app.AddAction("trim", doTrim, "trim (beginning and end), CUTSET [STRINGS]")
+	app.AddAction("trimleft", doTrimLeft, "left trim: CUTSET [STRINGS]")
+	app.AddAction("trimright", doTrimRight, "right trim: CUTSET [STRINGS]")
+	app.AddAction("count", doCount, "count substrings: SUBSTRING [STRINGS]")
+	app.AddAction("contains", doContains, "has substrings: SUBSTRING [STRINGS]")
+	app.AddAction("length", doLength, "length of string: [STRINGS]")
+	app.AddAction("position", doPosition, "position of substring: SUBSTRING [STRINGS]")
+	app.AddAction("replace", doReplace, "replace: TARGET REPLACEMENT [STRINGS]")
+	app.AddAction("replacen", doReplace, "replace n times: TARGET REPLACEMENT COUNT [STRINGS]")
+	app.AddAction("pad", doPad, "pad (beginning and end): PADDING MAX_LENGTH [STRINGS]")
+	app.AddAction("padleft", doPadLeft, "left pad: PADDING MAX_LENGTH [STRINGS]")
+	app.AddAction("padleft", doPadRight, "left pad: PADDING MAX_LENGTH [STRINGS]")
 
 	// We're ready to process args
 	app.Parse()

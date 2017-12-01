@@ -8,12 +8,12 @@
 
 string is a command line tool for transforming strings in common ways.
 
++ string length
 + changing cases
-+ checking for prefixes, suffixes or substrings
-+ trimming prefixes, suffixes or specific characters (i.e. cutsets)
-+ locating, counting and replacing substrings
-+ splitting and joining JSON string arrays
-+ formatting and padding strings and numbers
++ checking for prefixes, suffixes 
++ trimming prefixes, suffixes and cutsets (i.e. list of characters to cut)
++ position, counting and replacing substrings
++ splitting a string into a JSON array of strings, joining JSON a string arrays into a string
 
 
 ## OPTIONS
@@ -37,18 +37,28 @@ Options are shared between all actions and must precede the action on the comman
 ## ACTIONS
 
 ```
-    hasprefix    output true if string(s) have prefix otherwise false, first parameter is prefix
-    hassuffix    output true if string(s) have suffix otherwise false, first parameter is suffix
-    join         join JSON array(s) of strings or join delimited input, first parameter is delimiter
-    lower        converts a string(s) to lower case
-    split        splits a string into a JSON array or delimiter output, first parameter is delimiter
-    title        converts a string(s) to title case
-    trim         trims the cutset from beginning and end of string(s), first parameter is cutset
-    trimleft     left trim the cutset from a string(s), first parameter is cutset
-    trimprefix   trims the prefix from a string(s), first parameter is prefix
-    trimright    right trim the cutset from a string(s), first parameter is cutset
-    trimsuffix   trims the suffix from a string(s), first parameter is suffix
-    upper        converts a string(s) to upper case
+    contains       has substrings: SUBSTRING [STRINGS]
+    count          count substrings: SUBSTRING [STRINGS]
+    englishtitle   English style title case: [STRINGS]
+    hasprefix      true/false on prefix: PREFIX [STRINGS]
+    hassuffix      true/false on suffix: SUFFIX [STRINGS]
+    join           join JSON array into string: DELIMITER [STRINS]
+    length         length of string: [STRINGS]
+    pad            pad (beginning and end): PADDING MAX_LENGTH [STRINGS]
+    padleft        left pad: PADDING MAX_LENGTH [STRINGS]
+    position       position of substring: SUBSTRING [STRINGS]
+    replace        replace: TARGET REPLACEMENT [STRINGS]
+    replacen       replace n times: TARGET REPLACEMENT COUNT [STRINGS]
+    split          split into a JSON array: DELIMITER [STRINGS]
+    splitn         split into an N length JSON array: DELIMITER N [STRINGS]
+    tolower        to lower case: [STRINGS]
+    totitle        to title case: [STRINGS]
+    toupper        to upper case: [STRINGS]
+    trim           trim (beginning and end), CUTSET [STRINGS]
+    trimleft       left trim: CUTSET [STRINGS]
+    trimprefix     trims prefix: PREFIX [STRINGS]
+    trimright      right trim: CUTSET [STRINGS]
+    trimsuffix     trim suffix: SUFFIX [STRINGS]
 ```
 
 
@@ -57,6 +67,6 @@ Options are shared between all actions and must precede the action on the comman
 
 
 
-Related: [hasprefix](hasprefix.html), [hassuffix](hassuffix.html), [join](join.html), [lower](lower.html), [split](split.html), [title](title.html), [trim](trim.html), [trimleft](trimleft.html), [trimprefix](trimprefix.html), [trimright](trimright.html), [trimsuffix](trimsuffix.html), [upper](upper.html)
+Related: [contains](contains.html), [count](count.html), [englishtitle](englishtitle.html), [hasprefix](hasprefix.html), [hassuffix](hassuffix.html), [join](join.html), [length](length.html), [pad](pad.html), [padleft](padleft.html), [position](position.html), [replace](replace.html), [replacen](replacen.html), [split](split.html), [splitn](splitn.html), [tolower](tolower.html), [totitle](totitle.html), [toupper](toupper.html), [trim](trim.html), [trimleft](trimleft.html), [trimprefix](trimprefix.html), [trimright](trimright.html), [trimsuffix](trimsuffix.html)
 
 string v0.0.19-dev
