@@ -59,9 +59,9 @@ string is a command line tool for transforming strings in common ways.
 	generateMarkdownDocs bool
 
 	// App Options
-	nl           string
-	englishTitle bool
-	plainText    bool
+
+	// Internal globals
+	nl string
 )
 
 //
@@ -588,7 +588,6 @@ func main() {
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "output documentation in Markdown")
 
 	// App Options
-	app.BoolVar(&plainText, "t,text", false, "handle arrays as plain text")
 
 	// Add verbs and functions
 	app.AddAction("toupper", doToUpper, "to upper case: [STRINGS]")

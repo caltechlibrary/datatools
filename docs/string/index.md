@@ -29,7 +29,6 @@ Options are shared between all actions and must precede the action on the comman
     -nl, -newline             output a trailing newline
     -o, -output               output file name
     -quiet                    suppress error messages
-    -t, -text                 handle arrays as plain text
     -v, -version              display version
 ```
 
@@ -44,11 +43,12 @@ Options are shared between all actions and must precede the action on the comman
     hassuffix      true/false on suffix: SUFFIX [STRINGS]
     join           join JSON array into string: DELIMITER [STRINS]
     length         length of string: [STRINGS]
-    pad            pad (beginning and end): PADDING MAX_LENGTH [STRINGS]
     padleft        left pad: PADDING MAX_LENGTH [STRINGS]
+    padright       right pad: PADDING MAX_LENGTH [STRINGS]
     position       position of substring: SUBSTRING [STRINGS]
-    replace        replace: TARGET REPLACEMENT [STRINGS]
-    replacen       replace n times: TARGET REPLACEMENT COUNT [STRINGS]
+    replace        replace: OLD NEW [STRINGS]
+    replacen       replace n times: OLD NEW N [STRINGS]
+    slice          copy a substring: START END [STRINGS]
     split          split into a JSON array: DELIMITER [STRINGS]
     splitn         split into an N length JSON array: DELIMITER N [STRINGS]
     tolower        to lower case: [STRINGS]
@@ -67,6 +67,6 @@ Options are shared between all actions and must precede the action on the comman
 
 
 
-Related: [contains](contains.html), [count](count.html), [englishtitle](englishtitle.html), [hasprefix](hasprefix.html), [hassuffix](hassuffix.html), [join](join.html), [length](length.html), [pad](pad.html), [padleft](padleft.html), [position](position.html), [replace](replace.html), [replacen](replacen.html), [split](split.html), [splitn](splitn.html), [tolower](tolower.html), [totitle](totitle.html), [toupper](toupper.html), [trim](trim.html), [trimleft](trimleft.html), [trimprefix](trimprefix.html), [trimright](trimright.html), [trimsuffix](trimsuffix.html)
+Related: [contains](contains.html), [count](count.html), [englishtitle](englishtitle.html), [hasprefix](hasprefix.html), [hassuffix](hassuffix.html), [join](join.html), [length](length.html), [padleft](padleft.html), [padright](padright.html), [position](position.html), [replace](replace.html), [replacen](replacen.html), [slice](slice.html), [split](split.html), [splitn](splitn.html), [tolower](tolower.html), [totitle](totitle.html), [toupper](toupper.html), [trim](trim.html), [trimleft](trimleft.html), [trimprefix](trimprefix.html), [trimright](trimright.html), [trimsuffix](trimsuffix.html)
 
 string v0.0.19-dev
