@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../">up</a></li>
+<li><a href="../docs/">Documentation</a></li>
+<li><a href="./">How To &hellip;</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>Reorder a comma delimiter string</h1>
+
+<p>The examples below are each borken down in two parts. The first
+part shows a short version of the commands you might use in practice.
+This is followed by a step by step implementation to take some
+of the mystery out of the short version.</p>
+
+<h2>Problem</h2>
+
+<p>How to easily convert a name in &ldquo;FAMILY, GIVEN&rdquo; form
+to &ldquo;GIVEN FAMILY&rdquo; form?</p>
+
+<h2>The traditional shell approach</h2>
+
+<p>Traditionally this can be done using a number of Unix commands such as
+<em>echo</em> and <em>cut</em>. If you break down the task into getting each name separately it is pretty easy using a couple shell variables.</p>
+
+<pre><code class="language-shell">    NAME=&quot;Doiel, Robert&quot;
+    GIVEN_FAMILY=&quot;$(echo -n &quot;$NAME&quot; | cut -d , -f 1) $(echo -n &quot;$NAME&quot; | cut -d , -f 2)&quot;
+    echo &quot;$FAMILY $GIVEN&quot;
+</code></pre>
+
+<p>This uses the subshell syntax and two separate pipe lines. Let&rsquo;s break it down by parts.</p>
+
+<pre><code class="language-shell">    NAME=&quot;Doiel, Robert&quot;
+    echo &quot;Step 1: [$NAME]&quot;
+    FAMILY_NAME=$(echo -n &quot;$NAME&quot; | cut -d , -f 1)
+    echo &quot;Step 2: [$FAMILY_NAME]
+    GIVEN_NAME=$(echo -n &quot;$NAME&quot; | cut -d , -f 2)
+    echo &quot;Step 3: [$GIVEN_NAME $FAMILY_NAME]&quot;
+</code></pre>
+
+<p>Each pipeline builds up a name (family and given) and the final <em>echo</em>
+displays them.</p>
+
+<p>NOTE: The trouble is this doesn&rsquo;t give you what you want.
+Notice the leading space. You can fix that but that is just the start of
+the rabbit whole.</p>
+
+<h2>The datatools aproach</h2>
+
+<p>If we think about the family name and given name as elements of an
+array we can easily reorder them. In this approach we&rsquo;ll use
+two commands.  The <em>string</em> and <em>jsoncols</em> commands from <em>datatools</em>.</p>
+
+<pre><code class="language-shell">    NAME=&quot;Doiel, Robert&quot;
+    string split &quot;, &quot; &quot;$NAME&quot; | jsoncols -i - -d ' ' '.[0]' '.[1]'
+</code></pre>
+
+<p>First difference you&rsquo;ll notice is we&rsquo;re using an Unix pipe to send
+the output of one command to another. While you can eventually do that
+in the traditional approach it becomes very complicated very quickly.
+Using <em>datatools</em> it is easy to move from strings to JSON and back.</p>
+
+<p>Let&rsquo;s take the <em>datatools</em> approach and output the results of each step
+rather than using a pipeline.</p>
+
+<pre><code class="language-shell">    NAME=&quot;Doiel, Robert&quot;
+    echo &quot;Step 1: [$NAME]&quot;
+    JSON_ARRAY=$(string split &quot;, &quot; &quot;$NAME&quot;)
+    echo &quot;Step 2: $JSON_ARRAY&quot;
+    GIVEN_FAMILY=$(jsoncols -d ' ' '.[0]' '.[1]' &quot;$JSON_ARRAY&quot;)
+    echo &quot;Step 3: [$GIVEN_FAMILY]&quot;
+</code></pre>
+
+<p>NOTE: In this version there is no leading space issue. <em>string</em> command
+can split on multiple characters and in our case it is splitting on
+&ldquo;, &rdquo; not just on the comma like we get with <em>cut</em>.</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

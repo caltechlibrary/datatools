@@ -1,5 +1,5 @@
 
-# Re-order a comma delimiter string
+# Reorder a comma delimiter string
 
 The examples below are each borken down in two parts. The first
 part shows a short version of the commands you might use in practice.
@@ -70,5 +70,5 @@ rather than using a pipeline.
 
 NOTE: In this version there is no leading space issue. _string_ command
 can split on multiple characters and in our case it is splitting on 
-", " not just on the comma like we get with _cut_.
+comma space not just on the comma like we get with _cut_.
 
