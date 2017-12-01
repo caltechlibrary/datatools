@@ -394,33 +394,160 @@ func doContains(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 }
 
 func doPosition(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	exitOnError(eout, fmt.Errorf("doPosition not implemented"), false)
-	return 1
+	if len(args) < 1 {
+		fmt.Fprintf(eout, "first parameter is the slice you're looking for")
+		return 1
+	}
+	target := args[0]
+	args = args[1:]
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+	for _, arg := range args {
+		fmt.Fprintf(out, "%d%s", strings.Index(arg, target), nl)
+	}
+	return 0
 }
 
 func doReplace(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	exitOnError(eout, fmt.Errorf("doReplace not implemented"), false)
-	return 1
+	if len(args) < 2 {
+		fmt.Fprintf(eout, "first parameter is the target, second the replacement string\n")
+		return 1
+	}
+	target := args[0]
+	replacement := args[1]
+	args = args[2:]
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", strings.Replace(arg, target, replacement, -1), nl)
+	}
+	return 0
 }
 
 func doReplacen(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	if len(args) < 3 {
+		fmt.Fprintf(eout, "first parameter is the target, second the replacement string, third is the replacement count (must be positive integer)\n")
+		return 1
+	}
+	target := args[0]
+	replacement := args[1]
+	cnt, err := strconv.Atoi(args[2])
+	exitOnError(eout, err, quiet)
+	if cnt < 0 {
+		fmt.Fprintf(eout, "third parameter must be a positive integer\n")
+		return 1
+	}
+	args = args[3:]
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", strings.Replace(arg, target, replacement, cnt), nl)
+	}
+	return 0
 	exitOnError(eout, fmt.Errorf("doReplacen not implemented"), false)
 	return 1
 }
 
-func doPad(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	exitOnError(eout, fmt.Errorf("doPad not implemented"), false)
-	return 1
-}
-
 func doPadLeft(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	exitOnError(eout, fmt.Errorf("doPadLeft not implemented"), false)
-	return 1
+	if len(args) < 2 {
+		fmt.Fprintf(eout, "first parameter is the padding, second the max width of the padded string\n")
+		return 1
+	}
+	pad := args[0]
+	maxWidth, err := strconv.Atoi(args[1])
+	exitOnError(eout, err, quiet)
+	args = args[2:]
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+	// NOTE: we want to the integer modulo of maxWidth and length of pad
+	x := maxWidth / len(pad)
+	pad = strings.Repeat(pad, x)
+	for _, arg := range args {
+		l := len(arg)
+		if l >= maxWidth {
+			fmt.Fprintf(out, "%s%s", arg, nl)
+		} else {
+			t := fmt.Sprintf("%s%s", pad, arg)
+			fmt.Fprintf(out, "%s%s", t[maxWidth-l:], nl)
+		}
+	}
+	return 0
 }
 
 func doPadRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	exitOnError(eout, fmt.Errorf("doPadRight not implemented"), false)
-	return 1
+	if len(args) < 2 {
+		fmt.Fprintf(eout, "first parameter is the padding, second the max width of the padded string\n")
+		return 1
+	}
+	pad := args[0]
+	maxWidth, err := strconv.Atoi(args[1])
+	exitOnError(eout, err, quiet)
+	args = args[2:]
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+	// NOTE: we want to the integer modulo of maxWidth and length of pad
+	x := maxWidth / len(pad)
+	pad = strings.Repeat(pad, x)
+	for _, arg := range args {
+		l := len(arg)
+		if l >= maxWidth {
+			fmt.Fprintf(out, "%s%s", arg, nl)
+		} else {
+			t := fmt.Sprintf("%s%s", arg, pad)
+			fmt.Fprintf(out, "%s%s", t[0:maxWidth], nl)
+		}
+	}
+	return 0
+}
+
+func doSlice(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	if len(args) < 2 {
+		fmt.Fprintf(eout, "first parameter is the start position (zero basedindex, inclusive), second is the end position (exclusive) of the substring\n")
+		return 1
+	}
+
+	start, err := strconv.Atoi(args[0])
+	exitOnError(eout, err, quiet)
+	end, err := strconv.Atoi(args[1])
+	exitOnError(eout, err, quiet)
+	if start < 0 && end < 0 {
+		fmt.Fprintf(eout, "start and end must be a positive integer\n")
+		return 1
+	}
+	if end <= start {
+		fmt.Fprintf(eout, "end is less than or equal to start\n")
+		return 1
+	}
+	args = args[2:]
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+
+	for _, arg := range args {
+		if start > len(arg) {
+			fmt.Fprintf(eout, "start %d is past end of string %q\n", start, arg)
+			return 1
+		}
+		fmt.Fprintf(out, "%s%s", arg[start:end], nl)
+	}
+	return 0
 }
 
 func main() {
@@ -464,11 +591,11 @@ func main() {
 	app.AddAction("contains", doContains, "has substrings: SUBSTRING [STRINGS]")
 	app.AddAction("length", doLength, "length of string: [STRINGS]")
 	app.AddAction("position", doPosition, "position of substring: SUBSTRING [STRINGS]")
-	app.AddAction("replace", doReplace, "replace: TARGET REPLACEMENT [STRINGS]")
-	app.AddAction("replacen", doReplace, "replace n times: TARGET REPLACEMENT COUNT [STRINGS]")
-	app.AddAction("pad", doPad, "pad (beginning and end): PADDING MAX_LENGTH [STRINGS]")
+	app.AddAction("slice", doSlice, "copy a substring: START END [STRINGS]")
+	app.AddAction("replace", doReplace, "replace: OLD NEW [STRINGS]")
+	app.AddAction("replacen", doReplacen, "replace n times: OLD NEW N [STRINGS]")
 	app.AddAction("padleft", doPadLeft, "left pad: PADDING MAX_LENGTH [STRINGS]")
-	app.AddAction("padleft", doPadRight, "left pad: PADDING MAX_LENGTH [STRINGS]")
+	app.AddAction("padright", doPadRight, "right pad: PADDING MAX_LENGTH [STRINGS]")
 
 	// We're ready to process args
 	app.Parse()

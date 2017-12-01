@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 function assert_same() {
     if [ "$#" != "3" ]; then
         echo "asset_same expects 3 parmaters, LABEL EXPECTED RESULT"
@@ -151,7 +150,7 @@ function test_string() {
     RESULT=$(echo -n "$S" | bin/string -i - trimright "$T")
     assert_same "trimright on pipe" "$EXPECTED" "$RESULT"
 
-# Test Contains
+    # Test Contains
     S="oingo"
     T="ing"
     EXPECTED="true"
@@ -160,13 +159,67 @@ function test_string() {
     RESULT=$(echo -n "$S" | bin/string -i - contains "$T")
     assert_same "contains on pipe" "$EXPECTED" "$RESULT"
 
+    # Test Position
+    S="oingo"
+    T="ing"
+    EXPECTED="1"
+    RESULT=$(bin/string position "$T" "$S")
+    assert_same "position on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - position "$T")
+    assert_same "position on pipe" "$EXPECTED" "$RESULT"
 
-# Test Position
-# Test Replace
-# Test Replacen
-# Test Pad
-# Test PadLeft
-# Test PadRight
+    # Test Slice
+    S="oingo"
+    START=1
+    END=3
+    EXPECTED="in"
+    RESULT=$(bin/string slice "$START" "$END" "$S")
+    assert_same "slice on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - slice "$START" "$END")
+    assert_same "slice on pipe" "$EXPECTED" "$RESULT"
+    
+    
+    # Test Replace
+    S="oingo"
+    OLD="o"
+    NEW=" "
+    EXPECTED=" ing "
+    RESULT=$(bin/string replace "$OLD" "$NEW" "$S")
+    assert_same "replace on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - replace "$OLD" "$NEW")
+    assert_same "replace on pipe" "$EXPECTED" "$RESULT"
+    
+    # Test Replacen
+    S="oingo"
+    OLD="o"
+    NEW=" "
+    CNT=1
+    EXPECTED=" ingo"
+    RESULT=$(bin/string replacen "$OLD" "$NEW" "$CNT" "$S")
+    assert_same "replacen on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - replacen "$OLD" "$NEW" "$CNT")
+    assert_same "replacen on pipe" "$EXPECTED" "$RESULT"
+    
+    # Test PadLeft
+    S="oingo"
+    P="~"
+    M="10"
+    EXPECTED="~~~~~oingo"
+    RESULT=$(bin/string padleft "$P" "$M" "$S")
+    assert_same "padleft on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - padleft "$P" "$M")
+    assert_same "padleft on pipe" "$EXPECTED" "$RESULT"
+
+    # Test PadRight
+    S="oingo"
+    P="~"
+    M="10"
+    EXPECTED="oingo~~~~~"
+    RESULT=$(bin/string padright "$P" "$M" "$S")
+    assert_same "padright on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - padright "$P" "$M")
+    assert_same "padright on pipe" "$EXPECTED" "$RESULT"
+
 }
 
 #
