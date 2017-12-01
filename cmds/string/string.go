@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 
 	// Caltech Library Packages
@@ -22,7 +23,7 @@ string is a command line tool for transforming strings in common ways.
 + checking for prefixes, suffixes or substrings
 + trimming prefixes, suffixes or specific characters (i.e. cutsets)
 + locating, counting and replacing substrings
-+ splitting and joining JSON string arrays
++ splitting a string into a JSON array of strings, joining JSON a string arrays into a string
 + formatting and padding strings and numbers
 `
 
@@ -49,9 +50,16 @@ string is a command line tool for transforming strings in common ways.
 //
 // Application functionality
 //
-func onError(eout io.Writer, err error, quiet bool) {
-	if err != nil && quiet == false {
+func onError(eout io.Writer, err error, suppress bool) {
+	if err != nil && suppress == false {
 		fmt.Fprintln(eout, err)
+	}
+}
+
+func exitOnError(eout io.Writer, err error, suppress bool) {
+	if err != nil {
+		onError(eout, err, suppress)
+		os.Exit(1)
 	}
 }
 
@@ -93,31 +101,32 @@ func doToLower(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return exitCode
 }
 
-func doTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	exitCode := 0
+func doToTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	// Handle file input
 	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			if englishTitle {
-				fmt.Fprintln(out, "%s", datatools.EnglishTitle(s))
-			} else {
-				fmt.Fprintln(out, strings.ToTitle(s))
-			}
-		}
-		if err := scanner.Err(); err != nil {
-			onError(eout, err, quiet)
-			exitCode = 1
-		}
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
 	}
-	if len(args) > 0 {
-		if englishTitle {
-			fmt.Fprintf(out, "%s%s", datatools.EnglishTitle(strings.Join(args, " ")), nl)
-		} else {
-			fmt.Fprintf(out, "%s%s", strings.ToTitle(strings.Join(args, " ")), nl)
-		}
+	// Now title our args
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", strings.ToTitle(arg), nl)
 	}
-	return exitCode
+	return 0
+}
+
+func doEnglishTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	// Handle file input
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+	// Now title our args
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", datatools.EnglishTitle(arg), nl)
+	}
+	return 0
 }
 
 func doSplit(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
@@ -127,99 +136,91 @@ func doSplit(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	}
 	delimiter := args[0]
 	args = args[1:]
-	exitCode := 0
 	// Handle the case where out input is piped in or read from a file.
 	if inputFName != "" {
-		scanner := bufio.NewScanner(in)
-		for scanner.Scan() {
-			s := scanner.Text()
-			parts := strings.Split(s, delimiter)
-			if plainText {
-				fmt.Fprintln(out, "%s%s", strings.Join(parts, "\n"))
-			} else {
-				src, err := json.Marshal(parts)
-				if err != nil {
-					onError(eout, err, quiet)
-					exitCode = 1
-				} else {
-					fmt.Fprintf(out, "%s%s", src, nl)
-				}
-			}
+		src, err := ioutil.ReadAll(in)
+		if err != nil {
+			fmt.Fprintf(eout, "can't read %s, %s\n", inputFName, err)
+			return 1
 		}
+		args = append(args, string(src))
+	}
+
+	// Now process the args
+	for _, arg := range args {
+		parts := strings.Split(arg, delimiter)
+		// Now assemble our JSON array and display it
+		src, err := json.Marshal(parts)
+		exitOnError(eout, err, quiet)
+		fmt.Fprintf(out, "%s%s", src, nl)
+	}
+	return 0
+}
+
+func doSplitN(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	if len(args) < 2 {
+		fmt.Fprintln(eout, "first parameter is the delimiting string, second is the count")
+		return 1
+	}
+	delimiter := args[0]
+	countS := args[1]
+	args = args[2:]
+	// Now convert countS to cnt
+	cnt, err := strconv.Atoi(countS)
+	if err != nil {
+		fmt.Fprintf(eout, "second parameter should be an integer, got %s, errror %s\n", countS, err)
+		return 1
+	}
+	// Handle the case where out input is piped in or read from a file.
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		if err != nil {
+			fmt.Fprintf(eout, "can't read %s, %s\n", inputFName, err)
+			return 1
+		}
+		args = append(args, string(src))
 	}
 
 	// Handle the case of args being used for input
-	for _, s := range args {
-		parts := strings.Split(s, delimiter)
-		if plainText {
-			fmt.Fprintf(out, "%s%s", strings.Join(parts, "\n"), nl)
-		} else {
-			src, err := json.Marshal(parts)
-			if err != nil {
-				onError(eout, err, quiet)
-				exitCode = 1
-			} else {
-				fmt.Fprintf(out, "%s%s", src, nl)
-			}
-		}
+	for _, arg := range args {
+		parts := strings.SplitN(arg, delimiter, cnt)
+
+		// Now assemble our JSON array and display it
+		src, err := json.Marshal(parts)
+		exitOnError(eout, err, quiet)
+		fmt.Fprintf(out, "%s%s", src, nl)
 	}
-	return exitCode
+	return 0
 }
 
 func doJoin(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	if len(args) < 1 {
-		fmt.Fprintln(eout, "first parameter is the delimiting string")
+		fmt.Fprintln(eout, "first parameter is the delimiter to join with")
 		return 1
 	}
 	delimiter := args[0]
 	args = args[1:]
-	exitCode := 0
-	exitCode = 0
+
 	// Handle the case where out input is piped in or read from a file.
 	if inputFName != "" {
-		// If plain text we can join across lines by delimiter
-		if plainText {
-			scanner := bufio.NewScanner(in)
-			sep := ""
-			for scanner.Scan() {
-				s := scanner.Text()
-				fmt.Fprintf(out, "%s%s", sep, s)
-				sep = delimiter
-			}
-		} else {
-			// If we have json read in all source before joining
-			src, err := ioutil.ReadAll(in)
-			if err != nil {
-				onError(eout, err, quiet)
-				exitCode = 1
-			} else {
-				o := []string{}
-				if err := json.Unmarshal(src, &o); err != nil {
-					onError(eout, err, quiet)
-					exitCode = 1
-				}
-			}
+		src, err := ioutil.ReadAll(in)
+		if err != nil {
+			fmt.Fprintf(eout, "can't read %s, %s\n", inputFName, err)
+			return 1
 		}
+		args = append(args, string(src))
 	}
 
 	// Handle the case of args being used for input
-
-	// Plain text we assume each arg is going to get joined by delimiter
-	if len(args) > 0 && plainText {
-		fmt.Fprintf(out, "%s%s", strings.Join(args, delimiter), nl)
-		return exitCode
+	for _, arg := range args {
+		parts := []string{}
+		// Now we've Unmarshal our object, join it
+		err := json.Unmarshal([]byte(arg), &parts)
+		exitOnError(eout, err, quiet)
+		s := strings.Join(parts, delimiter)
+		fmt.Fprintf(out, "%s%s", s, nl)
 	}
-	// JSON we assume each arg is a JSON array of strings that is going to get joined by delimiter
-	for _, src := range args {
-		o := []string{}
-		if err := json.Unmarshal([]byte(src), &o); err != nil {
-			onError(eout, err, quiet)
-			exitCode = 1
-		} else {
-			fmt.Fprintf(out, "%s%s", strings.Join(o, delimiter), nl)
-		}
-	}
-	return exitCode
+	return 0
 }
 
 func doHasPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
@@ -454,10 +455,12 @@ func main() {
 	app.BoolVar(&plainText, "t,text", false, "handle arrays as plain text")
 
 	// Add verbs and functions
-	app.AddAction("upper", doToUpper, "converts a string(s) to upper case")
-	app.AddAction("lower", doToLower, "converts a string(s) to lower case")
-	app.AddAction("title", doTitle, "converts a string(s) to title case")
-	app.AddAction("split", doSplit, "splits a string into a JSON array or delimiter output, first parameter is delimiter")
+	app.AddAction("toupper", doToUpper, "converts a string(s) to upper case")
+	app.AddAction("tolower", doToLower, "converts a string(s) to lower case")
+	app.AddAction("totitle", doToTitle, "converts a string(s) to title case")
+	app.AddAction("englishtitle", doEnglishTitle, "converts a string(s) to English style title case")
+	app.AddAction("split", doSplit, "splits a string into a JSON array on a delimiter, first parameter is the delimiter")
+	app.AddAction("splitn", doSplitN, "splits a string into an N length JSON array on delimiter, first parameter is the delimiter, second N")
 	app.AddAction("join", doJoin, "join JSON array(s) of strings or join delimited input, first parameter is delimiter")
 	app.AddAction("hasprefix", doHasPrefix, "output true if string(s) have prefix otherwise false, first parameter is prefix")
 	app.AddAction("trimprefix", doTrimPrefix, "trims the prefix from a string(s), first parameter is prefix")
