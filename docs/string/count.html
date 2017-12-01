@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../">up</a></li>
+<li><a href="./">Documentation</a></li>
+<li><a href="../how-to/">How To &hellip;</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>string ount TARGET [STRING]</h1>
+
+<p>This command will count the number of times TARGET occurs in
+the STRING.</p>
+
+<h2>using command line paramters only</h2>
+
+<pre><code class="language-shell">    string count &quot;friend&quot; &quot;The people were freindly&quot;
+</code></pre>
+
+<p>Would return <code>1</code></p>
+
+<pre><code class="language-shell">    string count &quot;tomato&quot; &quot;The people were freindly&quot;
+</code></pre>
+
+<p>Would return <code>0</code></p>
+
+<h2>Piping in the strings to check</h2>
+
+<pre><code class="language-shell">    echo &quot;The people were friendly&quot; | string count &quot;friend&quot;
+</code></pre>
+
+<p>Would return <code>1</code></p>
+
+<pre><code class="language-shell">    echo &quot;The people were friendly&quot; | string count &quot;apple&quot;
+</code></pre>
+
+<p>Would return <code>0</code></p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>
