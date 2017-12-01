@@ -25,7 +25,22 @@
 <pre><code>string [OPTIONS] [ACTION] [ACTION PARAMETERS...]
 </code></pre>
 
+<h2>SYNOPSIS</h2>
+
+<p>string is a command line tool for transforming strings in common ways.</p>
+
+<ul>
+<li>changing cases</li>
+<li>checking for prefixes, suffixes or substrings</li>
+<li>trimming prefixes, suffixes or specific characters (i.e. cutsets)</li>
+<li>locating, counting and replacing substrings</li>
+<li>splitting and joining JSON string arrays</li>
+<li>formatting and padding strings and numbers</li>
+</ul>
+
 <h2>OPTIONS</h2>
+
+<p>Options are shared between all actions and must precede the action on the command line.</p>
 
 <pre><code>    -e, -examples             display examples
     -generate-markdown-docs   output documentation in Markdown
@@ -41,19 +56,23 @@
 
 <h2>ACTIONS</h2>
 
-<pre><code>    hasprefix   output true if string(s) have prefix otherwise false, first parameter is prefix
-    hassuffix   output true if string(s) have suffix otherwise false, first parameter is suffix
-    join        join JSON array(s) of strings or join delimited input, first parameter is delimiter
-    lower       converts a string(s) to lower case
-    split       splits a string into a JSON array or delimiter output, first parameter is delimiter
-    title       converts a string(s) to title case
-    trim        trims the cutset from beginning and end of string(s), first parameter is cutset
-    trimleft    left trim the cutset from a string(s), first parameter is cutset
-    trimprefix  trims the prefix from a string(s), first parameter is prefix
-    trimright   right trim the cutset from a string(s), first parameter is cutset
-    trimsuffix  trims the suffix from a string(s), first parameter is suffix
-    upper       converts a string(s) to upper case
+<pre><code>    hasprefix    output true if string(s) have prefix otherwise false, first parameter is prefix
+    hassuffix    output true if string(s) have suffix otherwise false, first parameter is suffix
+    join         join JSON array(s) of strings or join delimited input, first parameter is delimiter
+    lower        converts a string(s) to lower case
+    split        splits a string into a JSON array or delimiter output, first parameter is delimiter
+    title        converts a string(s) to title case
+    trim         trims the cutset from beginning and end of string(s), first parameter is cutset
+    trimleft     left trim the cutset from a string(s), first parameter is cutset
+    trimprefix   trims the prefix from a string(s), first parameter is prefix
+    trimright    right trim the cutset from a string(s), first parameter is cutset
+    trimsuffix   trims the suffix from a string(s), first parameter is suffix
+    upper        converts a string(s) to upper case
 </code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>Related: <a href="hasprefix.html">hasprefix</a>, <a href="hassuffix.html">hassuffix</a>, <a href="join.html">join</a>, <a href="lower.html">lower</a>, <a href="split.html">split</a>, <a href="title.html">title</a>, <a href="trim.html">trim</a>, <a href="trimleft.html">trimleft</a>, <a href="trimprefix.html">trimprefix</a>, <a href="trimright.html">trimright</a>, <a href="trimsuffix.html">trimsuffix</a>, <a href="upper.html">upper</a></p>
 
 <p>string v0.0.19-dev</p>
 

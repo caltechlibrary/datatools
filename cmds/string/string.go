@@ -16,6 +16,14 @@ import (
 
 var (
 	description = `
+string is a command line tool for transforming strings in common ways.
+
++ changing cases
++ checking for prefixes, suffixes or substrings
++ trimming prefixes, suffixes or specific characters (i.e. cutsets)
++ locating, counting and replacing substrings
++ splitting and joining JSON string arrays
++ formatting and padding strings and numbers
 `
 
 	examples = `
@@ -428,8 +436,8 @@ func main() {
 	app := cli.NewCli(datatools.Version)
 
 	// Add Help Docs
-	//app.AddHelp("description", []byte(description))
-	//app.AddHelp("examples", []byte(examples))
+	app.AddHelp("description", []byte(description))
+	app.AddHelp("examples", []byte(examples))
 
 	// Standard Options
 	app.BoolVar(&showHelp, "h,help", false, "display help")
