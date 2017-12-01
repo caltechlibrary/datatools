@@ -4,7 +4,7 @@
 This command will return "true" or "false" if strings contain the TARGET.
 You can supply the STRING from standard input or as a command line argument.
 
-## using command line paramters only
+## Typical command line
 
 ```shell
     string contains "friend" "The people were freindly"
@@ -13,21 +13,23 @@ You can supply the STRING from standard input or as a command line argument.
 Would return `true`
 
 ```shell
-    string contains "tomator" "The people were freindly"
+    string contains "tomato" "The people were freindly"
 ```
 
 Would return `false`
 
-## Piping in the strings to check
+## Piping content
+
+NOTE: To read content from standard input we use the `-i -` option.
 
 ```shell
-    echo "The people were friendly" | string contains "friend"
+    echo "The people were friendly" | string -i - contains "friend"
 ```
 
 Would return `true`
 
 ```shell
-    echo "The people were friendly" | string contains "apple"
+    echo "The people were friendly" | string -i - contains "apple"
 ```
 
 Would return `false`

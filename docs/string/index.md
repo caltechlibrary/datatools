@@ -41,7 +41,7 @@ Options are shared between all actions and must precede the action on the comman
     englishtitle   English style title case: [STRING]
     hasprefix      true/false on prefix: PREFIX [STRING]
     hassuffix      true/false on suffix: SUFFIX [STRING]
-    join           join JSON array into string: DELIMITER [STRING]
+    join           join JSON array into string: DELIMITER [JSON_ARRAY]
     length         length of string: [STRING]
     padleft        left pad: PADDING MAX_LENGTH [STRING]
     padright       right pad: PADDING MAX_LENGTH [STRING]

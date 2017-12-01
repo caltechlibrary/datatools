@@ -1,10 +1,10 @@
 
-# string ount TARGET [STRING]
+# string count TARGET [STRING]
 
 This command will count the number of times TARGET occurs in
 the STRING.
 
-## using command line paramters only
+## Typical command line
 
 ```shell
     string count "friend" "The people were freindly"
@@ -18,16 +18,18 @@ Would return `1`
 
 Would return `0`
 
-## Piping in the strings to check
+## Piping content
+
+NOTE: To read content from standard input we use the `-i -` option.
 
 ```shell
-    echo "The people were friendly" | string count "friend"
+    echo "The people were friendly" | string -i - count "friend"
 ```
 
 Would return `1`
 
 ```shell
-    echo "The people were friendly" | string count "apple"
+    echo "The people were friendly" | string -i - count "apple"
 ```
 
 Would return `0`

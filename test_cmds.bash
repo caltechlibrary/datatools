@@ -168,6 +168,15 @@ function test_string() {
     RESULT=$(echo -n "$S" | bin/string -i - position "$T")
     assert_same "position on pipe" "$EXPECTED" "$RESULT"
 
+    S="The people were friendly"
+    T="friend"
+    EXPECTED="16"
+    RESULT=$(bin/string position "$T" "$S")
+    assert_same "position (friend) on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - position "$T")
+    assert_same "position (friend) on pipe" "$EXPECTED" "$RESULT"
+
+
     # Test Slice
     S="oingo"
     START=1

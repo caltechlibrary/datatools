@@ -596,7 +596,7 @@ func main() {
 	app.AddAction("englishtitle", doEnglishTitle, "English style title case: [STRING]")
 	app.AddAction("split", doSplit, "split into a JSON array: DELIMITER [STRING]")
 	app.AddAction("splitn", doSplitN, "split into an N length JSON array: DELIMITER N [STRING]")
-	app.AddAction("join", doJoin, "join JSON array into string: DELIMITER [STRING]")
+	app.AddAction("join", doJoin, "join JSON array into string: DELIMITER [JSON_ARRAY]")
 	app.AddAction("hasprefix", doHasPrefix, "true/false on prefix: PREFIX [STRING]")
 	app.AddAction("trimprefix", doTrimPrefix, "trims prefix: PREFIX [STRING]")
 	app.AddAction("hassuffix", doHasSuffix, "true/false on suffix: SUFFIX [STRING]")
