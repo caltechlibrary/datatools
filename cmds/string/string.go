@@ -239,7 +239,7 @@ func doHasPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string) int
 	}
 	// Handle content common from args
 	for _, s := range args {
-		fmt.Fprintf(out, "%T%s", strings.HasPrefix(s, prefix), nl)
+		fmt.Fprintf(out, "%t%s", strings.HasPrefix(s, prefix), nl)
 	}
 	return 0
 }
@@ -368,14 +368,29 @@ func doTrimRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int
 	}
 	// Handle content common from args
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%T", strings.TrimRight(arg, cutset), nl)
+		fmt.Fprintf(out, "%s%s", strings.TrimRight(arg, cutset), nl)
 	}
 	return 0
 }
 
 func doContains(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
-	exitOnError(eout, fmt.Errorf("doContains not implemented"), false)
-	return 1
+	if len(args) < 1 {
+		fmt.Fprintf(eout, "first parameter is the target string\n")
+		return 1
+	}
+	target := args[0]
+	args = args[1:]
+
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+
+	for _, arg := range args {
+		fmt.Fprintf(out, "%t%s", strings.Contains(arg, target), nl)
+	}
+	return 0
 }
 
 func doPosition(in io.Reader, out io.Writer, eout io.Writer, args []string) int {

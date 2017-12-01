@@ -41,7 +41,7 @@ to join JSON string arrays into a string using a delimiter or split a string int
 based on a delimiter. The form of the command is `string [OPTIONS] [ACTION] [ARCTIONS_PARAMETERS...]`
 
 ```shell
-    string upper "one two three"
+    string toupper "one two three"
 ```
 
 Would yield "ONE TWO THREE".

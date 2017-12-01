@@ -86,23 +86,81 @@ function test_string() {
     RESULT=$(bin/string count "$T" "$S")
     assert_same "count on args" "$EXPECTED" "$RESULT"
     RESULT=$(echo -n "$S" | bin/string -i - count "$T")
-    assert_same "count on pie" "$EXPECTED" "$RESULT"
+    assert_same "count on pipe" "$EXPECTED" "$RESULT"
 
-# Test ToUpper
-# Test ToLower
-# Test ToTitle
-# Test EnglishTitle
-# Test Split
-# Test SplitN
-# Test Join
-# Test HasPrefix
-# Test TrimPrefix
-# Test HasSuffix
-# Test TrimSuffix
-# Test Trim
-# Test TrimLeft
-# Test TrimRight
+    # Test HasPrefix
+    S="ontop"
+    T="on"
+    EXPECTED="true"
+    RESULT=$(bin/string hasprefix "$T" "$S")
+    assert_same "hasprefix on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - hasprefix "$T")
+    assert_same "hasprefix on pipe" "$EXPECTED" "$RESULT"
+
+    # Test TrimPrefix
+    S="ontop"
+    T="on"
+    EXPECTED="top"
+    RESULT=$(bin/string trimprefix "$T" "$S")
+    assert_same "trimprefix on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - trimprefix "$T")
+    assert_same "trimprefix on pipe" "$EXPECTED" "$RESULT"
+
+    # Test HasSuffix
+    S="ontop"
+    T="top"
+    EXPECTED="true"
+    RESULT=$(bin/string hassuffix "$T" "$S")
+    assert_same "hassuffix on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - hassuffix "$T")
+    assert_same "hassuffix on pipe" "$EXPECTED" "$RESULT"
+
+    # Test TrimSuffix
+    S="ontop"
+    T="top"
+    EXPECTED="on"
+    RESULT=$(bin/string trimsuffix "$T" "$S")
+    assert_same "trimsuffix on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - trimsuffix "$T")
+    assert_same "trimsuffix on pipe" "$EXPECTED" "$RESULT"
+
+    # Test Trim
+    S="oingo"
+    T="o"
+    EXPECTED="ing"
+    RESULT=$(bin/string trim "$T" "$S")
+    assert_same "trim on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - trim "$T")
+    assert_same "trim on pipe" "$EXPECTED" "$RESULT"
+
+    # Test TrimLeft
+    S="oingo"
+    T="o"
+    EXPECTED="ingo"
+    RESULT=$(bin/string trimleft "$T" "$S")
+    assert_same "trimleft on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - trimleft "$T")
+    assert_same "trimleft on pipe" "$EXPECTED" "$RESULT"
+
+    # Test TrimRight
+    S="oingo"
+    T="o"
+    EXPECTED="oing"
+    RESULT=$(bin/string trimright "$T" "$S")
+    assert_same "trimright on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - trimright "$T")
+    assert_same "trimright on pipe" "$EXPECTED" "$RESULT"
+
 # Test Contains
+    S="oingo"
+    T="ing"
+    EXPECTED="true"
+    RESULT=$(bin/string contains "$T" "$S")
+    assert_same "contains on args" "$EXPECTED" "$RESULT"
+    RESULT=$(echo -n "$S" | bin/string -i - contains "$T")
+    assert_same "contains on pipe" "$EXPECTED" "$RESULT"
+
+
 # Test Position
 # Test Replace
 # Test Replacen
