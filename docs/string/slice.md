@@ -1,5 +1,5 @@
 
-# string slice DELIMITER [JSON_ARRAY]
+# string slice START END [STRING]
 
 This command will return slice a string starting
 at START (inclusive) and finishing at END (exclusive).
