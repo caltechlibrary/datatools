@@ -20,6 +20,26 @@
 </nav>
 
 <section>
+<h1>string join DELIMITER [JSON_ARRAY]</h1>
+
+<p>This command will return take a JSON array of strings
+and return a single string joined with the delimiter.</p>
+
+<h2>Typical command line</h2>
+
+<pre><code class="language-shell">    string join '|' '[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]'
+</code></pre>
+
+<p>Would return <code>one|two|three</code></p>
+
+<h2>Piping content</h2>
+
+<p>NOTE: To read content from standard input we use the <code>-i -</code> option.</p>
+
+<pre><code class="language-shell">    echo '[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]' | string join '|'
+</code></pre>
+
+<p>Would return <code>one|two|three</code></p>
 
 </section>
 

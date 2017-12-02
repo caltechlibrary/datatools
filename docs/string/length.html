@@ -20,6 +20,35 @@
 </nav>
 
 <section>
+<h1>string length [STRING]</h1>
+
+<p>This command will return the length of STRING.</p>
+
+<h2>Typical command line</h2>
+
+<pre><code class="language-shell">    string length &quot;friend&quot;
+</code></pre>
+
+<p>Would return <code>6</code></p>
+
+<pre><code class="language-shell">    string length &quot;plum&quot;
+</code></pre>
+
+<p>Would return <code>4</code></p>
+
+<h2>Piping content</h2>
+
+<p>NOTE: To read content from standard input we use the <code>-i -</code> option.</p>
+
+<pre><code class="language-shell">    echo -n &quot;friend&quot; | string -i - length
+</code></pre>
+
+<p>Would return <code>6</code></p>
+
+<pre><code class="language-shell">    echo -n &quot;plum&quot; | string -i - length
+</code></pre>
+
+<p>Would return <code>4</code></p>
 
 </section>
 

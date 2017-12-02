@@ -188,14 +188,13 @@ func doSplitN(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		return 1
 	}
 	delimiter := args[0]
-	countS := args[1]
-	args = args[2:]
-	// Now convert countS to cnt
-	cnt, err := strconv.Atoi(countS)
+	// Now convert to cnt an integer
+	cnt, err := strconv.Atoi(args[1])
 	if err != nil {
-		fmt.Fprintf(eout, "second parameter should be an integer, got %s, errror %s\n", countS, err)
+		fmt.Fprintf(eout, "second parameter should be an integer, got %s, errror %s\n", args[1], err)
 		return 1
 	}
+	args = args[2:]
 	// Handle the case where out input is piped in or read from a file.
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
@@ -590,29 +589,29 @@ func main() {
 	// App Options
 
 	// Add verbs and functions
-	app.AddAction("toupper", doToUpper, "to upper case: [STRINGS]")
-	app.AddAction("tolower", doToLower, "to lower case: [STRINGS]")
-	app.AddAction("totitle", doToTitle, "to title case: [STRINGS]")
-	app.AddAction("englishtitle", doEnglishTitle, "English style title case: [STRINGS]")
-	app.AddAction("split", doSplit, "split into a JSON array: DELIMITER [STRINGS]")
-	app.AddAction("splitn", doSplitN, "split into an N length JSON array: DELIMITER N [STRINGS]")
-	app.AddAction("join", doJoin, "join JSON array into string: DELIMITER [STRINS]")
-	app.AddAction("hasprefix", doHasPrefix, "true/false on prefix: PREFIX [STRINGS]")
-	app.AddAction("trimprefix", doTrimPrefix, "trims prefix: PREFIX [STRINGS]")
-	app.AddAction("hassuffix", doHasSuffix, "true/false on suffix: SUFFIX [STRINGS]")
-	app.AddAction("trimsuffix", doTrimSuffix, "trim suffix: SUFFIX [STRINGS]")
-	app.AddAction("trim", doTrim, "trim (beginning and end), CUTSET [STRINGS]")
-	app.AddAction("trimleft", doTrimLeft, "left trim: CUTSET [STRINGS]")
-	app.AddAction("trimright", doTrimRight, "right trim: CUTSET [STRINGS]")
-	app.AddAction("count", doCount, "count substrings: SUBSTRING [STRINGS]")
-	app.AddAction("contains", doContains, "has substrings: SUBSTRING [STRINGS]")
-	app.AddAction("length", doLength, "length of string: [STRINGS]")
-	app.AddAction("position", doPosition, "position of substring: SUBSTRING [STRINGS]")
-	app.AddAction("slice", doSlice, "copy a substring: START END [STRINGS]")
-	app.AddAction("replace", doReplace, "replace: OLD NEW [STRINGS]")
-	app.AddAction("replacen", doReplacen, "replace n times: OLD NEW N [STRINGS]")
-	app.AddAction("padleft", doPadLeft, "left pad: PADDING MAX_LENGTH [STRINGS]")
-	app.AddAction("padright", doPadRight, "right pad: PADDING MAX_LENGTH [STRINGS]")
+	app.AddAction("toupper", doToUpper, "to upper case: [STRING]")
+	app.AddAction("tolower", doToLower, "to lower case: [STRING]")
+	app.AddAction("totitle", doToTitle, "to title case: [STRING]")
+	app.AddAction("englishtitle", doEnglishTitle, "English style title case: [STRING]")
+	app.AddAction("split", doSplit, "split into a JSON array: DELIMITER [STRING]")
+	app.AddAction("splitn", doSplitN, "split into an N length JSON array: DELIMITER N [STRING]")
+	app.AddAction("join", doJoin, "join JSON array into string: DELIMITER [JSON_ARRAY]")
+	app.AddAction("hasprefix", doHasPrefix, "true/false on prefix: PREFIX [STRING]")
+	app.AddAction("trimprefix", doTrimPrefix, "trims prefix: PREFIX [STRING]")
+	app.AddAction("hassuffix", doHasSuffix, "true/false on suffix: SUFFIX [STRING]")
+	app.AddAction("trimsuffix", doTrimSuffix, "trim suffix: SUFFIX [STRING]")
+	app.AddAction("trim", doTrim, "trim (beginning and end), CUTSET [STRING]")
+	app.AddAction("trimleft", doTrimLeft, "left trim: CUTSET [STRING]")
+	app.AddAction("trimright", doTrimRight, "right trim: CUTSET [STRING]")
+	app.AddAction("count", doCount, "count substrings: SUBSTRING [STRING]")
+	app.AddAction("contains", doContains, "has substrings: SUBSTRING [STRING]")
+	app.AddAction("length", doLength, "length of string: [STRING]")
+	app.AddAction("position", doPosition, "position of substring: SUBSTRING [STRING]")
+	app.AddAction("slice", doSlice, "copy a substring: START END [STRING]")
+	app.AddAction("replace", doReplace, "replace: OLD NEW [STRING]")
+	app.AddAction("replacen", doReplacen, "replace n times: OLD NEW N [STRING]")
+	app.AddAction("padleft", doPadLeft, "left pad: PADDING MAX_LENGTH [STRING]")
+	app.AddAction("padright", doPadRight, "right pad: PADDING MAX_LENGTH [STRING]")
 
 	// We're ready to process args
 	app.Parse()

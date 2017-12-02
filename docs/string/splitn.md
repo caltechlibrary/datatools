@@ -1,5 +1,5 @@
 
-# string split DELIMITER [STRING]
+# string splitn DELIMITER N [STRING]
 
 This command will return split a string at the delimiter
 and return it as a JSON array.
@@ -7,18 +7,18 @@ and return it as a JSON array.
 ## Typical command line
 
 ```shell
-    string split '|' 'one|two|three'
+    string splitn '|' 'one|two|three' 2
 ```
 
-Would return `["one","two","three"]`
+Would return `["one","two|three"]`
 
 ## Piping content
 
 NOTE: To read content from standard input we use the `-i -` option.
 
 ```shell
-    echo 'one|two|three' | string -i - split '|'
+    echo 'one|two|three' | string -i - splitn '|' 2
 ```
 
-Would return `["one","two","three"]`
+Would return `["one","two|three"]`
 
