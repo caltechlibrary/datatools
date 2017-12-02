@@ -36,7 +36,7 @@ and return it as a JSON arrya.</p>
 
 <p>NOTE: To read content from standard input we use the <code>-i -</code> option.</p>
 
-<pre><code class="language-shell">    echo 'one|two|three' | string split '|'
+<pre><code class="language-shell">    echo 'one|two|three' | string -i - split '|'
 </code></pre>
 
 <p>Would return <code>[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]</code></p>
