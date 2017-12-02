@@ -188,14 +188,13 @@ func doSplitN(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		return 1
 	}
 	delimiter := args[0]
-	countS := args[1]
-	args = args[2:]
-	// Now convert countS to cnt
-	cnt, err := strconv.Atoi(countS)
+	// Now convert to cnt an integer
+	cnt, err := strconv.Atoi(args[1])
 	if err != nil {
-		fmt.Fprintf(eout, "second parameter should be an integer, got %s, errror %s\n", countS, err)
+		fmt.Fprintf(eout, "second parameter should be an integer, got %s, errror %s\n", args[1], err)
 		return 1
 	}
+	args = args[2:]
 	// Handle the case where out input is piped in or read from a file.
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
