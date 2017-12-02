@@ -1,8 +1,8 @@
 
-# string splitn DELIMITER N [JSON_ARRAY]
+# string splitn DELIMITER N [STRING]
 
 This command will return split a string at the delimiter
-and return it as a JSON arrya.
+and return it as a JSON array.
 
 ## Typical command line
 
