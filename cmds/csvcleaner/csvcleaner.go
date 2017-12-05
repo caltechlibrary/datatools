@@ -2,11 +2,9 @@ package main
 
 import (
 	"encoding/csv"
-	"flag"
 	"fmt"
 	"io"
 	"os"
-	"path"
 	"strings"
 
 	// Caltech Library Packages
@@ -15,12 +13,7 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS]`
-
 	description = `
-
-SYNOPSIS
-
 %s normalizes a CSV file based on the options selected. It
 helps to address issues like variable number of columns, leading/trailing
 spaces in columns, and non-UTF-8 encoding issues.
@@ -29,13 +22,9 @@ By default input is expected from standard in and output is sent to
 standard out (errors to standard error). These can be modified by
 appropriate options. The csv file is processed as a stream of rows so 
 minimal memory is used to operate on the file. 
-
 `
 
 	examples = `
-
-EXAMPLES
-
 Normalizing a spread sheet's column count to 5 padding columns as needed per row.
 
     cat mysheet.csv | %s -field-per-row=5
@@ -51,18 +40,18 @@ Trim trailing spaces.
 Trim leading and trailing spaces
 
     cat mysheet.csv | %s -trim-spaces
-
 `
 
 	// Standard Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	inputFName   string
-	outputFName  string
-	quiet        bool
-	newLine      bool
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
+	newLine              bool
 
 	// App Options
 	comma             string
@@ -81,86 +70,78 @@ Trim leading and trailing spaces
 	verbose bool
 )
 
-func init() {
+func main() {
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName)))
+
 	// Standard options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.StringVar(&inputFName, "i", "", "input filename")
-	flag.StringVar(&inputFName, "input", "", "input filename")
-	flag.StringVar(&outputFName, "o", "", "output filename")
-	flag.StringVar(&outputFName, "output", "", "output filename")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
-	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
-	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&inputFName, "i,input", "", "input filename")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generation markdown documentation")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline in output")
 
 	// Application specific options
-	flag.IntVar(&fieldsPerRecord, "fields-per-row", 0, "set the number of columns to output right padding empty cells as needed")
-	flag.BoolVar(&lazyQuotes, "use-lazy-quoting", false, "If LazyQuotes is true, a quote may appear in an unquoted field and a non-doubled quote may appear in a quoted field.")
-	flag.BoolVar(&trimSpace, "trim-spaces", false, "If set to true leading and trailing white space in a field is ignored.")
-	flag.BoolVar(&trimLeadingSpace, "left-trim-spaces", false, "If set to true leading white space in a field is ignored.")
-	flag.BoolVar(&trimTrailingSpace, "right-trim-spaces", false, "If set to true trailing white space in a field is ignored.")
-	flag.BoolVar(&reuseRecord, "reuse", true, "if false then a new array is allocated for each row processed, if true the array gets reused")
-	flag.StringVar(&comma, "comma", "", "if set use this character in place of a comma for delimiting cells")
-	flag.StringVar(&rowComment, "comment-char", "", "if set, rows starting with this character will be ignored as comments")
-	flag.StringVar(&commaOut, "output-comma", "", "if set use this character in place of a comma for delimiting output cells")
-	flag.BoolVar(&useCRLF, "use-crlf", false, "if set use a charage return and line feed in output")
-	flag.BoolVar(&stopOnError, "stop-on-error", false, "exit on error, useful if you're trying to debug a problematic CSV file")
+	app.IntVar(&fieldsPerRecord, "fields-per-row", 0, "set the number of columns to output right padding empty cells as needed")
+	app.BoolVar(&lazyQuotes, "use-lazy-quoting", false, "If LazyQuotes is true, a quote may appear in an unquoted field and a non-doubled quote may appear in a quoted field.")
+	app.BoolVar(&trimSpace, "trim-spaces", false, "If set to true leading and trailing white space in a field is ignored.")
+	app.BoolVar(&trimLeadingSpace, "left-trim-spaces", false, "If set to true leading white space in a field is ignored.")
+	app.BoolVar(&trimTrailingSpace, "right-trim-spaces", false, "If set to true trailing white space in a field is ignored.")
+	app.BoolVar(&reuseRecord, "reuse", true, "if false then a new array is allocated for each row processed, if true the array gets reused")
+	app.StringVar(&comma, "comma", "", "if set use this character in place of a comma for delimiting cells")
+	app.StringVar(&rowComment, "comment-char", "", "if set, rows starting with this character will be ignored as comments")
+	app.StringVar(&commaOut, "output-comma", "", "if set use this character in place of a comma for delimiting output cells")
+	app.BoolVar(&useCRLF, "use-crlf", false, "if set use a charage return and line feed in output")
+	app.BoolVar(&stopOnError, "stop-on-error", false, "exit on error, useful if you're trying to debug a problematic CSV file")
 
-	flag.BoolVar(&verbose, "verbose", false, "write verbose output to standard error")
-}
+	app.BoolVar(&verbose, "verbose", false, "write verbose output to standard error")
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	// Parse environment and options
+	app.Parse()
+	args := app.Args()
 
-	cfg := cli.New(appName, "", datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName)
+	// Setup IO
+	var err error
 
-	if showHelp == true {
+	app.Eout = os.Stderr
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
+
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
-	}
-
-	in, err := cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(inputFName, in)
-
-	out, err := cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(outputFName, out)
 
 	nl := "\n"
 	if newLine == false {
@@ -176,7 +157,7 @@ func main() {
 	// Setup our CSV reader with any cli options
 	var rStr []rune
 
-	r := csv.NewReader(in)
+	r := csv.NewReader(app.In)
 	if comma != "" {
 		rStr = []rune(comma)
 		if len(rStr) > 0 {
@@ -194,7 +175,7 @@ func main() {
 	r.TrimLeadingSpace = trimLeadingSpace
 	r.ReuseRecord = reuseRecord
 
-	w := csv.NewWriter(out)
+	w := csv.NewWriter(app.Out)
 	if commaOut != "" {
 		rStr = []rune(commaOut)
 		if len(rStr) > 0 {
@@ -219,7 +200,7 @@ func main() {
 			serr := fmt.Sprintf("%s", err)
 			if strings.HasSuffix(serr, "wrong number of fields in line") == true && fieldsPerRecord >= 0 {
 				if verbose {
-					cli.OnError(os.Stderr, fmt.Errorf("row %d: expected %d, got %d cells\n", i, expectedCellCount, len(row)), quiet)
+					cli.OnError(app.Eout, fmt.Errorf("row %d: expected %d, got %d cells\n", i, expectedCellCount, len(row)), quiet)
 				}
 				// Trim trailing cells if needed
 				if fieldsPerRecord > 0 && len(row) >= fieldsPerRecord {
@@ -232,7 +213,7 @@ func main() {
 			} else {
 				hasError = true
 				if verbose {
-					cli.OnError(os.Stderr, fmt.Errorf("%s", err), quiet)
+					cli.OnError(app.Eout, fmt.Errorf("%s", err), quiet)
 				}
 			}
 		}
@@ -243,12 +224,12 @@ func main() {
 			}
 		}
 		if err := w.Write(row); err != nil {
-			cli.OnError(os.Stderr, fmt.Errorf("error writing row %d: %s", i, err), quiet)
+			cli.OnError(app.Eout, fmt.Errorf("error writing row %d: %s", i, err), quiet)
 			hasError = true
 		}
 		i++
 		if verbose == true && (i%100) == 0 {
-			cli.OnError(os.Stderr, fmt.Errorf("Processed %d rows\n", i), quiet)
+			cli.OnError(app.Eout, fmt.Errorf("Processed %d rows\n", i), quiet)
 		}
 		if hasError && stopOnError {
 			os.Exit(1)
@@ -257,9 +238,9 @@ func main() {
 	// Finally we need to flush any remaining output...
 	w.Flush()
 	err = w.Error()
-	cli.ExitOnError(os.Stderr, err, quiet)
+	cli.ExitOnError(app.Eout, err, quiet)
 	if verbose == true {
-		cli.OnError(os.Stderr, fmt.Errorf("Processed %d rows\n", i), quiet)
+		cli.OnError(app.Eout, fmt.Errorf("Processed %d rows\n", i), quiet)
 	}
-	fmt.Fprintf(out, "%s", nl)
+	fmt.Fprintf(app.Out, "%s", nl)
 }
