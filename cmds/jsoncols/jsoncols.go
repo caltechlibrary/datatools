@@ -10,11 +10,9 @@ package main
 import (
 	"encoding/csv"
 	"encoding/json"
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
 	"strings"
 
 	// Caltech Library Packages
@@ -24,12 +22,7 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]`
-
 	description = `
-
-SYSNOPSIS
-
 %s provides scripting flexibility for data extraction from JSON data
 returning the results in columns.  This is helpful in flattening content
 extracted from JSON blobs.  The default delimiter for each value
@@ -42,13 +35,9 @@ extracted is a comma. This can be overridden with an option.
 + OUTPUT_FILENAME is the filename to write or a dash "-" if you want to
   explicitly write to stdout
 	+ if not provided then %s write to stdout
-
 `
 
 	examples = `
-
-EXAMPLES
-
 If myblob.json contained
 
     {"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}
@@ -78,20 +67,19 @@ You can also pipe JSON data in.
 Would yield
 
    "Doe, Jane",jane.doe@xample.org,42
-
 `
 
 	// Basic Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	inputFName   string
-	outputFName  string
-	quiet        bool
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
 
 	// Application Specific Options
-	monochrome     bool
 	runInteractive bool
 	csvOutput      bool
 	delimiter      = ","
@@ -99,82 +87,71 @@ Would yield
 	quote          bool
 )
 
-func init() {
+func main() {
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Document non-option parameters
+	app.AddParams("[EXPRESSION]", "[INPUT_FILENAME]", "[OUTPUT_FILENAME]")
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName, appName, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName)))
+
 	// Basic Options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.StringVar(&inputFName, "i", "", "input filename")
-	flag.StringVar(&inputFName, "input", "", "input filename")
-	flag.StringVar(&outputFName, "o", "", "output filename")
-	flag.StringVar(&outputFName, "output", "", "output filename")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&inputFName, "i,input", "", "input filename")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application Specific Options
-	flag.BoolVar(&monochrome, "m", false, "display output in monochrome")
-	flag.BoolVar(&runInteractive, "r", false, "run interactively")
-	flag.BoolVar(&runInteractive, "repl", false, "run interactively")
-	flag.BoolVar(&csvOutput, "csv", false, "output as CSV or other flat delimiter row")
-	flag.StringVar(&delimiter, "d", delimiter, "set the delimiter for multi-field csv output")
-	flag.StringVar(&delimiter, "dimiter", delimiter, "set the delimiter for multi-field csv output")
-	flag.BoolVar(&quote, "quote", false, "if dilimiter is found in column value add quotes for non-CSV output")
-}
+	app.BoolVar(&runInteractive, "r", false, "run interactively")
+	app.BoolVar(&runInteractive, "repl", false, "run interactively")
+	app.BoolVar(&csvOutput, "csv", false, "output as CSV or other flat delimiter row")
+	app.StringVar(&delimiter, "d,delimiter", delimiter, "set the delimiter for multi-field csv output")
+	app.BoolVar(&quote, "quote", false, "if dilimiter is found in column value add quotes for non-CSV output")
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	// Parse Environment and Options
+	app.Parse()
+	args := app.Args()
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName, appName, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName)
+	// Setup IO
+	var err error
 
-	//NOTE: Need to handle JSONQUERY_MONOCHROME setting
-	monochrome = cfg.MergeEnvBool("monochrome", monochrome)
+	app.Eout = os.Stderr
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
 
-	if showHelp == true {
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process Options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
-	}
-
-	in, err := cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(inputFName, in)
-
-	out, err := cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(outputFName, out)
 
 	// Handle ordered args to get expressions for each column output.
 	for _, arg := range args {
@@ -189,19 +166,19 @@ func main() {
 	}
 
 	// READ in the JSON document
-	buf, err := ioutil.ReadAll(in)
-	cli.ExitOnError(os.Stderr, err, quiet)
+	buf, err := ioutil.ReadAll(app.In)
+	cli.ExitOnError(app.Eout, err, quiet)
 
 	// JSON Decode our document
 	data, err := dotpath.JSONDecode(buf)
-	cli.ExitOnError(os.Stderr, err, quiet)
+	cli.ExitOnError(app.Eout, err, quiet)
 
 	if csvOutput == true {
 		// For each dotpath expression return a result
 		row := []string{}
 		for _, qry := range expressions {
 			result, err := dotpath.Eval(qry, data)
-			cli.ExitOnError(os.Stderr, err, quiet)
+			cli.ExitOnError(app.Eout, err, quiet)
 			switch result.(type) {
 			case string:
 				row = append(row, result.(string))
@@ -209,21 +186,21 @@ func main() {
 				row = append(row, result.(json.Number).String())
 			default:
 				src, err := json.Marshal(result)
-				cli.ExitOnError(os.Stderr, err, quiet)
+				cli.ExitOnError(app.Eout, err, quiet)
 				row = append(row, fmt.Sprintf("%s", src))
 			}
 		}
 
 		// Setup the CSV output
-		w := csv.NewWriter(out)
+		w := csv.NewWriter(app.Out)
 		if delimiter != "" {
 			w.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		}
 		err = w.Write(row)
-		cli.ExitOnError(os.Stderr, err, quiet)
+		cli.ExitOnError(app.Eout, err, quiet)
 		w.Flush()
 		err = w.Error()
-		cli.ExitOnError(os.Stderr, err, quiet)
+		cli.ExitOnError(app.Eout, err, quiet)
 		os.Exit(0)
 	}
 
@@ -231,29 +208,29 @@ func main() {
 	// For each dotpath expression return a result
 	for i, qry := range expressions {
 		if i > 0 {
-			fmt.Fprintf(out, "%s", delimiter)
+			fmt.Fprintf(app.Out, "%s", delimiter)
 		}
 		if qry == "." {
-			fmt.Fprintf(out, "%s", buf)
+			fmt.Fprintf(app.Out, "%s", buf)
 		} else {
 			result, err := dotpath.Eval(qry, data)
-			cli.ExitOnError(os.Stderr, err, quiet)
+			cli.ExitOnError(app.Eout, err, quiet)
 			switch result.(type) {
 			case string:
 				if quote == true && strings.Contains(result.(string), delimiter) == true {
-					fmt.Fprintf(out, "%q", result)
+					fmt.Fprintf(app.Out, "%q", result)
 				} else {
-					fmt.Fprintf(out, "%s", result)
+					fmt.Fprintf(app.Out, "%s", result)
 				}
 			case json.Number:
-				fmt.Fprintf(out, "%s", result.(json.Number).String())
+				fmt.Fprintf(app.Out, "%s", result.(json.Number).String())
 			default:
 				src, err := json.Marshal(result)
-				cli.ExitOnError(os.Stderr, err, quiet)
+				cli.ExitOnError(app.Eout, err, quiet)
 				if quote == true {
-					fmt.Fprintf(out, "%q", src)
+					fmt.Fprintf(app.Out, "%q", src)
 				} else {
-					fmt.Fprintf(out, "%s", src)
+					fmt.Fprintf(app.Out, "%s", src)
 				}
 			}
 		}

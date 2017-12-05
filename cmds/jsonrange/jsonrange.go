@@ -133,7 +133,6 @@ would yield
 	showValues bool
 	delimiter  string
 	limit      int
-	permissive bool
 )
 
 func mapKeys(data map[string]interface{}, limit int) ([]string, error) {
@@ -249,7 +248,6 @@ func main() {
 	app.BoolVar(&showValues, "values", false, "return the values instead of the keys")
 	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter for range output")
 	app.IntVar(&limit, "limit", 0, "limit the number of items output")
-	app.BoolVar(&permissive, "permissive", false, "suppress errors messages")
 
 	// Parse options and environment
 	app.Parse()
@@ -269,6 +267,10 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
 	if showHelp || showExamples {
 		if len(args) > 0 {
 			fmt.Println(app.Help(args...))

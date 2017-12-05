@@ -25,11 +25,9 @@ package main
 import (
 	"encoding/csv"
 	"encoding/json"
-	"flag"
 	"fmt"
 	"io"
 	"os"
-	"path"
 	"strings"
 
 	// My packages
@@ -38,22 +36,13 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS]`
-
 	description = `
-
-SYNOPSIS
-
 %s reads CSV from stdin and writes a JSON to stdout. JSON output
 can be either an array of JSON blobs or one JSON blob (row as object)
 per line.
-
 `
 
 	examples = `
-
-EXAMPLES
-
 Convert data1.csv to data1.json using Unix pipes.
 
     cat data1.csv | %s > data1.json
@@ -61,18 +50,18 @@ Convert data1.csv to data1.json using Unix pipes.
 Convert data1.csv to JSON blobs, one line per blob
 
     %s -as-blobs -i data1.csv
-
 `
 
 	// Standard Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	inputFName   string
-	outputFName  string
-	quiet        bool
-	newLine      bool
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
+	newLine              bool
 
 	// Application Options
 	useHeader bool
@@ -80,92 +69,82 @@ Convert data1.csv to JSON blobs, one line per blob
 	delimiter string
 )
 
-func init() {
+func main() {
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName)))
+
 	// Standard Options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.StringVar(&inputFName, "i", "", "input filename")
-	flag.StringVar(&inputFName, "input", "", "input filename")
-	flag.StringVar(&outputFName, "o", "", "output filename")
-	flag.StringVar(&outputFName, "output", "", "output filename")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error output")
-	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
-	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
-	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&inputFName, "i,input", "", "input filename")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generation markdown documentation")
+	app.BoolVar(&quiet, "quiet", false, "suppress error output")
+	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline in output")
 
 	// App Options
-	flag.BoolVar(&useHeader, "use-header", true, "treat the first row as field names")
-	flag.BoolVar(&asBlobs, "as-blobs", false, "output as one JSON blob per line")
-	flag.StringVar(&delimiter, "d", "", "set the delimter character")
-	flag.StringVar(&delimiter, "delimiter", "", "set the delimter character")
-}
+	app.BoolVar(&useHeader, "use-header", true, "treat the first row as field names")
+	app.BoolVar(&asBlobs, "as-blobs", false, "output as one JSON blob per line")
+	app.StringVar(&delimiter, "d,delimiter", "", "set the delimter character")
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	// Parse environment and options
+	app.Parse()
+	args := app.Args()
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName)
+	// Setup IO
+	var err error
 
-	if showHelp == true {
+	app.Eout = os.Stderr
+
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
+
+	app.Out, err = cli.Create(inputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
-		os.Exit(0)
-	}
-
 	if showLicense == true {
-		fmt.Println(cfg.License())
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
 	if showVersion == true {
-		fmt.Println(cfg.Version())
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	in, err := cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(inputFName, in)
-
-	out, err := cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(outputFName, out)
 
 	rowNo := 0
 	fieldNames := []string{}
-	r := csv.NewReader(in)
+	r := csv.NewReader(app.In)
 	if delimiter != "" {
 		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}
 	if useHeader == true {
 		row, err := r.Read()
 		if err == io.EOF {
-			cli.ExitOnError(os.Stderr, fmt.Errorf("No data"), quiet)
+			cli.ExitOnError(app.Eout, fmt.Errorf("No data"), quiet)
 		}
-		cli.ExitOnError(os.Stderr, err, quiet)
+		cli.ExitOnError(app.Eout, err, quiet)
 		for _, val := range row {
 			fieldNames = append(fieldNames, strings.TrimSpace(val))
 		}
@@ -183,7 +162,7 @@ func main() {
 		if err == io.EOF {
 			break
 		}
-		cli.ExitOnError(os.Stderr, err, quiet)
+		cli.ExitOnError(app.Eout, err, quiet)
 
 		// Pad the fieldnames if necessary
 		object = map[string]interface{}{}
@@ -196,18 +175,18 @@ func main() {
 		}
 		src, err := json.Marshal(object)
 		if err != nil {
-			cli.OnError(os.Stderr, fmt.Errorf("error row %d, %s\n", rowNo, err), quiet)
+			cli.OnError(app.Eout, fmt.Errorf("error row %d, %s\n", rowNo, err), quiet)
 			hasError = true
 		}
 		if asBlobs == true {
-			fmt.Fprintf(out, "%s%s", src, nl)
+			fmt.Fprintf(app.Out, "%s%s", src, nl)
 		} else {
 			arrayOfObjects = append(arrayOfObjects, string(src))
 		}
 		rowNo++
 	}
 	if asBlobs == false {
-		fmt.Fprintf(out, "[%s]%s", strings.Join(arrayOfObjects, ","), nl)
+		fmt.Fprintf(app.Out, "[%s]%s", strings.Join(arrayOfObjects, ","), nl)
 	}
 	if hasError == true {
 		os.Exit(1)
