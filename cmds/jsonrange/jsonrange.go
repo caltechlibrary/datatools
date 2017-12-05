@@ -235,28 +235,21 @@ func main() {
 	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName, appName)))
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h", false, "display help")
-	app.BoolVar(&showHelp, "help", false, "display help")
-	app.BoolVar(&showLicense, "l", false, "display license")
-	app.BoolVar(&showLicense, "license", false, "display license")
-	app.BoolVar(&showVersion, "v", false, "display version")
-	app.BoolVar(&showVersion, "version", false, "display version")
-	app.BoolVar(&showExamples, "example", false, "display example(s)")
-	app.StringVar(&inputFName, "i", "", "read JSON from file")
-	app.StringVar(&inputFName, "input", "", "read JSON from file")
-	app.StringVar(&outputFName, "o", "", "write to output file")
-	app.StringVar(&outputFName, "output", "", "write to output file")
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&inputFName, "i,input", "", "read JSON from file")
+	app.StringVar(&outputFName, "o,output", "", "write to output file")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application Options
 	app.BoolVar(&showLength, "length", false, "return the number of keys or values")
 	app.BoolVar(&showLast, "last", false, "return the index of the last element in list (e.g. length - 1)")
 	app.BoolVar(&showValues, "values", false, "return the values instead of the keys")
-	app.StringVar(&delimiter, "d", "", "set delimiter for range output")
-	app.StringVar(&delimiter, "delimiter", "", "set delimiter for range output")
+	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter for range output")
 	app.IntVar(&limit, "limit", 0, "limit the number of items output")
 	app.BoolVar(&permissive, "permissive", false, "suppress errors messages")
-	app.BoolVar(&permissive, "quiet", false, "suppress errors messages")
 
 	// Parse options and environment
 	app.Parse()
