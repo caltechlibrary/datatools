@@ -410,7 +410,33 @@ function test_csvcols() {
 }
 
 function test_csvfind(){
-    echo "test_csvfind skipping, not implemented";
+    # Test for match
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    csvfind -i demos/csvfind/books.csv -o temp.csv \
+        -col=2 "The Red Book of Westmarch"
+    assert_exists "test_csvfind (exact match)" temp.csv
+    R=$(cmp demos/csvfind/result1.csv temp.csv)
+    assert_empty "test_csvfind (exact match)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    csvfind -i demos/csvfind/books.csv -o temp.csv \
+        -col=2 -levenshtein \
+        -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
+        -max-edit-distance=50 -append-edit-distance \
+        "The Red Book of Westmarch"
+    assert_exists "test_csvfind (fuzzy match)" temp.csv
+    R=$(cmp demos/csvfind/result2.csv temp.csv)
+    assert_empty "test_csvfind (fuzz match)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    csvfind -i demos/csvfind/books.csv -o temp.csv \
+        -col=2 -contains "Red Book"
+    assert_exists "test_csvfind (contains)" temp.csv
+    R=$(cmp demos/csvfind/result3.csv temp.csv)
+    assert_empty "test_csvfind (contains)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    echo "test_csvfind OK";
 }
 
 function test_csvjoin(){

@@ -22,7 +22,8 @@ options | description
 options | description
 :--- |:---
 -nl,-newline | if true add a trailing newline, if false suppress it
--d, -delimiter | for those command that have a delimiter value
+-d, -delimiter | for those commands that support setting delimiters
+-od, -output-delimiter | for those commands that support output delimiters
 -s, -start | for start times and indexe values
 -e, -end | for end times and indexe values
 -E, -expression | for expressions used by programs, e.g. filter expressions
