@@ -1,5 +1,5 @@
 //
-// findfile.go - a simple directory tree walker that looks for files
+// findfile - a simple directory tree walker that looks for files
 // by name, basename or extension. Basically a unix "find" light to
 // demonstrate walking the file system
 //

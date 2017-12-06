@@ -1,5 +1,5 @@
 //
-// finddir.go - a simple directory tree walker that looks for directories
+// finddir - a simple directory tree walker that looks for directories
 // by name, basename or extension. Basically a unix "find" light to
 // demonstrate walking the file system
 //

@@ -205,10 +205,6 @@ func main() {
 		os.Exit(0)
 	}
 
-	if len(args) == 0 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Need to provide at least one template name\n"), quiet)
-	}
-
 	// Make sure we have some JSON objects to join...
 	if len(args) < 1 {
 		cli.ExitOnError(app.Eout, fmt.Errorf("Missing JSON document(s) to join"), quiet)

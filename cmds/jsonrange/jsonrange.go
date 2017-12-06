@@ -240,6 +240,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.StringVar(&inputFName, "i,input", "", "read JSON from file")
 	app.StringVar(&outputFName, "o,output", "", "write to output file")
+	app.BoolVar(&generateMarkdownDocs, "generateMarkdownDocs", false, "generate markdown docs")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application Options
@@ -273,19 +274,18 @@ func main() {
 	}
 	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(app.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
 			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-	if showLicense == true {
-		fmt.Println(app.License())
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(app.Version())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
 
