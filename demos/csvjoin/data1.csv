@@ -1,0 +1,6 @@
+Number,ID,Rates,Expected
+one,1,1.0,$4.00
+two,2,2.0,$2.00
+three,3,3.0,$1.00
+four,4,4.5,$3.00
+five,5,5,$0.00
