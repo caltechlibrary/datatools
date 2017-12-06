@@ -21,12 +21,9 @@ package main
 
 import (
 	"encoding/csv"
-	"flag"
 	"fmt"
 	"io"
-	"log"
 	"os"
-	"path"
 	"strings"
 
 	// Caltech Library packages
@@ -43,22 +40,13 @@ const (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] [ARGS_AS_COL_VALUES]`
-
 	description = `
-
-SYNOPSIS
-
 %s converts a set of command line args into columns output in CSV format.
 It can also be used CSV input rows and rendering only the column numbers
 listed on the commandline (first column is 1 not 0).
-
 `
 
 	examples = `
-
-EXAMPLES
-
 Simple usage of building a CSV file one row at a time.
 
     %s one two three > 3col.csv
@@ -78,18 +66,18 @@ Filter a 10 column CSV file for columns 1,4,6 (left most column is one)
 Filter a 10 columns CSV file for columns 1,4,6 from file named "10col.csv"
 
     %s -i 10col.csv -col 1,4,6 > 3col.csv
-
 `
 
 	// Standard Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	inputFName   string
-	outputFName  string
-	quiet        bool
-	newLine      bool
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
+	newLine              bool
 
 	// App Options
 	outputColumns string
@@ -148,81 +136,73 @@ func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, ski
 	cli.ExitOnError(os.Stderr, err, quiet)
 }
 
-func init() {
-	// Basic Options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example")
-	flag.StringVar(&inputFName, "i", "", "input filename")
-	flag.StringVar(&inputFName, "input", "", "input filename")
-	flag.StringVar(&outputFName, "o", "", "output filename")
-	flag.StringVar(&outputFName, "output", "", "output filename")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
-	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
-	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
+func main() {
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Document non-option parameters
+	app.AddParams(`[ARGS_AS_COL_VALUES]`)
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)))
+
+	// Standard Options
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example")
+	app.StringVar(&inputFName, "i,input", "", "input filename")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline in output")
 
 	// App Options
-	flag.StringVar(&outputColumns, "col", "", "output specified columns (e.g. -col 1,12:14,2,4))")
-	flag.StringVar(&outputColumns, "cols", "", "output specified columns (e.g. -col 1,12:14,2,4))")
-	flag.StringVar(&delimiter, "d", "", "set delimiter character")
-	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
-	flag.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
-	flag.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
-}
+	app.StringVar(&outputColumns, "col,cols", "", "output specified columns (e.g. -col 1,12:14,2,4))")
+	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
+	app.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
+	app.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	// Parse env and options
+	app.Parse()
+	args := app.Args()
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
+	// Setup IO
+	var err error
 
-	if showHelp == true {
+	app.Eout = os.Stderr
+
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
+
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
-	}
-
-	in, err := cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(inputFName, in)
-
-	out, err := cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(outputFName, out)
 
 	nl := "\n"
 	if newLine == false {
@@ -231,7 +211,7 @@ func main() {
 
 	if outputColumns != "" {
 		columnNos, err := datatools.ParseRange(outputColumns, maxColumns)
-		cli.ExitOnError(os.Stderr, err, quiet)
+		cli.ExitOnError(app.Eout, err, quiet)
 
 		// NOTE: We need to adjust from humans counting from 1 to counting from zero
 		for i := 0; i < len(columnNos); i++ {
@@ -240,7 +220,7 @@ func main() {
 				columnNos[i] = 0
 			}
 		}
-		CSVColumns(in, out, columnNos, prefixUUID, skipHeaderRow, delimiter)
+		CSVColumns(app.In, app.Out, columnNos, prefixUUID, skipHeaderRow, delimiter)
 		os.Exit(0)
 	}
 
@@ -257,16 +237,16 @@ func main() {
 		cells = append(cells, strings.TrimSpace(val))
 	}
 
-	w := csv.NewWriter(out)
+	w := csv.NewWriter(app.Out)
 	if delimiter != "" {
 		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}
 	if err := w.Write(cells); err != nil {
-		log.Fatalf("error writing args as csv, %s", err)
+		cli.ExitOnError(app.Eout, fmt.Errorf("error writing args as csv, %s", err), quiet)
 	}
 	w.Flush()
 	if err := w.Error(); err != nil {
-		log.Fatal(err)
+		cli.ExitOnError(app.Eout, err, quiet)
 	}
-	fmt.Fprintf(out, "%s", nl)
+	fmt.Fprintf(app.Out, "%s", nl)
 }
