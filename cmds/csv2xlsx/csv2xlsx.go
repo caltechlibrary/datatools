@@ -43,15 +43,15 @@ If the Workbook does not exist then it is created.
 	examples = `
 Converting a csv to a workbook.
 
-	%s -i data.csv MyWorkbook.xlsx 'My worksheet'
+	csv2xlsx -i data.csv MyWorkbook.xlsx 'My worksheet 1'
 
-This creates a new 'My worksheet' in the Excel Workbook
+This creates a new 'My worksheet 1' in the Excel Workbook
 called 'MyWorkbook.xlsx' with the contents of data.csv.
 
-	cat data.csv | %s MyWorkbook.xlsx 'My worksheet'
+	cat data.csv | csv2xlsx MyWorkbook.xlsx 'My worksheet 2'
 
 This does the same but the contents of data.csv are piped into
-the workbook's sheet.
+the workbook's 'My worksheet 2' sheet.
 `
 
 	// Standard Options
