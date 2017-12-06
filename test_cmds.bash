@@ -11,6 +11,24 @@ function assert_same() {
     fi
 }
 
+function assert_empty() {
+    if [ "$#" != "2" ]; then
+        echo "asset_empty expects 2 parmaters, LABEL RESULT"
+        exit 1
+    fi
+    if [ "${2}" != "" ]; then
+        echo "${1}: expected empty string, got |${2}|"
+        exit 1
+    fi
+}
+
+function assert_exists() {
+    if [ ! -f "${2}" ]; then
+        echo "${1}: assert_exists failed for ${2}"
+        exit 1
+    fi
+}
+
 #
 # These are some tests to check the datatools command
 # and show how they might be used.
@@ -232,11 +250,56 @@ function test_string() {
     echo "test_string OK";
 }
 
-function test_csv2json(){
-    echo "test_csv2json skipping, not implemented";
+function test_csv2json() {
+    # Test valid JSON file using options
+    if [ -f temp.json ]; then rm temp.json; fi
+    bin/csv2json -i demos/csv2json/data1.csv -o temp.json
+    assert_exists "test_csv2json (args)" temp.json
+    R=$(cmp demos/csv2json/data1.json temp.json)
+    assert_empty "test_csv2json (args)" "$R"
+
+    # Test valid JSON file using pipeline
+    if [ -f temp.json ]; then rm temp.json; fi
+    cat demos/csv2json/data1.csv | bin/csv2json > temp.json
+    assert_exists "test_csv2json (pipeline)" temp.json
+    R=$(cmp demos/csv2json/data1.json temp.json)
+    assert_empty "test_csv2json (args)" "$R"
+
+
+    # Test JSON blob sequence using options
+    if [ -f temp.json ]; then rm temp.json; fi
+    bin/csv2json -i demos/csv2json/data1.csv -as-blobs -o temp.json
+    assert_exists "test_csv2json (as blobs, args)" temp.json
+    R=$(cmp demos/csv2json/blobs.txt temp.json)
+    assert_empty "test_csv2json (as blobs, args)" "$R"
+
+    # Test JSON blob sequence using pipeline
+    if [ -f temp.json ]; then rm temp.json; fi
+    cat demos/csv2json/data1.csv | bin/csv2json -as-blobs > temp.json
+    assert_exists "test_csv2json (as blobs, pipeline)" temp.json
+    R=$(cmp demos/csv2json/blobs.txt temp.json)
+    assert_empty "test_csv2json (as blobs, pipeline)" "$R"
+
+    if [ -f temp.json ]; then rm temp.json; fi
+    echo "test_csv2json OK";
 }
 
-function test_csv2mdtable(){
+function test_csv2mdtable() {
+    # Test valid Markdown table using options
+    if [ -f temp.md ]; then rm temp.md; fi
+    bin/csv2mdtable -i demos/csv2json/data1.csv -o temp.md
+    assert_exists "test_csv2mdtable (args)" temp.md
+    R=$(cmp demos/csv2json/data1.md temp.md)
+    assert_empty "test_csv2mdtable (args)" "$R"
+
+    # Test valid Markdown table using pipeline
+    if [ -f temp.md ]; then rm temp.md; fi
+    cat demos/csv2mdtable/data1.csv | bin/csv2mdtable > temp.md
+    assert_exists "test_csv2mdtable (pipeline)" temp.md
+    R=$(cmp demos/csv2json/data1.md temp.md)
+    assert_empty "test_csv2mdtable (args)" "$R"
+
+    if [ -f temp.md ]; then rm temp.md; fi
     echo "test_csv2mdtable skipping, not implemented";
 }
 

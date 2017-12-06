@@ -81,7 +81,7 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error message")
-	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline in output")
+	app.BoolVar(&newLine, "nl,newline", false, "if true include leading/trailing newline")
 
 	// Application Options
 	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
@@ -99,7 +99,7 @@ func main() {
 	cli.ExitOnError(app.Eout, err, quiet)
 	defer cli.CloseFile(inputFName, app.In)
 
-	app.Out, err = cli.Create(outputFName, app.Eout)
+	app.Out, err = cli.Create(outputFName, os.Stdout)
 	cli.ExitOnError(app.Eout, err, quiet)
 	defer cli.CloseFile(outputFName, app.Out)
 
@@ -133,7 +133,7 @@ func main() {
 		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}
 	writeHeader := true
-	fmt.Fprintln(app.Out, "%s", eol)
+	fmt.Fprintf(app.Out, "%s", eol)
 	for {
 		record, err := r.Read()
 		if err == io.EOF {
@@ -144,12 +144,17 @@ func main() {
 		fmt.Fprintf(app.Out, "| %s |%s", strings.Join(record, " | "), "\n")
 		if writeHeader == true {
 			headerRow := []string{}
+
 			for _, rec := range record {
-				headerRow = append(headerRow, strings.Repeat("-", len(rec)))
+				if len(rec) < 3 {
+					headerRow = append(headerRow, "---")
+				} else {
+					headerRow = append(headerRow, strings.Repeat("-", len(rec)))
+				}
 			}
 			fmt.Fprintf(app.Out, "| %s |%s", strings.Join(headerRow, " | "), "\n")
 			writeHeader = false
 		}
 	}
-	fmt.Fprintln(app.Out, "%s", eol)
+	fmt.Fprintf(app.Out, "%s", eol)
 }

@@ -1,0 +1,5 @@
+| Number | Value |
+| ------ | ----- |
+| one | 1 |
+| two | 2 |
+| three | 3 |

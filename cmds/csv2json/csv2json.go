@@ -108,7 +108,7 @@ func main() {
 	cli.ExitOnError(app.Eout, err, quiet)
 	defer cli.CloseFile(inputFName, app.In)
 
-	app.Out, err = cli.Create(inputFName, os.Stdout)
+	app.Out, err = cli.Create(outputFName, os.Stdout)
 	cli.ExitOnError(app.Eout, err, quiet)
 	defer cli.CloseFile(outputFName, app.Out)
 
@@ -191,5 +191,4 @@ func main() {
 	if hasError == true {
 		os.Exit(1)
 	}
-	fmt.Fprintln(app.Out, "%s", eol)
 }
