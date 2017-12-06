@@ -47,11 +47,11 @@ This would get the sheet named "Sheet 1" from "my-workbook.xlsx" and save as she
 
 This would get the number of sheets in the workbook
 
-    %s -c my-workbook.xlsx
+    %s -count my-workbook.xlsx
 
 This will output the title of the sheets in the workbook
 
-    %s -n my-workbook.xlsx
+    %s -sheets my-workbook.xlsx
 
 Putting it all together in a shell script and convert all sheets to
 into JSON documents..
@@ -149,8 +149,8 @@ func main() {
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Specific Options
-	app.BoolVar(&showSheetCount, "c", false, "display number of sheets in Excel Workbook")
-	app.BoolVar(&showSheetNames, "n", false, "display sheet names in Excel Workbook")
+	app.BoolVar(&showSheetCount, "c,count", false, "display number of sheets in Excel Workbook")
+	app.BoolVar(&showSheetNames, "N,sheets", false, "display sheet names in Excel Workbook")
 
 	// Parse env and options
 	app.Parse()

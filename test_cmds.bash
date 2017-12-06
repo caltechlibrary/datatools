@@ -11,6 +11,18 @@ function assert_same() {
     fi
 }
 
+function assert_equal() {
+    if [ "$#" != "3" ]; then
+        echo "asset_same expects 3 parmaters, LABEL EXPECTED RESULT"
+        exit 1
+    fi
+    if [ "${2}" != "${3}" ]; then
+        echo "${1}: expected |${2}|, got |${3}|"
+        exit 1
+    fi
+}
+
+
 function assert_empty() {
     if [ "$#" != "2" ]; then
         echo "asset_empty expects 2 parmaters, LABEL RESULT"
@@ -304,7 +316,26 @@ function test_csv2mdtable() {
 }
 
 function test_csv2xlsx(){
-    echo "test_csv2xlx skipping, not implemented";
+    # Test csv XLSX workbook conversion using options
+    if [ -f temp.xlsx ]; then rm temp.xlsx; fi
+    bin/csv2xlsx -i demos/csv2xlsx/data1.csv temp.xlsx "My worksheet 1"
+    assert_exists "test_csv2xlsx (args)" temp.xlsx
+
+    # Test csv XLSX workbook conversion using pipes
+    cat demos/csv2xlsx/data1.csv | bin/csv2xlsx temp.xlsx "My worksheet 2"
+    assert_exists "test_csv2xlsx (pipeline)" temp.xlsx
+
+    # Now see if we have the two sheets in there.
+    EXPECTED=$(bin/xlsx2csv -nl -sheets demos/csv2xlsx/MyWorkbook.xlsx | wc -l | sed -E 's/ //g')
+    RESULT=$(bin/xlsx2csv -nl -sheets temp.xlsx | wc -l | sed -E 's/ //g')
+    assert_equal "test_csv2xlsx (sheet count)" "$EXPECTED" "$RESULT"
+
+    EXPECTED=$(bin/xlsx2csv -nl -sheets demos/csv2xlsx/MyWorkbook.xlsx | sort)
+    RESULT=$(bin/xlsx2csv -nl -sheets temp.xlsx | sort)
+    assert_equal "test_csv2xlsx (sheet names)" "$EXPECTED" "$RESULT"
+
+    if [ -f temp.xlsx ]; then rm temp.xlsx; fi
+    echo "test_csv2xlx OK";
 }
 
 function test_csvcleaner(){

@@ -46,11 +46,11 @@ Extract a workbook sheet as a CSV file
 
 This would get the first sheet from the workbook and save it as a CSV file.
 
-    %s -c my-workbook.xlsx
+    %s -count my-workbook.xlsx
 
 This will output the number of sheets in the Workbook.
 
-    %s -n my-workbook.xlsx
+    %s -sheets my-workbook.xlsx
 
 This will display a list of sheet names, one per line.
 Putting it all together in a shell script.
@@ -153,8 +153,8 @@ func main() {
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Specific Options
-	app.BoolVar(&showSheetCount, "c", false, "display number of sheets in Excel Workbook")
-	app.BoolVar(&showSheetNames, "n", false, "display sheet names in Excel W9rkbook")
+	app.BoolVar(&showSheetCount, "c,count", false, "display number of Workbook sheets")
+	app.BoolVar(&showSheetNames, "N,sheets", false, "display the Workbook sheet names")
 
 	// Parse env and options
 	app.Parse()
