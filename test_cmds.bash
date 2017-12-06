@@ -373,8 +373,40 @@ function test_csvcleaner(){
     echo "test_csvcleaner OK";
 }
 
-function test_csvcols(){
-    echo "test_csvcols skipping, not implemented";
+function test_csvcols() {
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvcols -o temp.csv one two three
+    assert_exists "test_csvcols (args row 1)" temp.csv
+    bin/csvcols 1 2 3 >> temp.csv
+    assert_exists "test_csvcols (args row 2)" temp.csv
+    EXPECTED="2"
+    RESULT=$(cat temp.csv | wc -l | sed -E 's/ //g')
+    assert_equal "test_csvcols (args row count)" "$EXPECTED" "$RESULT"
+    R=$(cmp demos/csvcols/3col.csv temp.csv)
+    assert_empty "test_csvcols (compare 3col.csv and temp.csv)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvcols -o temp.csv -d ";" "one;two;three"
+    assert_exists "test_csvcols (args row 1, delimiters)" temp.csv
+    bin/csvcols -d ";" "1;2;3" >> temp.csv
+    assert_exists "test_csvcols (args row 2, delimiters)" temp.csv
+    EXPECTED="2"
+    RESULT=$(cat temp.csv | wc -l | sed -E 's/ //g')
+    assert_equal "test_csvcols (args row count, delimiters)" "$EXPECTED" "$RESULT"
+    R=$(cmp demos/csvcols/3col.csv temp.csv)
+    assert_empty "test_csvcols (compare 3col.csv and temp.csv, delimiters)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    cat demos/csvcols/3col.csv | bin/csvcols -col 1,3 -o temp.csv
+    assert_exists "test_csvcols (-col 1,3)" temp.csv
+    EXPECTED="2"
+    RESULT=$(cat temp.csv | wc -l | sed -E 's/ //g')
+    assert_equal "test_csvcols (line count, -col 1,3)" "$EXPECTED" "$RESULT"
+    R=$(cmp demos/csvcols/2col.csv temp.csv)
+    assert_empty "test_csvcols (compare 2col.csv and temp.csv)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    echo "test_csvcols OK";
 }
 
 function test_csvfind(){

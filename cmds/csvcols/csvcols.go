@@ -49,23 +49,23 @@ listed on the commandline (first column is 1 not 0).
 	examples = `
 Simple usage of building a CSV file one row at a time.
 
-    %s one two three > 3col.csv
-    %s 1 2 3 >> 3col.csv
+    csvcols one two three > 3col.csv
+    csvcols 1 2 3 >> 3col.csv
     cat 3col.csv
 
 Example parsing a pipe delimited string into a CSV line
 
-    %s -d "|" "one|two|three" > 3col.csv
-    %s -delimiter "|" "1|2|3" >> 3col.csv
+    csvcols -d "|" "one|two|three" > 3col.csv
+    csvcols -delimiter "|" "1|2|3" >> 3col.csv
     cat 3col.csv
 
-Filter a 10 column CSV file for columns 1,4,6 (left most column is one)
+Using a pipe filter a 3 column CSV for columns 1 and 3 into 2col.csv
 
-    cat 10col.csv | %s -col 1,4,6 > 3col.csv
+    cat 3col.csv | csvcols -col 1,3 > 2col.csv
 
-Filter a 10 columns CSV file for columns 1,4,6 from file named "10col.csv"
+Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
 
-    %s -i 10col.csv -col 1,4,6 > 3col.csv
+    csvcols -i 3col.csv -col 1,3 -o 2col.csv
 `
 
 	// Standard Options
@@ -77,14 +77,13 @@ Filter a 10 columns CSV file for columns 1,4,6 from file named "10col.csv"
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
-	newLine              bool
-	eol                  string
 
 	// App Options
-	outputColumns string
-	prefixUUID    bool
-	skipHeaderRow bool
-	delimiter     string
+	outputColumns   string
+	prefixUUID      bool
+	skipHeaderRow   bool
+	delimiter       string
+	outputDelimiter string
 )
 
 func selectedColumns(rowNo int, record []string, columnNos []int, prefixUUID bool, skipHeaderRow bool) []string {
@@ -112,14 +111,16 @@ func selectedColumns(rowNo int, record []string, columnNos []int, prefixUUID boo
 	return result
 }
 
-func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, skipHeaderRow bool, delimiter string) {
+func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, skipHeaderRow bool, delimiterIn string, delimiterOut string) {
 	var err error
 
 	r := csv.NewReader(in)
 	w := csv.NewWriter(out)
-	if delimiter != "" {
-		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
-		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	if delimiterIn != "" {
+		r.Comma = datatools.NormalizeDelimiterRune(delimiterIn)
+	}
+	if delimiterOut != "" {
+		w.Comma = datatools.NormalizeDelimiterRune(delimiterOut)
 	}
 	for i := 0; err != io.EOF; i++ {
 		rec, err := r.Read()
@@ -147,7 +148,7 @@ func main() {
 	// Add Help Docs
 	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
 	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)))
+	app.AddHelp("examples", []byte(examples))
 
 	// Standard Options
 	app.BoolVar(&showHelp, "h,help", false, "display help")
@@ -158,11 +159,11 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline in output")
 
 	// App Options
 	app.StringVar(&outputColumns, "col,cols", "", "output specified columns (e.g. -col 1,12:14,2,4))")
-	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
+	app.StringVar(&delimiter, "d,delimiter", "", "set the input delimiter character")
+	app.StringVar(&outputDelimiter, "od,output-delimiter", "", "set the output delimiter character")
 	app.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
 	app.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
 
@@ -204,9 +205,6 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-	if newLine {
-		eol = "\n"
-	}
 
 	if outputColumns != "" {
 		columnNos, err := datatools.ParseRange(outputColumns, maxColumns)
@@ -219,7 +217,7 @@ func main() {
 				columnNos[i] = 0
 			}
 		}
-		CSVColumns(app.In, app.Out, columnNos, prefixUUID, skipHeaderRow, delimiter)
+		CSVColumns(app.In, app.Out, columnNos, prefixUUID, skipHeaderRow, delimiter, outputDelimiter)
 		os.Exit(0)
 	}
 
@@ -237,8 +235,8 @@ func main() {
 	}
 
 	w := csv.NewWriter(app.Out)
-	if delimiter != "" {
-		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
+	if outputDelimiter != "" {
+		w.Comma = datatools.NormalizeDelimiterRune(outputDelimiter)
 	}
 	if err := w.Write(cells); err != nil {
 		cli.ExitOnError(app.Eout, fmt.Errorf("error writing args as csv, %s", err), quiet)
@@ -247,5 +245,4 @@ func main() {
 	if err := w.Error(); err != nil {
 		cli.ExitOnError(app.Eout, err, quiet)
 	}
-	fmt.Fprintf(app.Out, "%s", eol)
 }
