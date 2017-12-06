@@ -36,17 +36,12 @@ import (
 
 var (
 	description = `
-
-SYNOPSIS
-
 %s will take CSV input and create a new sheet in an Excel Workbook.
 If the Workbook does not exist then it is created.
-
 `
 
 	examples = `
-
-EXAMPLES
+Converting a csv to a workbook.
 
 	%s -i data.csv MyWorkbook.xlsx 'My worksheet'
 
@@ -57,7 +52,6 @@ called 'MyWorkbook.xlsx' with the contents of data.csv.
 
 This does the same but the contents of data.csv are piped into
 the workbook's sheet.
-
 `
 
 	// Standard Options
