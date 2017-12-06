@@ -409,7 +409,7 @@ function test_csvcols() {
     echo "test_csvcols OK";
 }
 
-function test_csvfind(){
+function test_csvfind() {
     # Test for match
     if [ -f temp.csv ]; then rm temp.csv; fi
     csvfind -i demos/csvfind/books.csv -o temp.csv \
@@ -418,6 +418,7 @@ function test_csvfind(){
     R=$(cmp demos/csvfind/result1.csv temp.csv)
     assert_empty "test_csvfind (exact match)" "$R"
 
+    # Test fuzzy
     if [ -f temp.csv ]; then rm temp.csv; fi
     csvfind -i demos/csvfind/books.csv -o temp.csv \
         -col=2 -levenshtein \
@@ -428,6 +429,7 @@ function test_csvfind(){
     R=$(cmp demos/csvfind/result2.csv temp.csv)
     assert_empty "test_csvfind (fuzz match)" "$R"
 
+    # Test contains
     if [ -f temp.csv ]; then rm temp.csv; fi
     csvfind -i demos/csvfind/books.csv -o temp.csv \
         -col=2 -contains "Red Book"
@@ -440,7 +442,16 @@ function test_csvfind(){
 }
 
 function test_csvjoin(){
-    echo "test_csvjoin skipping, not implemented";
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvjoin -csv1=demos/csvjoin/data1.csv -col1=2 \
+            -csv2=demos/csvjoin/data2.csv -col2=4 \
+            -output=temp.csv
+    assert_exists "test_csvjoin (created temp.csv)" temp.csv
+    R=$(cmp demos/csvjoin/merged-data.csv temp.csv)
+    assert_empty "test_csvjoin (compare)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    echo "test_csvjoin OK";
 }
 
 function test_csvrows(){

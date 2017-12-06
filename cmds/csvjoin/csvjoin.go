@@ -56,8 +56,6 @@ merged-data.csv..
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
-	newLine              bool
-	eol                  string
 
 	// App Options
 	verbose         bool
@@ -168,7 +166,6 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "supress error messages")
-	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline from output")
 
 	// App Options
 	app.BoolVar(&verbose, "verbose", false, "output processing count to stderr")
@@ -228,9 +225,6 @@ func main() {
 	if showVersion {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
-	}
-	if newLine {
-		eol = "\n"
 	}
 
 	// NOTE: We are counting columns for humans from 1 rather than zero.
@@ -351,5 +345,4 @@ func main() {
 	w.Flush()
 	err = w.Error()
 	cli.ExitOnError(app.Eout, err, quiet)
-	fmt.Fprintf(app.Out, "%s", eol)
 }
