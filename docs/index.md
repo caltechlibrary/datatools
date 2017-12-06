@@ -1,5 +1,7 @@
 
-# datatools command help
+# Help topics
+
+## Commands
 
 + [csv2json](csv2json.html)
 + [csv2mdtable](csv2mdtable.html)
@@ -25,3 +27,6 @@
 + [xlsx2csv](xlsx2csv.html)
 + [xlsx2json](xlsx2json.html)
 
+## Options
+
++ [options](options.html)
