@@ -1,5 +1,5 @@
 //
-// xlsx2csv.go is a command line utility that converts individual
+// xlsx2csv is a command line utility that converts individual
 // Excel Workbook Sheets to CSV.
 //
 // @Author R. S. Doiel
@@ -21,11 +21,9 @@ package main
 
 import (
 	"encoding/csv"
-	"flag"
 	"fmt"
 	"io"
 	"os"
-	"path"
 	"strings"
 
 	// CaltechLibrary packages
@@ -37,19 +35,12 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]`
-
 	description = `
-
-SYNOPSIS
-
 %s is a tool that converts individual Excel Sheets to CSV output.
-
 `
 
 	examples = `
-
-EXAMPLES
+Extract a workbook sheet as a CSV file
 
     %s my-workbook.xlsx "Sheet 1" > sheet1.csv
 
@@ -68,7 +59,6 @@ Putting it all together in a shell script.
        %s my-workbook.xlsx "$SHEET_NAME" > \
 	       "${SHEET_NAME// /-}.csv"
     done
-
 `
 
 	// Standard Options
@@ -76,8 +66,12 @@ Putting it all together in a shell script.
 	showLicense  bool
 	showVersion  bool
 	showExamples bool
-	outputFName  string
-	quiet        bool
+	//inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application Options
 	showSheetCount bool
@@ -135,94 +129,103 @@ func xlsx2CSV(out io.Writer, workBookName, sheetName string) error {
 	return fmt.Errorf("%s in worksheet %s", sheetName, workBookName)
 }
 
-func init() {
+func main() {
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName)))
+
+	// Document non-option parameters
+	app.AddParams("EXCEL_WORKBOOK_NAME", "[SHEET_NAME]")
+
 	// Standard Options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.StringVar(&outputFName, "o", "", "output filename")
-	flag.StringVar(&outputFName, "output", "", "output filename")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	//app.StringVar(&inputFName, "i,input", "", "input filename")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Specific Options
-	flag.BoolVar(&showSheetCount, "c", false, "display number of sheets in Excel Workbook")
-	flag.BoolVar(&showSheetNames, "n", false, "display sheet names in Excel W9rkbook")
-}
+	app.BoolVar(&showSheetCount, "c", false, "display number of sheets in Excel Workbook")
+	app.BoolVar(&showSheetNames, "n", false, "display sheet names in Excel W9rkbook")
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	// Parse env and options
+	app.Parse()
+	args := app.Args()
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName)
+	// Setup IO
+	var err error
+	app.Eout = os.Stderr
 
-	if showHelp == true {
+	/* NOTE: this command does not read from stdin
+	   app.In, err = cli.Open(inputFName, os.Stdin)
+	   cli.ExitOnError(app.Eout, err, quiet)
+	   defer cli.CloseFile(inputFName, app.In)
+	*/
+
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
+	if newLine {
+		eol = "\n"
 	}
-
-	out, err := cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(outputFName, out)
 
 	if len(args) < 1 {
-		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing Excel Workbook names"), quiet)
+		cli.ExitOnError(app.Eout, fmt.Errorf("Missing Excel Workbook names"), quiet)
 	}
 
 	workBookName := args[0]
 	if showSheetCount == true {
 		cnt, err := sheetCount(workBookName)
-		cli.ExitOnError(os.Stderr, err, quiet)
-		fmt.Printf("%d", cnt)
+		cli.ExitOnError(app.Eout, err, quiet)
+		fmt.Fprintf(app.Out, "%d%s", cnt, eol)
 		os.Exit(0)
 	}
 
 	if showSheetNames == true {
 		names, err := sheetNames(workBookName)
-		cli.ExitOnError(os.Stderr, err, quiet)
-		fmt.Println(strings.Join(names, "\n"))
+		cli.ExitOnError(app.Eout, err, quiet)
+		fmt.Fprintf(app.Out, "%s%s", strings.Join(names, "\n"), eol)
 		os.Exit(0)
 	}
 
 	if len(args) < 2 {
-		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing worksheet name"), quiet)
+		cli.ExitOnError(app.Eout, fmt.Errorf("Missing worksheet name"), quiet)
 	}
 	for _, sheetName := range args[1:] {
 		if len(sheetName) > 0 {
-			xlsx2CSV(out, workBookName, sheetName)
+			xlsx2CSV(app.Out, workBookName, sheetName)
 		}
 	}
+	fmt.Fprintf(app.Out, "%s", eol)
 }

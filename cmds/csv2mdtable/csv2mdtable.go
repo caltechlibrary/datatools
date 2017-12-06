@@ -57,6 +57,7 @@ Convert data1.csv to data1.md using options.
 	generateMarkdownDocs bool
 	quiet                bool
 	newLine              bool
+	eol                  string
 
 	// Application Options
 	delimiter string
@@ -123,17 +124,16 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
+	if newLine {
+		eol = "\n"
+	}
 
 	r := csv.NewReader(app.In)
 	if delimiter != "" {
 		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}
-	nl := "\n"
-	if newLine == false {
-		nl = ""
-	}
 	writeHeader := true
-	fmt.Fprintln(app.Out, "%s", nl)
+	fmt.Fprintln(app.Out, "%s", eol)
 	for {
 		record, err := r.Read()
 		if err == io.EOF {
@@ -151,5 +151,5 @@ func main() {
 			writeHeader = false
 		}
 	}
-	fmt.Fprintln(app.Out, "%s", nl)
+	fmt.Fprintln(app.Out, "%s", eol)
 }

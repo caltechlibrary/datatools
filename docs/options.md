@@ -21,6 +21,7 @@ options | description
 
 options | description
 :--- |:---
+-nl,-newline | if true add a trailing newline, if false suppress it
 -d, -delimiter | for those command that have a delimiter value
 -s, -start | for start times and indexe values
 -e, -end | for end times and indexe values

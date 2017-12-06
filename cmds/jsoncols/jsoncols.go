@@ -69,7 +69,7 @@ Would yield
    "Doe, Jane",jane.doe@xample.org,42
 `
 
-	// Basic Options
+	// Standard Options
 	showHelp             bool
 	showLicense          bool
 	showVersion          bool
@@ -78,6 +78,8 @@ Would yield
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application Specific Options
 	runInteractive bool
@@ -107,6 +109,7 @@ func main() {
 	app.StringVar(&inputFName, "i,input", "", "input filename")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// Application Specific Options
 	app.BoolVar(&runInteractive, "r", false, "run interactively")
@@ -151,6 +154,9 @@ func main() {
 	if showVersion {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
+	}
+	if newLine {
+		eol = "\n"
 	}
 
 	// Handle ordered args to get expressions for each column output.
@@ -235,4 +241,5 @@ func main() {
 			}
 		}
 	}
+	fmt.Fprintf(app.Out, "%s", eol)
 }

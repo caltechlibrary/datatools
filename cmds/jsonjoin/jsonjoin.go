@@ -123,7 +123,7 @@ would yield
      "bio": "World renowned geophysist." }
 `
 
-	// Basic Options
+	// Standard Options
 	showHelp             bool
 	showLicense          bool
 	showVersion          bool
@@ -132,6 +132,8 @@ would yield
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application Specific Options
 	update     bool
@@ -160,6 +162,7 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdownDocs, "gemerate-markdown-docs", false, "generate markdown docs")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// Application Specific Options
 	app.BoolVar(&createRoot, "create", false, "create an empty root object, {}")
@@ -204,6 +207,9 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
+	if newLine {
+		eol = "\n"
+	}
 
 	// Make sure we have some JSON objects to join...
 	if len(args) < 1 {
@@ -245,5 +251,5 @@ func main() {
 
 	src, err := json.Marshal(outObject)
 	cli.ExitOnError(app.Eout, err, quiet)
-	fmt.Fprintf(app.Out, "%s", src)
+	fmt.Fprintf(app.Out, "%s%s", src, eol)
 }

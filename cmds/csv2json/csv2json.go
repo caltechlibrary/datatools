@@ -62,6 +62,7 @@ Convert data1.csv to JSON blobs, one line per blob
 	generateMarkdownDocs bool
 	quiet                bool
 	newLine              bool
+	eol                  string
 
 	// Application Options
 	useHeader bool
@@ -132,6 +133,9 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
+	if newLine {
+		eol = "\n"
+	}
 
 	rowNo := 0
 	fieldNames := []string{}
@@ -153,10 +157,6 @@ func main() {
 	hasError := false
 	arrayOfObjects := []string{}
 	object := map[string]interface{}{}
-	nl := "\n"
-	if newLine == false {
-		nl = ""
-	}
 	for {
 		row, err := r.Read()
 		if err == io.EOF {
@@ -179,16 +179,17 @@ func main() {
 			hasError = true
 		}
 		if asBlobs == true {
-			fmt.Fprintf(app.Out, "%s%s", src, nl)
+			fmt.Fprintf(app.Out, "%s%s", src, eol)
 		} else {
 			arrayOfObjects = append(arrayOfObjects, string(src))
 		}
 		rowNo++
 	}
 	if asBlobs == false {
-		fmt.Fprintf(app.Out, "[%s]%s", strings.Join(arrayOfObjects, ","), nl)
+		fmt.Fprintf(app.Out, "[%s]%s", strings.Join(arrayOfObjects, ","), eol)
 	}
 	if hasError == true {
 		os.Exit(1)
 	}
+	fmt.Fprintln(app.Out, "%s", eol)
 }

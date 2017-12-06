@@ -71,6 +71,7 @@ Trim leading and trailing spaces
 	generateMarkdownDocs bool
 	quiet                bool
 	newLine              bool
+	eol                  string
 
 	// App Options
 	comma             string
@@ -161,10 +162,8 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	nl := "\n"
-	if newLine == false {
-		nl = ""
+	if newLine {
+		eol = "\n"
 	}
 
 	// Loop through input CSV, apply options, write to output CSV
@@ -261,5 +260,5 @@ func main() {
 	if verbose == true {
 		cli.OnError(app.Eout, fmt.Errorf("Processed %d rows\n", i), quiet)
 	}
-	fmt.Fprintf(app.Out, "%s", nl)
+	fmt.Fprintf(app.Out, "%s", eol)
 }

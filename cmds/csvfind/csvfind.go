@@ -67,6 +67,7 @@ You can also search for phrases in columns.
 	generateMarkdownDocs bool
 	quiet                bool
 	newLine              bool
+	eol                  string
 
 	// App Options
 	skipHeaderRow      bool
@@ -161,6 +162,9 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
+	if newLine {
+		eol = "\n"
+	}
 
 	if col <= 0 {
 		cli.ExitOnError(app.Eout, fmt.Errorf("Cannot have a zero or negative column reference %d", col), quiet)
@@ -182,11 +186,6 @@ func main() {
 	if len(stopWordsOption) > 0 {
 		stopWords = strings.Split(stopWordsOption, ":")
 		target = strings.Join(datatools.ApplyStopWords(strings.Split(target, " "), stopWords), " ")
-	}
-
-	nl := "\n"
-	if newLine == false {
-		nl = ""
 	}
 
 	csvIn := csv.NewReader(app.In)
@@ -260,5 +259,5 @@ func main() {
 	csvOut.Flush()
 	err = csvOut.Error()
 	cli.ExitOnError(app.Eout, err, quiet)
-	fmt.Fprintf(app.Out, "%s", nl)
+	fmt.Fprintf(app.Out, "%s", eol)
 }

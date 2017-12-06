@@ -57,6 +57,7 @@ merged-data.csv..
 	generateMarkdownDocs bool
 	quiet                bool
 	newLine              bool
+	eol                  string
 
 	// App Options
 	verbose         bool
@@ -228,10 +229,8 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	nl := "\n"
-	if newLine == false {
-		nl = ""
+	if newLine {
+		eol = "\n"
 	}
 
 	// NOTE: We are counting columns for humans from 1 rather than zero.
@@ -352,5 +351,5 @@ func main() {
 	w.Flush()
 	err = w.Error()
 	cli.ExitOnError(app.Eout, err, quiet)
-	fmt.Fprintf(app.Out, "%s", nl)
+	fmt.Fprintf(app.Out, "%s", eol)
 }

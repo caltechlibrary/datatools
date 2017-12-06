@@ -1,5 +1,6 @@
 //
-// urlparse.go - a URL Parser library for use in Bash scripts.
+// urlparse - a URL Parser library for use in Bash scripts.
+//
 // @Author R. S. Doiel, <rsdoiel@caltech.edu>
 //
 // Copyright (c) 2017, Caltech
@@ -18,7 +19,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"net/url"
 	"os"
@@ -31,21 +31,12 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] URL_TO_PARSE`
-
 	description = `
-
-SYNOPSIS
-
 %s can parse a URL and return the specific elements
 requested (e.g. protocol, hostname, path, query string)
-
 `
 
 	examples = `
-
-EXAMPLES
-
 With no options returns "http\texample.com\t/my/page.html"
 
     %s http://example.com/my/page.html
@@ -72,15 +63,19 @@ Get extension. Returns ".html".
 
 Without options urlparse returns protocol, host and path
 fields separated by a tab.
-
 `
 
 	// Standard Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	quiet        bool
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// App Specific Options
 	showProtocol  bool
@@ -95,7 +90,7 @@ fields separated by a tab.
 	delimiter     = "\t"
 )
 
-func init() {
+func main() {
 	const (
 		delimiterUsage = "Set the output delimited for parsed display. (defaults to tab)"
 		protocolUsage  = "Display the protocol of URL (defaults to http)"
@@ -106,81 +101,85 @@ func init() {
 		extensionUsage = "Display the filename extension (e.g. .html)."
 	)
 
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)))
+
+	// Document non-option parameters
+	app.AddParams("URL_TO_PARSE")
+
 	// Standard Options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&inputFName, "i,input", "", "input filename")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Specific Options
-	flag.StringVar(&delimiter, "delimiter", delimiter, delimiterUsage)
-	flag.StringVar(&delimiter, "D", delimiter, delimiterUsage)
-	flag.BoolVar(&showProtocol, "protocol", false, protocolUsage)
-	flag.BoolVar(&showProtocol, "P", false, protocolUsage)
-	flag.BoolVar(&showHost, "host", false, hostUsage)
-	flag.BoolVar(&showHost, "H", false, hostUsage)
-	flag.BoolVar(&showPath, "path", false, pathUsage)
-	flag.BoolVar(&showPath, "p", false, pathUsage)
-	flag.BoolVar(&showDir, "directory", false, basenameUsage)
-	flag.BoolVar(&showDir, "d", false, basenameUsage)
-	flag.BoolVar(&showBase, "base", false, basenameUsage)
-	flag.BoolVar(&showBase, "b", false, basenameUsage)
-	flag.BoolVar(&showExtension, "extension", false, extensionUsage)
-	flag.BoolVar(&showExtension, "e", false, extensionUsage)
-}
+	app.StringVar(&delimiter, "d,delimiter", delimiter, delimiterUsage)
+	app.BoolVar(&showProtocol, "P,protocol", false, protocolUsage)
+	app.BoolVar(&showHost, "H,host", false, hostUsage)
+	app.BoolVar(&showPath, "p,path", false, pathUsage)
+	app.BoolVar(&showDir, "d,directory", false, basenameUsage)
+	app.BoolVar(&showBase, "b,base", false, basenameUsage)
+	app.BoolVar(&showExtension, "E,extension", false, extensionUsage)
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	// Setup IO
+	var err error
+	app.Eout = os.Stderr
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
 
-	if showHelp == true {
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Parse env and options
+	app.Parse()
+	args := app.Args()
+
+	// Process Options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
+	if newLine {
+		eol = "\n"
 	}
 
 	results := []string{}
-	urlToParse := flag.Arg(0)
+	urlToParse := app.Arg(0)
 	if urlToParse == "" {
-		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing URL to parse"), quiet)
+		cli.ExitOnError(app.Eout, fmt.Errorf("Missing URL to parse"), quiet)
 	}
 	u, err := url.Parse(urlToParse)
-	cli.ExitOnError(os.Stderr, err, quiet)
+	cli.ExitOnError(app.Eout, err, quiet)
 
 	useDelim := delimiter
 	if showProtocol == true {
@@ -203,9 +202,9 @@ func main() {
 	}
 
 	if len(results) == 0 {
-		fmt.Fprintf(os.Stdout, "%s%s%s%s%s",
-			u.Scheme, useDelim, u.Host, useDelim, u.Path)
+		fmt.Fprintf(app.Out, "%s%s%s%s%s%s",
+			u.Scheme, useDelim, u.Host, useDelim, u.Path, eol)
 	} else {
-		fmt.Fprint(os.Stdout, strings.Join(results, useDelim))
+		fmt.Fprintf(app.Out, "%s%s", strings.Join(results, useDelim), eol)
 	}
 }

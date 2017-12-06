@@ -19,12 +19,9 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
-	"strings"
 
 	// Caltech Library packages
 	"github.com/caltechlibrary/cli"
@@ -33,21 +30,12 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS]`
-
 	description = `
-
-SYNOPSIS
-
 %s converts a VCard to JSON. The vcard can be read from stdin or form a file
 with the usual options. The JSON version will be written to stdout.
-
 `
 
 	examples = `
-
-EXAMPLES
-
 Simple usage of building a CSV file one rows at a time.
 
     cat my.cvf | %s > myVCard.json
@@ -55,103 +43,96 @@ Simple usage of building a CSV file one rows at a time.
 Or reading, writing to specific file
 
     %s -i mv.cvf -o myVCard.json
-
 `
 
-	// Standard options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	inputFName   string
-	outputFName  string
-	quiet        bool
-	newLine      bool
+	// Standard Options
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application specific options
 )
 
-func init() {
-	// Standard options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.StringVar(&inputFName, "i", "", "input filename")
-	flag.StringVar(&inputFName, "input", "", "input filename")
-	flag.StringVar(&outputFName, "o", "", "output filename")
-	flag.StringVar(&outputFName, "output", "", "output filename")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error message")
-	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline in output")
-	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
-	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
+func main() {
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName)))
+
+	// Document non-option parameters
+
+	// Standard Options
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&inputFName, "i,input", "", "input filename")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// Application specific options
-}
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	// Parse env and options
+	app.Parse()
+	args := app.Args()
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName)
+	// Setup IO
+	var err error
+	app.Eout = os.Stderr
 
-	if showHelp == true {
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
+
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
+	if newLine {
+		eol = "\n"
 	}
 
-	in, err := cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(inputFName, in)
-
-	out, err := cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(outputFName, out)
-
-	src, err := ioutil.ReadAll(in)
-	cli.ExitOnError(os.Stderr, err, quiet)
+	src, err := ioutil.ReadAll(app.In)
+	cli.ExitOnError(app.Eout, err, quiet)
 	vcf := vcard.NewVCard()
 	err = vcf.Parse(src)
-	cli.ExitOnError(os.Stderr, err, quiet)
+	cli.ExitOnError(app.Eout, err, quiet)
 
 	src, err = vcf.AsJSON()
-	cli.ExitOnError(os.Stderr, err, quiet)
-	nl := "\n"
-	if newLine == false {
-		nl = ""
-	}
-	fmt.Fprintf(out, "%s%s", src, nl)
+	cli.ExitOnError(app.Eout, err, quiet)
+
+	fmt.Fprintf(app.Out, "%s%s", src, eol)
 }

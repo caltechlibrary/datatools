@@ -85,6 +85,8 @@ Yields a random integer from 0 to 10
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application Specific Options
 	start         int
@@ -134,6 +136,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App specific options
 	app.IntVar(&start, "s,start", 0, startUsage)
@@ -181,6 +184,9 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
+	if newLine {
+		eol = "\n"
+	}
 
 	argc := app.NArg()
 	argv := app.Args()
@@ -203,7 +209,7 @@ func main() {
 	assertOk(app.Eout, err, "Increment must be a non-zero integer.")
 
 	if start == end {
-		fmt.Fprintf(app.Out, "%d", start)
+		fmt.Fprintf(app.Out, "%d%s", start, eol)
 		os.Exit(0)
 	}
 
@@ -227,9 +233,9 @@ func main() {
 			ithArray = append(ithArray, i)
 		} else {
 			if i == start {
-				fmt.Fprintf(app.Out, "%d", i)
+				fmt.Fprintf(app.Out, "%d%s", i, eol)
 			} else {
-				fmt.Fprintf(app.Out, " %d", i)
+				fmt.Fprintf(app.Out, " %d%s", i, eol)
 			}
 		}
 	}
@@ -237,6 +243,6 @@ func main() {
 	if randomElement == true {
 		rand.Seed(time.Now().Unix())
 		ith = rand.Intn(len(ithArray))
-		fmt.Fprintf(app.Out, "%d", ithArray[ith])
+		fmt.Fprintf(app.Out, "%d%s", ithArray[ith], eol)
 	}
 }

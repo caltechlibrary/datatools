@@ -117,7 +117,7 @@ would yield
     2
 `
 
-	// Basic Options
+	// Standard Options
 	showHelp             bool
 	showLicense          bool
 	showVersion          bool
@@ -126,6 +126,8 @@ would yield
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application Specific Options
 	showLength bool
@@ -242,6 +244,7 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "write to output file")
 	app.BoolVar(&generateMarkdownDocs, "generateMarkdownDocs", false, "generate markdown docs")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// Application Options
 	app.BoolVar(&showLength, "length", false, "return the number of keys or values")
@@ -287,6 +290,9 @@ func main() {
 	if showVersion {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
+	}
+	if newLine {
+		eol = "\n"
 	}
 
 	// If no args then assume "." is desired
@@ -339,4 +345,5 @@ func main() {
 			fmt.Fprintln(app.Out, strings.Join(elems, delimiter))
 		}
 	}
+	fmt.Fprintf(app.Out, "%s", eol)
 }

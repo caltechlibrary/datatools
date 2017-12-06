@@ -49,6 +49,8 @@ This would put your home bin directory at the beginning of your path.
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application Specific Options
 	envPath     string
@@ -97,6 +99,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Options
 	envPath = "$PATH"
@@ -145,6 +148,9 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
+	if newLine {
+		eol = "\n"
+	}
 
 	if app.NArg() > 0 {
 		dir = app.Arg(0)
@@ -160,7 +166,7 @@ func main() {
 		cli.ExitOnError(app.Eout, fmt.Errorf("Missing directory to add to path"), quiet)
 	}
 	if clipPath {
-		fmt.Printf("%s", clip(envPath, dir))
+		fmt.Fprintf(app.Out, "%s%s", clip(envPath, dir), eol)
 		os.Exit(0)
 	}
 	if prependPath {
@@ -170,8 +176,8 @@ func main() {
 		envPath = clip(envPath, dir)
 	}
 	if appendPath {
-		fmt.Printf("%s:%s", envPath, dir)
+		fmt.Fprintf(app.Out, "%s:%s%s", envPath, dir, eol)
 	} else {
-		fmt.Printf("%s:%s", dir, envPath)
+		fmt.Fprintf(app.Out, "%s:%s%s", dir, envPath, eol)
 	}
 }

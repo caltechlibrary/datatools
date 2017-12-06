@@ -60,6 +60,8 @@ This would yield
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application Specific Options
 	templateExpr string
@@ -70,9 +72,9 @@ func main() {
 	appName := app.AppName()
 
 	// Add Help Docs
-	app.AddHelp("License", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("Description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("Example", []byte(fmt.Sprintf(examples, appName)))
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName)))
 
 	// Document non-option parameters
 	app.AddParams("TEMPLATE_FILENAME")
@@ -86,6 +88,7 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdownDocs, "generateMarkdownDocs", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// Application Specific Options
 	app.StringVar(&templateExpr, "E,expression", "", "use template expression as template")
@@ -128,6 +131,9 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
+	if newLine {
+		eol = "\n"
+	}
 
 	if len(args) == 0 && templateExpr == "" {
 		cli.ExitOnError(app.Eout, fmt.Errorf("Need to provide at least one template name"), quiet)
@@ -157,4 +163,5 @@ func main() {
 	// Execute template with data
 	err = tmpl.Execute(app.Out, data)
 	cli.ExitOnError(app.Eout, err, quiet)
+	fmt.Fprintf(app.Out, "%s", eol)
 }

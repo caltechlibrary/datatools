@@ -52,6 +52,8 @@ Search the current directory and subdirectories for Markdown files with extensio
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// App Specific Options
 	showModificationTime bool
@@ -135,6 +137,7 @@ func main() {
 	app.StringVar(&outputFName, "o,outout", "", "output filename")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Specific Options
 	app.BoolVar(&showModificationTime, "m,mod-time", false, "display file modification time before the path")
@@ -186,6 +189,9 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
+	if newLine {
+		eol = "\n"
+	}
 
 	if findPrefix == false && findSuffix == false && findContains == false {
 		findAll = true
@@ -212,4 +218,5 @@ func main() {
 		err := walkPath(app.Out, dir, target)
 		cli.ExitOnError(app.Eout, err, quiet)
 	}
+	fmt.Fprintf(app.Out, "%s", eol)
 }

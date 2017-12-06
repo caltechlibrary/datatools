@@ -57,11 +57,9 @@ string is a command line tool for transforming strings in common ways.
 	newLine              bool
 	quiet                bool
 	generateMarkdownDocs bool
+	eol                  string
 
 	// App Options
-
-	// Internal globals
-	nl string
 )
 
 //
@@ -87,7 +85,7 @@ func doLength(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		args = append(args, string(src))
 	}
 	for _, arg := range args {
-		fmt.Fprintf(out, "%d%s", len(arg), nl)
+		fmt.Fprintf(out, "%d%s", len(arg), eol)
 	}
 	return 0
 }
@@ -105,7 +103,7 @@ func doCount(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		args = append(args, string(src))
 	}
 	for _, arg := range args {
-		fmt.Fprintf(out, "%d%s", strings.Count(arg, target), nl)
+		fmt.Fprintf(out, "%d%s", strings.Count(arg, target), eol)
 	}
 	return 0
 }
@@ -117,7 +115,7 @@ func doToUpper(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		args = append(args, string(src))
 	}
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", strings.ToUpper(arg), nl)
+		fmt.Fprintf(out, "%s%s", strings.ToUpper(arg), eol)
 	}
 	return 0
 }
@@ -129,7 +127,7 @@ func doToLower(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		args = append(args, string(src))
 	}
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", strings.ToLower(arg), nl)
+		fmt.Fprintf(out, "%s%s", strings.ToLower(arg), eol)
 	}
 	return 0
 }
@@ -141,7 +139,7 @@ func doToTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		args = append(args, string(src))
 	}
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", strings.ToTitle(arg), nl)
+		fmt.Fprintf(out, "%s%s", strings.ToTitle(arg), eol)
 	}
 	return 0
 }
@@ -153,7 +151,7 @@ func doEnglishTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) 
 		args = append(args, string(src))
 	}
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", datatools.EnglishTitle(arg), nl)
+		fmt.Fprintf(out, "%s%s", datatools.EnglishTitle(arg), eol)
 	}
 	return 0
 }
@@ -177,7 +175,7 @@ func doSplit(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		// Now assemble our JSON array and display it
 		src, err := json.Marshal(parts)
 		exitOnError(eout, err, quiet)
-		fmt.Fprintf(out, "%s%s", src, nl)
+		fmt.Fprintf(out, "%s%s", src, eol)
 	}
 	return 0
 }
@@ -208,7 +206,7 @@ func doSplitN(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		// Now assemble our JSON array and display it
 		src, err := json.Marshal(parts)
 		exitOnError(eout, err, quiet)
-		fmt.Fprintf(out, "%s%s", src, nl)
+		fmt.Fprintf(out, "%s%s", src, eol)
 	}
 	return 0
 }
@@ -234,7 +232,7 @@ func doJoin(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		err := json.Unmarshal([]byte(arg), &parts)
 		exitOnError(eout, err, quiet)
 		s := strings.Join(parts, delimiter)
-		fmt.Fprintf(out, "%s%s", s, nl)
+		fmt.Fprintf(out, "%s%s", s, eol)
 	}
 	return 0
 }
@@ -256,7 +254,7 @@ func doHasPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string) int
 	}
 	// Handle content common from args
 	for _, s := range args {
-		fmt.Fprintf(out, "%t%s", strings.HasPrefix(s, prefix), nl)
+		fmt.Fprintf(out, "%t%s", strings.HasPrefix(s, prefix), eol)
 	}
 	return 0
 }
@@ -278,7 +276,7 @@ func doTrimPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string) in
 	}
 	// Handle content common from args
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", strings.TrimPrefix(arg, prefix), nl)
+		fmt.Fprintf(out, "%s%s", strings.TrimPrefix(arg, prefix), eol)
 	}
 	return 0
 }
@@ -300,7 +298,7 @@ func doHasSuffix(in io.Reader, out io.Writer, eout io.Writer, args []string) int
 	}
 	// Handle content common from args
 	for _, arg := range args {
-		fmt.Fprintf(out, "%t%s", strings.HasSuffix(arg, suffix), nl)
+		fmt.Fprintf(out, "%t%s", strings.HasSuffix(arg, suffix), eol)
 	}
 	return 0
 }
@@ -322,7 +320,7 @@ func doTrimSuffix(in io.Reader, out io.Writer, eout io.Writer, args []string) in
 	}
 	// Handle content common from args
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", strings.TrimSuffix(arg, suffix), nl)
+		fmt.Fprintf(out, "%s%s", strings.TrimSuffix(arg, suffix), eol)
 	}
 	return 0
 }
@@ -343,7 +341,7 @@ func doTrim(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	}
 	// Handle content common from args
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", strings.Trim(arg, cutset), nl)
+		fmt.Fprintf(out, "%s%s", strings.Trim(arg, cutset), eol)
 	}
 	return 0
 }
@@ -364,7 +362,7 @@ func doTrimLeft(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 	}
 	// Handle content common from args
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", strings.TrimLeft(arg, cutset), nl)
+		fmt.Fprintf(out, "%s%s", strings.TrimLeft(arg, cutset), eol)
 	}
 	return 0
 }
@@ -385,7 +383,7 @@ func doTrimRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int
 	}
 	// Handle content common from args
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", strings.TrimRight(arg, cutset), nl)
+		fmt.Fprintf(out, "%s%s", strings.TrimRight(arg, cutset), eol)
 	}
 	return 0
 }
@@ -405,7 +403,7 @@ func doContains(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 	}
 
 	for _, arg := range args {
-		fmt.Fprintf(out, "%t%s", strings.Contains(arg, target), nl)
+		fmt.Fprintf(out, "%t%s", strings.Contains(arg, target), eol)
 	}
 	return 0
 }
@@ -423,7 +421,7 @@ func doPosition(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 		args = append(args, string(src))
 	}
 	for _, arg := range args {
-		fmt.Fprintf(out, "%d%s", strings.Index(arg, target), nl)
+		fmt.Fprintf(out, "%d%s", strings.Index(arg, target), eol)
 	}
 	return 0
 }
@@ -442,7 +440,7 @@ func doReplace(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		args = append(args, string(src))
 	}
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", strings.Replace(arg, target, replacement, -1), nl)
+		fmt.Fprintf(out, "%s%s", strings.Replace(arg, target, replacement, -1), eol)
 	}
 	return 0
 }
@@ -467,7 +465,7 @@ func doReplacen(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 		args = append(args, string(src))
 	}
 	for _, arg := range args {
-		fmt.Fprintf(out, "%s%s", strings.Replace(arg, target, replacement, cnt), nl)
+		fmt.Fprintf(out, "%s%s", strings.Replace(arg, target, replacement, cnt), eol)
 	}
 	return 0
 	exitOnError(eout, fmt.Errorf("doReplacen not implemented"), false)
@@ -494,10 +492,10 @@ func doPadLeft(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	for _, arg := range args {
 		l := len(arg)
 		if l >= maxWidth {
-			fmt.Fprintf(out, "%s%s", arg, nl)
+			fmt.Fprintf(out, "%s%s", arg, eol)
 		} else {
 			t := fmt.Sprintf("%s%s", pad, arg)
-			fmt.Fprintf(out, "%s%s", t[maxWidth-l:], nl)
+			fmt.Fprintf(out, "%s%s", t[maxWidth-l:], eol)
 		}
 	}
 	return 0
@@ -523,10 +521,10 @@ func doPadRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 	for _, arg := range args {
 		l := len(arg)
 		if l >= maxWidth {
-			fmt.Fprintf(out, "%s%s", arg, nl)
+			fmt.Fprintf(out, "%s%s", arg, eol)
 		} else {
 			t := fmt.Sprintf("%s%s", arg, pad)
-			fmt.Fprintf(out, "%s%s", t[0:maxWidth], nl)
+			fmt.Fprintf(out, "%s%s", t[0:maxWidth], eol)
 		}
 	}
 	return 0
@@ -562,7 +560,7 @@ func doSlice(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 			fmt.Fprintf(eout, "start %d is past end of string %q\n", start, arg)
 			return 1
 		}
-		fmt.Fprintf(out, "%s%s", arg[start:end], nl)
+		fmt.Fprintf(out, "%s%s", arg[start:end], eol)
 	}
 	return 0
 }
@@ -583,7 +581,7 @@ func main() {
 	app.StringVar(&inputFName, "i,input", "", "input file name")
 	app.StringVar(&outputFName, "o,output", "", "output file name")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&newLine, "nl,newline", false, "output a trailing newline")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "output documentation in Markdown")
 
 	// App Options
@@ -624,6 +622,7 @@ func main() {
 	app.In, err = cli.Open(inputFName, os.Stdin)
 	cli.ExitOnError(app.Eout, err, quiet)
 	defer cli.CloseFile(inputFName, app.In)
+
 	app.Out, err = cli.Create(inputFName, os.Stdout)
 	cli.ExitOnError(app.Eout, err, quiet)
 	defer cli.CloseFile(outputFName, app.Out)
@@ -636,8 +635,6 @@ func main() {
 	if showHelp || showExamples {
 		if len(args) > 0 {
 			fmt.Fprintf(app.Out, app.Help(args...))
-		} else if showExamples {
-			fmt.Fprintf(app.Out, app.Help("examples"))
 		} else {
 			app.Usage(app.Out)
 		}
@@ -652,7 +649,7 @@ func main() {
 		os.Exit(0)
 	}
 	if newLine {
-		nl = "\n"
+		eol = "\n"
 	}
 
 	// Run the app!

@@ -77,6 +77,7 @@ Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 	generateMarkdownDocs bool
 	quiet                bool
 	newLine              bool
+	eol                  string
 
 	// Application specific options
 	validateRows  bool
@@ -200,10 +201,8 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	nl := "\n"
-	if newLine == false {
-		nl = ""
+	if newLine {
+		eol = "\n"
 	}
 
 	if showHeader == true {
@@ -258,5 +257,5 @@ func main() {
 	if err := w.Error(); err != nil {
 		cli.ExitOnError(app.Eout, err, quiet)
 	}
-	fmt.Fprintf(app.Out, "%s", nl)
+	fmt.Fprintf(app.Out, "%s", eol)
 }

@@ -229,12 +229,121 @@ function test_string() {
     RESULT=$(echo -n "$S" | bin/string -i - padright "$P" "$M")
     assert_same "padright on pipe" "$EXPECTED" "$RESULT"
 
+    echo "test_string OK";
+}
+
+function test_csv2json(){
+    echo "test_csv2json skipping, not implemented";
+}
+
+function test_csv2mdtable(){
+    echo "test_csv2mdtable skipping, not implemented";
+}
+
+function test_csv2xlsx(){
+    echo "test_csv2xlx skipping, not implemented";
+}
+
+function test_csvcleaner(){
+    echo "test_csvcleaner skipping, not implemented";
+}
+
+function test_csvcols(){
+    echo "test_csvcols skipping, not implemented";
+}
+
+function test_csvfind(){
+    echo "test_csvfind skipping, not implemented";
+}
+
+function test_csvjoin(){
+    echo "test_csvjoin skipping, not implemented";
+}
+
+function test_csvrows(){
+    echo "test_csvrows skipping, not implemented";
+}
+
+function test_finddir(){
+    echo "test_finddir skipping, not implemented";
+}
+
+function test_findfile(){
+    echo "test_findfile skipping, not implemented";
+}
+
+function test_jsoncols(){
+    echo "test_jsoncols skipping, not implemented";
+}
+
+function test_jsonjoin(){
+    echo "test_jsonjoin skipping, not implemented";
+}
+
+function test_jsonmunge(){
+    echo "test_jsonmunge skipping, not implemented";
+}
+
+function test_jsonrange(){
+    echo "test_jsonrange skipping, not implemented";
+}
+
+function test_mergepath(){
+    echo "test_mergepath skipping, not implemented";
+}
+
+function test_range(){
+    echo "test_range skipping, not implemented";
+}
+
+function test_reldate(){
+    echo "test_reldate skipping, not implemented";
+}
+
+function test_timefmt(){
+    echo "test_timefmt skipping, not implemented";
+}
+
+function test_urlparse(){
+    echo "test_urlparse skipping, not implemented";
+}
+
+function test_vcard2json(){
+    echo "test_vcard2json skipping, not implemented";
+}
+
+function test_xlsx2csv(){
+    echo "test_xlsx2csv skipping, not implemented";
+}
+
+function test_xlsx2json(){
+    echo "test_xlsx2json skipping, not implemented";
 }
 
 #
 # Run the tests
 #
-make bin/string
+test_csv2json
+test_csv2mdtable
+test_csv2xlsx
+test_csvcleaner
+test_csvcols
+test_csvfind
+test_csvjoin
+test_csvrows
+test_finddir
+test_findfile
+test_jsoncols
+test_jsonjoin
+test_jsonmunge
+test_jsonrange
+test_mergepath
+test_range
+test_reldate
 test_string
+test_timefmt
+test_urlparse
+test_vcard2json
+test_xlsx2csv
+test_xlsx2json
 echo "Success!"
-
