@@ -287,20 +287,20 @@ function test_csv2json() {
 function test_csv2mdtable() {
     # Test valid Markdown table using options
     if [ -f temp.md ]; then rm temp.md; fi
-    bin/csv2mdtable -i demos/csv2json/data1.csv -o temp.md
+    bin/csv2mdtable -i demos/csv2mdtable/data1.csv -o temp.md
     assert_exists "test_csv2mdtable (args)" temp.md
-    R=$(cmp demos/csv2json/data1.md temp.md)
+    R=$(cmp demos/csv2mdtable/data1.md temp.md)
     assert_empty "test_csv2mdtable (args)" "$R"
 
     # Test valid Markdown table using pipeline
     if [ -f temp.md ]; then rm temp.md; fi
     cat demos/csv2mdtable/data1.csv | bin/csv2mdtable > temp.md
     assert_exists "test_csv2mdtable (pipeline)" temp.md
-    R=$(cmp demos/csv2json/data1.md temp.md)
+    R=$(cmp demos/csv2mdtable/data1.md temp.md)
     assert_empty "test_csv2mdtable (args)" "$R"
 
     if [ -f temp.md ]; then rm temp.md; fi
-    echo "test_csv2mdtable skipping, not implemented";
+    echo "test_csv2mdtable OK";
 }
 
 function test_csv2xlsx(){
