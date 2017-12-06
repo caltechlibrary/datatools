@@ -339,7 +339,38 @@ function test_csv2xlsx(){
 }
 
 function test_csvcleaner(){
-    echo "test_csvcleaner skipping, not implemented";
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvcleaner -i demos/csvcleaner/mysheet.csv -fields-per-row=2 -o temp.csv
+    assert_exists "test_csvcleaner (args)" temp.csv
+    R=$(cmp demos/csvcleaner/2cols.csv temp.csv)
+    assert_empty "test_csvcleaner (args, 2 cols)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvcleaner -i demos/csvcleaner/mysheet.csv -fields-per-row=3 -o temp.csv
+    assert_exists "test_csvcleaner (args)" temp.csv
+    R=$(cmp demos/csvcleaner/3cols.csv temp.csv)
+    assert_empty "test_csvcleaner (args, 3 cols)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvcleaner -i demos/csvcleaner/mysheet.csv -left-trim -o temp.csv
+    assert_exists "test_csvcleaner (args, left trim)" temp.csv
+    R=$(cmp demos/csvcleaner/ltrim.csv temp.csv)
+    assert_empty "test_csvcleaner (args, left trim)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvcleaner -i demos/csvcleaner/mysheet.csv -right-trim -o temp.csv
+    assert_exists "test_csvcleaner (args, right trim)" temp.csv
+    R=$(cmp demos/csvcleaner/rtrim.csv temp.csv)
+    assert_empty "test_csvcleaner (args, right trim)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvcleaner -i demos/csvcleaner/mysheet.csv --trim -o temp.csv
+    assert_exists "test_csvcleaner (args, trim)" temp.csv
+    R=$(cmp demos/csvcleaner/trim.csv temp.csv)
+    assert_empty "test_csvcleaner (args, trim)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    echo "test_csvcleaner OK";
 }
 
 function test_csvcols(){

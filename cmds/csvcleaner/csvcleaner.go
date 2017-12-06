@@ -50,15 +50,15 @@ Normalizing a spread sheet's column count to 5 padding columns as needed per row
 
 Trim leading spaces.
 
-    cat mysheet.csv | %s -left-trim-spaces
+    cat mysheet.csv | %s -left-trim
 
 Trim trailing spaces.
 
-    cat mysheet.csv | %s -right-trim-spaces
+    cat mysheet.csv | %s -right-trim
 
 Trim leading and trailing spaces
 
-    cat mysheet.csv | %s -trim-spaces
+    cat mysheet.csv | %s -trim
 `
 
 	// Standard Options
@@ -70,8 +70,8 @@ Trim leading and trailing spaces
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
-	newLine              bool
-	eol                  string
+	//newLine              bool
+	//eol                  string
 
 	// App Options
 	comma             string
@@ -108,14 +108,14 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generation markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline in output")
+	//app.BoolVar(&newLine, "nl,newline", false, "include trailing newline in output")
 
 	// Application specific options
 	app.IntVar(&fieldsPerRecord, "fields-per-row", 0, "set the number of columns to output right padding empty cells as needed")
 	app.BoolVar(&lazyQuotes, "use-lazy-quoting", false, "If LazyQuotes is true, a quote may appear in an unquoted field and a non-doubled quote may appear in a quoted field.")
-	app.BoolVar(&trimSpace, "trim-spaces", false, "If set to true leading and trailing white space in a field is ignored.")
-	app.BoolVar(&trimLeadingSpace, "left-trim-spaces", false, "If set to true leading white space in a field is ignored.")
-	app.BoolVar(&trimTrailingSpace, "right-trim-spaces", false, "If set to true trailing white space in a field is ignored.")
+	app.BoolVar(&trimSpace, "trim", false, "If set to true leading and trailing white space in a field is ignored.")
+	app.BoolVar(&trimLeadingSpace, "left-trim", false, "If set to true leading white space in a field is ignored.")
+	app.BoolVar(&trimTrailingSpace, "right-trim", false, "If set to true trailing white space in a field is ignored.")
 	app.BoolVar(&reuseRecord, "reuse", true, "if false then a new array is allocated for each row processed, if true the array gets reused")
 	app.StringVar(&comma, "comma", "", "if set use this character in place of a comma for delimiting cells")
 	app.StringVar(&rowComment, "comment-char", "", "if set, rows starting with this character will be ignored as comments")
@@ -123,7 +123,7 @@ func main() {
 	app.BoolVar(&useCRLF, "use-crlf", false, "if set use a charage return and line feed in output")
 	app.BoolVar(&stopOnError, "stop-on-error", false, "exit on error, useful if you're trying to debug a problematic CSV file")
 
-	app.BoolVar(&verbose, "verbose", false, "write verbose output to standard error")
+	app.BoolVar(&verbose, "V,verbose", false, "write verbose output to standard error")
 
 	// Parse environment and options
 	app.Parse()
@@ -162,9 +162,11 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-	if newLine {
-		eol = "\n"
-	}
+	/*
+		if newLine {
+			eol = "\n"
+		}
+	*/
 
 	// Loop through input CSV, apply options, write to output CSV
 	if trimSpace == true {
@@ -260,5 +262,5 @@ func main() {
 	if verbose == true {
 		cli.OnError(app.Eout, fmt.Errorf("Processed %d rows\n", i), quiet)
 	}
-	fmt.Fprintf(app.Out, "%s", eol)
+	//fmt.Fprintf(app.Out, "%s", eol)
 }
