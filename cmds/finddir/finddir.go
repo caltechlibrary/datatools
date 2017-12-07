@@ -97,8 +97,8 @@ func walkPath(out io.Writer, docroot string, target string) error {
 					return filepath.SkipDir
 				}
 			}
-			//s := filepath.Base(p)
-			s := p
+			s := filepath.Base(p)
+			//s := p
 
 			switch {
 			case findPrefix == true && strings.HasPrefix(s, target) == true:
@@ -134,6 +134,7 @@ func main() {
 	app.BoolVar(&showLicense, "l,license", false, "display license information")
 	app.BoolVar(&showVersion, "v,version", false, "display version message")
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documemtations")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")

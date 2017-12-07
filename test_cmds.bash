@@ -490,7 +490,7 @@ function test_csvrows(){
 function test_finddir(){
     # Test prefix
     if [ -f temp.txt ]; then rm temp.txt; fi
-	finddir -p doc demos/finddir > temp.txt
+	bin/finddir -p doc demos/finddir > temp.txt
     assert_exists "test_finddir (-p demos/finddir)" temp.txt
     EXPECTED="3"
     RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g') 
@@ -498,7 +498,7 @@ function test_finddir(){
 
     # Test Suffix
     if [ -f temp.txt ]; then rm temp.txt; fi
-	finddir -s ment -o temp.txt demos/finddir 
+	bin/finddir -o temp.txt -s tion demos/finddir
     assert_exists "test_finddir (-s demos/finddir)" temp.txt
     EXPECTED="1"
     RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g') 
