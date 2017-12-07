@@ -1,4 +1,4 @@
-#!/bin/basj
+#!/bin/bash
 
 echo ' running: timefmt -if "2006-01-02" -of "01/02/2006" "2017-12-02"'
 echo 'expected: 12/02/2017'

@@ -664,23 +664,64 @@ function test_jsonrange(){
 }
 
 function test_range(){
-    echo "test_range skipping, not implemented";
+    EXPECTED="1 2 3 4 5"
+    RESULT=$(range 1 5)
+    assert_equal "test_range (range 1 5)" "$EXPECTED" "$RESULT"
+
+    EXPECTED="-2 -1 0 1 2 3 4 5 6"
+    RESULT=$(range -- -2 6)
+    assert_equal "test_range (range -- -2 6)" "$EXPECTED" "$RESULT"
+
+    EXPECTED="2 4 6 8 10"
+    RESULT=$(range -increment=2 2 10)
+    assert_equal "test_range (range -increment=2 2 10)" "$EXPECTED" "$RESULT"
+
+    EXPECTED="10 9 8 7 6 5 4 3 2 1"
+    RESULT=$(range 10 1)
+    assert_equal "test_range (range 10 1)" "$EXPECTED" "$RESULT"
+
+    I=$(range -random 0 10)
+    if [[ "$I" -lt "0" || "$I" -gt "10" ]]; then
+        echo "range -random 0 10: $I (error, out of range)"
+        exit 1
+    fi
+    echo "test_range OK";
 }
 
 function test_reldate(){
-    echo "test_reldate skipping, not implemented";
+    EXPECTED='2014-08-04'
+    RESULT=$(reldate -from=2014-08-01 3 days)
+    assert_equal "test_reldate (1)" "$EXPECTED" "$RESULT"
+
+    EXPECTED='2014-08-06'
+    RESULT=$(reldate --from=2014-08-03 3 days)
+    assert_equal "test_reldate (2)" "$EXPECTED" "$RESULT"
+
+    EXPECTED='2014-07-31'
+    RESULT=$(reldate --from=2014-08-03 -- -3 days)
+    assert_equal "test_reldate (3)" "$EXPECTED" "$RESULT"
+
+    EXPECTED='2015-02-09'
+    RESULT=$(reldate --from=2015-02-10 Monday)
+    assert_equal "test_reldate (4)" "$EXPECTED" "$RESULT"
+    echo "test_reldate OK";
 }
 
 function test_timefmt(){
-    echo "test_timefmt skipping, not implemented";
+
+    EXPECTED='12/02/2017'
+    RESULT=$(timefmt -if "2006-01-02" -of "01/02/2006" "2017-12-02")
+    assert_equal "test_timefmt (1)" "$EXPECTED" "$RESULT"
+
+    EXPECTED='02 Dec 17 08:08 UTC'
+    RESULT=$(timefmt -input-format mysql -output-format RFC822  "2017-12-02 08:08:08")
+    assert_equal "test_timefmt (2)" "$EXPECTED" "$RESULT"
+
+    echo "test_timefmt OK";
 }
 
 function test_urlparse(){
     echo "test_urlparse skipping, not implemented";
-}
-
-function test_vcard2json(){
-    echo "test_vcard2json skipping, not implemented";
 }
 
 function test_xlsx2csv(){
@@ -713,7 +754,6 @@ test_reldate
 test_string
 test_timefmt
 test_urlparse
-test_vcard2json
 test_xlsx2csv
 test_xlsx2json
 echo "Success!"
