@@ -488,7 +488,24 @@ function test_csvrows(){
 }
 
 function test_finddir(){
-    echo "test_finddir skipping, not implemented";
+    # Test prefix
+    if [ -f temp.txt ]; then rm temp.txt; fi
+	finddir -p doc demos/finddir > temp.txt
+    assert_exists "test_finddir (-p demos/finddir)" temp.txt
+    EXPECTED="3"
+    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g') 
+    assert_equal "test_finddir (-p demos/finddir)" "$EXPECTED" "$RESULT"
+
+    # Test Suffix
+    if [ -f temp.txt ]; then rm temp.txt; fi
+	finddir -s ment -o temp.txt demos/finddir 
+    assert_exists "test_finddir (-s demos/finddir)" temp.txt
+    EXPECTED="1"
+    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g') 
+    assert_equal "test_finddir (-s demos/finddir)" "$EXPECTED" "$RESULT"
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    echo "test_finddir OK";
 }
 
 function test_findfile(){
