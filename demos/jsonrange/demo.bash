@@ -8,11 +8,11 @@ cat person.json
 echo ''
 
 echo ' running: cat person.json | jsonrange -i -'
-cat person.json | jsonrange -i - > result1.txt
+cat person.json | jsonrange -i - | sort > result1.txt
 cat <<EOF > expected1.txt
-name
-email
 age
+email
+name
 EOF
 echo -n 'expected: '
 cat expected1.txt
@@ -21,11 +21,11 @@ cat result1.txt
 echo ''
 
 echo ' running: jsonrange -i person.json -values'
-jsonrange -i person.json -values | result2.txt
+jsonrange -i person.json -values | sort > result2.txt
 cat <<EOF > expected2.txt
+42
 "Doe, Jane"
 "jane.doe@example.org"
-42
 EOF
 echo -n 'expected: '
 cat expected2.txt

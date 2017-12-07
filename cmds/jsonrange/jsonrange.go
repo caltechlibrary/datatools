@@ -268,7 +268,7 @@ func main() {
 	app.BoolVar(&showLast, "last", false, "return the index of the last element in list (e.g. length - 1)")
 	app.BoolVar(&showValues, "values", false, "return the values instead of the keys")
 	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter for range output")
-	app.IntVar(&limit, "limit", 0, "limit the number of items output")
+	app.IntVar(&limit, "limit", -1, "limit the number of items output")
 
 	// Parse options and environment
 	app.Parse()

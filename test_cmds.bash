@@ -606,6 +606,58 @@ function test_jsonmunge(){
 
 function test_jsonrange(){
     if [ -f temp.txt ]; then rm temp.txt; fi
+    cat demos/jsonrange/person.json | bin/jsonrange -i - | sort > temp.txt
+    assert_exists "test_jsonrange (result1)" temp.txt
+    R=$(cmp demos/jsonrange/expected1.txt temp.txt)
+    assert_empty "test_jsonrange (result1)" "$R"
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    bin/jsonrange -i demos/jsonrange/person.json -values | sort > temp.txt
+    assert_exists "test_jsonrange (expected2)" temp.txt
+    R=$(cmp demos/jsonrange/expected2.txt temp.txt)
+    assert_empty "test_jsonrange (expected2)" "$R"
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    bin/jsonrange -i demos/jsonrange/array1.json -o temp.txt
+    assert_exists "test_jsonrange (expected3)" temp.txt
+    R=$(cmp demos/jsonrange/expected3.txt temp.txt)
+    assert_empty "test_jsonrange (expected3)" "$R"
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    bin/jsonrange -i demos/jsonrange/array1.json -values -o temp.txt
+    assert_exists "test_jsonrange (expected4)" temp.txt
+    R=$(cmp demos/jsonrange/expected4.txt temp.txt)
+    assert_empty "test_jsonrange (expected4)" "$R"
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    bin/jsonrange -i demos/jsonrange/array2.json -length -o temp.txt
+    assert_exists "test_jsonrange (expected5)" temp.txt
+    R=$(cmp demos/jsonrange/expected5.txt temp.txt)
+    assert_empty "test_jsonrange (expected5)" "$R"
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    bin/jsonrange -i demos/jsonrange/array2.json -last -o temp.txt
+    assert_exists "test_jsonrange (expected6)" temp.txt
+    R=$(cmp demos/jsonrange/expected6.txt temp.txt)
+    assert_empty "test_jsonrange (expected6)" "$R"
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    bin/jsonrange -nl -i demos/jsonrange/array2.json -values -last -o temp.txt
+    assert_exists "test_jsonrange (expected7)" temp.txt
+    R=$(cmp demos/jsonrange/expected7.txt temp.txt)
+    assert_empty "test_jsonrange (expected7)" "$R"
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    bin/jsonrange -i demos/jsonrange/array3.json -limit 2 -o temp.txt
+    assert_exists "test_jsonrange (expected8)" temp.txt
+    R=$(cmp demos/jsonrange/expected8.txt temp.txt)
+    assert_empty "test_jsonrange (expected8)" "$R"
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    bin/jsonrange -i demos/jsonrange/array3.json -values -limit 2 -o temp.txt
+    assert_exists "test_jsonrange (expected9)" temp.txt
+    R=$(cmp demos/jsonrange/expected9.txt temp.txt)
+    assert_empty "test_jsonrange (expected9)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
     echo "test_jsonrange OK";
