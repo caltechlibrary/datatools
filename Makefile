@@ -89,6 +89,7 @@ bin/string$(EXT): datatools.go cmds/string/string.go
 
 test:
 	go test
+	bash test_cmds.bash
 
 website:
 	./mk-website.bash
