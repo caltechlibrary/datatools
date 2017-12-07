@@ -663,10 +663,6 @@ function test_jsonrange(){
     echo "test_jsonrange OK";
 }
 
-function test_mergepath(){
-    echo "test_mergepath skipping, not implemented";
-}
-
 function test_range(){
     echo "test_range skipping, not implemented";
 }
@@ -712,7 +708,6 @@ test_jsoncols
 test_jsonjoin
 test_jsonmunge
 test_jsonrange
-test_mergepath
 test_range
 test_reldate
 test_string
