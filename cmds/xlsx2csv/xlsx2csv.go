@@ -42,23 +42,23 @@ var (
 	examples = `
 Extract a workbook sheet as a CSV file
 
-    %s my-workbook.xlsx "Sheet 1" > sheet1.csv
+    %s MyWorkbook.xlsx "My worksheet 1" > sheet1.csv
 
 This would get the first sheet from the workbook and save it as a CSV file.
 
-    %s -count my-workbook.xlsx
+    %s -count MyWorkbook.xlsx
 
 This will output the number of sheets in the Workbook.
 
-    %s -sheets my-workbook.xlsx
+    %s -sheets MyWorkbook.xlsx
 
 This will display a list of sheet names, one per line.
 Putting it all together in a shell script.
 
-    for SHEET_NAME in $(%s -n my-workbook.xlsx); do
-       %s my-workbook.xlsx "$SHEET_NAME" > \
-	       "${SHEET_NAME// /-}.csv"
-    done
+	xlsx2csv -N MyWorkbook.xlsx | while read SHEET_NAME; do
+    	CSV_NAME="${SHEET_NAME// /-}.csv"
+    	xlsx2csv -o "${CSV_NAME}" MyWorkbook.xlsx "${SHEET_NAME}" 
+	done
 `
 
 	// Standard Options

@@ -43,23 +43,27 @@ With no options returns "http\texample.com\t/my/page.html"
 
 Get protocol. Returns "http".
 
-    %s --protocol http://example.com/my/page.html
+    %s -protocol http://example.com/my/page.html
 
 Get host or domain name.  Returns "example.com".
 
-    %s --host http://example.com/my/page.html
+    %s -host http://example.com/my/page.html
 
 Get path. Returns "/my/page.html".
 
-    %s --path http://example.com/my/page.html
+    %s -path http://example.com/my/page.html
+
+Get dirname. Returns "my"
+
+    %s -dirname http://example.com/my/page.html
 
 Get basename. Returns "page.html".
 
-    %s --basename http://example.com/my/page.html
+    %s -basename http://example.com/my/page.html
 
 Get extension. Returns ".html".
 
-    %s --extension http://example.com/my/page.html
+    %s -extname http://example.com/my/page.html
 
 Without options urlparse returns protocol, host and path
 fields separated by a tab.
@@ -96,9 +100,9 @@ func main() {
 		protocolUsage  = "Display the protocol of URL (defaults to http)"
 		hostUsage      = "Display the hostname (and port if specified) found in URL."
 		pathUsage      = "Display the path after the hostname."
-		dirUsage       = "Display all but the last element of the path"
+		dirnameUsage   = "Display all but the last element of the path"
 		basenameUsage  = "Display the base filename at the end of the path."
-		extensionUsage = "Display the filename extension (e.g. .html)."
+		extnameUsage   = "Display the filename extension (e.g. .html)."
 	)
 
 	app := cli.NewCli(datatools.Version)
@@ -107,7 +111,7 @@ func main() {
 	// Add Help Docs
 	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
 	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName, appName)))
 
 	// Document non-option parameters
 	app.AddParams("URL_TO_PARSE")
@@ -128,9 +132,9 @@ func main() {
 	app.BoolVar(&showProtocol, "P,protocol", false, protocolUsage)
 	app.BoolVar(&showHost, "H,host", false, hostUsage)
 	app.BoolVar(&showPath, "p,path", false, pathUsage)
-	app.BoolVar(&showDir, "d,directory", false, basenameUsage)
-	app.BoolVar(&showBase, "b,base", false, basenameUsage)
-	app.BoolVar(&showExtension, "E,extension", false, extensionUsage)
+	app.BoolVar(&showDir, "dir,dirname", false, dirnameUsage)
+	app.BoolVar(&showBase, "base,basename", false, basenameUsage)
+	app.BoolVar(&showExtension, "ext,extname", false, extnameUsage)
 
 	// Setup IO
 	var err error

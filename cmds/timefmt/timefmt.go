@@ -47,15 +47,15 @@ One additional time layout provided by %s
 	examples = `
 Format the date July, 7, 2016 in YYYY-MM-DD format
 
-    %s -input "2006-01-02" -output "01/02/2006" "2016-07-02"
+    %s -if "2006-01-02" -of "01/02/2006" "2017-12-02"
 
-Yields "07/02/2016"
+Yields "12/02/2017"
 
 Format the MySQL date/time of 8:08am, July 2, 2016
 
-    %s -input mysql -output RFC822  "2016-07-02 08:08:08"
+    %s -input-format mysql -output-format RFC822  "2017-12-02 08:08:08"
 
-Yields "02 Jul 16 08:08 UTC"
+Yields "02 Dec 17 08:08 UTC"
 `
 
 	// Standard Options
@@ -138,8 +138,8 @@ func main() {
 
 	// Application Options
 	app.BoolVar(&useUTC, "utc", false, "timestamps in UTC")
-	app.StringVar(&inputFormat, "input-format", inputFormat, "Set format for input")
-	app.StringVar(&outputFormat, "output-format", outputFormat, "Set format for output")
+	app.StringVar(&inputFormat, "if,input-format", inputFormat, "Set format for input")
+	app.StringVar(&outputFormat, "of,output-format", outputFormat, "Set format for output")
 
 	// Parse env and options
 	app.Parse()

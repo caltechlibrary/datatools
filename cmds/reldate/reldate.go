@@ -241,5 +241,5 @@ func main() {
 	}
 	t, err := reldate.RelativeTime(relativeT, timeInc, unitString)
 	assertOk(app.Eout, err, "Did not understand command.")
-	fmt.Fprint(app.Out, "%s%s", t.Format(reldate.YYYYMMDD), eol)
+	fmt.Fprintf(app.Out, "%s%s", t.Format(reldate.YYYYMMDD), eol)
 }

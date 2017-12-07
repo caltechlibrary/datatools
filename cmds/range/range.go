@@ -72,7 +72,7 @@ Yields 10 9 8 7 6 5 4 3 2 1
 
 Pick a random integer between zero and ten
 
-	%s -r 0 10
+	%s -random 0 10
 
 Yields a random integer from 0 to 10
 `
@@ -142,7 +142,7 @@ func main() {
 	app.IntVar(&start, "s,start", 0, startUsage)
 	app.IntVar(&end, "e,end", 0, endUsage)
 	app.IntVar(&increment, "inc,increment", 1, incUsage)
-	app.BoolVar(&randomElement, "r,random", false, "Pick a range value from range")
+	app.BoolVar(&randomElement, "random", false, "Pick a range value from range")
 
 	// Parse env and options
 	app.Parse()

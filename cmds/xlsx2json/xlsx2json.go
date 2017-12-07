@@ -41,25 +41,25 @@ JSON output.
 `
 
 	examples = `
-This would get the sheet named "Sheet 1" from "my-workbook.xlsx" and save as sheet1.json
+This would get the sheet named "Sheet 1" from "MyWorkbook.xlsx" and save as sheet1.json
 
-    %s my-workbook.xlsx "Sheet 1" > sheet1.json
+    %s MyWorkbook.xlsx "My worksheet 1" > sheet1.json
 
 This would get the number of sheets in the workbook
 
-    %s -count my-workbook.xlsx
+    %s -count MyWorkbook.xlsx
 
 This will output the title of the sheets in the workbook
 
-    %s -sheets my-workbook.xlsx
+    %s -sheets MyWorkbook.xlsx
 
 Putting it all together in a shell script and convert all sheets to
 into JSON documents..
 
-	 %s -n my-workbook.xlsx | while read SHEET_NAME; do
-       %s my-workbook.xlsx "$SHEET_NAME" > \
-	       "${SHEET_NAME// /-}.json"
-    done
+	xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
+    	JSON_NAME="${SHEET_NAME// /-}.json"
+    	xlsx2json -o "${JSON_NAME}" MyWorkbook.xlsx "$SHEET_NAME"
+	done    
 `
 
 	// Standard Options
@@ -211,7 +211,7 @@ func main() {
 	if showSheetNames == true {
 		names, err := sheetNames(workBookName)
 		cli.ExitOnError(app.Eout, err, quiet)
-		fmt.Fprint(app.Out, "%s%s", strings.Join(names, "\n"), eol)
+		fmt.Fprintf(app.Out, "%s%s", strings.Join(names, "\n"), eol)
 		os.Exit(0)
 	}
 
