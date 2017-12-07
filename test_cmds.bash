@@ -444,8 +444,8 @@ function test_csvfind() {
 function test_csvjoin(){
     if [ -f temp.csv ]; then rm temp.csv; fi
     bin/csvjoin -csv1=demos/csvjoin/data1.csv -col1=2 \
-            -csv2=demos/csvjoin/data2.csv -col2=4 \
-            -output=temp.csv
+               -csv2=demos/csvjoin/data2.csv -col2=4 \
+               -output=temp.csv
     assert_exists "test_csvjoin (created temp.csv)" temp.csv
     R=$(cmp demos/csvjoin/merged-data.csv temp.csv)
     assert_empty "test_csvjoin (compare)" "$R"
@@ -455,7 +455,36 @@ function test_csvjoin(){
 }
 
 function test_csvrows(){
-    echo "test_csvrows skipping, not implemented";
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvrows -o temp.csv "First,Second,Third" "one,two,three"
+    assert_exists "test_csvrows (created temp.csv)" temp.csv
+    bin/csvrows "ein,zwei,drei" "1,2,3" >> temp.csv
+    assert_exists "test_csvrows (append temp.csv)" temp.csv
+    R=$(cmp demos/csvrows/4rows.csv temp.csv)
+    assert_empty "test_csvrows (compare)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvrows -d "|" "First,Second,Third|one,two,three" > temp.csv
+    assert_exists "test_csvrows (created temp.csv)" temp.csv
+    bin/csvrows -delimiter "|" "ein,zwei,drei|1,2,3" >> temp.csv
+    assert_exists "test_csvrows (append temp.csv)" temp.csv
+    R=$(cmp demos/csvrows/4rows.csv temp.csv)
+    assert_empty "test_csvrows (compare)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    cat demos/csvrows/4rows.csv | bin/csvrows -row 1,3 > temp.csv
+    assert_exists "test_csvrows (extract to temp.csv)" temp.csv
+    R=$(cmp demos/csvrows/result1.csv temp.csv)
+    assert_empty "test_csvrows (compare temp.csv to result1.csv)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    bin/csvrows -i demos/csvrows/4rows.csv -row 1,3 -o temp.csv
+    assert_exists "test_csvrows (extract -i, -o to temp.csv)" temp.csv
+    R=$(cmp demos/csvrows/result2.csv temp.csv)
+    assert_empty "test_csvrows (compare temp.csv to result2.csv)" "$R"
+
+    if [ -f temp.csv ]; then rm temp.csv; fi
+    echo "test_csvrows OK";
 }
 
 function test_finddir(){

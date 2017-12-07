@@ -23,7 +23,6 @@ import (
 	"encoding/csv"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"strings"
 
@@ -76,8 +75,6 @@ Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 	outputFName          string
 	generateMarkdownDocs bool
 	quiet                bool
-	newLine              bool
-	eol                  string
 
 	// Application specific options
 	validateRows  bool
@@ -129,8 +126,10 @@ func CSVRows(in io.Reader, out io.Writer, eout io.Writer, rowNos []int, delimite
 	}
 	w.Flush()
 	err = w.Error()
-	fmt.Fprintf(eout, "%s\n", err)
-	os.Exit(1)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		os.Exit(1)
+	}
 }
 
 func main() {
@@ -154,7 +153,6 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline from output")
 
 	// Application specific options
 	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
@@ -201,9 +199,6 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-	if newLine {
-		eol = "\n"
-	}
 
 	if showHeader == true {
 		outputRows = "1"
@@ -245,17 +240,14 @@ func main() {
 			r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		}
 		record, err := r.Read()
-		if err != nil {
-			log.Fatalf("%q isn't a CSV row, %s", val, err)
-		}
+		cli.ExitOnError(app.Eout, err, quiet)
 		r = nil
 		if err := w.Write(record); err != nil {
-			log.Fatalf("error writing args as csv, %s", err)
+			cli.ExitOnError(app.Eout, err, quiet)
 		}
 	}
 	w.Flush()
 	if err := w.Error(); err != nil {
 		cli.ExitOnError(app.Eout, err, quiet)
 	}
-	fmt.Fprintf(app.Out, "%s", eol)
 }
