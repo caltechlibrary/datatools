@@ -13,7 +13,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/cli"
@@ -116,7 +115,7 @@ func main() {
 	app.BoolVar(&runInteractive, "repl", false, "run interactively")
 	app.BoolVar(&csvOutput, "csv", false, "output as CSV or other flat delimiter row")
 	app.StringVar(&delimiter, "d,delimiter", delimiter, "set the delimiter for multi-field csv output")
-	app.BoolVar(&quote, "quote", false, "if dilimiter is found in column value add quotes for non-CSV output")
+	app.BoolVar(&quote, "quote", true, "quote strings and JSON notation")
 
 	// Parse Environment and Options
 	app.Parse()
@@ -223,7 +222,7 @@ func main() {
 			cli.ExitOnError(app.Eout, err, quiet)
 			switch result.(type) {
 			case string:
-				if quote == true && strings.Contains(result.(string), delimiter) == true {
+				if quote == true {
 					fmt.Fprintf(app.Out, "%q", result)
 				} else {
 					fmt.Fprintf(app.Out, "%s", result)

@@ -13,14 +13,14 @@ echo ''
 
 echo ' running: jsoncols -i myblob.json -d "|"  .name .age'
 jsoncols -i myblob.json -d "|"  .name .age > result2.txt
-echo 'expected: Doe, Jane|42'
+echo 'expected: "Doe, Jane"|42'
 echo -n '     got: '
 cat result2.txt
 echo ''
 
 echo ' running: cat myblob.json | jsoncols .name .email .age'
 cat myblob.json | jsoncols .name .email .age > result3.txt
-echo 'expected: "Doe, Jane",jane.doe@xample.org,42'
+echo 'expected: "Doe, Jane","jane.doe@xample.org",42'
 echo -n '     got: '
 cat result3.txt
 echo ''
