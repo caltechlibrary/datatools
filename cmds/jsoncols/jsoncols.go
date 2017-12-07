@@ -65,7 +65,7 @@ You can also pipe JSON data in.
 
 Would yield
 
-   "Doe, Jane",jane.doe@xample.org,42
+   "Doe, Jane","jane.doe@xample.org",42
 `
 
 	// Standard Options
