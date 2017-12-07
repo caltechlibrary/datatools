@@ -30,7 +30,7 @@ space delimited string.
 This would yield
 
 ```
-    Doe, Jane|42
+    "Doe, Jane"|42
 ```
 
 You can also pipe JSON data in.
@@ -42,6 +42,6 @@ You can also pipe JSON data in.
 Would yield
 
 ```csv
-   "Doe, Jane",jane.doe@xample.org,42
+   "Doe, Jane","jane.doe@xample.org",42
 ```
 
