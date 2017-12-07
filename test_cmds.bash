@@ -721,7 +721,35 @@ function test_timefmt(){
 }
 
 function test_urlparse(){
-    echo "test_urlparse skipping, not implemented";
+    EXPECTED='http	example.com	/my/page.html'
+    RESULT=$(urlparse http://example.com/my/page.html)
+    assert_equal "test_urlparse (1)" "$EXPECTED" "$RESULT"
+
+    EXPECTED='http'
+    RESULT="$(urlparse -protocol http://example.com/my/page.html)"
+    assert_equal "test_urlparse (2)" "$EXPECTED" "$RESULT"
+
+    EXPECTED='example.com'
+    RESULT="$(urlparse -host http://example.com/my/page.html)"
+    assert_equal "test_urlparse (3)" "$EXPECTED" "$RESULT"
+
+    EXPECTED='/my/page.html'
+    RESULT="$(urlparse -path http://example.com/my/page.html)"
+    assert_equal "test_urlparse (4)" "$EXPECTED" "$RESULT"
+
+    EXPECTED='/my'
+    RESULT="$(urlparse -dirname http://example.com/my/page.html)"
+    assert_equal "test_urlparse (5)" "$EXPECTED" "$RESULT"
+
+    EXPECTED='page.html'
+    RESULT="$(urlparse -basename http://example.com/my/page.html)"
+    assert_equal "test_urlparse (6)" "$EXPECTED" "$RESULT"
+
+    EXPECTED='.html'
+    RESULT="$(urlparse -extname http://example.com/my/page.html)"
+    assert_equal "test_urlparse (7)" "$EXPECTED" "$RESULT"
+
+    echo "test_urlparse OK";
 }
 
 function test_xlsx2csv(){
