@@ -1,0 +1,1 @@
+	finddir -p doc .
