@@ -3,7 +3,7 @@
 
 If myblob.json contained
 
-```shell
+```json
     {"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}
 ```
 
@@ -41,7 +41,7 @@ You can also pipe JSON data in.
 
 Would yield
 
-```
+```csv
    "Doe, Jane",jane.doe@xample.org,42
 ```
 

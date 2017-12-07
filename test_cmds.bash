@@ -530,6 +530,19 @@ function test_findfile(){
 }
 
 function test_jsoncols(){
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    jsoncols -i demos/jsomcols/myblob.json -o temp.txt  .name
+    assert_exists "test_jsoncols (-i, -o)" temp.txt
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    jsoncols -i demos/jsoncols/myblob.json -d\|  .name .age > temp.txt
+    assert_exists "test_jsoncols (-i, -d)" temp.txt
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    cat demos/jsoncols/myblob.json | jsoncols .name .email .age > temp.txt
+    assert_exists "test_jsoncols (pipeline)" temp.txt
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
     echo "test_jsoncols skipping, not implemented";
 }
 
