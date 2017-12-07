@@ -665,22 +665,22 @@ function test_jsonrange(){
 
 function test_range(){
     EXPECTED="1 2 3 4 5"
-    RESULT=$(range 1 5)
+    RESULT=$(bin/range 1 5)
     assert_equal "test_range (range 1 5)" "$EXPECTED" "$RESULT"
 
     EXPECTED="-2 -1 0 1 2 3 4 5 6"
-    RESULT=$(range -- -2 6)
+    RESULT=$(bin/range -- -2 6)
     assert_equal "test_range (range -- -2 6)" "$EXPECTED" "$RESULT"
 
     EXPECTED="2 4 6 8 10"
-    RESULT=$(range -increment=2 2 10)
+    RESULT=$(bin/range -increment=2 2 10)
     assert_equal "test_range (range -increment=2 2 10)" "$EXPECTED" "$RESULT"
 
     EXPECTED="10 9 8 7 6 5 4 3 2 1"
-    RESULT=$(range 10 1)
+    RESULT=$(bin/range 10 1)
     assert_equal "test_range (range 10 1)" "$EXPECTED" "$RESULT"
 
-    I=$(range -random 0 10)
+    I=$(bin/range -random 0 10)
     if [[ "$I" -lt "0" || "$I" -gt "10" ]]; then
         echo "range -random 0 10: $I (error, out of range)"
         exit 1
@@ -690,19 +690,19 @@ function test_range(){
 
 function test_reldate(){
     EXPECTED='2014-08-04'
-    RESULT=$(reldate -from=2014-08-01 3 days)
+    RESULT=$(bin/reldate -from=2014-08-01 3 days)
     assert_equal "test_reldate (1)" "$EXPECTED" "$RESULT"
 
     EXPECTED='2014-08-06'
-    RESULT=$(reldate --from=2014-08-03 3 days)
+    RESULT=$(bin/reldate --from=2014-08-03 3 days)
     assert_equal "test_reldate (2)" "$EXPECTED" "$RESULT"
 
     EXPECTED='2014-07-31'
-    RESULT=$(reldate --from=2014-08-03 -- -3 days)
+    RESULT=$(bin/reldate --from=2014-08-03 -- -3 days)
     assert_equal "test_reldate (3)" "$EXPECTED" "$RESULT"
 
     EXPECTED='2015-02-09'
-    RESULT=$(reldate --from=2015-02-10 Monday)
+    RESULT=$(bin/reldate --from=2015-02-10 Monday)
     assert_equal "test_reldate (4)" "$EXPECTED" "$RESULT"
     echo "test_reldate OK";
 }
@@ -710,11 +710,11 @@ function test_reldate(){
 function test_timefmt(){
 
     EXPECTED='12/02/2017'
-    RESULT=$(timefmt -if "2006-01-02" -of "01/02/2006" "2017-12-02")
+    RESULT=$(bin/timefmt -if "2006-01-02" -of "01/02/2006" "2017-12-02")
     assert_equal "test_timefmt (1)" "$EXPECTED" "$RESULT"
 
     EXPECTED='02 Dec 17 08:08 UTC'
-    RESULT=$(timefmt -input-format mysql -output-format RFC822  "2017-12-02 08:08:08")
+    RESULT=$(bin/timefmt -input-format mysql -output-format RFC822  "2017-12-02 08:08:08")
     assert_equal "test_timefmt (2)" "$EXPECTED" "$RESULT"
 
     echo "test_timefmt OK";
@@ -722,38 +722,57 @@ function test_timefmt(){
 
 function test_urlparse(){
     EXPECTED='http	example.com	/my/page.html'
-    RESULT=$(urlparse http://example.com/my/page.html)
+    RESULT=$(bin/urlparse http://example.com/my/page.html)
     assert_equal "test_urlparse (1)" "$EXPECTED" "$RESULT"
 
     EXPECTED='http'
-    RESULT="$(urlparse -protocol http://example.com/my/page.html)"
+    RESULT="$(bin/urlparse -protocol http://example.com/my/page.html)"
     assert_equal "test_urlparse (2)" "$EXPECTED" "$RESULT"
 
     EXPECTED='example.com'
-    RESULT="$(urlparse -host http://example.com/my/page.html)"
+    RESULT="$(bin/urlparse -host http://example.com/my/page.html)"
     assert_equal "test_urlparse (3)" "$EXPECTED" "$RESULT"
 
     EXPECTED='/my/page.html'
-    RESULT="$(urlparse -path http://example.com/my/page.html)"
+    RESULT="$(bin/urlparse -path http://example.com/my/page.html)"
     assert_equal "test_urlparse (4)" "$EXPECTED" "$RESULT"
 
     EXPECTED='/my'
-    RESULT="$(urlparse -dirname http://example.com/my/page.html)"
+    RESULT="$(bin/urlparse -dirname http://example.com/my/page.html)"
     assert_equal "test_urlparse (5)" "$EXPECTED" "$RESULT"
 
     EXPECTED='page.html'
-    RESULT="$(urlparse -basename http://example.com/my/page.html)"
+    RESULT="$(bin/urlparse -basename http://example.com/my/page.html)"
     assert_equal "test_urlparse (6)" "$EXPECTED" "$RESULT"
 
     EXPECTED='.html'
-    RESULT="$(urlparse -extname http://example.com/my/page.html)"
+    RESULT="$(bin/urlparse -extname http://example.com/my/page.html)"
     assert_equal "test_urlparse (7)" "$EXPECTED" "$RESULT"
 
     echo "test_urlparse OK";
 }
 
 function test_xlsx2csv(){
-    echo "test_xlsx2csv skipping, not implemented";
+    bin/xlsx2csv demos/xlsx2csv/MyWorkbook.xlsx "My worksheet 1" > demos/xlsx2csv/sheet1.csv
+    cmp demos/xlsx2csv/sheet1.csv demos/xlsx2csv/expected1.csv
+    if [ "$?" != "0" ]; then
+        exit 1
+    fi
+
+    echo -n "Count the sheets in MyWorkbook.xlsx: "
+    bin/xlsx2csv -nl -count demos/xlsx2csv/MyWorkbook.xlsx
+    echo ''
+
+    echo -n "List the sheets in MyWorkbook.xlsx: "
+    bin/xlsx2csv -sheets demos/xlsx2csv/MyWorkbook.xlsx
+    echo ''
+
+    # bin/xlsx2csv -N demos/xlsx2csv/MyWorkbook.xlsx | while read SHEET_NAME; do
+    #     CSV_NAME="${SHEET_NAME// /-}.csv"
+    #     bin/xlsx2csv -o "${CSV_NAME}" demos/xlsx2csv/MyWorkbook.xlsx "${SHEET_NAME}"
+    # done
+
+    echo "test_xlsx2csv OK";
 }
 
 function test_xlsx2json(){
