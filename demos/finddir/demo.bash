@@ -1,1 +1,3 @@
-	finddir -p doc .
+#!/bin/bash
+
+finddir -p doc .

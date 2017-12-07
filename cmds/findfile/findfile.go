@@ -134,14 +134,14 @@ func main() {
 	app.BoolVar(&showLicense, "l,license", false, "display license information")
 	app.BoolVar(&showVersion, "v,version", false, "display version message")
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.StringVar(&outputFName, "o,outout", "", "output filename")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Specific Options
 	app.BoolVar(&showModificationTime, "m,mod-time", false, "display file modification time before the path")
-	app.BoolVar(&stopOnErrors, "e,error-stop", false, "Stop walk on file system errors (e.g. permissions)")
+	app.BoolVar(&stopOnErrors, "error,stop-on-error", false, "Stop walk on file system errors (e.g. permissions)")
 	app.BoolVar(&findPrefix, "p,prefix", false, "find file(s) based on basename prefix")
 	app.BoolVar(&findContains, "c,contains", false, "find file(s) based on basename containing text")
 	app.BoolVar(&findSuffix, "s,suffix", false, "find file(s) based on basename suffix")
