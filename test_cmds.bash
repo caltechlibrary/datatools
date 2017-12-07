@@ -531,19 +531,25 @@ function test_findfile(){
 
 function test_jsoncols(){
     if [ -f temp.txt ]; then rm temp.txt; fi
-    jsoncols -i demos/jsomcols/myblob.json -o temp.txt  .name
+    jsoncols -i demos/jsoncols/myblob.json -o temp.txt  .name
     assert_exists "test_jsoncols (-i, -o)" temp.txt
+    R=$(cmp demos/jsoncols/result1.txt temp.txt)
+    assert_empty "test_jsoncols (result1)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    jsoncols -i demos/jsoncols/myblob.json -d\|  .name .age > temp.txt
+    jsoncols -i demos/jsoncols/myblob.json -d '|'  .name .age > temp.txt
     assert_exists "test_jsoncols (-i, -d)" temp.txt
+    R=$(cmp demos/jsoncols/result2.txt temp.txt)
+    assert_empty "test_jsoncols (result2)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
     cat demos/jsoncols/myblob.json | jsoncols .name .email .age > temp.txt
     assert_exists "test_jsoncols (pipeline)" temp.txt
+    R=$(cmp demos/jsoncols/result3.txt temp.txt)
+    assert_empty "test_jsoncols (result3)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    echo "test_jsoncols skipping, not implemented";
+    echo "test_jsoncols OK";
 }
 
 function test_jsonjoin(){
