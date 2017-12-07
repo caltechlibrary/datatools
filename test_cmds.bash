@@ -509,7 +509,24 @@ function test_finddir(){
 }
 
 function test_findfile(){
-    echo "test_findfile skipping, not implemented";
+    if [ -f temp.txt ]; then rm temp.txt; fi
+	bin/findfile -s .txt demos/findfile > temp.txt
+    assert_exists "test_findfile (-s demos/findfile)" temp.txt
+    EXPECTED="3"
+    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g') 
+    assert_equal "test_findfile (-s demos/findfile)" "$EXPECTED" "$RESULT"
+
+    # Test Suffix
+    if [ -f temp.txt ]; then rm temp.txt; fi
+	bin/findfile -o temp.txt -c 2 demos/findfile
+    assert_exists "test_findfile (-c demos/findfile)" temp.txt
+    EXPECTED="1"
+    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g') 
+    assert_equal "test_findfile (-c demos/findfile)" "$EXPECTED" "$RESULT"
+
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    echo "test_findfile OK";
 }
 
 function test_jsoncols(){
