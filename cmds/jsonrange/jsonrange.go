@@ -99,7 +99,7 @@ would yield
 
     3
 
-Check for the index value of last element
+Check for the index of last element
 
     echo '["one","two","three"]' | %s -last
 
@@ -107,14 +107,31 @@ would yield
 
     2
 
+Check for the index value of last element
+
+    echo '["one","two","three"]' | %s -values -last
+
+would yield
+
+    "three"
+
 Limitting the number of items returned
 
-    echo '[1,2,3,4,5]' | %s -limit 2
+    echo '[10,20,30,40,50]' | %s -limit 2
 
 would yield
 
     1
     2
+
+Limitting the number of values returned
+
+    echo '[10,20,30,40,50]' | %s -values -limit 2
+
+would yield
+
+    10
+    20
 `
 
 	// Standard Options
@@ -334,13 +351,20 @@ func main() {
 		case showLast:
 			l, err := getLength(data)
 			cli.ExitOnError(app.Eout, err, quiet)
-			fmt.Fprintf(app.Out, "%d", l-1)
+			if showValues {
+				elems, err := srcVals(data, limit)
+				cli.ExitOnError(app.Eout, err, quiet)
+				l := len(elems)
+				fmt.Fprintf(app.Out, "%s", elems[l-1])
+			} else {
+				fmt.Fprintf(app.Out, "%d", l-1)
+			}
 		case showValues:
-			elems, err := srcVals(data, limit-1)
+			elems, err := srcVals(data, limit)
 			cli.ExitOnError(app.Eout, err, quiet)
 			fmt.Fprintln(app.Out, strings.Join(elems, delimiter))
 		default:
-			elems, err := srcKeys(data, limit-1)
+			elems, err := srcKeys(data, limit)
 			cli.ExitOnError(app.Eout, err, quiet)
 			fmt.Fprintln(app.Out, strings.Join(elems, delimiter))
 		}

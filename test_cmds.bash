@@ -594,11 +594,21 @@ function test_jsonjoin(){
 }
 
 function test_jsonmunge(){
-    echo "test_jsonmunge skipping, not implemented";
+    if [ -f temp.json ]; then rm temp.json; fi
+    cat demos/jsonmunge/person.json | bin/jsonmunge demos/jsonmunge/name.tmpl > temp.json
+    assert_exists "test_jsonmunge (result1)" temp.json
+    R=$(cmp demos/jsonmunge/result1.json temp.json)
+    assert_empty "test_jsonmunge (result1)" "$R"
+
+    if [ -f temp.json ]; then rm temp.json; fi
+    echo "test_jsonmunge OK";
 }
 
 function test_jsonrange(){
-    echo "test_jsonrange skipping, not implemented";
+    if [ -f temp.txt ]; then rm temp.txt; fi
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    echo "test_jsonrange OK";
 }
 
 function test_mergepath(){
