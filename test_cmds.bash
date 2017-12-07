@@ -753,30 +753,41 @@ function test_urlparse(){
 }
 
 function test_xlsx2csv(){
-    bin/xlsx2csv demos/xlsx2csv/MyWorkbook.xlsx "My worksheet 1" > demos/xlsx2csv/sheet1.csv
-    cmp demos/xlsx2csv/sheet1.csv demos/xlsx2csv/expected1.csv
-    if [ "$?" != "0" ]; then
-        exit 1
-    fi
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    bin/xlsx2csv demos/xlsx2csv/MyWorkbook.xlsx "My worksheet 1" > temp.txt
+    assert_exists "test_xlsx2csv (1)" temp.txt
+    R=$(cmp demos/xlsx2csv/expected1.csv temp.txt)
+    assert_empty "test_xlsx2csv (1)" "$R"
 
-    echo -n "Count the sheets in MyWorkbook.xlsx: "
-    bin/xlsx2csv -nl -count demos/xlsx2csv/MyWorkbook.xlsx
-    echo ''
+    EXPECTED="2"
+    RESULT=$(bin/xlsx2csv -count demos/xlsx2csv/MyWorkbook.xlsx)
+    assert_equal "test_xlsx2csv (2)" "$EXPECTED" "$RESULT"
 
-    echo -n "List the sheets in MyWorkbook.xlsx: "
-    bin/xlsx2csv -sheets demos/xlsx2csv/MyWorkbook.xlsx
-    echo ''
+    EXPECTED=$(cat demos/xlsx2csv/expected3.txt)
+    RESULT=$(bin/xlsx2csv -nl -sheets demos/xlsx2csv/MyWorkbook.xlsx | sort)
+    assert_equal "test_xlsx2csv (3)" "$EXPECTED" "$RESULT"
 
-    # bin/xlsx2csv -N demos/xlsx2csv/MyWorkbook.xlsx | while read SHEET_NAME; do
-    #     CSV_NAME="${SHEET_NAME// /-}.csv"
-    #     bin/xlsx2csv -o "${CSV_NAME}" demos/xlsx2csv/MyWorkbook.xlsx "${SHEET_NAME}"
-    # done
-
+    if [ -f temp.txt ]; then rm temp.txt; fi
     echo "test_xlsx2csv OK";
 }
 
 function test_xlsx2json(){
-    echo "test_xlsx2json skipping, not implemented";
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    bin/xlsx2json -nl demos/xlsx2json/MyWorkbook.xlsx "My worksheet 1" > temp.txt
+    echo '[["Number","Value"],["one","1"],["two","2"],["three","3"]]' > expected1.json
+    R=$(cmp demos/xlsx2json/expected1.json temp.txt)
+    assert_empty "test_xlsx2csv (1)" "$R"
+
+    EXPECTED="2"
+    RESULT=$(bin/xlsx2json -count demos/xlsx2json/MyWorkbook.xlsx)
+    assert_equal "test_xlsx2json (2)" "$EXPECTED" "$RESULT"
+
+    EXPECTED=$(cat demos/xlsx2json/expected3.txt)
+    RESULT=$(bin/xlsx2json -nl -sheets demos/xlsx2json/MyWorkbook.xlsx | sort)
+    assert_equal "test_xlsx2json (3)" "$EXPECTED" "$RESULT"
+
+    if [ -f temp.txt ]; then rm temp.txt; fi
+    echo "test_xlsx2json OK";
 }
 
 #
