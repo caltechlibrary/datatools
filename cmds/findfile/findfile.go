@@ -67,7 +67,7 @@ Search the current directory and subdirectories for Markdown files with extensio
 	pathSep              string
 )
 
-func display(out io.Writer, docroot, p string, m time.Time) {
+func display(w io.Writer, docroot, p string, m time.Time) {
 	var s string
 	if outputFullPath == true {
 		s, _ = filepath.Abs(p)
@@ -75,10 +75,10 @@ func display(out io.Writer, docroot, p string, m time.Time) {
 		s, _ = filepath.Rel(docroot, p)
 	}
 	if showModificationTime == true {
-		fmt.Fprintf(out, "%s %s\n", m.Format("2006-01-02 15:04:05 -0700"), s)
+		fmt.Fprintf(w, "%s %s\n", m.Format("2006-01-02 15:04:05 -0700"), s)
 		return
 	}
-	fmt.Fprintf(out, "%s\n", s)
+	fmt.Fprintf(w, "%s\n", s)
 }
 
 func walkPath(out io.Writer, docroot string, target string) error {
@@ -215,7 +215,7 @@ func main() {
 
 	// For each directory to search walk the path
 	for _, dir := range args {
-		err := walkPath(app.Out, dir, target)
+		err = walkPath(app.Out, dir, target)
 		cli.ExitOnError(app.Eout, err, quiet)
 	}
 	fmt.Fprintf(app.Out, "%s", eol)

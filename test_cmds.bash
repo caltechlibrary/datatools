@@ -216,8 +216,8 @@ function test_string() {
     assert_same "slice on args" "$EXPECTED" "$RESULT"
     RESULT=$(echo -n "$S" | bin/string -i - slice "$START" "$END")
     assert_same "slice on pipe" "$EXPECTED" "$RESULT"
-    
-    
+
+
     # Test Replace
     S="oingo"
     OLD="o"
@@ -227,7 +227,7 @@ function test_string() {
     assert_same "replace on args" "$EXPECTED" "$RESULT"
     RESULT=$(echo -n "$S" | bin/string -i - replace "$OLD" "$NEW")
     assert_same "replace on pipe" "$EXPECTED" "$RESULT"
-    
+
     # Test Replacen
     S="oingo"
     OLD="o"
@@ -238,7 +238,7 @@ function test_string() {
     assert_same "replacen on args" "$EXPECTED" "$RESULT"
     RESULT=$(echo -n "$S" | bin/string -i - replacen "$OLD" "$NEW" "$CNT")
     assert_same "replacen on pipe" "$EXPECTED" "$RESULT"
-    
+
     # Test PadLeft
     S="oingo"
     P="~"
@@ -493,15 +493,15 @@ function test_finddir(){
 	bin/finddir -p doc demos/finddir > temp.txt
     assert_exists "test_finddir (-p demos/finddir)" temp.txt
     EXPECTED="3"
-    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g') 
+    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g')
     assert_equal "test_finddir (-p demos/finddir)" "$EXPECTED" "$RESULT"
 
     # Test Suffix
     if [ -f temp.txt ]; then rm temp.txt; fi
-	bin/finddir -o temp.txt -s tion demos/finddir
-    assert_exists "test_finddir (-s demos/finddir)" temp.txt
+	bin/finddir -o temp.txt -c ment demos/finddir
+    assert_exists "test_finddir (-c demos/finddir)" temp.txt
     EXPECTED="1"
-    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g') 
+    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g')
     assert_equal "test_finddir (-s demos/finddir)" "$EXPECTED" "$RESULT"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
@@ -512,18 +512,17 @@ function test_findfile(){
     if [ -f temp.txt ]; then rm temp.txt; fi
 	bin/findfile -s .txt demos/findfile > temp.txt
     assert_exists "test_findfile (-s demos/findfile)" temp.txt
-    EXPECTED="3"
-    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g') 
+    EXPECTED="4"
+    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g')
     assert_equal "test_findfile (-s demos/findfile)" "$EXPECTED" "$RESULT"
 
     # Test Suffix
     if [ -f temp.txt ]; then rm temp.txt; fi
-	bin/findfile -o temp.txt -c 2 demos/findfile
+    bin/findfile -o temp.txt -c 5 demos/findfile
     assert_exists "test_findfile (-c demos/findfile)" temp.txt
     EXPECTED="1"
-    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g') 
+    RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g')
     assert_equal "test_findfile (-c demos/findfile)" "$EXPECTED" "$RESULT"
-
 
     if [ -f temp.txt ]; then rm temp.txt; fi
     echo "test_findfile OK";
@@ -553,7 +552,45 @@ function test_jsoncols(){
 }
 
 function test_jsonjoin(){
-    echo "test_jsonjoin skipping, not implemented";
+    if [ -f temp.json ]; then rm temp.json; fi
+    bin/jsonjoin -create demos/jsonjoin/person.json demos/jsonjoin/profile.json > temp.json
+    assert_exists "test_jsonjson (result1)" temp.json
+    R=$(cmp demos/jsonjoin/result1.json temp.json)
+    assert_empty "test_jsonjoin (result1)" "$R"
+
+
+    if [ -f temp.json ]; then rm temp.json; fi
+    cat demos/jsonjoin/person.json | jsonjoin -i -  demos/jsonjoin/profile.json > temp.json
+    assert_exists "test_jsonjson (result2)" temp.json
+    R=$(cmp demos/jsonjoin/result2.json temp.json)
+    assert_empty "test_jsonjoin (result2)" "$R"
+
+    if [ -f temp.json ]; then rm temp.json; fi
+    bin/jsonjoin -i demos/jsonjoin/person.json demos/jsonjoin/profile.json > temp.json
+    assert_exists "test_jsonjson (result3)" temp.json
+    R=$(cmp demos/jsonjoin/result3.json temp.json)
+    assert_empty "test_jsonjoin (result3)" "$R"
+
+    if [ -f temp.json ]; then rm temp.json; fi
+    bin/jsonjoin -create -update demos/jsonjoin/person.json demos/jsonjoin/profile.json > temp.json
+    assert_exists "test_jsonjson (result4)" temp.json
+    R=$(cmp demos/jsonjoin/result4.json temp.json)
+    assert_empty "test_jsonjoin (result4)" "$R"
+
+    if [ -f temp.json ]; then rm temp.json; fi
+    bin/jsonjoin -create -update demos/jsonjoin/profile.json demos/jsonjoin/person.json > temp.json
+    assert_exists "test_jsonjson (result5)" temp.json
+    R=$(cmp demos/jsonjoin/result5.json temp.json)
+    assert_empty "test_jsonjoin (result5)" "$R"
+
+    if [ -f temp.json ]; then rm temp.json; fi
+    bin/jsonjoin -create -overwrite demos/jsonjoin/person.json demos/jsonjoin/profile.json > temp.json
+    assert_exists "test_jsonjson (result6)" temp.json
+    R=$(cmp demos/jsonjoin/result6.json temp.json)
+    assert_empty "test_jsonjoin (result6)" "$R"
+
+    if [ -f temp.json ]; then rm temp.json; fi
+    echo "test_jsonjoin OK";
 }
 
 function test_jsonmunge(){
