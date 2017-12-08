@@ -1,7 +1,7 @@
 + [Home](/)
 + [README](../index.html)
 + [LICENSE](../license.html)
-+ [INSTALL](../INSTALL.html)
++ [INSTALL](../install.html)
 + [Documentation](../docs/)
 + [How To](./)
 + [Github](https://github.com/caltechlibrary/datatools)
