@@ -29,6 +29,24 @@ mkpage nav.tmpl relroot="text:" \
         gitrepo="text:${GIT_REPO}" \
         >"nav.md"
 
+# generate docs nav
+mkpage nav.tmpl relroot="text:" \
+        readme="text:../index.html" \
+        docs="text:./" \
+        install="text:../INSTALL.html" \
+        howto="text:../how-to/" \
+        gitrepo="text:${GIT_REPO}" \
+        >"docs/nav.md"
+
+# generate how-to nav
+mkpage nav.tmpl relroot="text:" \
+        readme="text:../index.html" \
+        docs="text:../docs/" \
+        install="text:../INSTALL.html" \
+        howto="text:./" \
+        gitrepo="text:${GIT_REPO}" \
+        >"how-to/nav.md"
+
 # walk docs/ and generate needed nav.md
 write_nav "docs/"
 

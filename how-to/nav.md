@@ -1,5 +1,6 @@
-
 + [Home](/)
-+ [up](../)
++ [README](../index.html)
 + [Documentation](../docs/)
-+ [How To ...](./)
++ [How To](./)
++ [Installation](../INSTALL.html)
++ [Github](https://github.com/caltechlibrary/datatools)
