@@ -21,15 +21,17 @@ string is a command line tool for transforming strings in common ways.
 Options are shared between all actions and must precede the action on the command line.
 
 ```
-    -e, -examples             display examples
-    -generate-markdown-docs   output documentation in Markdown
-    -h, -help                 display help
-    -i, -input                input file name
-    -l, -license              display license
-    -nl, -newline             output a trailing newline
-    -o, -output               output file name
-    -quiet                    suppress error messages
-    -v, -version              display version
+    -d, -delimiter           set the delimiter
+    -do, -output-delimiter   set the output delimiter
+    -e, -examples            display examples
+    -generate-markdown-docs  output documentation in Markdown
+    -h, -help                display help
+    -i, -input               input file name
+    -l, -license             display license
+    -nl, -newline            if true add a trailing newline
+    -o, -output              output file name
+    -quiet                   suppress error messages
+    -v, -version             display version
 ```
 
 
@@ -58,6 +60,7 @@ Options are shared between all actions and must precede the action on the comman
     trimleft       left trim: CUTSET [STRING]
     trimprefix     trims prefix: PREFIX [STRING]
     trimright      right trim: CUTSET [STRING]
+    trimspace      trim leading and trailing spaces: [STRING]
     trimsuffix     trim suffix: SUFFIX [STRING]
 ```
 
@@ -65,8 +68,28 @@ Options are shared between all actions and must precede the action on the comman
 ## EXAMPLES
 
 
+Convert text to upper case
+
+	string toupper "one"
+
+Convert text to lower case
+
+	string tolower "ONE"
+
+Captialize an English phrase
+
+	string englishtitle "one more thing to know"
+
+Split a space newline delimited list of words into a JSON array
+
+	string -i wordlist.txt split "\n"
+
+Join a JSON array of strings into a newline delimited list
+
+	string join '\n' '["one","two","three","four","five"]'
 
 
-Related: [contains](contains.html), [count](count.html), [englishtitle](englishtitle.html), [hasprefix](hasprefix.html), [hassuffix](hassuffix.html), [join](join.html), [length](length.html), [padleft](padleft.html), [padright](padright.html), [position](position.html), [replace](replace.html), [replacen](replacen.html), [slice](slice.html), [split](split.html), [splitn](splitn.html), [tolower](tolower.html), [totitle](totitle.html), [toupper](toupper.html), [trim](trim.html), [trimleft](trimleft.html), [trimprefix](trimprefix.html), [trimright](trimright.html), [trimsuffix](trimsuffix.html)
 
-string v0.0.19
+Related: [contains](contains.html), [count](count.html), [englishtitle](englishtitle.html), [hasprefix](hasprefix.html), [hassuffix](hassuffix.html), [join](join.html), [length](length.html), [padleft](padleft.html), [padright](padright.html), [position](position.html), [replace](replace.html), [replacen](replacen.html), [slice](slice.html), [split](split.html), [splitn](splitn.html), [tolower](tolower.html), [totitle](totitle.html), [toupper](toupper.html), [trim](trim.html), [trimleft](trimleft.html), [trimprefix](trimprefix.html), [trimright](trimright.html), [trimspace](trimspace.html), [trimsuffix](trimsuffix.html)
+
+string v0.0.20-pre

@@ -1,5 +1,5 @@
 //
-// xlsx2json.go is a command line utility that converts an Excel
+// xlsx2json is a command line utility that converts an Excel
 // Workboom Sheet into JSON.
 //
 // @Author R. S. Doiel
@@ -21,10 +21,9 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
 	"fmt"
+	"io"
 	"os"
-	"path"
 	"strings"
 
 	// CaltechLibrary packages
@@ -36,50 +35,44 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]`
-
 	description = `
-
-SYNOPSIS
-
 %s is a tool that converts individual Excel Workbook Sheets into
 JSON output.
-
 `
 
 	examples = `
+This would get the sheet named "Sheet 1" from "MyWorkbook.xlsx" and save as sheet1.json
 
-EXAMPLES
-
-This would get the sheet named "Sheet 1" from "my-workbook.xlsx" and save as sheet1.json
-
-    %s my-workbook.xlsx "Sheet 1" > sheet1.json
+    %s MyWorkbook.xlsx "My worksheet 1" > sheet1.json
 
 This would get the number of sheets in the workbook
 
-    %s -c my-workbook.xlsx
+    %s -count MyWorkbook.xlsx
 
 This will output the title of the sheets in the workbook
 
-    %s -n my-workbook.xlsx
+    %s -sheets MyWorkbook.xlsx
 
 Putting it all together in a shell script and convert all sheets to
 into JSON documents..
 
-	 %s -n my-workbook.xlsx | while read SHEET_NAME; do
-       %s my-workbook.xlsx "$SHEET_NAME" > \
-	       "${SHEET_NAME// /-}.json"
-    done
-
+	xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
+    	JSON_NAME="${SHEET_NAME// /-}.json"
+    	xlsx2json -o "${JSON_NAME}" MyWorkbook.xlsx "$SHEET_NAME"
+	done    
 `
 
 	// Standard Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	outputFName  string
-	quiet        bool
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application Options
 	showSheetCount bool
@@ -106,7 +99,7 @@ func sheetNames(workBookName string) ([]string, error) {
 	return result, nil
 }
 
-func xlsx2JSON(out *os.File, workBookName, sheetName string) error {
+func xlsx2JSON(out io.Writer, workBookName, sheetName string) error {
 	xlFile, err := xlsx.OpenFile(workBookName)
 	if err != nil {
 		return err
@@ -132,94 +125,103 @@ func xlsx2JSON(out *os.File, workBookName, sheetName string) error {
 	return fmt.Errorf("%s is missing from worksheet %s", sheetName, workBookName)
 }
 
-func init() {
+func main() {
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName)))
+
+	// Document non-option parameters
+	app.AddParams("EXCEL_WORKBOOK_NAME", "[SHEET_NAME]")
+
 	// Standard Options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.StringVar(&outputFName, "o", "", "output filename")
-	flag.StringVar(&outputFName, "output", "", "output filename")
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	//app.StringVar(&inputFName, "i,input", "", "input filename")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Specific Options
-	flag.BoolVar(&showSheetCount, "c", false, "display number of sheets in Excel Workbook")
-	flag.BoolVar(&showSheetNames, "n", false, "display sheet names in Excel Workbook")
-}
+	app.BoolVar(&showSheetCount, "c,count", false, "display number of sheets in Excel Workbook")
+	app.BoolVar(&showSheetNames, "N,sheets", false, "display sheet names in Excel Workbook")
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	// Parse env and options
+	app.Parse()
+	args := app.Args()
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName)
+	// Setup IO
+	var err error
+	app.Eout = os.Stderr
 
-	if showHelp == true {
+	/* NOTE: this command does not read from stdin
+	   app.In, err = cli.Open(inputFName, os.Stdin)
+	   cli.ExitOnError(app.Eout, err, quiet)
+	   defer cli.CloseFile(inputFName, app.In)
+	*/
+
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
+	if newLine {
+		eol = "\n"
 	}
-
-	out, err := cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(outputFName, out)
 
 	if len(args) < 1 {
-		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing Excel Workbook names"), quiet)
+		cli.ExitOnError(app.Eout, fmt.Errorf("Missing Excel Workbook names"), quiet)
 	}
 
 	workBookName := args[0]
 	if showSheetCount == true {
 		cnt, err := sheetCount(workBookName)
-		cli.ExitOnError(os.Stderr, err, quiet)
-		fmt.Fprintf(out, "%d", cnt)
+		cli.ExitOnError(app.Eout, err, quiet)
+		fmt.Fprintf(app.Out, "%d%s", cnt, eol)
 		os.Exit(0)
 	}
 
 	if showSheetNames == true {
 		names, err := sheetNames(workBookName)
-		cli.ExitOnError(os.Stderr, err, quiet)
-		fmt.Fprintln(out, strings.Join(names, "\n"))
+		cli.ExitOnError(app.Eout, err, quiet)
+		fmt.Fprintf(app.Out, "%s%s", strings.Join(names, "\n"), eol)
 		os.Exit(0)
 	}
 
 	if len(args) < 2 {
-		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing worksheet name"), quiet)
+		cli.ExitOnError(app.Eout, fmt.Errorf("Missing worksheet name"), quiet)
 	}
 	for _, sheetName := range args[1:] {
 		if len(sheetName) > 0 {
-			err := xlsx2JSON(out, workBookName, sheetName)
-			cli.ExitOnError(os.Stderr, err, quiet)
+			err := xlsx2JSON(app.Out, workBookName, sheetName)
+			cli.ExitOnError(app.Eout, err, quiet)
 		}
 	}
+	fmt.Fprintf(app.Out, "%s", eol)
 }

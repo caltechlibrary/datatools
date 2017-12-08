@@ -21,12 +21,9 @@ package main
 
 import (
 	"encoding/csv"
-	"flag"
 	"fmt"
 	"io"
-	"log"
 	"os"
-	"path"
 	"strings"
 
 	// Caltech Library packages
@@ -40,23 +37,14 @@ const (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] [ARGS_AS_ROW_VALUES]`
-
 	description = `
-
-SYNOPSIS
-
 %s converts a set of command line args into rows of CSV formated output.
 It can also be used to filter or list specific rows of CSV input
 The first row is 1 not 0. Often row 1 is the header row and %s makes it
 easy to output only the data rows.
-
 `
 
 	examples = `
-
-EXAMPLES
-
 Simple usage of building a CSV file one rows at a time.
 
     %s "First,Second,Third" "one,two,three" > 4rows.csv
@@ -76,18 +64,17 @@ Filter a 10 row CSV file for rows 1,4,6 (top most row is one)
 Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 
     %s -i 10row.csv -row 1,4,6 > 3rows.csv
-
 `
 
 	// Standard options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	inputFName   string
-	outputFName  string
-	quiet        bool
-	newLine      bool
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
 
 	// Application specific options
 	validateRows  bool
@@ -111,7 +98,7 @@ func selectedRow(rowNo int, record []string, rowNos []int) []string {
 	return nil
 }
 
-func CSVRows(in *os.File, out *os.File, rowNos []int, delimiter string) {
+func CSVRows(in io.Reader, out io.Writer, eout io.Writer, rowNos []int, delimiter string) {
 	var err error
 
 	r := csv.NewReader(in)
@@ -126,99 +113,91 @@ func CSVRows(in *os.File, out *os.File, rowNos []int, delimiter string) {
 			break
 		}
 		if err != nil {
-			cli.OnError(os.Stderr, fmt.Errorf("%s, %s (%T %+v)", inputFName, err, rec, rec), quiet)
+			fmt.Fprintf(eout, "%s, %s (%T %+v)", inputFName, err, rec, rec)
+			os.Exit(1)
 		}
 		row := selectedRow(i, rec, rowNos)
 		if row != nil {
 			if err := w.Write(row); err != nil {
-				cli.ExitOnError(os.Stderr, fmt.Errorf("Error writing record to csv: %s (Row %T %+v)", err, row, row), quiet)
+				fmt.Fprintf(eout, "Error writing record to csv: %s (Row %T %+v)", err, row, row)
+				os.Exit(1)
 			}
 		}
 	}
 	w.Flush()
 	err = w.Error()
-	cli.ExitOnError(os.Stderr, err, quiet)
-}
-
-func init() {
-	// Standard options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.StringVar(&inputFName, "i", "", "input filename")
-	flag.StringVar(&inputFName, "input", "", "input filename")
-	flag.StringVar(&outputFName, "o", "", "output filename")
-	flag.StringVar(&outputFName, "output", "", "output filename")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	flag.BoolVar(&newLine, "no-newline", false, "exclude trailing newline from output")
-	flag.BoolVar(&newLine, "nl", true, "include trailing newline from output")
-	flag.BoolVar(&newLine, "newline", true, "include trailing newline from output")
-
-	// Application specific options
-	flag.StringVar(&delimiter, "d", "", "set delimiter character")
-	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
-	flag.StringVar(&outputRows, "row", "", "output specified rows in order (e.g. -row 1,5,2:4))")
-	flag.StringVar(&outputRows, "rows", "", "output specified rows in order (e.g. -rows 1,5,2:4))")
-	flag.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2:")
-	flag.BoolVar(&showHeader, "header", false, "display the header row (alias for '-rows 1')")
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		os.Exit(1)
+	}
 }
 
 func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)
+	// Document non-option parameters
+	app.AddParams(`[ARGS_AS_ROW_VALUES]`)
 
-	if showHelp == true {
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)))
+
+	// Standard options
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&inputFName, "i,input", "", "input filename")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+
+	// Application specific options
+	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
+	app.StringVar(&outputRows, "row,rows", "", "output specified rows in order (e.g. -row 1,5,2:4))")
+	app.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2:")
+	app.BoolVar(&showHeader, "header", false, "display the header row (alias for '-rows 1')")
+
+	// Parse env and options
+	app.Parse()
+	args := app.Args()
+
+	// Setup IO
+	var err error
+
+	app.Eout = os.Stderr
+
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
+
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process Options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
-	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
-	}
-
-	in, err := cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(inputFName, in)
-
-	out, err := cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(outputFName, out)
-
-	nl := "\n"
-	if newLine == false {
-		nl = ""
 	}
 
 	if showHeader == true {
@@ -233,7 +212,7 @@ func main() {
 
 	if outputRows != "" {
 		rowNos, err := datatools.ParseRange(outputRows, maxRows)
-		cli.ExitOnError(os.Stderr, err, quiet)
+		cli.ExitOnError(app.Eout, err, quiet)
 
 		// NOTE: We need to adjust from humans counting from 1 to counting from zero
 		for i := 0; i < len(rowNos); i++ {
@@ -242,7 +221,7 @@ func main() {
 				rowNos[i] = 0
 			}
 		}
-		CSVRows(in, out, rowNos, delimiter)
+		CSVRows(app.In, app.Out, app.Eout, rowNos, delimiter)
 		os.Exit(0)
 	}
 
@@ -251,7 +230,7 @@ func main() {
 	}
 
 	// Clean up cells removing outer quotes if necessary
-	w := csv.NewWriter(out)
+	w := csv.NewWriter(app.Out)
 	if delimiter != "" {
 		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}
@@ -261,17 +240,14 @@ func main() {
 			r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		}
 		record, err := r.Read()
-		if err != nil {
-			log.Fatalf("%q isn't a CSV row, %s", val, err)
-		}
+		cli.ExitOnError(app.Eout, err, quiet)
 		r = nil
 		if err := w.Write(record); err != nil {
-			log.Fatalf("error writing args as csv, %s", err)
+			cli.ExitOnError(app.Eout, err, quiet)
 		}
 	}
 	w.Flush()
 	if err := w.Error(); err != nil {
-		log.Fatal(err)
+		cli.ExitOnError(app.Eout, err, quiet)
 	}
-	fmt.Fprintf(out, "%s", nl)
 }

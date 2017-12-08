@@ -1,5 +1,5 @@
 //
-// findfile.go - a simple directory tree walker that looks for files
+// findfile - a simple directory tree walker that looks for files
 // by name, basename or extension. Basically a unix "find" light to
 // demonstrate walking the file system
 //
@@ -21,11 +21,9 @@
 package main
 
 import (
-	"flag"
 	"fmt"
-	"log"
+	"io"
 	"os"
-	"path"
 	"path/filepath"
 	"strings"
 	"time"
@@ -36,32 +34,26 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]`
-
 	description = `
-
-SYNOPSIS
-
 %s finds files based on matching prefix, suffix or contained text in base filename.
-
 `
 
 	examples = `
-
-EXAMPLE
-
 Search the current directory and subdirectories for Markdown files with extension of ".md".
 
 	%s -s .md
-
 `
 
 	// Standard Options
-	showHelp     bool
-	showVersion  bool
-	showLicense  bool
-	showExamples bool
-	quiet        bool
+	showHelp             bool
+	showVersion          bool
+	showLicense          bool
+	showExamples         bool
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// App Specific Options
 	showModificationTime bool
@@ -75,7 +67,7 @@ Search the current directory and subdirectories for Markdown files with extensio
 	pathSep              string
 )
 
-func display(docroot, p string, m time.Time) {
+func display(w io.Writer, docroot, p string, m time.Time) {
 	var s string
 	if outputFullPath == true {
 		s, _ = filepath.Abs(p)
@@ -83,13 +75,13 @@ func display(docroot, p string, m time.Time) {
 		s, _ = filepath.Rel(docroot, p)
 	}
 	if showModificationTime == true {
-		fmt.Printf("%s %s\n", m.Format("2006-01-02 15:04:05 -0700"), s)
+		fmt.Fprintf(w, "%s %s\n", m.Format("2006-01-02 15:04:05 -0700"), s)
 		return
 	}
-	fmt.Printf("%s\n", s)
+	fmt.Fprintf(w, "%s\n", s)
 }
 
-func walkPath(docroot string, target string) error {
+func walkPath(out io.Writer, docroot string, target string) error {
 	return filepath.Walk(docroot, func(p string, info os.FileInfo, err error) error {
 		if err != nil {
 			if stopOnErrors == true {
@@ -110,88 +102,95 @@ func walkPath(docroot string, target string) error {
 		if info.Mode().IsRegular() == true {
 			switch {
 			case findPrefix == true && strings.HasPrefix(s, target) == true:
-				display(docroot, p, info.ModTime())
+				display(out, docroot, p, info.ModTime())
 			case findSuffix == true && strings.HasSuffix(s, target) == true:
-				display(docroot, p, info.ModTime())
+				display(out, docroot, p, info.ModTime())
 			case findContains == true && strings.Contains(s, target) == true:
-				display(docroot, p, info.ModTime())
+				display(out, docroot, p, info.ModTime())
 			case strings.Compare(s, target) == 0:
-				display(docroot, p, info.ModTime())
+				display(out, docroot, p, info.ModTime())
 			case findAll == true:
-				display(docroot, p, info.ModTime())
+				display(out, docroot, p, info.ModTime())
 			}
 		}
 		return nil
 	})
 }
 
-func init() {
+func main() {
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Document non-option paramaters
+	app.AddParams("[TARGET]", "[DIRECTORIES_TO_SEARCH]")
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName)))
+
 	// Standard Options
-	flag.BoolVar(&showHelp, "h", false, "display this help message")
-	flag.BoolVar(&showHelp, "help", false, "display this help message")
-	flag.BoolVar(&showLicense, "l", false, "display license information")
-	flag.BoolVar(&showLicense, "license", false, "display license information")
-	flag.BoolVar(&showVersion, "v", false, "display version message")
-	flag.BoolVar(&showVersion, "version", false, "display version message")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&showHelp, "h,help", false, "display this help message")
+	app.BoolVar(&showLicense, "l,license", false, "display license information")
+	app.BoolVar(&showVersion, "v,version", false, "display version message")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Specific Options
-	flag.BoolVar(&showModificationTime, "m", false, "display file modification time before the path")
-	flag.BoolVar(&showModificationTime, "mod-time", false, "display file modification time before the path")
-	flag.BoolVar(&stopOnErrors, "e", false, "Stop walk on file system errors (e.g. permissions)")
-	flag.BoolVar(&stopOnErrors, "error-stop", false, "Stop walk on file system errors (e.g. permissions)")
-	flag.BoolVar(&findPrefix, "p", false, "find file(s) based on basename prefix")
-	flag.BoolVar(&findPrefix, "prefix", false, "find file(s) based on basename prefix")
-	flag.BoolVar(&findContains, "c", false, "find file(s) based on basename containing text")
-	flag.BoolVar(&findContains, "contains", false, "find file(s) based on basename containing text")
-	flag.BoolVar(&findSuffix, "s", false, "find file(s) based on basename suffix")
-	flag.BoolVar(&findSuffix, "suffix", false, "find file(s) based on basename suffix")
-	flag.BoolVar(&outputFullPath, "f", false, "list full path for files found")
-	flag.BoolVar(&outputFullPath, "full-path", false, "list full path for files found")
-	flag.IntVar(&optDepth, "d", 0, "Limit depth of directories walked")
-	flag.IntVar(&optDepth, "depth", 0, "Limit depth of directories walked")
+	app.BoolVar(&showModificationTime, "m,mod-time", false, "display file modification time before the path")
+	app.BoolVar(&stopOnErrors, "error,stop-on-error", false, "Stop walk on file system errors (e.g. permissions)")
+	app.BoolVar(&findPrefix, "p,prefix", false, "find file(s) based on basename prefix")
+	app.BoolVar(&findContains, "c,contains", false, "find file(s) based on basename containing text")
+	app.BoolVar(&findSuffix, "s,suffix", false, "find file(s) based on basename suffix")
+	app.BoolVar(&outputFullPath, "f,full-path", false, "list full path for files found")
+	app.IntVar(&optDepth, "d,depth", 0, "Limit depth of directories walked")
 	pathSep = string(os.PathSeparator)
-}
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName)
+	// Parse env and options
+	app.Parse()
+	args := app.Args()
 
-	if showHelp == true {
+	// Setup IO
+	var err error
+
+	app.Eout = os.Stderr
+
+	/* NOTE: we don't read from stdin
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
+	*/
+
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
+	if newLine {
+		eol = "\n"
 	}
 
 	if findPrefix == false && findSuffix == false && findContains == false {
@@ -199,7 +198,8 @@ func main() {
 	}
 
 	if findAll == false && len(args) == 0 {
-		cli.ExitOnError(os.Stderr, fmt.Errorf("%s", cfg.Usage()), quiet)
+		app.Usage(app.Eout)
+		os.Exit(1)
 	}
 
 	// Shift the target filename so args holds the directories to search
@@ -215,9 +215,8 @@ func main() {
 
 	// For each directory to search walk the path
 	for _, dir := range args {
-		err := walkPath(dir, target)
-		if err != nil {
-			log.Fatal(err)
-		}
+		err = walkPath(app.Out, dir, target)
+		cli.ExitOnError(app.Eout, err, quiet)
 	}
+	fmt.Fprintf(app.Out, "%s", eol)
 }

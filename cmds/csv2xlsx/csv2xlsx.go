@@ -21,11 +21,9 @@ package main
 
 import (
 	"encoding/csv"
-	"flag"
 	"fmt"
 	"io"
 	"os"
-	"path"
 	"strings"
 
 	// CaltechLibrary packages
@@ -37,40 +35,34 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] WORKBOOK_NAME SHEET_NAME`
-
 	description = `
-
-SYNOPSIS
-
 %s will take CSV input and create a new sheet in an Excel Workbook.
 If the Workbook does not exist then it is created.
-
 `
 
 	examples = `
+Converting a csv to a workbook.
 
-EXAMPLES
+	csv2xlsx -i data.csv MyWorkbook.xlsx 'My worksheet 1'
 
-	%s -i data.csv MyWorkbook.xlsx 'My worksheet'
-
-This creates a new 'My worksheet' in the Excel Workbook
+This creates a new 'My worksheet 1' in the Excel Workbook
 called 'MyWorkbook.xlsx' with the contents of data.csv.
 
-	cat data.csv | %s MyWorkbook.xlsx 'My worksheet'
+	cat data.csv | csv2xlsx MyWorkbook.xlsx 'My worksheet 2'
 
 This does the same but the contents of data.csv are piped into
-the workbook's sheet.
-
+the workbook's 'My worksheet 2' sheet.
 `
 
 	// Standard Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	inputFName   string
-	quiet        bool
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
 
 	// App Specific Options
 	workbookName string
@@ -116,70 +108,75 @@ func csv2XLSXSheet(in *os.File, workbookName string, sheetName string, delimiter
 	return workbook.Save(workbookName)
 }
 
-func init() {
+func main() {
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Document non-option parameters
+	app.AddParams("WORKBOOK_NAME", "SHEET_NAME")
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName)))
+
 	// Standard Options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.StringVar(&inputFName, "i", "", "input filename (CSV content)")
-	flag.StringVar(&inputFName, "input", "", "input filename (CSV content)")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&inputFName, "i,input", "", "input filename (CSV content)")
+	app.StringVar(&outputFName, "o,output", "", "output filename")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Specific Options
-	flag.StringVar(&workbookName, "workbook", "", "Workbook name")
-	flag.StringVar(&sheetName, "sheet", "", "Sheet name to create/replace")
-	flag.StringVar(&delimiter, "d", "", "set delimiter character (input)")
-	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character (input)")
-}
+	app.StringVar(&workbookName, "workbook", "", "Workbook name")
+	app.StringVar(&sheetName, "sheet", "", "Sheet name to create/replace")
+	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character (input)")
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	// Parse environment and options
+	app.Parse()
+	args := app.Args()
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName)
+	// Setup IO
+	var err error
 
-	if showHelp == true {
+	app.Eout = os.Stderr
+
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
+
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
+		os.Exit(0)
+	}
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
 
-	if showLicense == true {
-		fmt.Println(cfg.License())
-		os.Exit(0)
+	if strings.HasSuffix(outputFName, ".xlsx") {
+		workbookName = outputFName
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
-	}
-
-	in, err := cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(inputFName, in)
 
 	if len(workbookName) == 0 && len(args) > 0 {
 		workbookName = args[0]
@@ -194,11 +191,11 @@ func main() {
 	}
 
 	if len(workbookName) == 0 {
-		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing workbook name"), quiet)
+		cli.ExitOnError(app.Eout, fmt.Errorf("Missing workbook name"), quiet)
 	}
 	if len(sheetName) == 0 {
-		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing sheet name"), quiet)
+		cli.ExitOnError(app.Eout, fmt.Errorf("Missing sheet name"), quiet)
 	}
-	err = csv2XLSXSheet(in, workbookName, sheetName, delimiter)
-	cli.ExitOnError(os.Stderr, err, quiet)
+	err = csv2XLSXSheet(app.In, workbookName, sheetName, delimiter)
+	cli.ExitOnError(app.Eout, err, quiet)
 }

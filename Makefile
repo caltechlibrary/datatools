@@ -15,7 +15,12 @@ ifeq ($(OS), Windows)
 endif
 
 
-build$(EXT): bin/csvcols$(EXT) bin/csvrows$(EXT) bin/csvfind$(EXT) bin/csvjoin$(EXT) bin/jsoncols$(EXT) bin/jsonrange$(EXT) bin/xlsx2json$(EXT) bin/xlsx2csv$(EXT) bin/csv2mdtable$(EXT) bin/csv2xlsx$(EXT) bin/csv2json$(EXT) bin/vcard2json$(EXT) bin/jsonjoin$(EXT) bin/jsonmunge$(EXT) bin/findfile$(EXT) bin/finddir$(EXT) bin/mergepath$(EXT) bin/reldate$(EXT) bin/range$(EXT) bin/timefmt$(EXT) bin/urlparse$(EXT) bin/csvcleaner$(EXT) bin/string$(EXT) 
+build$(EXT): bin/csvcols$(EXT) bin/csvrows$(EXT) bin/csvfind$(EXT) bin/csvjoin$(EXT) \
+	bin/jsoncols$(EXT) bin/jsonrange$(EXT) bin/xlsx2json$(EXT) bin/xlsx2csv$(EXT) \
+	bin/csv2mdtable$(EXT) bin/csv2xlsx$(EXT) bin/csv2json$(EXT) bin/jsonjoin$(EXT) \
+	bin/jsonmunge$(EXT) bin/findfile$(EXT) bin/finddir$(EXT) bin/mergepath$(EXT) \
+	bin/reldate$(EXT) bin/range$(EXT) bin/timefmt$(EXT) bin/urlparse$(EXT) \
+	bin/csvcleaner$(EXT) bin/string$(EXT) 
 
 
 bin/csvcols$(EXT): datatools.go cmds/csvcols/csvcols.go
@@ -50,9 +55,6 @@ bin/csv2json$(EXT): datatools.go cmds/csv2json/csv2json.go
 
 bin/csvfind$(EXT): datatools.go cmds/csvfind/csvfind.go
 	go build -o bin/csvfind$(EXT) cmds/csvfind/csvfind.go
-
-bin/vcard2json$(EXT): datatools.go cmds/vcard2json/vcard2json.go
-	go build -o bin/vcard2json$(EXT) cmds/vcard2json/vcard2json.go
 
 bin/jsonmunge$(EXT): datatools.go cmds/jsonmunge/jsonmunge.go
 	go build -o bin/jsonmunge$(EXT) cmds/jsonmunge/jsonmunge.go
@@ -89,9 +91,11 @@ bin/string$(EXT): datatools.go cmds/string/string.go
 
 test:
 	go test
+	bash test_cmds.bash
 
 website:
-	./mk-website.bash
+	bash gen-nav.bash
+	bash mk-website.bash
 
 status:
 	git status
@@ -105,8 +109,9 @@ refresh:
 	git pull origin $(BRANCH)
 
 publish:
-	./mk-website.bash
-	./publish.bash
+	bash gen-nav.bash
+	bash mk-website.bash
+	bash publish.bash
 
 clean: 
 	if [ -d bin ]; then rm -fR bin; fi
@@ -131,7 +136,6 @@ install:
 	env GOBIN=$(GOPATH)/bin go install cmds/range/range.go
 	env GOBIN=$(GOPATH)/bin go install cmds/timefmt/timefmt.go
 	env GOBIN=$(GOPATH)/bin go install cmds/urlparse/urlparse.go
-	env GOBIN=$(GOPATH)/bin go install cmds/vcard2json/vcard2json.go
 	env GOBIN=$(GOPATH)/bin go install cmds/xlsx2json/xlsx2json.go
 	env GOBIN=$(GOPATH)/bin go install cmds/xlsx2csv/xlsx2csv.go
 	env GOBIN=$(GOPATH)/bin go install cmds/csvcleaner/csvcleaner.go
@@ -152,7 +156,6 @@ dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/jsonmunge cmds/jsonmunge/jsonmunge.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/jsonjoin cmds/jsonjoin/jsonjoin.go
-	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/vcard2json cmds/vcard2json/vcard2json.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/findfile cmds/findfile/findfile.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/finddir cmds/finddir/finddir.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/mergepath cmds/mergepath/mergepath.go
@@ -179,7 +182,6 @@ dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
-	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/vcard2json cmds/vcard2json/vcard2json.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/jsonmunge cmds/jsonmunge/jsonmunge.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/jsonjoin cmds/jsonjoin/jsonjoin.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/findfile cmds/findfile/findfile.go
@@ -209,7 +211,6 @@ dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csv2mdtable.exe cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csv2xlsx.exe cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csv2json.exe cmds/csv2json/csv2json.go
-	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/vcard2json.exe cmds/vcard2json/vcard2json.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/jsonmunge.exe cmds/jsonmunge/jsonmunge.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/jsonjoin.exe cmds/jsonjoin/jsonjoin.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/findfile.exe cmds/findfile/findfile.go
@@ -240,7 +241,6 @@ dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csv2mdtable cmds/csv2mdtable/csv2mdtable.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csv2xlsx cmds/csv2xlsx/csv2xlsx.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csv2json cmds/csv2json/csv2json.go
-	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/vcard2json cmds/vcard2json/vcard2json.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/jsonmunge cmds/jsonmunge/jsonmunge.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/jsonjoin cmds/jsonjoin/jsonjoin.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/findfile cmds/findfile/findfile.go
@@ -256,18 +256,13 @@ dist/raspbian-arm7:
 	rm -fR dist/bin
 
 distribute_docs:
-	mkdir -p dist/docs
-	mkdir -p dist/how-to
+	mkdir -p dist/
+	mkdir -p dist/
 	cp -v README.md dist/
 	cp -v LICENSE dist/
 	cp -v INSTALL.md dist/
-	cp -v docs/*.md dist/docs/
-	if [ -f dist/docs/nav.md ]; then rm dist/docs/nav.md; fi
-	if [ -f dist/docs/index.md ]; then rm dist/docs/index.md; fi
-	cp -v how-to/*.md dist/how-to/
-	if [ -f dist/how-to/nav.md ]; then rm dist/how-to/nav.md; fi
-	if [ -f dist/how-to/index.md ]; then rm dist/how-to/index.md; fi
-	cp -vR demos dist/
+	cp -vR docs dist/
+	cp -vR how-to dist/
 	./package-versions.bash > dist/package-versions.txt
 	
 release: distribute_docs dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7

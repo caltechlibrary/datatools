@@ -19,10 +19,8 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
-	"path"
 	"strings"
 
 	// CaltechLibrary packages
@@ -31,76 +29,36 @@ import (
 )
 
 var (
-	usage = `USAGE: %s NEW_PATH_PARTS`
-
 	description = `
-
-SYNOPSIS
-
 %s can merge the new path parts with the existing path with creating duplications.
 It can also re-order existing path elements by prefixing or appending to the existing
 path and removing the resulting duplicate.
-
 `
 
 	examples = `
-
-EXAMPLE
-
 This would put your home bin directory at the beginning of your path.
 
 	export PATH=$(%s -p $HOME/bin)
-
 `
 
 	// Standard Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	quiet        bool
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application Specific Options
-
 	envPath     string
 	dir         string
 	appendPath  = true
 	prependPath = false
 	clipPath    = false
 )
-
-func init() {
-	const (
-		pathUsage    = "The path you want to merge with."
-		dirUsage     = "The directory you want to add to the path."
-		appendUsage  = "Append the directory to the path removing any duplication"
-		prependUsage = "Prepend the directory to the path removing any duplication"
-		clipUsage    = "Remove a directory from the path"
-		helpUsage    = "This help document."
-	)
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
-
-	envPath = "$PATH"
-
-	flag.StringVar(&envPath, "e", envPath, pathUsage)
-	flag.StringVar(&envPath, "envpath", envPath, pathUsage)
-	flag.StringVar(&dir, "d", dir, dirUsage)
-	flag.StringVar(&dir, "directory", dir, dirUsage)
-
-	flag.BoolVar(&appendPath, "a", appendPath, appendUsage)
-	flag.BoolVar(&appendPath, "append", appendPath, appendUsage)
-	flag.BoolVar(&prependPath, "p", prependPath, prependUsage)
-	flag.BoolVar(&prependPath, "prepend", prependPath, prependUsage)
-	flag.BoolVar(&clipPath, "c", clipPath, clipUsage)
-	flag.BoolVar(&clipPath, "clip", clipPath, clipUsage)
-}
 
 func clip(envPath string, dir string) string {
 	oParts := []string{}
@@ -114,50 +72,91 @@ func clip(envPath string, dir string) string {
 }
 
 func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	const (
+		pathUsage    = "The path you want to merge with."
+		dirUsage     = "The directory you want to add to the path."
+		appendUsage  = "Append the directory to the path removing any duplication"
+		prependUsage = "Prepend the directory to the path removing any duplication"
+		clipUsage    = "Remove a directory from the path"
+		helpUsage    = "This help document."
+	)
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName)
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
 
-	if showHelp == true {
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName)))
+
+	// Document non-option parameters
+	app.AddParams("NEW_PATH_PARTS")
+
+	// Standard Options
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+
+	// App Options
+	envPath = "$PATH"
+	app.StringVar(&envPath, "e,envpath", envPath, pathUsage)
+	app.StringVar(&dir, "d,directory", dir, dirUsage)
+	app.BoolVar(&appendPath, "a,append", appendPath, appendUsage)
+	app.BoolVar(&prependPath, "p,prepend", prependPath, prependUsage)
+	app.BoolVar(&clipPath, "c,clip", clipPath, clipUsage)
+
+	// Parse env and options
+	app.Parse()
+	args := app.Args()
+
+	// Setup IO
+	var err error
+
+	app.Eout = os.Stderr
+
+	/* NOTE: we don't read from stdin
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
+	*/
+
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(app.Eout, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process Options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
+	if newLine {
+		eol = "\n"
 	}
 
-	if flag.NArg() > 0 {
-		dir = flag.Arg(0)
-		if flag.NArg() == 2 {
-			envPath = flag.Arg(1)
+	if app.NArg() > 0 {
+		dir = app.Arg(0)
+		if app.NArg() == 2 {
+			envPath = app.Arg(1)
 		}
 	}
 
@@ -165,21 +164,21 @@ func main() {
 		envPath = os.Getenv("PATH")
 	}
 	if dir == "" {
-		cli.ExitOnError(os.Stderr, fmt.Errorf("Missing directory to add to path"), quiet)
+		cli.ExitOnError(app.Eout, fmt.Errorf("Missing directory to add to path"), quiet)
 	}
-	if clipPath == true {
-		fmt.Printf("%s", clip(envPath, dir))
+	if clipPath {
+		fmt.Fprintf(app.Out, "%s%s", clip(envPath, dir), eol)
 		os.Exit(0)
 	}
-	if prependPath == true {
+	if prependPath {
 		appendPath = false
 	}
 	if strings.Contains(envPath, dir) {
 		envPath = clip(envPath, dir)
 	}
-	if appendPath == true {
-		fmt.Printf("%s:%s", envPath, dir)
+	if appendPath {
+		fmt.Fprintf(app.Out, "%s:%s%s", envPath, dir, eol)
 	} else {
-		fmt.Printf("%s:%s", dir, envPath)
+		fmt.Fprintf(app.Out, "%s:%s%s", dir, envPath, eol)
 	}
 }

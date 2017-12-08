@@ -8,11 +8,9 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
 	"strings"
 
 	// CaltechLibrary Packages
@@ -22,12 +20,7 @@ import (
 )
 
 var (
-	usage = `USAGE: %s [OPTIONS] [DOT_PATH_EXPRESSION]`
-
 	description = `
-
-SYSNOPSIS
-
 %s returns returns a range of values based on the JSON structure being read and
 options applied.  Without options the JSON structure is read from standard input
 and writes a list of keys to standard out. Keys are either attribute names or for
@@ -52,13 +45,9 @@ E.g.
 The path can be chained together
 
 + .name.family would point to the value heald by the "name" attributes' "family" attribute.
-
 `
 
 	examples = `
-
-EXAMPLES
-
 Working with a map
 
     echo '{"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}' \
@@ -110,7 +99,7 @@ would yield
 
     3
 
-Check for the index value of last element
+Check for the index of last element
 
     echo '["one","two","three"]' | %s -last
 
@@ -118,25 +107,44 @@ would yield
 
     2
 
+Check for the index value of last element
+
+    echo '["one","two","three"]' | %s -values -last
+
+would yield
+
+    "three"
+
 Limitting the number of items returned
 
-    echo '[1,2,3,4,5]' | %s -limit 2
+    echo '[10,20,30,40,50]' | %s -limit 2
 
 would yield
 
     1
     2
 
+Limitting the number of values returned
+
+    echo '[10,20,30,40,50]' | %s -values -limit 2
+
+would yield
+
+    10
+    20
 `
 
-	// Basic Options
-	showHelp     bool
-	showLicense  bool
-	showVersion  bool
-	showExamples bool
-	inputFName   string
-	outputFName  string
-	quiet        bool
+	// Standard Options
+	showHelp             bool
+	showLicense          bool
+	showVersion          bool
+	showExamples         bool
+	inputFName           string
+	outputFName          string
+	generateMarkdownDocs bool
+	quiet                bool
+	newLine              bool
+	eol                  string
 
 	// Application Specific Options
 	showLength bool
@@ -144,7 +152,6 @@ would yield
 	showValues bool
 	delimiter  string
 	limit      int
-	permissive bool
 )
 
 func mapKeys(data map[string]interface{}, limit int) ([]string, error) {
@@ -233,80 +240,77 @@ func srcVals(data interface{}, limit int) ([]string, error) {
 	return nil, fmt.Errorf("%T does not support for range", data)
 }
 
-func init() {
+func main() {
+	app := cli.NewCli(datatools.Version)
+	appName := app.AppName()
+
+	// Document non-option parameters
+	app.AddParams("[DOT_PATH_EXPRESSION]")
+
+	// Add Help Docs
+	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
+	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName, appName)))
+
 	// Standard Options
-	flag.BoolVar(&showHelp, "h", false, "display help")
-	flag.BoolVar(&showHelp, "help", false, "display help")
-	flag.BoolVar(&showLicense, "l", false, "display license")
-	flag.BoolVar(&showLicense, "license", false, "display license")
-	flag.BoolVar(&showVersion, "v", false, "display version")
-	flag.BoolVar(&showVersion, "version", false, "display version")
-	flag.BoolVar(&showExamples, "example", false, "display example(s)")
-	flag.StringVar(&inputFName, "i", "", "read JSON from file")
-	flag.StringVar(&inputFName, "input", "", "read JSON from file")
-	flag.StringVar(&outputFName, "o", "", "write to output file")
-	flag.StringVar(&outputFName, "output", "", "write to output file")
-	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&showHelp, "h,help", false, "display help")
+	app.BoolVar(&showLicense, "l,license", false, "display license")
+	app.BoolVar(&showVersion, "v,version", false, "display version")
+	app.BoolVar(&showExamples, "examples", false, "display example(s)")
+	app.StringVar(&inputFName, "i,input", "", "read JSON from file")
+	app.StringVar(&outputFName, "o,output", "", "write to output file")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown docs")
+	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// Application Options
-	flag.BoolVar(&showLength, "length", false, "return the number of keys or values")
-	flag.BoolVar(&showLast, "last", false, "return the index of the last element in list (e.g. length - 1)")
-	flag.BoolVar(&showValues, "values", false, "return the values instead of the keys")
-	flag.StringVar(&delimiter, "d", "", "set delimiter for range output")
-	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for range output")
-	flag.IntVar(&limit, "limit", 0, "limit the number of items output")
-	flag.BoolVar(&permissive, "permissive", false, "suppress errors messages")
-	flag.BoolVar(&permissive, "quiet", false, "suppress errors messages")
-}
+	app.BoolVar(&showLength, "length", false, "return the number of keys or values")
+	app.BoolVar(&showLast, "last", false, "return the index of the last element in list (e.g. length - 1)")
+	app.BoolVar(&showValues, "values", false, "return the values instead of the keys")
+	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter for range output")
+	app.IntVar(&limit, "limit", -1, "limit the number of items output")
 
-func main() {
-	appName := path.Base(os.Args[0])
-	flag.Parse()
-	args := flag.Args()
+	// Parse options and environment
+	app.Parse()
+	args := app.Args()
 
-	// Configuration and command line interation
-	cfg := cli.New(appName, strings.ToUpper(appName), datatools.Version)
-	cfg.LicenseText = fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)
-	cfg.UsageText = fmt.Sprintf(usage, appName)
-	cfg.DescriptionText = fmt.Sprintf(description, appName)
-	cfg.OptionText = "OPTIONS\n\n"
-	cfg.ExampleText = fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName, appName)
+	// Setup IO
+	var err error
 
-	if showHelp == true {
+	app.Eout = os.Stderr
+
+	app.In, err = cli.Open(inputFName, os.Stdin)
+	cli.ExitOnError(os.Stderr, err, quiet)
+	defer cli.CloseFile(inputFName, app.In)
+
+	app.Out, err = cli.Create(outputFName, os.Stdout)
+	cli.ExitOnError(os.Stderr, err, quiet)
+	defer cli.CloseFile(outputFName, app.Out)
+
+	// Process options
+	if generateMarkdownDocs {
+		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
+	}
+	if showHelp || showExamples {
 		if len(args) > 0 {
-			fmt.Println(cfg.Help(args...))
+			fmt.Fprintln(app.Out, app.Help(args...))
 		} else {
-			fmt.Println(cfg.Usage())
+			app.Usage(app.Out)
 		}
 		os.Exit(0)
 	}
-
-	if showExamples == true {
-		if len(args) > 0 {
-			fmt.Println(cfg.Example(args...))
-		} else {
-			fmt.Println(cfg.ExampleText)
-		}
+	if showLicense {
+		fmt.Fprintln(app.Out, app.License())
 		os.Exit(0)
 	}
-
-	if showLicense == true {
-		fmt.Println(cfg.License())
+	if showVersion {
+		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-
-	if showVersion == true {
-		fmt.Println(cfg.Version())
-		os.Exit(0)
+	if newLine {
+		eol = "\n"
 	}
-
-	in, err := cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(inputFName, in)
-
-	out, err := cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(outputFName, out)
 
 	// If no args then assume "." is desired
 	if len(args) == 0 {
@@ -314,11 +318,11 @@ func main() {
 	}
 
 	// Read in the complete JSON data structure
-	buf, err := ioutil.ReadAll(in)
-	cli.ExitOnError(os.Stderr, err, quiet)
+	buf, err := ioutil.ReadAll(app.In)
+	cli.ExitOnError(app.Eout, err, quiet)
 
 	if len(buf) == 0 {
-		cli.ExitOnError(os.Stderr, fmt.Errorf("no data"), quiet)
+		cli.ExitOnError(app.Eout, fmt.Errorf("no data"), quiet)
 	}
 
 	var (
@@ -337,25 +341,33 @@ func main() {
 		} else {
 			data, err = dotpath.EvalJSON(p, buf)
 		}
-		cli.ExitOnError(os.Stderr, err, quiet)
+		cli.ExitOnError(app.Eout, err, quiet)
 
 		switch {
 		case showLength:
 			l, err := getLength(data)
-			cli.ExitOnError(os.Stderr, err, quiet)
-			fmt.Fprintf(out, "%d", l)
+			cli.ExitOnError(app.Eout, err, quiet)
+			fmt.Fprintf(app.Out, "%d", l)
 		case showLast:
 			l, err := getLength(data)
-			cli.ExitOnError(os.Stderr, err, quiet)
-			fmt.Fprintf(out, "%d", l-1)
+			cli.ExitOnError(app.Eout, err, quiet)
+			if showValues {
+				elems, err := srcVals(data, limit)
+				cli.ExitOnError(app.Eout, err, quiet)
+				l := len(elems)
+				fmt.Fprintf(app.Out, "%s", elems[l-1])
+			} else {
+				fmt.Fprintf(app.Out, "%d", l-1)
+			}
 		case showValues:
-			elems, err := srcVals(data, limit-1)
-			cli.ExitOnError(os.Stderr, err, quiet)
-			fmt.Fprintln(out, strings.Join(elems, delimiter))
+			elems, err := srcVals(data, limit)
+			cli.ExitOnError(app.Eout, err, quiet)
+			fmt.Fprintln(app.Out, strings.Join(elems, delimiter))
 		default:
-			elems, err := srcKeys(data, limit-1)
-			cli.ExitOnError(os.Stderr, err, quiet)
-			fmt.Fprintln(out, strings.Join(elems, delimiter))
+			elems, err := srcKeys(data, limit)
+			cli.ExitOnError(app.Eout, err, quiet)
+			fmt.Fprintln(app.Out, strings.Join(elems, delimiter))
 		}
 	}
+	fmt.Fprintf(app.Out, "%s", eol)
 }

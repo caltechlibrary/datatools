@@ -1,27 +1,32 @@
 
-# datatools command help
+# Help topics
 
-+ [csv2json](csv2json.html)
-+ [csv2mdtable](csv2mdtable.html)
-+ [csv2xlsx](csv2xlsx.html)
-+ [csvcleaner](csvcleaner.html)
-+ [csvcols](csvcols.html)
-+ [csvfind](csvfind.html)
-+ [csvjoin](csvjoin.html)
-+ [csvrows](csvrows.html)
-+ [finddir](finddir.html)
-+ [findfile](findfile.html)
-+ [jsoncols](jsoncols.html)
-+ [jsonjoin](jsonjoin.html)
-+ [jsonmunge](jsonmunge.html)
-+ [jsonrange](jsonrange.html)
-+ [mergepath](mergepath.html)
-+ [range](range.html)
-+ [reldate](reldate.html)
+## Commands
+
++ [csv2json](csv2json/)
++ [csv2mdtable](csv2mdtable/)
++ [csv2xlsx](csv2xlsx/)
++ [csvcleaner](csvcleaner/)
++ [csvcols](csvcols/)
++ [csvfind](csvfind/)
++ [csvjoin](csvjoin/)
++ [csvrows](csvrows/)
++ [finddir](finddir/)
++ [findfile](findfile/)
++ [jsoncols](jsoncols/)
++ [jsonjoin](jsonjoin/)
++ [jsonmunge](jsonmunge/)
++ [jsonrange](jsonrange/)
++ [mergepath](mergepath/)
++ [range](range/)
++ [reldate](reldate/)
 + [string](string/)
-+ [timefmt](timefmt.html)
-+ [urlparse](urlparse.html)
-+ [vcard2json](vcard2json.html)
-+ [xlsx2csv](xlsx2csv.html)
-+ [xlsx2json](xlsx2json.html)
++ [timefmt](timefmt/)
++ [urlparse](urlparse/)
++ [xlsx2csv](xlsx2csv/)
++ [xlsx2json](xlsx2json/)
+
+## Options
+
++ [options](options.html)
 
