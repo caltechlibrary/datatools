@@ -131,6 +131,7 @@ func main() {
 	// Process Options
 	if generateMarkdownDocs {
 		app.GenerateMarkdownDocs(app.Out)
+		os.Exit(0)
 	}
 	if showHelp || showExamples {
 		if len(args) > 0 {

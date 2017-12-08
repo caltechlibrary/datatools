@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../../index.html">README</a></li>
+<li><a href="../../docs/">Documentation</a></li>
+<li><a href="../../INSTALL.html">Installation</a></li>
+<li><a href="../../how-to/">How To</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>jsoncols [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]
+</code></pre>
+
+<h2>SYNOPSIS</h2>
+
+<p>jsoncols provides scripting flexibility for data extraction from JSON data
+returning the results in columns.  This is helpful in flattening content
+extracted from JSON blobs.  The default delimiter for each value
+extracted is a comma. This can be overridden with an option.</p>
+
+<ul>
+<li>EXPRESSION can be an empty stirng or dot notation for an object&rsquo;s path</li>
+<li>INPUT_FILENAME is the filename to read or a dash &ldquo;-&rdquo; if you want to
+explicitly read from stdin
+
+<ul>
+<li>if not provided then jsoncols reads from stdin</li>
+</ul></li>
+<li>OUTPUT_FILENAME is the filename to write or a dash &ldquo;-&rdquo; if you want to
+explicitly write to stdout
+
+<ul>
+<li>if not provided then jsoncols write to stdout</li>
+</ul></li>
+</ul>
+
+<h2>OPTIONS</h2>
+
+<pre><code>    -csv                      output as CSV or other flat delimiter row
+    -d, -delimiter            set the delimiter for multi-field csv output
+    -examples                 display example(s)
+    -generate-markdown-docs   generate markdown documentation
+    -h, -help                 display help
+    -i, -input                input filename
+    -l, -license              display license
+    -nl, -newline             if true add a trailing newline
+    -o, -output               output filename
+    -quiet                    suppress error messages
+    -quote                    quote strings and JSON notation
+    -r                        run interactively
+    -repl                     run interactively
+    -v, -version              display version
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>If myblob.json contained</p>
+
+<pre><code>{&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jane.doe@example.org&quot;, &quot;age&quot;: 42}
+</code></pre>
+
+<p>Getting just the name could be done with</p>
+
+<pre><code>jsoncols -i myblob.json .name
+</code></pre>
+
+<p>This would yield</p>
+
+<pre><code>&quot;Doe, Jane&quot;
+</code></pre>
+
+<p>Flipping .name and .age into pipe delimited columns is as
+easy as listing each field in the expression inside a
+space delimited string.</p>
+
+<pre><code>jsoncols -i myblob.json -d\|  .name .age
+</code></pre>
+
+<p>This would yield</p>
+
+<pre><code>Doe, Jane|42
+</code></pre>
+
+<p>You can also pipe JSON data in.</p>
+
+<pre><code>cat myblob.json | jsoncols .name .email .age
+</code></pre>
+
+<p>Would yield</p>
+
+<p>&ldquo;Doe, Jane&rdquo;,&ldquo;jane.doe@xample.org&rdquo;,42</p>
+
+<p>jsoncols v0.0.20-pre</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

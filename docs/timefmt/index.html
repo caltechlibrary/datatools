@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../../index.html">README</a></li>
+<li><a href="../../docs/">Documentation</a></li>
+<li><a href="../../INSTALL.html">Installation</a></li>
+<li><a href="../../how-to/">How To</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>timefmt [OPTIONS] TIME_STRING_TO_CONVERT
+</code></pre>
+
+<h2>SYNOPSIS</h2>
+
+<p>timefmt formats the current date or INPUT_DATE based on the output format
+provided in options. The default input and  output format is RFC3339.
+Formats are specified based on Golang&rsquo;s time package including the
+common constants (e.g. RFC822, RFC1123).</p>
+
+<p>For details see <a href="https://golang.org/pkg/time/#Time.Format">https://golang.org/pkg/time/#Time.Format</a>.</p>
+
+<p>One additional time layout provided by timefmt</p>
+
+<ul>
+<li>mysql &ldquo;2006-01-02 15:04:05 -0700&rdquo;</li>
+</ul>
+
+<h2>OPTIONS</h2>
+
+<pre><code>    -examples                 display example(s)
+    -generate-markdown-docs   generate markdown documentation
+    -h, -help                 display help
+    -if, -input-format        Set format for input
+    -l, -license              display license
+    -nl, -newline             if true add a trailing newline
+    -o, -output               output filename
+    -of, -output-format       Set format for output
+    -quiet                    suppress error messages
+    -utc                      timestamps in UTC
+    -v, -version              display version
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>Format the date July, 7, 2016 in YYYY-MM-DD format</p>
+
+<pre><code>timefmt -if &quot;2006-01-02&quot; -of &quot;01/02/2006&quot; &quot;2017-12-02&quot;
+</code></pre>
+
+<p>Yields &ldquo;12/02/2017&rdquo;</p>
+
+<p>Format the MySQL date/time of 8:08am, July 2, 2016</p>
+
+<pre><code>timefmt -input-format mysql -output-format RFC822  &quot;2017-12-02 08:08:08&quot;
+</code></pre>
+
+<p>Yields &ldquo;02 Dec 17 08:08 UTC&rdquo;</p>
+
+<p>timefmt v0.0.20-pre</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

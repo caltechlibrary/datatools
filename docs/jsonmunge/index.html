@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../../index.html">README</a></li>
+<li><a href="../../docs/">Documentation</a></li>
+<li><a href="../../INSTALL.html">Installation</a></li>
+<li><a href="../../how-to/">How To</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>jsonmunge [OPTIONS] TEMPLATE_FILENAME
+</code></pre>
+
+<h2>SYNOPSIS</h2>
+
+<p>jsonmunge is a command line tool that takes a JSON document and
+one or more Go templates rendering the results. Useful for
+reshaping a JSON document, transforming into a new format,
+or filter for specific content.</p>
+
+<ul>
+<li>TEMPLATE_FILENAME is the name of a Go text tempate file used to render
+the outbound JSON document</li>
+</ul>
+
+<h2>OPTIONS</h2>
+
+<pre><code>    -E, -expression           use template expression as template
+    -examples                 display example(s)
+    -generate-markdown-docs   generate markdown documentation
+    -h, -help                 display help
+    -i, -input                input filename
+    -l, -license              display license
+    -nl, -newline             if true add a trailing newline
+    -o, -output               output filename
+    -quiet                    suppress error messages
+    -v, -version              display version
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>If person.json contained</p>
+
+<p>{&ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jd@example.org&rdquo;, &ldquo;age&rdquo;: 42}</p>
+
+<p>and the template, name.tmpl, contained</p>
+
+<p>{{- .name -}}</p>
+
+<p>Getting just the name could be done with</p>
+
+<pre><code>cat person.json | jsonmunge name.tmpl
+</code></pre>
+
+<p>This would yield</p>
+
+<pre><code>&quot;Doe, Jane&quot;
+</code></pre>
+
+<p>jsonmunge v0.0.20-pre</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

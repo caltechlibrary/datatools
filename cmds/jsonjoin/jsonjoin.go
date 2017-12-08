@@ -160,7 +160,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.StringVar(&inputFName, "i,input", "", "input filename (for root object)")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdownDocs, "gemerate-markdown-docs", false, "generate markdown docs")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown docs")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 

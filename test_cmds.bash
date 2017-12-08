@@ -265,31 +265,31 @@ function test_string() {
 function test_csv2json() {
     # Test valid JSON file using options
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/csv2json -i demos/csv2json/data1.csv -o temp.json
+    bin/csv2json -i how-to/csv2json/data1.csv -o temp.json
     assert_exists "test_csv2json (args)" temp.json
-    R=$(cmp demos/csv2json/data1.json temp.json)
+    R=$(cmp how-to/csv2json/data1.json temp.json)
     assert_empty "test_csv2json (args)" "$R"
 
     # Test valid JSON file using pipeline
     if [ -f temp.json ]; then rm temp.json; fi
-    cat demos/csv2json/data1.csv | bin/csv2json > temp.json
+    cat how-to/csv2json/data1.csv | bin/csv2json > temp.json
     assert_exists "test_csv2json (pipeline)" temp.json
-    R=$(cmp demos/csv2json/data1.json temp.json)
+    R=$(cmp how-to/csv2json/data1.json temp.json)
     assert_empty "test_csv2json (args)" "$R"
 
 
     # Test JSON blob sequence using options
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/csv2json -i demos/csv2json/data1.csv -as-blobs -o temp.json
+    bin/csv2json -i how-to/csv2json/data1.csv -as-blobs -o temp.json
     assert_exists "test_csv2json (as blobs, args)" temp.json
-    R=$(cmp demos/csv2json/blobs.txt temp.json)
+    R=$(cmp how-to/csv2json/blobs.txt temp.json)
     assert_empty "test_csv2json (as blobs, args)" "$R"
 
     # Test JSON blob sequence using pipeline
     if [ -f temp.json ]; then rm temp.json; fi
-    cat demos/csv2json/data1.csv | bin/csv2json -as-blobs > temp.json
+    cat how-to/csv2json/data1.csv | bin/csv2json -as-blobs > temp.json
     assert_exists "test_csv2json (as blobs, pipeline)" temp.json
-    R=$(cmp demos/csv2json/blobs.txt temp.json)
+    R=$(cmp how-to/csv2json/blobs.txt temp.json)
     assert_empty "test_csv2json (as blobs, pipeline)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
@@ -299,16 +299,16 @@ function test_csv2json() {
 function test_csv2mdtable() {
     # Test valid Markdown table using options
     if [ -f temp.md ]; then rm temp.md; fi
-    bin/csv2mdtable -i demos/csv2mdtable/data1.csv -o temp.md
+    bin/csv2mdtable -i how-to/csv2mdtable/data1.csv -o temp.md
     assert_exists "test_csv2mdtable (args)" temp.md
-    R=$(cmp demos/csv2mdtable/data1.md temp.md)
+    R=$(cmp how-to/csv2mdtable/data1.md temp.md)
     assert_empty "test_csv2mdtable (args)" "$R"
 
     # Test valid Markdown table using pipeline
     if [ -f temp.md ]; then rm temp.md; fi
-    cat demos/csv2mdtable/data1.csv | bin/csv2mdtable > temp.md
+    cat how-to/csv2mdtable/data1.csv | bin/csv2mdtable > temp.md
     assert_exists "test_csv2mdtable (pipeline)" temp.md
-    R=$(cmp demos/csv2mdtable/data1.md temp.md)
+    R=$(cmp how-to/csv2mdtable/data1.md temp.md)
     assert_empty "test_csv2mdtable (args)" "$R"
 
     if [ -f temp.md ]; then rm temp.md; fi
@@ -318,19 +318,19 @@ function test_csv2mdtable() {
 function test_csv2xlsx(){
     # Test csv XLSX workbook conversion using options
     if [ -f temp.xlsx ]; then rm temp.xlsx; fi
-    bin/csv2xlsx -i demos/csv2xlsx/data1.csv temp.xlsx "My worksheet 1"
+    bin/csv2xlsx -i how-to/csv2xlsx/data1.csv temp.xlsx "My worksheet 1"
     assert_exists "test_csv2xlsx (args)" temp.xlsx
 
     # Test csv XLSX workbook conversion using pipes
-    cat demos/csv2xlsx/data1.csv | bin/csv2xlsx temp.xlsx "My worksheet 2"
+    cat how-to/csv2xlsx/data1.csv | bin/csv2xlsx temp.xlsx "My worksheet 2"
     assert_exists "test_csv2xlsx (pipeline)" temp.xlsx
 
     # Now see if we have the two sheets in there.
-    EXPECTED=$(bin/xlsx2csv -nl -sheets demos/csv2xlsx/MyWorkbook.xlsx | wc -l | sed -E 's/ //g')
+    EXPECTED=$(bin/xlsx2csv -nl -sheets how-to/csv2xlsx/MyWorkbook.xlsx | wc -l | sed -E 's/ //g')
     RESULT=$(bin/xlsx2csv -nl -sheets temp.xlsx | wc -l | sed -E 's/ //g')
     assert_equal "test_csv2xlsx (sheet count)" "$EXPECTED" "$RESULT"
 
-    EXPECTED=$(bin/xlsx2csv -nl -sheets demos/csv2xlsx/MyWorkbook.xlsx | sort)
+    EXPECTED=$(bin/xlsx2csv -nl -sheets how-to/csv2xlsx/MyWorkbook.xlsx | sort)
     RESULT=$(bin/xlsx2csv -nl -sheets temp.xlsx | sort)
     assert_equal "test_csv2xlsx (sheet names)" "$EXPECTED" "$RESULT"
 
@@ -340,33 +340,33 @@ function test_csv2xlsx(){
 
 function test_csvcleaner(){
     if [ -f temp.csv ]; then rm temp.csv; fi
-    bin/csvcleaner -i demos/csvcleaner/mysheet.csv -fields-per-row=2 -o temp.csv
+    bin/csvcleaner -i how-to/csvcleaner/mysheet.csv -fields-per-row=2 -o temp.csv
     assert_exists "test_csvcleaner (args)" temp.csv
-    R=$(cmp demos/csvcleaner/2cols.csv temp.csv)
+    R=$(cmp how-to/csvcleaner/2cols.csv temp.csv)
     assert_empty "test_csvcleaner (args, 2 cols)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
-    bin/csvcleaner -i demos/csvcleaner/mysheet.csv -fields-per-row=3 -o temp.csv
+    bin/csvcleaner -i how-to/csvcleaner/mysheet.csv -fields-per-row=3 -o temp.csv
     assert_exists "test_csvcleaner (args)" temp.csv
-    R=$(cmp demos/csvcleaner/3cols.csv temp.csv)
+    R=$(cmp how-to/csvcleaner/3cols.csv temp.csv)
     assert_empty "test_csvcleaner (args, 3 cols)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
-    bin/csvcleaner -i demos/csvcleaner/mysheet.csv -left-trim -o temp.csv
+    bin/csvcleaner -i how-to/csvcleaner/mysheet.csv -left-trim -o temp.csv
     assert_exists "test_csvcleaner (args, left trim)" temp.csv
-    R=$(cmp demos/csvcleaner/ltrim.csv temp.csv)
+    R=$(cmp how-to/csvcleaner/ltrim.csv temp.csv)
     assert_empty "test_csvcleaner (args, left trim)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
-    bin/csvcleaner -i demos/csvcleaner/mysheet.csv -right-trim -o temp.csv
+    bin/csvcleaner -i how-to/csvcleaner/mysheet.csv -right-trim -o temp.csv
     assert_exists "test_csvcleaner (args, right trim)" temp.csv
-    R=$(cmp demos/csvcleaner/rtrim.csv temp.csv)
+    R=$(cmp how-to/csvcleaner/rtrim.csv temp.csv)
     assert_empty "test_csvcleaner (args, right trim)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
-    bin/csvcleaner -i demos/csvcleaner/mysheet.csv --trim -o temp.csv
+    bin/csvcleaner -i how-to/csvcleaner/mysheet.csv --trim -o temp.csv
     assert_exists "test_csvcleaner (args, trim)" temp.csv
-    R=$(cmp demos/csvcleaner/trim.csv temp.csv)
+    R=$(cmp how-to/csvcleaner/trim.csv temp.csv)
     assert_empty "test_csvcleaner (args, trim)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
@@ -382,7 +382,7 @@ function test_csvcols() {
     EXPECTED="2"
     RESULT=$(cat temp.csv | wc -l | sed -E 's/ //g')
     assert_equal "test_csvcols (args row count)" "$EXPECTED" "$RESULT"
-    R=$(cmp demos/csvcols/3col.csv temp.csv)
+    R=$(cmp how-to/csvcols/3col.csv temp.csv)
     assert_empty "test_csvcols (compare 3col.csv and temp.csv)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
@@ -393,16 +393,16 @@ function test_csvcols() {
     EXPECTED="2"
     RESULT=$(cat temp.csv | wc -l | sed -E 's/ //g')
     assert_equal "test_csvcols (args row count, delimiters)" "$EXPECTED" "$RESULT"
-    R=$(cmp demos/csvcols/3col.csv temp.csv)
+    R=$(cmp how-to/csvcols/3col.csv temp.csv)
     assert_empty "test_csvcols (compare 3col.csv and temp.csv, delimiters)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
-    cat demos/csvcols/3col.csv | bin/csvcols -col 1,3 -o temp.csv
+    cat how-to/csvcols/3col.csv | bin/csvcols -col 1,3 -o temp.csv
     assert_exists "test_csvcols (-col 1,3)" temp.csv
     EXPECTED="2"
     RESULT=$(cat temp.csv | wc -l | sed -E 's/ //g')
     assert_equal "test_csvcols (line count, -col 1,3)" "$EXPECTED" "$RESULT"
-    R=$(cmp demos/csvcols/2col.csv temp.csv)
+    R=$(cmp how-to/csvcols/2col.csv temp.csv)
     assert_empty "test_csvcols (compare 2col.csv and temp.csv)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
@@ -412,29 +412,29 @@ function test_csvcols() {
 function test_csvfind() {
     # Test for match
     if [ -f temp.csv ]; then rm temp.csv; fi
-    csvfind -i demos/csvfind/books.csv -o temp.csv \
+    csvfind -i how-to/csvfind/books.csv -o temp.csv \
         -col=2 "The Red Book of Westmarch"
     assert_exists "test_csvfind (exact match)" temp.csv
-    R=$(cmp demos/csvfind/result1.csv temp.csv)
+    R=$(cmp how-to/csvfind/result1.csv temp.csv)
     assert_empty "test_csvfind (exact match)" "$R"
 
     # Test fuzzy
     if [ -f temp.csv ]; then rm temp.csv; fi
-    csvfind -i demos/csvfind/books.csv -o temp.csv \
+    csvfind -i how-to/csvfind/books.csv -o temp.csv \
         -col=2 -levenshtein \
         -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
         -max-edit-distance=50 -append-edit-distance \
         "The Red Book of Westmarch"
     assert_exists "test_csvfind (fuzzy match)" temp.csv
-    R=$(cmp demos/csvfind/result2.csv temp.csv)
+    R=$(cmp how-to/csvfind/result2.csv temp.csv)
     assert_empty "test_csvfind (fuzz match)" "$R"
 
     # Test contains
     if [ -f temp.csv ]; then rm temp.csv; fi
-    csvfind -i demos/csvfind/books.csv -o temp.csv \
+    csvfind -i how-to/csvfind/books.csv -o temp.csv \
         -col=2 -contains "Red Book"
     assert_exists "test_csvfind (contains)" temp.csv
-    R=$(cmp demos/csvfind/result3.csv temp.csv)
+    R=$(cmp how-to/csvfind/result3.csv temp.csv)
     assert_empty "test_csvfind (contains)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
@@ -443,11 +443,11 @@ function test_csvfind() {
 
 function test_csvjoin(){
     if [ -f temp.csv ]; then rm temp.csv; fi
-    bin/csvjoin -csv1=demos/csvjoin/data1.csv -col1=2 \
-               -csv2=demos/csvjoin/data2.csv -col2=4 \
+    bin/csvjoin -csv1=how-to/csvjoin/data1.csv -col1=2 \
+               -csv2=how-to/csvjoin/data2.csv -col2=4 \
                -output=temp.csv
     assert_exists "test_csvjoin (created temp.csv)" temp.csv
-    R=$(cmp demos/csvjoin/merged-data.csv temp.csv)
+    R=$(cmp how-to/csvjoin/merged-data.csv temp.csv)
     assert_empty "test_csvjoin (compare)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
@@ -460,7 +460,7 @@ function test_csvrows(){
     assert_exists "test_csvrows (created temp.csv)" temp.csv
     bin/csvrows "ein,zwei,drei" "1,2,3" >> temp.csv
     assert_exists "test_csvrows (append temp.csv)" temp.csv
-    R=$(cmp demos/csvrows/4rows.csv temp.csv)
+    R=$(cmp how-to/csvrows/4rows.csv temp.csv)
     assert_empty "test_csvrows (compare)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
@@ -468,19 +468,19 @@ function test_csvrows(){
     assert_exists "test_csvrows (created temp.csv)" temp.csv
     bin/csvrows -delimiter "|" "ein,zwei,drei|1,2,3" >> temp.csv
     assert_exists "test_csvrows (append temp.csv)" temp.csv
-    R=$(cmp demos/csvrows/4rows.csv temp.csv)
+    R=$(cmp how-to/csvrows/4rows.csv temp.csv)
     assert_empty "test_csvrows (compare)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
-    cat demos/csvrows/4rows.csv | bin/csvrows -row 1,3 > temp.csv
+    cat how-to/csvrows/4rows.csv | bin/csvrows -row 1,3 > temp.csv
     assert_exists "test_csvrows (extract to temp.csv)" temp.csv
-    R=$(cmp demos/csvrows/result1.csv temp.csv)
+    R=$(cmp how-to/csvrows/result1.csv temp.csv)
     assert_empty "test_csvrows (compare temp.csv to result1.csv)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
-    bin/csvrows -i demos/csvrows/4rows.csv -row 1,3 -o temp.csv
+    bin/csvrows -i how-to/csvrows/4rows.csv -row 1,3 -o temp.csv
     assert_exists "test_csvrows (extract -i, -o to temp.csv)" temp.csv
-    R=$(cmp demos/csvrows/result2.csv temp.csv)
+    R=$(cmp how-to/csvrows/result2.csv temp.csv)
     assert_empty "test_csvrows (compare temp.csv to result2.csv)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
@@ -490,19 +490,19 @@ function test_csvrows(){
 function test_finddir(){
     # Test prefix
     if [ -f temp.txt ]; then rm temp.txt; fi
-	bin/finddir -p doc demos/finddir > temp.txt
-    assert_exists "test_finddir (-p demos/finddir)" temp.txt
+	bin/finddir -p doc how-to/finddir > temp.txt
+    assert_exists "test_finddir (-p how-to/finddir)" temp.txt
     EXPECTED="3"
     RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g')
-    assert_equal "test_finddir (-p demos/finddir)" "$EXPECTED" "$RESULT"
+    assert_equal "test_finddir (-p how-to/finddir)" "$EXPECTED" "$RESULT"
 
     # Test Suffix
     if [ -f temp.txt ]; then rm temp.txt; fi
-	bin/finddir -o temp.txt -c ment demos/finddir
-    assert_exists "test_finddir (-c demos/finddir)" temp.txt
+	bin/finddir -o temp.txt -c ment how-to/finddir
+    assert_exists "test_finddir (-c how-to/finddir)" temp.txt
     EXPECTED="1"
     RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g')
-    assert_equal "test_finddir (-s demos/finddir)" "$EXPECTED" "$RESULT"
+    assert_equal "test_finddir (-s how-to/finddir)" "$EXPECTED" "$RESULT"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
     echo "test_finddir OK";
@@ -510,19 +510,19 @@ function test_finddir(){
 
 function test_findfile(){
     if [ -f temp.txt ]; then rm temp.txt; fi
-	bin/findfile -s .txt demos/findfile > temp.txt
-    assert_exists "test_findfile (-s demos/findfile)" temp.txt
+	bin/findfile -s .txt how-to/findfile > temp.txt
+    assert_exists "test_findfile (-s how-to/findfile)" temp.txt
     EXPECTED="4"
     RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g')
-    assert_equal "test_findfile (-s demos/findfile)" "$EXPECTED" "$RESULT"
+    assert_equal "test_findfile (-s how-to/findfile)" "$EXPECTED" "$RESULT"
 
     # Test Suffix
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/findfile -o temp.txt -c 5 demos/findfile
-    assert_exists "test_findfile (-c demos/findfile)" temp.txt
+    bin/findfile -o temp.txt -c 5 how-to/findfile
+    assert_exists "test_findfile (-c how-to/findfile)" temp.txt
     EXPECTED="1"
     RESULT=$(cat temp.txt | wc -l | sed -E 's/ //g')
-    assert_equal "test_findfile (-c demos/findfile)" "$EXPECTED" "$RESULT"
+    assert_equal "test_findfile (-c how-to/findfile)" "$EXPECTED" "$RESULT"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
     echo "test_findfile OK";
@@ -530,21 +530,21 @@ function test_findfile(){
 
 function test_jsoncols(){
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/jsoncols -nl -i demos/jsoncols/myblob.json -o temp.txt  .name
+    bin/jsoncols -nl -i how-to/jsoncols/myblob.json -o temp.txt  .name
     assert_exists "test_jsoncols (-i, -o)" temp.txt
-    R=$(cmp demos/jsoncols/result1.txt temp.txt)
+    R=$(cmp how-to/jsoncols/result1.txt temp.txt)
     assert_empty "test_jsoncols (result1)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/jsoncols -nl -i demos/jsoncols/myblob.json -d '|'  .name .age > temp.txt
+    bin/jsoncols -nl -i how-to/jsoncols/myblob.json -d '|'  .name .age > temp.txt
     assert_exists "test_jsoncols (-i, -d)" temp.txt
-    R=$(cmp demos/jsoncols/result2.txt temp.txt)
+    R=$(cmp how-to/jsoncols/result2.txt temp.txt)
     assert_empty "test_jsoncols (result2)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    cat demos/jsoncols/myblob.json | bin/jsoncols -nl .name .email .age > temp.txt
+    cat how-to/jsoncols/myblob.json | bin/jsoncols -nl .name .email .age > temp.txt
     assert_exists "test_jsoncols (pipeline)" temp.txt
-    R=$(cmp demos/jsoncols/result3.txt temp.txt)
+    R=$(cmp how-to/jsoncols/result3.txt temp.txt)
     assert_empty "test_jsoncols (result3)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
@@ -553,40 +553,40 @@ function test_jsoncols(){
 
 function test_jsonjoin(){
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/jsonjoin -create demos/jsonjoin/person.json demos/jsonjoin/profile.json > temp.json
+    bin/jsonjoin -create how-to/jsonjoin/person.json how-to/jsonjoin/profile.json > temp.json
     assert_exists "test_jsonjson (result1)" temp.json
-    R=$(cmp demos/jsonjoin/result1.json temp.json)
+    R=$(cmp how-to/jsonjoin/result1.json temp.json)
     assert_empty "test_jsonjoin (result1)" "$R"
 
 
     if [ -f temp.json ]; then rm temp.json; fi
-    cat demos/jsonjoin/person.json | jsonjoin -i -  demos/jsonjoin/profile.json > temp.json
+    cat how-to/jsonjoin/person.json | jsonjoin -i -  how-to/jsonjoin/profile.json > temp.json
     assert_exists "test_jsonjson (result2)" temp.json
-    R=$(cmp demos/jsonjoin/result2.json temp.json)
+    R=$(cmp how-to/jsonjoin/result2.json temp.json)
     assert_empty "test_jsonjoin (result2)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/jsonjoin -i demos/jsonjoin/person.json demos/jsonjoin/profile.json > temp.json
+    bin/jsonjoin -i how-to/jsonjoin/person.json how-to/jsonjoin/profile.json > temp.json
     assert_exists "test_jsonjson (result3)" temp.json
-    R=$(cmp demos/jsonjoin/result3.json temp.json)
+    R=$(cmp how-to/jsonjoin/result3.json temp.json)
     assert_empty "test_jsonjoin (result3)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/jsonjoin -create -update demos/jsonjoin/person.json demos/jsonjoin/profile.json > temp.json
+    bin/jsonjoin -create -update how-to/jsonjoin/person.json how-to/jsonjoin/profile.json > temp.json
     assert_exists "test_jsonjson (result4)" temp.json
-    R=$(cmp demos/jsonjoin/result4.json temp.json)
+    R=$(cmp how-to/jsonjoin/result4.json temp.json)
     assert_empty "test_jsonjoin (result4)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/jsonjoin -create -update demos/jsonjoin/profile.json demos/jsonjoin/person.json > temp.json
+    bin/jsonjoin -create -update how-to/jsonjoin/profile.json how-to/jsonjoin/person.json > temp.json
     assert_exists "test_jsonjson (result5)" temp.json
-    R=$(cmp demos/jsonjoin/result5.json temp.json)
+    R=$(cmp how-to/jsonjoin/result5.json temp.json)
     assert_empty "test_jsonjoin (result5)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/jsonjoin -create -overwrite demos/jsonjoin/person.json demos/jsonjoin/profile.json > temp.json
+    bin/jsonjoin -create -overwrite how-to/jsonjoin/person.json how-to/jsonjoin/profile.json > temp.json
     assert_exists "test_jsonjson (result6)" temp.json
-    R=$(cmp demos/jsonjoin/result6.json temp.json)
+    R=$(cmp how-to/jsonjoin/result6.json temp.json)
     assert_empty "test_jsonjoin (result6)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
@@ -595,9 +595,9 @@ function test_jsonjoin(){
 
 function test_jsonmunge(){
     if [ -f temp.json ]; then rm temp.json; fi
-    cat demos/jsonmunge/person.json | bin/jsonmunge demos/jsonmunge/name.tmpl > temp.json
+    cat how-to/jsonmunge/person.json | bin/jsonmunge how-to/jsonmunge/name.tmpl > temp.json
     assert_exists "test_jsonmunge (result1)" temp.json
-    R=$(cmp demos/jsonmunge/result1.json temp.json)
+    R=$(cmp how-to/jsonmunge/result1.json temp.json)
     assert_empty "test_jsonmunge (result1)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
@@ -606,57 +606,57 @@ function test_jsonmunge(){
 
 function test_jsonrange(){
     if [ -f temp.txt ]; then rm temp.txt; fi
-    cat demos/jsonrange/person.json | bin/jsonrange -i - | sort > temp.txt
+    cat how-to/jsonrange/person.json | bin/jsonrange -i - | sort > temp.txt
     assert_exists "test_jsonrange (result1)" temp.txt
-    R=$(cmp demos/jsonrange/expected1.txt temp.txt)
+    R=$(cmp how-to/jsonrange/expected1.txt temp.txt)
     assert_empty "test_jsonrange (result1)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/jsonrange -i demos/jsonrange/person.json -values | sort > temp.txt
+    bin/jsonrange -i how-to/jsonrange/person.json -values | sort > temp.txt
     assert_exists "test_jsonrange (expected2)" temp.txt
-    R=$(cmp demos/jsonrange/expected2.txt temp.txt)
+    R=$(cmp how-to/jsonrange/expected2.txt temp.txt)
     assert_empty "test_jsonrange (expected2)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/jsonrange -i demos/jsonrange/array1.json -o temp.txt
+    bin/jsonrange -i how-to/jsonrange/array1.json -o temp.txt
     assert_exists "test_jsonrange (expected3)" temp.txt
-    R=$(cmp demos/jsonrange/expected3.txt temp.txt)
+    R=$(cmp how-to/jsonrange/expected3.txt temp.txt)
     assert_empty "test_jsonrange (expected3)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/jsonrange -i demos/jsonrange/array1.json -values -o temp.txt
+    bin/jsonrange -i how-to/jsonrange/array1.json -values -o temp.txt
     assert_exists "test_jsonrange (expected4)" temp.txt
-    R=$(cmp demos/jsonrange/expected4.txt temp.txt)
+    R=$(cmp how-to/jsonrange/expected4.txt temp.txt)
     assert_empty "test_jsonrange (expected4)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/jsonrange -i demos/jsonrange/array2.json -length -o temp.txt
+    bin/jsonrange -i how-to/jsonrange/array2.json -length -o temp.txt
     assert_exists "test_jsonrange (expected5)" temp.txt
-    R=$(cmp demos/jsonrange/expected5.txt temp.txt)
+    R=$(cmp how-to/jsonrange/expected5.txt temp.txt)
     assert_empty "test_jsonrange (expected5)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/jsonrange -i demos/jsonrange/array2.json -last -o temp.txt
+    bin/jsonrange -i how-to/jsonrange/array2.json -last -o temp.txt
     assert_exists "test_jsonrange (expected6)" temp.txt
-    R=$(cmp demos/jsonrange/expected6.txt temp.txt)
+    R=$(cmp how-to/jsonrange/expected6.txt temp.txt)
     assert_empty "test_jsonrange (expected6)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/jsonrange -nl -i demos/jsonrange/array2.json -values -last -o temp.txt
+    bin/jsonrange -nl -i how-to/jsonrange/array2.json -values -last -o temp.txt
     assert_exists "test_jsonrange (expected7)" temp.txt
-    R=$(cmp demos/jsonrange/expected7.txt temp.txt)
+    R=$(cmp how-to/jsonrange/expected7.txt temp.txt)
     assert_empty "test_jsonrange (expected7)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/jsonrange -i demos/jsonrange/array3.json -limit 2 -o temp.txt
+    bin/jsonrange -i how-to/jsonrange/array3.json -limit 2 -o temp.txt
     assert_exists "test_jsonrange (expected8)" temp.txt
-    R=$(cmp demos/jsonrange/expected8.txt temp.txt)
+    R=$(cmp how-to/jsonrange/expected8.txt temp.txt)
     assert_empty "test_jsonrange (expected8)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/jsonrange -i demos/jsonrange/array3.json -values -limit 2 -o temp.txt
+    bin/jsonrange -i how-to/jsonrange/array3.json -values -limit 2 -o temp.txt
     assert_exists "test_jsonrange (expected9)" temp.txt
-    R=$(cmp demos/jsonrange/expected9.txt temp.txt)
+    R=$(cmp how-to/jsonrange/expected9.txt temp.txt)
     assert_empty "test_jsonrange (expected9)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
@@ -754,17 +754,17 @@ function test_urlparse(){
 
 function test_xlsx2csv(){
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/xlsx2csv demos/xlsx2csv/MyWorkbook.xlsx "My worksheet 1" > temp.txt
+    bin/xlsx2csv how-to/xlsx2csv/MyWorkbook.xlsx "My worksheet 1" > temp.txt
     assert_exists "test_xlsx2csv (1)" temp.txt
-    R=$(cmp demos/xlsx2csv/expected1.csv temp.txt)
+    R=$(cmp how-to/xlsx2csv/expected1.csv temp.txt)
     assert_empty "test_xlsx2csv (1)" "$R"
 
     EXPECTED="2"
-    RESULT=$(bin/xlsx2csv -count demos/xlsx2csv/MyWorkbook.xlsx)
+    RESULT=$(bin/xlsx2csv -count how-to/xlsx2csv/MyWorkbook.xlsx)
     assert_equal "test_xlsx2csv (2)" "$EXPECTED" "$RESULT"
 
-    EXPECTED=$(cat demos/xlsx2csv/expected3.txt)
-    RESULT=$(bin/xlsx2csv -nl -sheets demos/xlsx2csv/MyWorkbook.xlsx | sort)
+    EXPECTED=$(cat how-to/xlsx2csv/expected3.txt)
+    RESULT=$(bin/xlsx2csv -nl -sheets how-to/xlsx2csv/MyWorkbook.xlsx | sort)
     assert_equal "test_xlsx2csv (3)" "$EXPECTED" "$RESULT"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
@@ -773,17 +773,17 @@ function test_xlsx2csv(){
 
 function test_xlsx2json(){
     if [ -f temp.txt ]; then rm temp.txt; fi
-    bin/xlsx2json -nl demos/xlsx2json/MyWorkbook.xlsx "My worksheet 1" > temp.txt
+    bin/xlsx2json -nl how-to/xlsx2json/MyWorkbook.xlsx "My worksheet 1" > temp.txt
     echo '[["Number","Value"],["one","1"],["two","2"],["three","3"]]' > expected1.json
-    R=$(cmp demos/xlsx2json/expected1.json temp.txt)
+    R=$(cmp how-to/xlsx2json/expected1.json temp.txt)
     assert_empty "test_xlsx2csv (1)" "$R"
 
     EXPECTED="2"
-    RESULT=$(bin/xlsx2json -count demos/xlsx2json/MyWorkbook.xlsx)
+    RESULT=$(bin/xlsx2json -count how-to/xlsx2json/MyWorkbook.xlsx)
     assert_equal "test_xlsx2json (2)" "$EXPECTED" "$RESULT"
 
-    EXPECTED=$(cat demos/xlsx2json/expected3.txt)
-    RESULT=$(bin/xlsx2json -nl -sheets demos/xlsx2json/MyWorkbook.xlsx | sort)
+    EXPECTED=$(cat how-to/xlsx2json/expected3.txt)
+    RESULT=$(bin/xlsx2json -nl -sheets how-to/xlsx2json/MyWorkbook.xlsx | sort)
     assert_equal "test_xlsx2json (3)" "$EXPECTED" "$RESULT"
 
     if [ -f temp.txt ]; then rm temp.txt; fi

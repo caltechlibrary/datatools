@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../../index.html">README</a></li>
+<li><a href="../../docs/">Documentation</a></li>
+<li><a href="../../INSTALL.html">Installation</a></li>
+<li><a href="../../how-to/">How To</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>xlsx2json [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
+</code></pre>
+
+<h2>SYNOPSIS</h2>
+
+<p>xlsx2json is a tool that converts individual Excel Workbook Sheets into
+JSON output.</p>
+
+<h2>OPTIONS</h2>
+
+<pre><code>    -N, -sheets               display sheet names in Excel Workbook
+    -c, -count                display number of sheets in Excel Workbook
+    -examples                 display example(s)
+    -generate-markdown-docs   generate markdown documentation
+    -h, -help                 display help
+    -l, -license              display license
+    -nl, -newline             if true add a trailing newline
+    -o, -output               output filename
+    -quiet                    suppress error messages
+    -v, -version              display version
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>This would get the sheet named &ldquo;Sheet 1&rdquo; from &ldquo;MyWorkbook.xlsx&rdquo; and save as sheet1.json</p>
+
+<pre><code>xlsx2json MyWorkbook.xlsx &quot;My worksheet 1&quot; &gt; sheet1.json
+</code></pre>
+
+<p>This would get the number of sheets in the workbook</p>
+
+<pre><code>xlsx2json -count MyWorkbook.xlsx
+</code></pre>
+
+<p>This will output the title of the sheets in the workbook</p>
+
+<pre><code>xlsx2json -sheets MyWorkbook.xlsx
+</code></pre>
+
+<p>Putting it all together in a shell script and convert all sheets to
+into JSON documents..</p>
+
+<pre><code>xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
+    JSON_NAME=&quot;${SHEET_NAME// /-}.json&quot;
+    xlsx2json -o &quot;${JSON_NAME}&quot; MyWorkbook.xlsx &quot;$SHEET_NAME&quot;
+done    
+</code></pre>
+
+<p>%!(EXTRA string=xlsx2json, string=xlsx2json)</p>
+
+<p>xlsx2json v0.0.20-pre</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

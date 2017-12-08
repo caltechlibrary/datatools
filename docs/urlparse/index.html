@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../../index.html">README</a></li>
+<li><a href="../../docs/">Documentation</a></li>
+<li><a href="../../INSTALL.html">Installation</a></li>
+<li><a href="../../how-to/">How To</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>urlparse [OPTIONS] URL_TO_PARSE
+</code></pre>
+
+<h2>SYNOPSIS</h2>
+
+<p>urlparse can parse a URL and return the specific elements
+requested (e.g. protocol, hostname, path, query string)</p>
+
+<h2>OPTIONS</h2>
+
+<pre><code>    -H, -host                 Display the hostname (and port if specified) found in URL.
+    -P, -protocol             Display the protocol of URL (defaults to http)
+    -base, -basename          Display the base filename at the end of the path.
+    -d, -delimiter            Set the output delimited for parsed display. (defaults to tab)
+    -dir, -dirname            Display all but the last element of the path
+    -examples                 display example(s)
+    -ext, -extname            Display the filename extension (e.g. .html).
+    -generate-markdown-docs   generate markdown documentation
+    -h, -help                 display help
+    -i, -input                input filename
+    -l, -license              display license
+    -nl, -newline             if true add a trailing newline
+    -o, -output               output filename
+    -p, -path                 Display the path after the hostname.
+    -quiet                    suppress error messages
+    -v, -version              display version
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>With no options returns &ldquo;http\texample.com\t/my/page.html&rdquo;</p>
+
+<pre><code>urlparse http://example.com/my/page.html
+</code></pre>
+
+<p>Get protocol. Returns &ldquo;http&rdquo;.</p>
+
+<pre><code>urlparse -protocol http://example.com/my/page.html
+</code></pre>
+
+<p>Get host or domain name.  Returns &ldquo;example.com&rdquo;.</p>
+
+<pre><code>urlparse -host http://example.com/my/page.html
+</code></pre>
+
+<p>Get path. Returns &ldquo;/my/page.html&rdquo;.</p>
+
+<pre><code>urlparse -path http://example.com/my/page.html
+</code></pre>
+
+<p>Get dirname. Returns &ldquo;my&rdquo;</p>
+
+<pre><code>urlparse -dirname http://example.com/my/page.html
+</code></pre>
+
+<p>Get basename. Returns &ldquo;page.html&rdquo;.</p>
+
+<pre><code>urlparse -basename http://example.com/my/page.html
+</code></pre>
+
+<p>Get extension. Returns &ldquo;.html&rdquo;.</p>
+
+<pre><code>urlparse -extname http://example.com/my/page.html
+</code></pre>
+
+<p>Without options urlparse returns protocol, host and path
+fields separated by a tab.</p>
+
+<p>urlparse v0.0.20-pre</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

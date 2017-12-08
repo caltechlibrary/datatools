@@ -174,7 +174,6 @@ func main() {
 	if generateMarkdownDocs {
 		app.GenerateMarkdownDocs(app.Out)
 		os.Exit(0)
-
 	}
 	if showHelp || showExamples {
 		if len(args) > 0 {

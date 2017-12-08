@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../../index.html">README</a></li>
+<li><a href="../../docs/">Documentation</a></li>
+<li><a href="../../INSTALL.html">Installation</a></li>
+<li><a href="../../how-to/">How To</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>demo jsonjoin</h1>
+
+<p>Consider two JSON objects one in person.json and another
+in profile.json.</p>
+
+<p>person.json contains</p>
+
+<pre><code class="language-shell">   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42 }
+</code></pre>
+
+<p>profile.json contains</p>
+
+<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
+     &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
+</code></pre>
+
+<p>A simple join of person.json with profile.json (note the
+-create option)</p>
+
+<pre><code class="language-shell">   jsonjoin -create person.json profile.json
+</code></pre>
+
+<p>would yield and object like</p>
+
+<pre><code class="language-json">   {
+     &quot;person&quot;:  { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;,
+	 			&quot;age&quot;: 42},
+     &quot;profile&quot;: { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
+                  &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
+   }
+</code></pre>
+
+<p>Likewise if you want to treat person.json as the root object and add
+profile.json as a branch try</p>
+
+<pre><code class="language-shell">   cat person.json | jsonjoin profile.json
+</code></pre>
+
+<p>or</p>
+
+<pre><code class="language-shell">   jsonjoin -i person.json profile.json
+</code></pre>
+
+<p>this yields an object like</p>
+
+<pre><code class="language-json">   {
+     &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42,
+     &quot;profile&quot;: { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
+                  &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
+   }
+</code></pre>
+
+<p>You can modify this behavor with -update or -overwrite. Both options are
+order dependant (i.e. not associative, A update B does
+not necessarily equal B update A).</p>
+
+<ul>
+<li>-update will add unique key/values from the second object to the first object</li>
+<li>-overwrite replace key/values in first object one with second objects&rsquo;</li>
+</ul>
+
+<p>Running</p>
+
+<pre><code class="language-shell">    jsonjoin -create -update person.json profile.json
+</code></pre>
+
+<p>would yield</p>
+
+<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42,
+     &quot;bio&quot;: &quot;World renowned geophysist.&quot; }
+</code></pre>
+
+<p>Running</p>
+
+<pre><code class="language-shell">    jsonjoin -create -update profile.json person.json
+</code></pre>
+
+<p>would yield</p>
+
+<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;,  &quot;age&quot;: 42,
+     &quot;bio&quot;: &quot;World renowned geophysist.&quot;,
+     &quot;email&quot;: &quot;jane.doe@example.edu&quot; }
+</code></pre>
+
+<p>Running</p>
+
+<pre><code class="language-shell">    jsonjoin -create -overwrite person.json profile.json
+</code></pre>
+
+<p>would yield</p>
+
+<pre><code class="language-json">   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jane.doe@example.edu&quot;, &quot;age&quot;: 42,
+     &quot;bio&quot;: &quot;World renowned geophysist.&quot; }
+</code></pre>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

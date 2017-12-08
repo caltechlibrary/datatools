@@ -69,4 +69,4 @@ Options are shared between all actions and must precede the action on the comman
 
 Related: [contains](contains.html), [count](count.html), [englishtitle](englishtitle.html), [hasprefix](hasprefix.html), [hassuffix](hassuffix.html), [join](join.html), [length](length.html), [padleft](padleft.html), [padright](padright.html), [position](position.html), [replace](replace.html), [replacen](replacen.html), [slice](slice.html), [split](split.html), [splitn](splitn.html), [tolower](tolower.html), [totitle](totitle.html), [toupper](toupper.html), [trim](trim.html), [trimleft](trimleft.html), [trimprefix](trimprefix.html), [trimright](trimright.html), [trimsuffix](trimsuffix.html)
 
-string v0.0.20-dev
+string v0.0.20-pre
