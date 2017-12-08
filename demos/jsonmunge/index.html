@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="./">README</a></li>
+<li><a href="license.html">LICENSE</a></li>
+<li><a href="install.html">INSTALL</a></li>
+<li><a href="docs/">Documentation</a></li>
+<li><a href="how-to/">How To</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>demo jsonmunge</h1>
+
+<p>If person.json contained</p>
+
+<pre><code class="language-json">   {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42}
+</code></pre>
+
+<p>and the template, name.tmpl, contained</p>
+
+<pre><code class="language-template">   {{- .name -}}
+</code></pre>
+
+<p>Getting just the name could be done with</p>
+
+<pre><code class="language-shell">    cat person.json | jsonmunge name.tmpl
+</code></pre>
+
+<p>This would yield</p>
+
+<pre><code>    &quot;Doe, Jane&quot;
+</code></pre>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

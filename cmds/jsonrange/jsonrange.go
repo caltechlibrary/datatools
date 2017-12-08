@@ -259,7 +259,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.StringVar(&inputFName, "i,input", "", "read JSON from file")
 	app.StringVar(&outputFName, "o,output", "", "write to output file")
-	app.BoolVar(&generateMarkdownDocs, "generateMarkdownDocs", false, "generate markdown docs")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown docs")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 

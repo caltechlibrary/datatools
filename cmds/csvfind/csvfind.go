@@ -107,6 +107,7 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline from output")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generation markdown documentation")
 
 	// App Options
 	app.IntVar(&col, "col,cols", 0, "column to search for match in the CSV file")

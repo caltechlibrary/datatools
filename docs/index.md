@@ -30,3 +30,7 @@
 ## Options
 
 + [options](options.html)
+
+## [Demos](../demos/)
+
+

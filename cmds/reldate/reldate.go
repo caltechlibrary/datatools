@@ -157,6 +157,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", true, "if true add a trailing newline")
+	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
 
 	// App Specific Options
 	app.StringVar(&relativeTo, "f,from", relativeTo, relativeToUsage)
