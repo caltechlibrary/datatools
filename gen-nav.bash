@@ -12,7 +12,7 @@ function write_nav() {
                 readme="text:${RELPATH}index.html" \
                 license="text:${RELPATH}license.html" \
                 docs="text:${RELPATH}docs/" \
-                install="text:${RELPATH}INSTALL.html" \
+                install="text:${RELPATH}install.html" \
                 howto="text:${RELPATH}how-to/" \
                 gitrepo="text:${GIT_REPO}" \
                 >"${DNAME}${D}/nav.md"
@@ -26,7 +26,7 @@ mkpage nav.tmpl relroot="text:" \
         readme="text:index.html" \
         license="text:license.html" \
         docs="text:docs/" \
-        install="text:INSTALL.html" \
+        install="text:install.html" \
         howto="text:how-to/" \
         gitrepo="text:${GIT_REPO}" \
         >"nav.md"
@@ -36,7 +36,7 @@ mkpage nav.tmpl relroot="text:" \
         readme="text:../index.html" \
         license="text:../license.html" \
         docs="text:./" \
-        install="text:../INSTALL.html" \
+        install="text:../install.html" \
         howto="text:../how-to/" \
         gitrepo="text:${GIT_REPO}" \
         >"docs/nav.md"
@@ -46,7 +46,7 @@ mkpage nav.tmpl relroot="text:" \
         readme="text:../index.html" \
         license="text:../license.html" \
         docs="text:../docs/" \
-        install="text:../INSTALL.html" \
+        install="text:../install.html" \
         howto="text:./" \
         gitrepo="text:${GIT_REPO}" \
         >"how-to/nav.md"
