@@ -10,6 +10,7 @@ function write_nav() {
             RELPATH=$(reldocpath ${DNAME}"${D}" .)
             mkpage nav.tmpl relroot="text:${RELPATH}" \
                 readme="text:${RELPATH}index.html" \
+                license="text:${RELPATH}license.html" \
                 docs="text:${RELPATH}docs/" \
                 install="text:${RELPATH}INSTALL.html" \
                 howto="text:${RELPATH}how-to/" \
@@ -23,6 +24,7 @@ function write_nav() {
 echo "Writing root nav.md"
 mkpage nav.tmpl relroot="text:" \
         readme="text:index.html" \
+        license="text:license.html" \
         docs="text:docs/" \
         install="text:INSTALL.html" \
         howto="text:how-to/" \
@@ -32,6 +34,7 @@ mkpage nav.tmpl relroot="text:" \
 # generate docs nav
 mkpage nav.tmpl relroot="text:" \
         readme="text:../index.html" \
+        license="text:../license.html" \
         docs="text:./" \
         install="text:../INSTALL.html" \
         howto="text:../how-to/" \
@@ -41,6 +44,7 @@ mkpage nav.tmpl relroot="text:" \
 # generate how-to nav
 mkpage nav.tmpl relroot="text:" \
         readme="text:../index.html" \
+        license="text:../license.html" \
         docs="text:../docs/" \
         install="text:../INSTALL.html" \
         howto="text:./" \
