@@ -8,20 +8,20 @@ Posix shell scripting (e.g. writing scripts that run under Bash). The tools are 
 
 Command line utilities for simplifying work with CSV, JSON, Excel Workbooks and plain text files or content.
 
-+ [csv2json](docs/csv2json.html) - a tool to take a CSV file and convert it into a JSON array or a list of JSON blobs one per line
-+ [csv2mdtable](docs/csv2mdtable.html) - a tool to render CSV as a Github Flavored Markdown table
-+ [csv2xlsx](docs/csv2xlsx.html) - a tool to take a CSV file and add it as a sheet to a Excel Workbook
-+ [csvcleaner](docs/csvcleaner.html) - normalize a CSV file by column and row including trimming spaces and removing comments
-+ [csvcols](docs/csvcols.html) - a tool for formatting command line arguments into CSV row of columns or filtering CSV rows for specific columns
-+ [csvfind](docs/csvfind.html) - a tool for filtering a CSV file rows by column
-+ [csvjoin](docs/csvjoin.html) - a tool to join two CSV files on common values in designated columns, writes combined CSV rows
-+ [csvrows](docs/csvrows.html) - a tool for formatting command line arguments into CSV columns of rows or filtering CSV columns for specific rows
-+ [jsoncols](docs/jsoncols.html) - a tool for exploring and extracting JSON values into columns
-+ [jsonjoin](docs/jsonjoin.html) - a tool for joining JSON object documents
-+ [jsonmunge](docs/jsonmunge.html) - a tool to transform JSON documents into something else
-+ [jsonrange](docs/jsonrange.html) - a tool for iterating over JSON objects and arrays (return keys or values)
-+ [xlsx2csv](docs/xlsx2csv.html) - a tool for converting Excel Workbooks sheets to CSV files
-+ [xlsx2json](docs/xlsx2json.html) - a tool for converting Excel Workbooks to JSON files
++ [csv2json](docs/csv2json/) - a tool to take a CSV file and convert it into a JSON array or a list of JSON blobs one per line
++ [csv2mdtable](docs/csv2mdtable/) - a tool to render CSV as a Github Flavored Markdown table
++ [csv2xlsx](docs/csv2xlsx/) - a tool to take a CSV file and add it as a sheet to a Excel Workbook
++ [csvcleaner](docs/csvcleaner/) - normalize a CSV file by column and row including trimming spaces and removing comments
++ [csvcols](docs/csvcols/) - a tool for formatting command line arguments into CSV row of columns or filtering CSV rows for specific columns
++ [csvfind](docs/csvfind/) - a tool for filtering a CSV file rows by column
++ [csvjoin](docs/csvjoin/) - a tool to join two CSV files on common values in designated columns, writes combined CSV rows
++ [csvrows](docs/csvrows/) - a tool for formatting command line arguments into CSV columns of rows or filtering CSV columns for specific rows
++ [jsoncols](docs/jsoncols/) - a tool for exploring and extracting JSON values into columns
++ [jsonjoin](docs/jsonjoin/) - a tool for joining JSON object documents
++ [jsonmunge](docs/jsonmunge/) - a tool to transform JSON documents into something else
++ [jsonrange](docs/jsonrange/) - a tool for iterating over JSON objects and arrays (return keys or values)
++ [xlsx2csv](docs/xlsx2csv/) - a tool for converting Excel Workbooks sheets to CSV files
++ [xlsx2json](docs/xlsx2json/) - a tool for converting Excel Workbooks to JSON files
 
 
 Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
@@ -58,13 +58,13 @@ See [string](docs/string/) for full details
 
 Various utilities for simplifying work on the command line. 
 
-+ [findfile](docs/findfile.html) - find files based on prefix, suffix or contained string
-+ [finddir](docs/finddir.html) - find directories based on prefix, suffix or contained string
-+ [mergepath](docs/mergepath.html) - prefix, append, clip path variables
-+ [range](docs/range.html) - emit a range of integers (useful for numbered loops in Bash)
-+ [reldate](docs/reldate.html) - display a relative date in YYYY-MM-DD format
-+ [timefmt](docs/timefmt.html) - format a time value based on Golang's time format language
-+ [urlparse](docs/urlparse.html) - split a URL into parts
++ [findfile](docs/findfile/) - find files based on prefix, suffix or contained string
++ [finddir](docs/finddir/) - find directories based on prefix, suffix or contained string
++ [mergepath](docs/mergepath/) - prefix, append, clip path variables
++ [range](docs/range/) - emit a range of integers (useful for numbered loops in Bash)
++ [reldate](docs/reldate/) - display a relative date in YYYY-MM-DD format
++ [timefmt](docs/timefmt/) - format a time value based on Golang's time format language
++ [urlparse](docs/urlparse/) - split a URL into parts
 
 Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
 Windows 10 (amd64) and Raspbian (ARM7). See https://github.com/caltechlibrary/datatools/releases.
@@ -74,7 +74,7 @@ Use the utilities try "-help" option for a full list of options.
 
 ## Installation
 
-See [INSTALL.md](install.html) for details for installing pre-compiled versions of the programs.
+See [INSTALL.md](install/) for details for installing pre-compiled versions of the programs.
 
 _datatools_ are go get-able. If you have go v1.8 (or newer) you can install with the command below.
 

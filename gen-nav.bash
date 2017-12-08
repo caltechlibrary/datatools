@@ -3,20 +3,20 @@
 GIT_REPO="https://github.com/caltechlibrary/datatools"
 
 function write_nav() {
-DNAME="$1"
-finddir -depth 2 ${DNAME} | while read D; do
-    if [[ "$D" != "." ]]; then
-        echo "Writing ${DNAME}${D}/nav.md"
-        RELPATH=$(reldocpath ${DNAME}"${D}" .)
-        mkpage nav.tmpl relroot="text:${RELPATH}" \
-        readme="text:${RELPATH}index.html" \
-        docs="text:${RELPATH}docs/" \
-        install="text:${RELPATH}INSTALL.html" \
-        howto="text:${RELPATH}how-to/" \
-        gitrepo="text:${GIT_REPO}" \
-        >"${DNAME}${D}/nav.md"
-    fi
-done
+    DNAME="$1"
+    finddir -depth 2 ${DNAME} | while read D; do
+        if [[ "$D" != "." ]]; then
+            echo "Writing ${DNAME}${D}/nav.md"
+            RELPATH=$(reldocpath ${DNAME}"${D}" .)
+            mkpage nav.tmpl relroot="text:${RELPATH}" \
+                readme="text:${RELPATH}index.html" \
+                docs="text:${RELPATH}docs/" \
+                install="text:${RELPATH}INSTALL.html" \
+                howto="text:${RELPATH}how-to/" \
+                gitrepo="text:${GIT_REPO}" \
+                >"${DNAME}${D}/nav.md"
+            fi
+    done
 }
 
 # root nav

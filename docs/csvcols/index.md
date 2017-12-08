@@ -14,19 +14,19 @@ listed on the commandline (first column is 1 not 0).
 ## OPTIONS
 
 ```
-    -col, -cols              output specified columns (e.g. -col 1,12:14,2,4))
-    -d, -delimiter           set the input delimiter character
-    -examples                display example
-    -generate-markdown-docs  generate markdown documentation
-    -h, -help                display help
-    -i, -input               input filename
-    -l, -license             display license
-    -o, -output              output filename
-    -od, -output-delimiter   set the output delimiter character
-    -quiet                   suppress error messages
-    -skip-header-row         skip the header row
-    -uuid                    add a prefix row with generated UUID cell
-    -v, -version             display version
+    -col, -cols               output specified columns (e.g. -col 1,12:14,2,4))
+    -d, -delimiter            set the input delimiter character
+    -examples                 display example
+    -generate-markdown-docs   generate markdown documentation
+    -h, -help                 display help
+    -i, -input                input filename
+    -l, -license              display license
+    -o, -output               output filename
+    -od, -output-delimiter    set the output delimiter character
+    -quiet                    suppress error messages
+    -skip-header-row          skip the header row
+    -uuid                     add a prefix row with generated UUID cell
+    -v, -version              display version
 ```
 
 

@@ -1,8 +1,10 @@
 
 # How To ...
 
++ [Convert lines into an array](convert-lines-into-an-array.html)
 + [Find duplicates in a column](find-duplicates-in-a-column.html)
 + [Reorder a comma delimited string](reorder-a-comma-delimited-string.html)
++ [Trim a trailing newline from a text file](trim-a-trailing-newline-from-a-text-file.html)
 
 ## Use (by tool)
 
@@ -22,6 +24,15 @@
 + [jsonrange](jsonrange/)
 + [range](range/)
 + [reldate](reldate/)
++ [string](string/)
+    + change case: [lower](string/tolower.html), [upper](string/toupper.html), [title](string/title.html), [english title](string/englishtitle.html)
+    + [contains](string/contains.html), [has prefix](string/hasprefix.html), [has suffix](string/hassuffix.html)
+    + [count](string/count.html), [length](string/length.html), [position](string/position.html)
+    + [join](string/join.html), [split](string/split.html), [split N times](string/splitn.html)
+    + [pad left](string/padleft.html), [pad right](string/padright.html)
+    + [replace](string/replace.html), [replace N times](string/replacen.html)
+    + [get a slice ](string/slice.html)
+    + [trim](string/trim.html), [trim left](string/trimleft.html), [trim a prefix](string/trimprefix.html), [trim right](string/trimright.html), [trim spaces](string/trimspace.html), [trim suffix](string/trimsuffix.html)
 + [timefmt](timefmt/)
 + [urlparse](urlparse/)
 + [xlsx2csv](xlsx2csv/)

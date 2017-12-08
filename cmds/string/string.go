@@ -45,6 +45,26 @@ string is a command line tool for transforming strings in common ways.
 `
 
 	examples = `
+Convert text to upper case
+
+	string toupper "one"
+
+Convert text to lower case
+
+	string tolower "ONE"
+
+Captialize an English phrase
+
+	string englishtitle "one more thing to know"
+
+Split a space newline delimited list of words into a JSON array
+
+	string -i wordlist.txt split "\n"
+
+Join a JSON array of strings into a newline delimited list
+
+	string join '\n' '["one","two","three","four","five"]'
+
 `
 
 	// Standard Options
@@ -60,6 +80,8 @@ string is a command line tool for transforming strings in common ways.
 	eol                  string
 
 	// App Options
+	delimiter       string
+	outputDelimiter string
 )
 
 //
@@ -161,7 +183,7 @@ func doSplit(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		fmt.Fprintln(eout, "first parameter is the delimiting string")
 		return 1
 	}
-	delimiter := args[0]
+	delimiter := datatools.NormalizeDelimiter(args[0])
 	args = args[1:]
 	// Handle the case where out input is piped in or read from a file.
 	if inputFName != "" {
@@ -185,7 +207,7 @@ func doSplitN(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		fmt.Fprintln(eout, "first parameter is the delimiting string, second is the count")
 		return 1
 	}
-	delimiter := args[0]
+	delimiter := datatools.NormalizeDelimiter(args[0])
 	// Now convert to cnt an integer
 	cnt, err := strconv.Atoi(args[1])
 	if err != nil {
@@ -216,7 +238,7 @@ func doJoin(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		fmt.Fprintln(eout, "first parameter is the delimiter to join with")
 		return 1
 	}
-	delimiter := args[0]
+	delimiter := datatools.NormalizeDelimiter(args[0])
 	args = args[1:]
 
 	// Handle the case where out input is piped in or read from a file.
@@ -384,6 +406,20 @@ func doTrimRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int
 	// Handle content common from args
 	for _, arg := range args {
 		fmt.Fprintf(out, "%s%s", strings.TrimRight(arg, cutset), eol)
+	}
+	return 0
+}
+
+func doTrimSpace(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+	// Handle content coming from file
+	if inputFName != "" {
+		src, err := ioutil.ReadAll(in)
+		exitOnError(eout, err, quiet)
+		args = append(args, string(src))
+	}
+	// Handle content common from args
+	for _, arg := range args {
+		fmt.Fprintf(out, "%s%s", strings.TrimSpace(arg), eol)
 	}
 	return 0
 }
@@ -585,6 +621,8 @@ func main() {
 	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "output documentation in Markdown")
 
 	// App Options
+	app.StringVar(&delimiter, "d,delimiter", "", "set the delimiter")
+	app.StringVar(&outputDelimiter, "do,output-delimiter", "", "set the output delimiter")
 
 	// Add verbs and functions
 	app.AddAction("toupper", doToUpper, "to upper case: [STRING]")
@@ -601,6 +639,7 @@ func main() {
 	app.AddAction("trim", doTrim, "trim (beginning and end), CUTSET [STRING]")
 	app.AddAction("trimleft", doTrimLeft, "left trim: CUTSET [STRING]")
 	app.AddAction("trimright", doTrimRight, "right trim: CUTSET [STRING]")
+	app.AddAction("trimspace", doTrimSpace, "trim leading and trailing spaces: [STRING]")
 	app.AddAction("count", doCount, "count substrings: SUBSTRING [STRING]")
 	app.AddAction("contains", doContains, "has substrings: SUBSTRING [STRING]")
 	app.AddAction("length", doLength, "length of string: [STRING]")
@@ -623,7 +662,7 @@ func main() {
 	cli.ExitOnError(app.Eout, err, quiet)
 	defer cli.CloseFile(inputFName, app.In)
 
-	app.Out, err = cli.Create(inputFName, os.Stdout)
+	app.Out, err = cli.Create(outputFName, os.Stdout)
 	cli.ExitOnError(app.Eout, err, quiet)
 	defer cli.CloseFile(outputFName, app.Out)
 
