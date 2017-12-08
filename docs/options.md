@@ -14,7 +14,6 @@ options | description
 -l, -license | display license
 -i, -input | read from this input file, to read from standard input use `-i -`
 -o, -output | write to this output file
--generate-markdown-docs | this is a utility option for maintaining the website associated with the program
 -quiet | suppress error messages
 
 ## Common Options
