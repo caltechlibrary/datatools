@@ -256,18 +256,13 @@ dist/raspbian-arm7:
 	rm -fR dist/bin
 
 distribute_docs:
-	mkdir -p dist/docs
-	mkdir -p dist/how-to
+	mkdir -p dist/
+	mkdir -p dist/
 	cp -v README.md dist/
 	cp -v LICENSE dist/
 	cp -v INSTALL.md dist/
-	cp -v docs/*.md dist/docs/
-	if [ -f dist/docs/nav.md ]; then rm dist/docs/nav.md; fi
-	if [ -f dist/docs/index.md ]; then rm dist/docs/index.md; fi
-	cp -v how-to/*.md dist/how-to/
-	if [ -f dist/how-to/nav.md ]; then rm dist/how-to/nav.md; fi
-	if [ -f dist/how-to/index.md ]; then rm dist/how-to/index.md; fi
-	cp -vR demos dist/
+	cp -vR docs dist/
+	cp -vR how-to dist/
 	./package-versions.bash > dist/package-versions.txt
 	
 release: distribute_docs dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7
