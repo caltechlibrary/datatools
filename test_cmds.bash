@@ -646,9 +646,11 @@ function test_jsonrange(){
     assert_empty "test_jsonrange (result1)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
+    if [ -f temp2.txt ]; then rm temp2.txt; fi
     bin/jsonrange -i how-to/jsonrange/person.json -values | sort > temp.txt
+    sort "how-to/jsonrange/expected2.txt" > temp2.txt
     assert_exists "test_jsonrange (expected2)" temp.txt
-    R=$(cmp how-to/jsonrange/expected2.txt temp.txt)
+    R=$(cmp temp2.txt temp.txt)
     assert_empty "test_jsonrange (expected2)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
@@ -694,6 +696,7 @@ function test_jsonrange(){
     assert_empty "test_jsonrange (expected9)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
+    if [ -f temp2.txt ]; then rm temp2.txt; fi
     echo "test_jsonrange OK";
 }
 
