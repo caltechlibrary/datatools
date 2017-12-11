@@ -548,17 +548,37 @@ function test_jsoncols(){
     assert_empty "test_jsoncols (result3)" "$R"
 
     E="1"
-    R=$(bin/jsoncols -i how-to/jsoncols/blob2.json '.id')
+    R=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.id')
     assert_equal "test_jsoncols (.id)" "$E" "$R"
     E="8"
-    R=$(bin/jsoncols -i how-to/jsoncols/blob2.json '.counts[2]')
+    R=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.counts[2]')
     assert_equal "test_jsoncols (.counts[2])" "$E" "$R"
-    E="2"
-    R=$(bin/jsoncols -i how-to/jsoncols/blob2.json '.map.two')
+    E="1"
+    R=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.map.one')
     assert_equal "test_jsoncols (.map.two)" "$E" "$R"
+    E="2"
+    R=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.map.two')
+    assert_equal "test_jsoncols (.map.two)" "$E" "$R"
+    E="3"
+    R=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.map.three')
+    assert_equal "test_jsoncols (.map.two)" "$E" "$R"
+
     E='{"one":1,"two":2,"three":3}'
-    R=$(bin/jsoncols -i how-to/jsoncols/blob2.json '.map')
-    assert_equal "test_jsoncols (.map)" "$E" "$R"
+    R1=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.map')
+    echo "${E}" | jsonrange -i - | while read K; do
+        R2=$(echo "$R1" | bin/jsoncols -i - ".$K")
+        case "$K" in
+            "one")
+            assert_equal "test_jsoncols (.$K)" "1" "$R2"
+            ;;
+            "two")
+            assert_equal "test_jsoncols (.$K)" "2" "$R2"
+            ;;
+            "three")
+            assert_equal "test_jsoncols (.$K)" "3" "$R2"
+            ;;
+        esac
+    done
 
 
     if [ -f temp.txt ]; then rm temp.txt; fi
@@ -801,6 +821,7 @@ function test_xlsx2json(){
     assert_equal "test_xlsx2json (3)" "$EXPECTED" "$RESULT"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
+    if [ -f expected1.json ]; then rm expected1.json; fi
     echo "test_xlsx2json OK";
 }
 
