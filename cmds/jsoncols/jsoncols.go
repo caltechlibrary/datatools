@@ -78,7 +78,6 @@ Would yield
 	generateMarkdownDocs bool
 	quiet                bool
 	newLine              bool
-	eol                  string
 
 	// Application Specific Options
 	runInteractive bool
@@ -154,9 +153,6 @@ func main() {
 	if showVersion {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
-	}
-	if newLine {
-		eol = "\n"
 	}
 
 	// Handle ordered args to get expressions for each column output.
@@ -244,5 +240,7 @@ func main() {
 			}
 		}
 	}
-	fmt.Fprintf(app.Out, "%s", eol)
+	if newLine {
+		fmt.Fprintln(app.Out, "")
+	}
 }
