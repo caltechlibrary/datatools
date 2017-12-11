@@ -547,6 +547,20 @@ function test_jsoncols(){
     R=$(cmp how-to/jsoncols/result3.txt temp.txt)
     assert_empty "test_jsoncols (result3)" "$R"
 
+    E="1"
+    R=$(bin/jsoncols -i how-to/jsoncols/blob2.json '.id')
+    assert_equal "test_jsoncols (.id)" "$E" "$R"
+    E="8"
+    R=$(bin/jsoncols -i how-to/jsoncols/blob2.json '.counts[2]')
+    assert_equal "test_jsoncols (.counts[2])" "$E" "$R"
+    E="2"
+    R=$(bin/jsoncols -i how-to/jsoncols/blob2.json '.map.two')
+    assert_equal "test_jsoncols (.map.two)" "$E" "$R"
+    E='{"one":1,"two":2,"three":3}'
+    R=$(bin/jsoncols -i how-to/jsoncols/blob2.json '.map')
+    assert_equal "test_jsoncols (.map)" "$E" "$R"
+
+
     if [ -f temp.txt ]; then rm temp.txt; fi
     echo "test_jsoncols OK";
 }

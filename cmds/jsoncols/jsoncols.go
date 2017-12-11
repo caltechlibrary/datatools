@@ -233,11 +233,14 @@ func main() {
 			default:
 				src, err := json.Marshal(result)
 				cli.ExitOnError(app.Eout, err, quiet)
-				if quote == true {
-					fmt.Fprintf(app.Out, "%q", src)
-				} else {
-					fmt.Fprintf(app.Out, "%s", src)
-				}
+				/*
+					if quote == true {
+						fmt.Fprintf(app.Out, "%q", src)
+					} else {
+						fmt.Fprintf(app.Out, "%s", src)
+					}
+				*/
+				fmt.Fprintf(app.Out, "%s", src)
 			}
 		}
 	}
