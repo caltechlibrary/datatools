@@ -34,11 +34,6 @@ import (
 	"github.com/google/uuid"
 )
 
-const (
-	//FIXME: maxColumns needs to be calculated from the data rather than being a constant
-	maxColumns = 2048
-)
-
 var (
 	description = `
 %s converts a set of command line args into columns output in CSV format.
@@ -207,7 +202,7 @@ func main() {
 	}
 
 	if outputColumns != "" {
-		columnNos, err := datatools.ParseRange(outputColumns, maxColumns)
+		columnNos, err := datatools.ParseRange(outputColumns)
 		cli.ExitOnError(app.Eout, err, quiet)
 
 		// NOTE: We need to adjust from humans counting from 1 to counting from zero

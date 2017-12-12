@@ -115,8 +115,8 @@ func main() {
 
 	// Application specific options
 	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
-	app.StringVar(&outputRows, "row,rows", "", "output specified rows in order (e.g. -row 1,5,2:4))")
-	app.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2:")
+	app.StringVar(&outputRows, "row,rows", "", "output specified rows in order (e.g. -row 1,5,2-4))")
+	app.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2-")
 	app.BoolVar(&showHeader, "header", false, "display the header row (alias for '-rows 1')")
 	app.IntVar(&randomRows, "random", 0, "return N randomly selected rows")
 
@@ -161,22 +161,15 @@ func main() {
 	}
 
 	if randomRows > 0 {
-		datatools.CSVRandomRows(app.In, app.Out, app.Eout, showHeader, randomRows, delimiter)
+		if err := datatools.CSVRandomRows(app.In, app.Out, showHeader, randomRows, delimiter); err != nil {
+			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
+			os.Exit(1)
+		}
 		os.Exit(0)
 	}
 
-	if showHeader == true {
-		outputRows = "1"
-	}
-	if len(args) == 0 && outputRows == "" {
-		outputRows = "1:"
-		if skipHeaderRow == true {
-			outputRows = "2:"
-		}
-	}
-
 	if outputRows != "" {
-		rowNos, err := datatools.ParseRange(outputRows, maxRows)
+		rowNos, err := datatools.ParseRange(outputRows)
 		cli.ExitOnError(app.Eout, err, quiet)
 
 		// NOTE: We need to adjust from humans counting from 1 to counting from zero
@@ -186,10 +179,21 @@ func main() {
 				rowNos[i] = 0
 			}
 		}
-		datatools.CSVRows(app.In, app.Out, app.Eout, rowNos, delimiter)
+		if err := datatools.CSVRows(app.In, app.Out, showHeader, rowNos, delimiter); err != nil {
+			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
+			os.Exit(1)
+		}
+		os.Exit(0)
+	}
+	if inputFName != "" {
+		if err := datatools.CSVRowsAll(app.In, app.Out, showHeader, delimiter); err != nil {
+			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
+			os.Exit(1)
+		}
 		os.Exit(0)
 	}
 
+	// NOTE: If we're not processing an existing CSV source for input we're turning parameters into CSV rows!
 	if len(delimiter) > 0 && len(args) == 1 {
 		args = strings.Split(args[0], datatools.NormalizeDelimiter(delimiter))
 	}
