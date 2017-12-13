@@ -27,6 +27,8 @@ easy to output only the data rows.
     -random                   return N randomly selected rows
     -row, -rows               output specified rows in order (e.g. -row 1,5,2-4))
     -skip-header-row          skip the header row (alias for -row 2-
+    -trim-leading-space       trim leading space in field(s) for CSV input
+    -use-lazy-quotes          use lazy quotes for CSV input
     -v, -version              display version
 ```
 
@@ -60,4 +62,4 @@ a header row from 10row.csv.
 	csvrows -i 10row.csv -header=true -random=3
 
 
-csvrows v0.0.22-pre
+csvrows v0.0.23-pre

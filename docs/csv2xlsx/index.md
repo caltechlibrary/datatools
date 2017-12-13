@@ -22,6 +22,8 @@ If the Workbook does not exist then it is created.
     -o, -output               output filename
     -quiet                    suppress error messages
     -sheet                    Sheet name to create/replace
+    -trim-leading-space       trim leading space in field(s) for CSV input
+    -use-lazy-quotes          use lazy quotes for CSV input
     -v, -version              display version
     -workbook                 Workbook name
 ```
@@ -43,4 +45,4 @@ This does the same but the contents of data.csv are piped into
 the workbook's 'My worksheet 2' sheet.
 %!(EXTRA string=csv2xlsx, string=csv2xlsx)
 
-csv2xlsx v0.0.22-pre
+csv2xlsx v0.0.23-pre

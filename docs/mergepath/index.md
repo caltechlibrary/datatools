@@ -37,4 +37,4 @@ This would put your home bin directory at the beginning of your path.
 	export PATH=$(mergepath -p $HOME/bin)
 
 
-mergepath v0.0.22-pre
+mergepath v0.0.23-pre

@@ -24,7 +24,9 @@ per line.
     -nl, -newline             include trailing newline in output
     -o, -output               output filename
     -quiet                    suppress error output
+    -trim-leading-space       trim leading space in fields for CSV input
     -use-header               treat the first row as field names
+    -use-lazy-quotes          use lazy quotes for for CSV input
     -v, -version              display version
 ```
 
@@ -41,4 +43,4 @@ Convert data1.csv to JSON blobs, one line per blob
     csv2json -as-blobs -i data1.csv
 
 
-csv2json v0.0.22-pre
+csv2json v0.0.23-pre

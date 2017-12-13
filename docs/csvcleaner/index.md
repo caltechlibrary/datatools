@@ -28,16 +28,17 @@ minimal memory is used to operate on the file.
     -h, -help                 display help
     -i, -input                input filename
     -l, -license              display license
-    -left-trim                If set to true leading white space in a field is ignored.
+    -left-trim                left trim spaces on CSV out
     -o, -output               output filename
     -output-comma             if set use this character in place of a comma for delimiting output cells
     -quiet                    suppress error messages
     -reuse                    if false then a new array is allocated for each row processed, if true the array gets reused
-    -right-trim               If set to true trailing white space in a field is ignored.
+    -right-trim               right trim spaces on CSV out
     -stop-on-error            exit on error, useful if you're trying to debug a problematic CSV file
-    -trim                     If set to true leading and trailing white space in a field is ignored.
+    -trim                     trim spaces on CSV out
+    -trim-leading-space       trim leading space from field(s) for CSV input
     -use-crlf                 if set use a charage return and line feed in output
-    -use-lazy-quoting         If LazyQuotes is true, a quote may appear in an unquoted field and a non-doubled quote may appear in a quoted field.
+    -use-lazy-quotes          use lazy quotes for CSV input
     -v, -version              display version
 ```
 
@@ -49,17 +50,17 @@ Normalizing a spread sheet's column count to 5 padding columns as needed per row
 
     cat mysheet.csv | csvcleaner -field-per-row=5
 
-Trim leading spaces.
+Trim leading spaces from output.
 
     cat mysheet.csv | csvcleaner -left-trim
 
-Trim trailing spaces.
+Trim trailing spaces from output.
 
     cat mysheet.csv | csvcleaner -right-trim
 
-Trim leading and trailing spaces
+Trim leading and trailing spaces from output.
 
     cat mysheet.csv | csvcleaner -trim
 
 
-csvcleaner v0.0.22-pre
+csvcleaner v0.0.23-pre

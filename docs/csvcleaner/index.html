@@ -50,16 +50,17 @@ minimal memory is used to operate on the file.</p>
     -h, -help                 display help
     -i, -input                input filename
     -l, -license              display license
-    -left-trim                If set to true leading white space in a field is ignored.
+    -left-trim                left trim spaces on CSV out
     -o, -output               output filename
     -output-comma             if set use this character in place of a comma for delimiting output cells
     -quiet                    suppress error messages
     -reuse                    if false then a new array is allocated for each row processed, if true the array gets reused
-    -right-trim               If set to true trailing white space in a field is ignored.
+    -right-trim               right trim spaces on CSV out
     -stop-on-error            exit on error, useful if you're trying to debug a problematic CSV file
-    -trim                     If set to true leading and trailing white space in a field is ignored.
+    -trim                     trim spaces on CSV out
+    -trim-leading-space       trim leading space from field(s) for CSV input
     -use-crlf                 if set use a charage return and line feed in output
-    -use-lazy-quoting         If LazyQuotes is true, a quote may appear in an unquoted field and a non-doubled quote may appear in a quoted field.
+    -use-lazy-quotes          use lazy quotes for CSV input
     -v, -version              display version
 </code></pre>
 
@@ -70,22 +71,22 @@ minimal memory is used to operate on the file.</p>
 <pre><code>cat mysheet.csv | csvcleaner -field-per-row=5
 </code></pre>
 
-<p>Trim leading spaces.</p>
+<p>Trim leading spaces from output.</p>
 
 <pre><code>cat mysheet.csv | csvcleaner -left-trim
 </code></pre>
 
-<p>Trim trailing spaces.</p>
+<p>Trim trailing spaces from output.</p>
 
 <pre><code>cat mysheet.csv | csvcleaner -right-trim
 </code></pre>
 
-<p>Trim leading and trailing spaces</p>
+<p>Trim leading and trailing spaces from output.</p>
 
 <pre><code>cat mysheet.csv | csvcleaner -trim
 </code></pre>
 
-<p>csvcleaner v0.0.22-pre</p>
+<p>csvcleaner v0.0.23-pre</p>
 
 </section>
 

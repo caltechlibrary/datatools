@@ -49,4 +49,4 @@ Putting it all together in a shell script.
 	done
 %!(EXTRA string=xlsx2csv, string=xlsx2csv)
 
-xlsx2csv v0.0.22-pre
+xlsx2csv v0.0.23-pre
