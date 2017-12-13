@@ -81,14 +81,16 @@ a header row from 10row.csv.
 	quiet                bool
 
 	// Application specific options
-	validateRows  bool
-	showRowCount  bool
-	showColCount  bool
-	showHeader    bool
-	skipHeaderRow bool
-	outputRows    string
-	delimiter     string
-	randomRows    int
+	validateRows     bool
+	showRowCount     bool
+	showColCount     bool
+	showHeader       bool
+	skipHeaderRow    bool
+	outputRows       string
+	delimiter        string
+	randomRows       int
+	lazyQuotes       bool
+	trimLeadingSpace bool
 )
 
 func main() {
@@ -119,6 +121,8 @@ func main() {
 	app.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2-")
 	app.BoolVar(&showHeader, "header", false, "display the header row (alias for '-rows 1')")
 	app.IntVar(&randomRows, "random", 0, "return N randomly selected rows")
+	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for CSV input")
+	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
 
 	// Parse env and options
 	app.Parse()
@@ -161,7 +165,7 @@ func main() {
 	}
 
 	if randomRows > 0 {
-		if err := datatools.CSVRandomRows(app.In, app.Out, showHeader, randomRows, delimiter); err != nil {
+		if err := datatools.CSVRandomRows(app.In, app.Out, showHeader, randomRows, delimiter, lazyQuotes, trimLeadingSpace); err != nil {
 			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
 			os.Exit(1)
 		}
@@ -179,14 +183,14 @@ func main() {
 				rowNos[i] = 0
 			}
 		}
-		if err := datatools.CSVRows(app.In, app.Out, showHeader, rowNos, delimiter); err != nil {
+		if err := datatools.CSVRows(app.In, app.Out, showHeader, rowNos, delimiter, lazyQuotes, trimLeadingSpace); err != nil {
 			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
 			os.Exit(1)
 		}
 		os.Exit(0)
 	}
 	if inputFName != "" {
-		if err := datatools.CSVRowsAll(app.In, app.Out, showHeader, delimiter); err != nil {
+		if err := datatools.CSVRowsAll(app.In, app.Out, showHeader, delimiter, lazyQuotes, trimLeadingSpace); err != nil {
 			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
 			os.Exit(1)
 		}
@@ -205,6 +209,8 @@ func main() {
 	}
 	for _, val := range args {
 		r := csv.NewReader(strings.NewReader(val))
+		r.LazyQuotes = lazyQuotes
+		r.TrimLeadingSpace = trimLeadingSpace
 		if delimiter != "" {
 			r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		}

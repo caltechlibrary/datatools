@@ -51,4 +51,4 @@ Format the MySQL date/time of 8:08am, July 2, 2016
 Yields "02 Dec 17 08:08 UTC"
 
 
-timefmt v0.0.22-pre
+timefmt v0.0.23-pre

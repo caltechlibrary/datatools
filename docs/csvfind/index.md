@@ -7,7 +7,7 @@
 
 
 csvfind processes a CSV file as input returning rows that contain the column
-with matched text. Columns are count from one instead of zero. Supports 
+with matched text. Columns are counted from one instead of zero. Supports 
 exact match as well as some Levenshtein matching.
 
 
@@ -35,7 +35,9 @@ exact match as well as some Levenshtein matching.
     -skip-header-row          skip the header row
     -stop-words               use the colon delimited list of stop words
     -substitute-cost          set the substitution cost to use for levenshtein matching
-    -trimspaces               trim spaces around cell values before comparing
+    -trim-leading-space       trim leadings space in field(s) for CSV input
+    -trimspace, -trimspaces   trim spaces around cell values before comparing
+    -use-lazy-quotes          use lazy quotes on CSV input
     -v, -version              display version
 ```
 
@@ -47,7 +49,7 @@ Find the rows where the third column matches "The Red Book of Westmarch" exactly
 
     csvfind -i books.csv -col=2 "The Red Book of Westmarch"
 
-Find the rows where the third column (colums numbered 0,1,2) matches approximately 
+Find the rows where the third column (colums numbered 1,2,3) matches approximately 
 "The Red Book of Westmarch"
 
     csvfind -i books.csv -col=2 -levenshtein \
@@ -62,4 +64,4 @@ You can also search for phrases in columns.
     csvfind -i books.csv -col=2 -contains "Red Book"
 
 
-csvfind v0.0.22-pre
+csvfind v0.0.23-pre

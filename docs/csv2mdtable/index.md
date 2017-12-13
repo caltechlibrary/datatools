@@ -22,6 +22,8 @@ table to stdout.
     -nl, -newline             if true include leading/trailing newline
     -o, -output               output filename
     -quiet                    suppress error message
+    -trim-leading-space       trim leading space in field(s) for CSV input
+    -use-lazy-quotes          using lazy quotes for CSV input
     -v, -version              display version
 ```
 
@@ -38,4 +40,4 @@ Convert data1.csv to data1.md using options.
     csv2mdtable -i data1.csv -o data1.md
 
 
-csv2mdtable v0.0.22-pre
+csv2mdtable v0.0.23-pre

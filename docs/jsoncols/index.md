@@ -74,4 +74,4 @@ Would yield
    "Doe, Jane","jane.doe@xample.org",42
 
 
-jsoncols v0.0.22-pre
+jsoncols v0.0.23-pre

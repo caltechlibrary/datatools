@@ -35,7 +35,9 @@ compared as strings. Columns are counted from one rather than zero.
     -quiet                    supress error messages
     -stop-words               a column delimited list of stop words to ingnore when matching
     -substitute-cost          substitution cost to use when calculating Levenshtein edit distance
+    -trim-leading-space       trim leading space in field(s) for CSV input
     -trimspaces               trim spaces around cell values before comparing
+    -use-lazy-quotes          use lazy quotes for CSV input
     -v, -version              display version
     -verbose                  output processing count to stderr
 ```
@@ -54,4 +56,4 @@ merged-data.csv..
        -output=merged-data.csv
 
 
-csvjoin v0.0.22-pre
+csvjoin v0.0.23-pre
