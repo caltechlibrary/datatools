@@ -61,7 +61,6 @@ This would yield
 	generateMarkdownDocs bool
 	quiet                bool
 	newLine              bool
-	eol                  string
 
 	// Application Specific Options
 	templateExpr string
@@ -131,9 +130,6 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-	if newLine {
-		eol = "\n"
-	}
 
 	if len(args) == 0 && templateExpr == "" {
 		cli.ExitOnError(app.Eout, fmt.Errorf("Need to provide at least one template name"), quiet)
@@ -163,5 +159,7 @@ func main() {
 	// Execute template with data
 	err = tmpl.Execute(app.Out, data)
 	cli.ExitOnError(app.Eout, err, quiet)
-	fmt.Fprintf(app.Out, "%s", eol)
+	if newLine {
+		fmt.Fprintln(app.Out, "")
+	}
 }

@@ -22,7 +22,6 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
-	"io"
 	"os"
 	"strings"
 
@@ -64,6 +63,11 @@ Filter a 10 row CSV file for rows 1,4,6 (top most row is one)
 Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 
     %s -i 10row.csv -row 1,4,6 > 3rows.csv
+
+Filter 3 randomly selected rows from 10row.csv rendering new CSV with
+a header row from 10row.csv.
+
+	%s -i 10row.csv -header=true -random=3
 `
 
 	// Standard options
@@ -84,53 +88,8 @@ Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 	skipHeaderRow bool
 	outputRows    string
 	delimiter     string
+	randomRows    int
 )
-
-func selectedRow(rowNo int, record []string, rowNos []int) []string {
-	if len(rowNos) == 0 {
-		return record
-	}
-	for _, i := range rowNos {
-		if i == rowNo {
-			return record
-		}
-	}
-	return nil
-}
-
-func CSVRows(in io.Reader, out io.Writer, eout io.Writer, rowNos []int, delimiter string) {
-	var err error
-
-	r := csv.NewReader(in)
-	w := csv.NewWriter(out)
-	if delimiter != "" {
-		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
-		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
-	}
-	for i := 0; err != io.EOF; i++ {
-		rec, err := r.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			fmt.Fprintf(eout, "%s, %s (%T %+v)", inputFName, err, rec, rec)
-			os.Exit(1)
-		}
-		row := selectedRow(i, rec, rowNos)
-		if row != nil {
-			if err := w.Write(row); err != nil {
-				fmt.Fprintf(eout, "Error writing record to csv: %s (Row %T %+v)", err, row, row)
-				os.Exit(1)
-			}
-		}
-	}
-	w.Flush()
-	err = w.Error()
-	if err != nil {
-		fmt.Fprintf(eout, "%s\n", err)
-		os.Exit(1)
-	}
-}
 
 func main() {
 	app := cli.NewCli(datatools.Version)
@@ -142,7 +101,7 @@ func main() {
 	// Add Help Docs
 	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
 	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName, appName)))
 
 	// Standard options
 	app.BoolVar(&showHelp, "h,help", false, "display help")
@@ -156,9 +115,10 @@ func main() {
 
 	// Application specific options
 	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
-	app.StringVar(&outputRows, "row,rows", "", "output specified rows in order (e.g. -row 1,5,2:4))")
-	app.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2:")
+	app.StringVar(&outputRows, "row,rows", "", "output specified rows in order (e.g. -row 1,5,2-4))")
+	app.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2-")
 	app.BoolVar(&showHeader, "header", false, "display the header row (alias for '-rows 1')")
+	app.IntVar(&randomRows, "random", 0, "return N randomly selected rows")
 
 	// Parse env and options
 	app.Parse()
@@ -200,18 +160,16 @@ func main() {
 		os.Exit(0)
 	}
 
-	if showHeader == true {
-		outputRows = "1"
-	}
-	if len(args) == 0 && outputRows == "" {
-		outputRows = "1:"
-		if skipHeaderRow == true {
-			outputRows = "2:"
+	if randomRows > 0 {
+		if err := datatools.CSVRandomRows(app.In, app.Out, showHeader, randomRows, delimiter); err != nil {
+			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
+			os.Exit(1)
 		}
+		os.Exit(0)
 	}
 
 	if outputRows != "" {
-		rowNos, err := datatools.ParseRange(outputRows, maxRows)
+		rowNos, err := datatools.ParseRange(outputRows)
 		cli.ExitOnError(app.Eout, err, quiet)
 
 		// NOTE: We need to adjust from humans counting from 1 to counting from zero
@@ -221,10 +179,21 @@ func main() {
 				rowNos[i] = 0
 			}
 		}
-		CSVRows(app.In, app.Out, app.Eout, rowNos, delimiter)
+		if err := datatools.CSVRows(app.In, app.Out, showHeader, rowNos, delimiter); err != nil {
+			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
+			os.Exit(1)
+		}
+		os.Exit(0)
+	}
+	if inputFName != "" {
+		if err := datatools.CSVRowsAll(app.In, app.Out, showHeader, delimiter); err != nil {
+			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
+			os.Exit(1)
+		}
 		os.Exit(0)
 	}
 
+	// NOTE: If we're not processing an existing CSV source for input we're turning parameters into CSV rows!
 	if len(delimiter) > 0 && len(args) == 1 {
 		args = strings.Split(args[0], datatools.NormalizeDelimiter(delimiter))
 	}
