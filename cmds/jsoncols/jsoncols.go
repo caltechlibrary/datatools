@@ -27,7 +27,7 @@ returning the results in columns.  This is helpful in flattening content
 extracted from JSON blobs.  The default delimiter for each value
 extracted is a comma. This can be overridden with an option.
 
-+ EXPRESSION can be an empty stirng or dot notation for an object's path
++ EXPRESSION can be an empty string or dot notation for an object's path
 + INPUT_FILENAME is the filename to read or a dash "-" if you want to
   explicitly read from stdin
 	+ if not provided then %s reads from stdin
@@ -78,7 +78,6 @@ Would yield
 	generateMarkdownDocs bool
 	quiet                bool
 	newLine              bool
-	eol                  string
 
 	// Application Specific Options
 	runInteractive bool
@@ -155,9 +154,6 @@ func main() {
 		fmt.Fprintln(app.Out, app.Version())
 		os.Exit(0)
 	}
-	if newLine {
-		eol = "\n"
-	}
 
 	// Handle ordered args to get expressions for each column output.
 	for _, arg := range args {
@@ -233,13 +229,18 @@ func main() {
 			default:
 				src, err := json.Marshal(result)
 				cli.ExitOnError(app.Eout, err, quiet)
-				if quote == true {
-					fmt.Fprintf(app.Out, "%q", src)
-				} else {
-					fmt.Fprintf(app.Out, "%s", src)
-				}
+				/*
+					if quote == true {
+						fmt.Fprintf(app.Out, "%q", src)
+					} else {
+						fmt.Fprintf(app.Out, "%s", src)
+					}
+				*/
+				fmt.Fprintf(app.Out, "%s", src)
 			}
 		}
 	}
-	fmt.Fprintf(app.Out, "%s", eol)
+	if newLine {
+		fmt.Fprintln(app.Out, "")
+	}
 }

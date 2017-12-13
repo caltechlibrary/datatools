@@ -547,6 +547,40 @@ function test_jsoncols(){
     R=$(cmp how-to/jsoncols/result3.txt temp.txt)
     assert_empty "test_jsoncols (result3)" "$R"
 
+    E="1"
+    R=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.id')
+    assert_equal "test_jsoncols (.id)" "$E" "$R"
+    E="8"
+    R=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.counts[2]')
+    assert_equal "test_jsoncols (.counts[2])" "$E" "$R"
+    E="1"
+    R=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.map.one')
+    assert_equal "test_jsoncols (.map.two)" "$E" "$R"
+    E="2"
+    R=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.map.two')
+    assert_equal "test_jsoncols (.map.two)" "$E" "$R"
+    E="3"
+    R=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.map.three')
+    assert_equal "test_jsoncols (.map.two)" "$E" "$R"
+
+    E='{"one":1,"two":2,"three":3}'
+    R1=$(bin/jsoncols -i "how-to/jsoncols/blob2.json" '.map')
+    echo "${E}" | jsonrange -i - | while read K; do
+        R2=$(echo "$R1" | bin/jsoncols -i - ".$K")
+        case "$K" in
+            "one")
+            assert_equal "test_jsoncols (.$K)" "1" "$R2"
+            ;;
+            "two")
+            assert_equal "test_jsoncols (.$K)" "2" "$R2"
+            ;;
+            "three")
+            assert_equal "test_jsoncols (.$K)" "3" "$R2"
+            ;;
+        esac
+    done
+
+
     if [ -f temp.txt ]; then rm temp.txt; fi
     echo "test_jsoncols OK";
 }
@@ -612,9 +646,11 @@ function test_jsonrange(){
     assert_empty "test_jsonrange (result1)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
+    if [ -f temp2.txt ]; then rm temp2.txt; fi
     bin/jsonrange -i how-to/jsonrange/person.json -values | sort > temp.txt
+    sort "how-to/jsonrange/expected2.txt" > temp2.txt
     assert_exists "test_jsonrange (expected2)" temp.txt
-    R=$(cmp how-to/jsonrange/expected2.txt temp.txt)
+    R=$(cmp temp2.txt temp.txt)
     assert_empty "test_jsonrange (expected2)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
@@ -660,6 +696,7 @@ function test_jsonrange(){
     assert_empty "test_jsonrange (expected9)" "$R"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
+    if [ -f temp2.txt ]; then rm temp2.txt; fi
     echo "test_jsonrange OK";
 }
 
@@ -787,6 +824,7 @@ function test_xlsx2json(){
     assert_equal "test_xlsx2json (3)" "$EXPECTED" "$RESULT"
 
     if [ -f temp.txt ]; then rm temp.txt; fi
+    if [ -f expected1.json ]; then rm expected1.json; fi
     echo "test_xlsx2json OK";
 }
 

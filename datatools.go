@@ -26,7 +26,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"strconv"
 	"strings"
 	"unicode"
 
@@ -35,7 +34,7 @@ import (
 )
 
 const (
-	Version = `v0.0.20-pre`
+	Version = `v0.0.22-pre`
 
 	LicenseText = `
 %s %s
@@ -207,47 +206,6 @@ func Levenshtein(src string, target string, insertCost int, deleteCost int, subs
 		SubstituteCost:  substituteCost,
 		CaseInsensitive: caseInsensitive,
 	})
-}
-
-// ParseRange take a range notation string and convert it into a list of integers
-func ParseRange(s string, max int) ([]int, error) {
-	var err error
-
-	nums := []int{}
-	for _, arg := range strings.Split(s, ",") {
-		if strings.Contains(arg, ":") {
-			a, b := 0, max
-			parts := strings.Split(arg, ":")
-			if parts[0] != "" {
-				a, err = strconv.Atoi(strings.TrimSpace(parts[0]))
-				if err != nil {
-					return nums, fmt.Errorf("Expected a number for start of range, %q, %s\n", arg, err)
-				}
-			}
-			if parts[1] != "" {
-				b, err = strconv.Atoi(strings.TrimSpace(parts[1]))
-				if err != nil {
-					return nums, fmt.Errorf("Expected a number for end of range, %q, %s\n", arg, err)
-				}
-			}
-			if a <= b {
-				for i := a; i <= b; i++ {
-					nums = append(nums, i)
-				}
-			} else if a > b {
-				return nums, fmt.Errorf("%d less than %d, invalid range", b, a)
-			} else {
-				nums = append(nums, a)
-			}
-		} else {
-			i, err := strconv.Atoi(strings.TrimSpace(arg))
-			if err != nil {
-				return nums, err
-			}
-			nums = append(nums, i)
-		}
-	}
-	return nums, nil
 }
 
 // EnglishTitle - uses an improve capitalization rules for English titles.
