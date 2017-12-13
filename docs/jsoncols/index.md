@@ -74,21 +74,4 @@ Would yield
    "Doe, Jane","jane.doe@xample.org",42
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD:docs/jsoncols.md
-<<<<<<< HEAD
-<<<<<<< HEAD
-jsoncols v0.0.16
-=======
-
-jsoncols v0.0.17
->>>>>>> fb30e509335a1835d3e5cb550ebf8e3712347bcd
-=======
-jsoncols v0.0.18
->>>>>>> 791a9781ad95b35f73f5908798770dd057cf6bc7
-=======
-jsoncols v0.0.20-pre
->>>>>>> 33ea0f48ea8b243a19916d260bad29c6eb46e900:docs/jsoncols/index.md
-=======
 jsoncols v0.0.22-pre
->>>>>>> fc2215e39261c6f401393175f716c1363aedf232
