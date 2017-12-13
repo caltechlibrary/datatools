@@ -437,6 +437,24 @@ function test_csvfind() {
     R=$(cmp how-to/csvfind/result3.csv temp.csv)
     assert_empty "test_csvfind (contains)" "$R"
 
+    # csvfind -trimspaces issue #2
+    E="red,library,color"
+    R=$(bin/csvfind -nl=false -i how-to/csvfind/trimspace.csv -col=2 -trimspaces "library")
+    assert_equal "test_csvfind (trimspaces library)" "$E" "$R"
+
+    E="red,library,color"
+    R=$(bin/csvfind -nl=false -i how-to/csvfind/trimspace.csv -col=1 -trimspaces "red")
+    assert_equal "test_csvfind (trimspaces red)" "$E" "$R"
+
+    E='blue," field",classification'
+    R=$(bin/csvfind -nl=false -i how-to/csvfind/trimspace.csv -col=2 -trimspaces "field")
+    assert_equal "test_csvfind (trimspaces field)" "$E" "$R"
+
+    E='" yellow ",house,paint'
+    R=$(bin/csvfind -nl=false -i how-to/csvfind/trimspace.csv -col=1 -trimspaces "yellow")
+    assert_equal "test_csvfind (trimspaces yellow)" "$E" "$R"
+
+
     if [ -f temp.csv ]; then rm temp.csv; fi
     echo "test_csvfind OK";
 }

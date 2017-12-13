@@ -33,7 +33,7 @@ import (
 var (
 	description = `
 %s processes a CSV file as input returning rows that contain the column
-with matched text. Columns are count from one instead of zero. Supports 
+with matched text. Columns are counted from one instead of zero. Supports 
 exact match as well as some Levenshtein matching.
 `
 
@@ -42,7 +42,7 @@ Find the rows where the third column matches "The Red Book of Westmarch" exactly
 
     %s -i books.csv -col=2 "The Red Book of Westmarch"
 
-Find the rows where the third column (colums numbered 0,1,2) matches approximately 
+Find the rows where the third column (colums numbered 1,2,3) matches approximately 
 "The Red Book of Westmarch"
 
     %s -i books.csv -col=2 -levenshtein \
@@ -123,7 +123,7 @@ func main() {
 	app.StringVar(&stopWordsOption, "stop-words", "", "use the colon delimited list of stop words")
 	app.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
 	app.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
-	app.BoolVar(&trimSpaces, "trimspaces", false, "trim spaces around cell values before comparing")
+	app.BoolVar(&trimSpaces, "trimspace,trimspaces", false, "trim spaces around cell values before comparing")
 
 	// Parse env and options
 	app.Parse()
@@ -213,6 +213,9 @@ func main() {
 				src := record[col]
 				if caseSensitive == false {
 					src = strings.ToLower(src)
+				}
+				if trimSpaces == true {
+					src = strings.TrimSpace(src)
 				}
 				if len(stopWords) > 0 {
 					// Split into fields applying datatools filter
