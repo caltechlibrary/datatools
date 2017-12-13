@@ -24,8 +24,9 @@ easy to output only the data rows.
     -l, -license              display license
     -o, -output               output filename
     -quiet                    suppress error messages
-    -row, -rows               output specified rows in order (e.g. -row 1,5,2:4))
-    -skip-header-row          skip the header row (alias for -row 2:
+    -random                   return N randomly selected rows
+    -row, -rows               output specified rows in order (e.g. -row 1,5,2-4))
+    -skip-header-row          skip the header row (alias for -row 2-
     -v, -version              display version
 ```
 
@@ -53,5 +54,10 @@ Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 
     csvrows -i 10row.csv -row 1,4,6 > 3rows.csv
 
+Filter 3 randomly selected rows from 10row.csv rendering new CSV with
+a header row from 10row.csv.
 
-csvrows v0.0.20-pre
+	csvrows -i 10row.csv -header=true -random=3
+
+
+csvrows v0.0.22-pre
