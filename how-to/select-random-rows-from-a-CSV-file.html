@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../index.html">README</a></li>
+<li><a href="../license.html">LICENSE</a></li>
+<li><a href="../install.html">INSTALL</a></li>
+<li><a href="../docs/">Documentation</a></li>
+<li><a href="./">How To</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>How to select random rows from a CSV file</h1>
+
+<p>Given the a CSV file called <em>data.csv</em> you select a sampling
+of rows with the command <em>csvrows</em> using a few options. In
+this example we will assume <em>data.csv</em> has a
+header row we want to preserve and that our resulting sample
+will be called <em>sample.csv</em>.  The options we use are</p>
+
+<ul>
+<li><code>-i</code> selecting <em>data.csv</em> as the input source</li>
+<li><code>-o</code> sends the resulting CSV to the file named <em>sample.csv</em></li>
+<li><code>-header=true</code> indicates the header should be preserved and not be counted as part of the sample</li>
+<li><code>-random</code> sets the number or rows to return in the sample, in this case twenty</li>
+</ul>
+
+<p>Putting it all together&ndash;</p>
+
+<pre><code class="language-shell">    csvrows -i data.csv -o sample.csv -header=true -random=20
+</code></pre>
+
+<p>NOTE: If <em>data.csv</em> has less than 20 rows then <em>sample.csv</em>
+will include all the rows of <em>data.csv</em> in a shuffled
+order.</p>
+
+<h2>How -random works</h2>
+
+<p><em>csvrows</em> reads in the entire csv file into memory, shuffles
+the row using Go&rsquo;s rand package to calculate the rows to swap
+and then write out the number of rows request in the shuffled
+order.  The randomness is limitted by the shuffle and the
+write of the first N shuffled rows.</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>
