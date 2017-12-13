@@ -62,4 +62,4 @@ Trim leading and trailing spaces
     cat mysheet.csv | csvcleaner -trim
 
 
-csvcleaner v0.0.20-pre
+csvcleaner v0.0.22-pre

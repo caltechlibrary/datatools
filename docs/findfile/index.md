@@ -38,4 +38,4 @@ Search the current directory and subdirectories for Markdown files with extensio
 	findfile -s .md
 
 
-findfile v0.0.20-pre
+findfile v0.0.22-pre

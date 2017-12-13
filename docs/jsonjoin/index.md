@@ -128,4 +128,4 @@ would yield
      "bio": "World renowned geophysist." }
 
 
-jsonjoin v0.0.20-pre
+jsonjoin v0.0.22-pre

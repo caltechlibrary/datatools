@@ -41,4 +41,4 @@ Convert data1.csv to JSON blobs, one line per blob
     csv2json -as-blobs -i data1.csv
 
 
-csv2json v0.0.20-pre
+csv2json v0.0.22-pre
