@@ -50,4 +50,4 @@ into JSON documents..
 	done    
 %!(EXTRA string=xlsx2json, string=xlsx2json)
 
-xlsx2json v0.0.20-pre
+xlsx2json v0.0.22-pre

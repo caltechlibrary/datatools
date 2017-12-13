@@ -38,4 +38,4 @@ Find all subdirectories starting with "img".
 	finddir -p img
 
 
-finddir v0.0.20-pre
+finddir v0.0.22-pre

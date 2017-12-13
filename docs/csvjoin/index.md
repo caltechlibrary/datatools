@@ -54,4 +54,4 @@ merged-data.csv..
        -output=merged-data.csv
 
 
-csvjoin v0.0.20-pre
+csvjoin v0.0.22-pre
