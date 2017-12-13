@@ -46,8 +46,9 @@ easy to output only the data rows.</p>
     -l, -license              display license
     -o, -output               output filename
     -quiet                    suppress error messages
-    -row, -rows               output specified rows in order (e.g. -row 1,5,2:4))
-    -skip-header-row          skip the header row (alias for -row 2:
+    -random                   return N randomly selected rows
+    -row, -rows               output specified rows in order (e.g. -row 1,5,2-4))
+    -skip-header-row          skip the header row (alias for -row 2-
     -v, -version              display version
 </code></pre>
 
@@ -77,7 +78,13 @@ cat 4rows.csv
 <pre><code>csvrows -i 10row.csv -row 1,4,6 &gt; 3rows.csv
 </code></pre>
 
-<p>csvrows v0.0.20-pre</p>
+<p>Filter 3 randomly selected rows from 10row.csv rendering new CSV with
+a header row from 10row.csv.</p>
+
+<pre><code>csvrows -i 10row.csv -header=true -random=3
+</code></pre>
+
+<p>csvrows v0.0.22-pre</p>
 
 </section>
 
