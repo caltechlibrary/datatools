@@ -65,9 +65,11 @@ Convert data1.csv to JSON blobs, one line per blob
 	eol                  string
 
 	// Application Options
-	useHeader bool
-	asBlobs   bool
-	delimiter string
+	useHeader        bool
+	asBlobs          bool
+	delimiter        string
+	lazyQuotes       bool
+	trimLeadingSpace bool
 )
 
 func main() {
@@ -94,6 +96,8 @@ func main() {
 	app.BoolVar(&useHeader, "use-header", true, "treat the first row as field names")
 	app.BoolVar(&asBlobs, "as-blobs", false, "output as one JSON blob per line")
 	app.StringVar(&delimiter, "d,delimiter", "", "set the delimter character")
+	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for for CSV input")
+	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in fields for CSV input")
 
 	// Parse environment and options
 	app.Parse()
@@ -140,6 +144,8 @@ func main() {
 	rowNo := 0
 	fieldNames := []string{}
 	r := csv.NewReader(app.In)
+	r.LazyQuotes = lazyQuotes
+	r.TrimLeadingSpace = trimLeadingSpace
 	if delimiter != "" {
 		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}

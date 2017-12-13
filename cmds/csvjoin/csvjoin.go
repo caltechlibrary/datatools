@@ -58,23 +58,25 @@ merged-data.csv..
 	quiet                bool
 
 	// App Options
-	verbose         bool
-	csv1FName       string
-	csv2FName       string
-	col1            int
-	col2            int
-	trimSpaces      bool
-	caseSensitive   bool
-	useContains     bool
-	useLevenshtein  bool
-	insertCost      int
-	deleteCost      int
-	substituteCost  int
-	maxEditDistance int
-	stopWordsOption string
-	allowDuplicates bool
-	asInMemory      bool
-	delimiter       string
+	verbose          bool
+	csv1FName        string
+	csv2FName        string
+	col1             int
+	col2             int
+	trimSpaces       bool
+	caseSensitive    bool
+	useContains      bool
+	useLevenshtein   bool
+	insertCost       int
+	deleteCost       int
+	substituteCost   int
+	maxEditDistance  int
+	stopWordsOption  string
+	allowDuplicates  bool
+	asInMemory       bool
+	delimiter        string
+	lazyQuotes       bool
+	trimLeadingSpace bool
 )
 
 // cellsMatch checks if two cells' values match
@@ -185,6 +187,8 @@ func main() {
 	app.BoolVar(&trimSpaces, "trimspaces", false, "trim spaces around cell values before comparing")
 	app.BoolVar(&asInMemory, "in-memory", false, "if true read both CSV files")
 	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
+	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for CSV input")
+	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
 
 	// Parse env and options
 	app.Parse()
@@ -261,11 +265,15 @@ func main() {
 	cli.ExitOnError(app.Eout, err, quiet)
 	defer fp1.Close()
 	csv1 := csv.NewReader(fp1)
+	csv1.LazyQuotes = lazyQuotes
+	csv1.TrimLeadingSpace = trimLeadingSpace
 
 	fp2, err := os.Open(csv2FName)
 	cli.ExitOnError(app.Eout, err, quiet)
 	defer fp2.Close()
 	csv2 := csv.NewReader(fp2)
+	csv2.LazyQuotes = lazyQuotes
+	csv2.TrimLeadingSpace = trimLeadingSpace
 
 	w := csv.NewWriter(app.Out)
 	if delimiter != "" {

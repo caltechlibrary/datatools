@@ -74,11 +74,13 @@ Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
 	quiet                bool
 
 	// App Options
-	outputColumns   string
-	prefixUUID      bool
-	skipHeaderRow   bool
-	delimiter       string
-	outputDelimiter string
+	outputColumns    string
+	prefixUUID       bool
+	skipHeaderRow    bool
+	delimiter        string
+	outputDelimiter  string
+	lazyQuotes       bool
+	trimLeadingSpace bool
 )
 
 func selectedColumns(rowNo int, record []string, columnNos []int, prefixUUID bool, skipHeaderRow bool) []string {
@@ -106,10 +108,13 @@ func selectedColumns(rowNo int, record []string, columnNos []int, prefixUUID boo
 	return result
 }
 
-func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, skipHeaderRow bool, delimiterIn string, delimiterOut string) {
+func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, skipHeaderRow bool, delimiterIn string, delimiterOut string, lazyQuotes, trimLeadingSpace bool) {
 	var err error
 
 	r := csv.NewReader(in)
+	r.LazyQuotes = lazyQuotes
+	r.TrimLeadingSpace = trimLeadingSpace
+
 	w := csv.NewWriter(out)
 	if delimiterIn != "" {
 		r.Comma = datatools.NormalizeDelimiterRune(delimiterIn)
@@ -161,6 +166,8 @@ func main() {
 	app.StringVar(&outputDelimiter, "od,output-delimiter", "", "set the output delimiter character")
 	app.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
 	app.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
+	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes on CSV input")
+	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
 
 	// Parse env and options
 	app.Parse()
@@ -212,7 +219,7 @@ func main() {
 				columnNos[i] = 0
 			}
 		}
-		CSVColumns(app.In, app.Out, columnNos, prefixUUID, skipHeaderRow, delimiter, outputDelimiter)
+		CSVColumns(app.In, app.Out, columnNos, prefixUUID, skipHeaderRow, delimiter, outputDelimiter, lazyQuotes, trimLeadingSpace)
 		os.Exit(0)
 	}
 

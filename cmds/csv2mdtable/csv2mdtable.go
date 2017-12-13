@@ -60,7 +60,9 @@ Convert data1.csv to data1.md using options.
 	eol                  string
 
 	// Application Options
-	delimiter string
+	delimiter        string
+	lazyQuotes       bool
+	trimLeadingSpace bool
 )
 
 func main() {
@@ -85,6 +87,8 @@ func main() {
 
 	// Application Options
 	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
+	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "using lazy quotes for CSV input")
+	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
 
 	// Parse environment and options
 	app.Parse()
@@ -129,6 +133,9 @@ func main() {
 	}
 
 	r := csv.NewReader(app.In)
+	r.LazyQuotes = lazyQuotes
+	r.TrimLeadingSpace = trimLeadingSpace
+
 	if delimiter != "" {
 		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}

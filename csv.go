@@ -52,12 +52,16 @@ func shuffleRows(rows [][]string, src rand.Source) {
 // number of rows to write out.  If showHeader is true it is excluded from the random row selection
 // and will be written to out before the randomized rows.
 // rowCount is the number of rows to return independent of the header row.
-func CSVRandomRows(in io.Reader, out io.Writer, showHeader bool, rowCount int, delimiter string) error {
+func CSVRandomRows(in io.Reader, out io.Writer, showHeader bool, rowCount int, delimiter string, lazyQuotes, trimLeadingSpace bool) error {
 	var err error
 
 	headerRow := []string{}
 	rows := [][]string{}
+
 	r := csv.NewReader(in)
+	r.LazyQuotes = lazyQuotes
+	r.TrimLeadingSpace = trimLeadingSpace
+
 	w := csv.NewWriter(out)
 	if delimiter != "" {
 		r.Comma = NormalizeDelimiterRune(delimiter)
@@ -110,10 +114,13 @@ func CSVRandomRows(in io.Reader, out io.Writer, showHeader bool, rowCount int, d
 }
 
 // CSVRows renders the rows numbers in rowNos using the delimiter to out
-func CSVRows(in io.Reader, out io.Writer, showHeader bool, rowNos []int, delimiter string) error {
+func CSVRows(in io.Reader, out io.Writer, showHeader bool, rowNos []int, delimiter string, lazyQuotes, trimLeadingSpace bool) error {
 	var err error
 
 	r := csv.NewReader(in)
+	r.LazyQuotes = lazyQuotes
+	r.TrimLeadingSpace = trimLeadingSpace
+
 	w := csv.NewWriter(out)
 	if delimiter != "" {
 		r.Comma = NormalizeDelimiterRune(delimiter)
@@ -149,10 +156,13 @@ func CSVRows(in io.Reader, out io.Writer, showHeader bool, rowNos []int, delimit
 }
 
 // CSVRowsAll renders the all rows in rowNos using the delimiter to out
-func CSVRowsAll(in io.Reader, out io.Writer, showHeader bool, delimiter string) error {
+func CSVRowsAll(in io.Reader, out io.Writer, showHeader bool, delimiter string, lazyQuotes, trimLeadingSpace bool) error {
 	var err error
 
 	r := csv.NewReader(in)
+	r.LazyQuotes = lazyQuotes
+	r.TrimLeadingSpace = trimLeadingSpace
+
 	w := csv.NewWriter(out)
 	if delimiter != "" {
 		r.Comma = NormalizeDelimiterRune(delimiter)

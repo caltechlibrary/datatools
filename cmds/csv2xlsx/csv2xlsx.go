@@ -65,12 +65,14 @@ the workbook's 'My worksheet 2' sheet.
 	quiet                bool
 
 	// App Specific Options
-	workbookName string
-	sheetName    string
-	delimiter    string
+	workbookName     string
+	sheetName        string
+	delimiter        string
+	lazyQuotes       bool
+	trimLeadingSpace bool
 )
 
-func csv2XLSXSheet(in *os.File, workbookName string, sheetName string, delimiter string) error {
+func csv2XLSXSheet(in *os.File, workbookName string, sheetName string, delimiter string, lazyQuotes, trimLeadingSpace bool) error {
 	var workbook *xlsx.File
 
 	// Open the workbook
@@ -89,6 +91,9 @@ func csv2XLSXSheet(in *os.File, workbookName string, sheetName string, delimiter
 	}
 
 	r := csv.NewReader(in)
+	r.LazyQuotes = lazyQuotes
+	r.TrimLeadingSpace = trimLeadingSpace
+
 	if delimiter != "" {
 		r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}
@@ -134,6 +139,8 @@ func main() {
 	app.StringVar(&workbookName, "workbook", "", "Workbook name")
 	app.StringVar(&sheetName, "sheet", "", "Sheet name to create/replace")
 	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character (input)")
+	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for CSV input")
+	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
 
 	// Parse environment and options
 	app.Parse()
@@ -196,6 +203,6 @@ func main() {
 	if len(sheetName) == 0 {
 		cli.ExitOnError(app.Eout, fmt.Errorf("Missing sheet name"), quiet)
 	}
-	err = csv2XLSXSheet(app.In, workbookName, sheetName, delimiter)
+	err = csv2XLSXSheet(app.In, workbookName, sheetName, delimiter, lazyQuotes, trimLeadingSpace)
 	cli.ExitOnError(app.Eout, err, quiet)
 }
