@@ -3,8 +3,10 @@
 
 + [Convert lines into an array](convert-lines-into-an-array.html)
 + [Find duplicates in a column](find-duplicates-in-a-column.html)
++ [How to select random rows from a CSV file](select-random-rows-from-a-CSV-file.md)
 + [Reorder a comma delimited string](reorder-a-comma-delimited-string.html)
 + [Trim a trailing newline from a text file](trim-a-trailing-newline-from-a-text-file.html)
+
 
 ## Use (by tool)
 
