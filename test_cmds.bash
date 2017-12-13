@@ -407,7 +407,7 @@ function test_csvcols() {
 
     # Bug: csvcols has issues with quotations marks #1
     if [ -f temp.csv ]; then rm temp.csv; fi
-    bin/csvcols -use-lazy-quote -i how-to/csvcols/quoting-example.csv -o temp.csv -col 1,2
+    bin/csvcols -use-lazy-quotes -i how-to/csvcols/quoting-example.csv -o temp.csv -col 1,2
     assert_exists "test_csvcols (bug issue #1)" temp.csv
     R=$(cmp how-to/csvcols/quoting-expected.csv temp.csv)
     assert_empty "test_csvcols (bug issue #1)" "$R"
