@@ -3,6 +3,8 @@
 
 ## Bug
 
++ [ ] findfile v0.0.23-pre option -f, -full-path doesn't return full paths
+
 ## Next
 
 + [ ] upgrade to use the new cli v0.0.5-dev
