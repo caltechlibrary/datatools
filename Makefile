@@ -89,7 +89,7 @@ bin/csvcleaner$(EXT): datatools.go cmds/csvcleaner/csvcleaner.go
 bin/string$(EXT): datatools.go cmds/string/string.go
 	go build -o bin/string$(EXT) cmds/string/string.go
 
-test:
+test: build
 	go test
 	bash test_cmds.bash
 
