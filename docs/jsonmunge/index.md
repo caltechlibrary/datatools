@@ -51,4 +51,4 @@ This would yield
     "Doe, Jane"
 
 
-jsonmunge v0.0.23-pre
+jsonmunge v0.0.24-pre

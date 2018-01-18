@@ -64,4 +64,4 @@ You can also search for phrases in columns.
     csvfind -i books.csv -col=2 -contains "Red Book"
 
 
-csvfind v0.0.23-pre
+csvfind v0.0.24-pre

@@ -62,4 +62,4 @@ a header row from 10row.csv.
 	csvrows -i 10row.csv -header=true -random=3
 
 
-csvrows v0.0.23-pre
+csvrows v0.0.24-pre

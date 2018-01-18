@@ -40,4 +40,4 @@ Convert data1.csv to data1.md using options.
     csv2mdtable -i data1.csv -o data1.md
 
 
-csv2mdtable v0.0.23-pre
+csv2mdtable v0.0.24-pre
