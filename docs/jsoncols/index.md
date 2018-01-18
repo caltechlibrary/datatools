@@ -32,6 +32,7 @@ extracted is a comma. This can be overridden with an option.
     -l, -license              display license
     -nl, -newline             if true add a trailing newline
     -o, -output               output filename
+    -p, -pretty               pretty print JSON output
     -quiet                    suppress error messages
     -quote                    quote strings and JSON notation
     -r                        run interactively
@@ -74,4 +75,4 @@ Would yield
    "Doe, Jane","jane.doe@xample.org",42
 
 
-jsoncols v0.0.23-pre
+jsoncols v0.0.24-pre

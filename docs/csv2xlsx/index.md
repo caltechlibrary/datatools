@@ -45,4 +45,4 @@ This does the same but the contents of data.csv are piped into
 the workbook's 'My worksheet 2' sheet.
 %!(EXTRA string=csv2xlsx, string=csv2xlsx)
 
-csv2xlsx v0.0.23-pre
+csv2xlsx v0.0.24-pre

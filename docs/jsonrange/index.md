@@ -141,4 +141,4 @@ would yield
     20
 
 
-jsonrange v0.0.23-pre
+jsonrange v0.0.24-pre
