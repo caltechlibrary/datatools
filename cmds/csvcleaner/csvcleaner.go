@@ -58,7 +58,7 @@ Trim trailing spaces from output.
 
 Trim leading and trailing spaces from output.
 
-    cat mysheet.csv | %s -trim
+    cat mysheet.csv | %s -trim-space
 `
 
 	// Standard Options
@@ -113,7 +113,7 @@ func main() {
 
 	// Application specific options
 	app.IntVar(&fieldsPerRecord, "fields-per-row", 0, "set the number of columns to output right padding empty cells as needed")
-	app.BoolVar(&trimSpace, "trim", false, "trim spaces on CSV out")
+	app.BoolVar(&trimSpace, "trim,trim-spaces", false, "trim spaces on CSV out")
 	app.BoolVar(&trimLeftSpace, "left-trim", false, "left trim spaces on CSV out")
 	app.BoolVar(&trimRightSpace, "right-trim", false, "right trim spaces on CSV out")
 	app.BoolVar(&reuseRecord, "reuse", true, "if false then a new array is allocated for each row processed, if true the array gets reused")
