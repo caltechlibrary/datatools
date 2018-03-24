@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Project values
-PROJECT_GO = "dataset.go"
+PROJECT_GO = "datatools.go"
 CODEMETA_JSON = "codemeta.json"
 
 #
