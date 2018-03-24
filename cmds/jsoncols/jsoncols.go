@@ -78,6 +78,7 @@ Would yield
 	generateMarkdownDocs bool
 	quiet                bool
 	newLine              bool
+	prettyPrint          bool
 
 	// Application Specific Options
 	runInteractive bool
@@ -85,7 +86,6 @@ Would yield
 	delimiter      = ","
 	expressions    []string
 	quote          bool
-	pretty         bool
 )
 
 func main() {
@@ -122,7 +122,7 @@ func main() {
 	app.BoolVar(&csvOutput, "csv", false, "output as CSV or other flat delimiter row")
 	app.StringVar(&delimiter, "d,delimiter", delimiter, "set the delimiter for multi-field csv output")
 	app.BoolVar(&quote, "quote", true, "quote strings and JSON notation")
-	app.BoolVar(&pretty, "p,pretty", false, "pretty print JSON output")
+	app.BoolVar(&prettyPrint, "p,pretty", false, "pretty print JSON output")
 
 	// Parse Environment and Options
 	app.Parse()
@@ -192,7 +192,7 @@ func main() {
 			case json.Number:
 				row = append(row, result.(json.Number).String())
 			default:
-				if pretty {
+				if prettyPrint {
 					src, err = json.MarshalIndent(result, "", "    ")
 				} else {
 					src, err = json.Marshal(result)
@@ -236,7 +236,7 @@ func main() {
 			case json.Number:
 				fmt.Fprintf(app.Out, "%s", result.(json.Number).String())
 			default:
-				if pretty {
+				if prettyPrint {
 					src, err = json.MarshalIndent(result, "", "    ")
 				} else {
 					src, err = json.Marshal(result)
