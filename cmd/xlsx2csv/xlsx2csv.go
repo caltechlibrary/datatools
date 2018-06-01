@@ -55,9 +55,9 @@ This will output the number of sheets in the Workbook.
 This will display a list of sheet names, one per line.
 Putting it all together in a shell script.
 
-	xlsx2csv -N MyWorkbook.xlsx | while read SHEET_NAME; do
+	%s -N MyWorkbook.xlsx | while read SHEET_NAME; do
     	CSV_NAME="${SHEET_NAME// /-}.csv"
-    	xlsx2csv -o "${CSV_NAME}" MyWorkbook.xlsx "${SHEET_NAME}" 
+    	%s -o "${CSV_NAME}" MyWorkbook.xlsx "${SHEET_NAME}" 
 	done
 `
 

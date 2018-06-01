@@ -56,9 +56,9 @@ This will output the title of the sheets in the workbook
 Putting it all together in a shell script and convert all sheets to
 into JSON documents..
 
-	xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
+	%s -N MyWorkbook.xlsx | while read SHEET_NAME; do
     	JSON_NAME="${SHEET_NAME// /-}.json"
-    	xlsx2json -o "${JSON_NAME}" MyWorkbook.xlsx "$SHEET_NAME"
+    	%s -o "${JSON_NAME}" MyWorkbook.xlsx "$SHEET_NAME"
 	done    
 `
 
