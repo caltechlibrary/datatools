@@ -4,7 +4,7 @@
 //
 // @Author R. S. Doiel, <rsdoiel@caltech.edu>
 //
-// Copyright (c) 2017, Caltech
+// Copyright (c) 2018, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -55,14 +55,14 @@ the workbook's 'My worksheet 2' sheet.
 `
 
 	// Standard Options
-	showHelp             bool
-	showLicense          bool
-	showVersion          bool
-	showExamples         bool
-	inputFName           string
-	outputFName          string
-	generateMarkdownDocs bool
-	quiet                bool
+	showHelp         bool
+	showLicense      bool
+	showVersion      bool
+	showExamples     bool
+	inputFName       string
+	outputFName      string
+	generateMarkdown bool
+	quiet            bool
 
 	// App Specific Options
 	workbookName     string
@@ -132,7 +132,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.StringVar(&inputFName, "i,input", "", "input filename (CSV content)")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Specific Options
@@ -160,8 +160,8 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process options
-	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+	if generateMarkdown {
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

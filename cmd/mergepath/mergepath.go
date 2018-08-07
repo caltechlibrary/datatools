@@ -3,7 +3,7 @@
 //
 // @Author R. S. Doiel, <rsdoiel@caltech.edu>
 //
-// Copyright (c) 2017, Caltech
+// Copyright (c) 2018, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -42,15 +42,15 @@ This would put your home bin directory at the beginning of your path.
 `
 
 	// Standard Options
-	showHelp             bool
-	showLicense          bool
-	showVersion          bool
-	showExamples         bool
-	outputFName          string
-	generateMarkdownDocs bool
-	quiet                bool
-	newLine              bool
-	eol                  string
+	showHelp         bool
+	showLicense      bool
+	showVersion      bool
+	showExamples     bool
+	outputFName      string
+	generateMarkdown bool
+	quiet            bool
+	newLine          bool
+	eol              string
 
 	// Application Specific Options
 	envPath     string
@@ -97,7 +97,7 @@ func main() {
 	app.BoolVar(&showLicense, "l,license", false, "display license")
 	app.BoolVar(&showVersion, "v,version", false, "display version")
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
@@ -129,8 +129,8 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process Options
-	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+	if generateMarkdown {
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

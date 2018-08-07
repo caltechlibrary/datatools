@@ -69,16 +69,16 @@ Would yield
 `
 
 	// Standard Options
-	showHelp             bool
-	showLicense          bool
-	showVersion          bool
-	showExamples         bool
-	inputFName           string
-	outputFName          string
-	generateMarkdownDocs bool
-	quiet                bool
-	newLine              bool
-	prettyPrint          bool
+	showHelp         bool
+	showLicense      bool
+	showVersion      bool
+	showExamples     bool
+	inputFName       string
+	outputFName      string
+	generateMarkdown bool
+	quiet            bool
+	newLine          bool
+	prettyPrint      bool
 
 	// Application Specific Options
 	runInteractive bool
@@ -114,7 +114,7 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
 
 	// Application Specific Options
 	app.BoolVar(&runInteractive, "r", false, "run interactively")
@@ -139,8 +139,8 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process Options
-	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+	if generateMarkdown {
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

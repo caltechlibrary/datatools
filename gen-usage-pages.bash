@@ -6,5 +6,5 @@ if [ ! -d bin ]; then
 fi
 ls -1 bin/ | while read ITEM; do
    D=$(basename "${ITEM}")
-   "bin/${ITEM}" -generate-markdown-docs > "docs/${D}/index.md"
+   "bin/${ITEM}" -generate-markdown > "docs/${D}/index.md"
 done

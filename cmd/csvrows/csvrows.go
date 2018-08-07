@@ -4,7 +4,7 @@
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
-// Copyright (c) 2017, Caltech
+// Copyright (c) 2018, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -71,14 +71,14 @@ a header row from 10row.csv.
 `
 
 	// Standard options
-	showHelp             bool
-	showLicense          bool
-	showVersion          bool
-	showExamples         bool
-	inputFName           string
-	outputFName          string
-	generateMarkdownDocs bool
-	quiet                bool
+	showHelp         bool
+	showLicense      bool
+	showVersion      bool
+	showExamples     bool
+	inputFName       string
+	outputFName      string
+	generateMarkdown bool
+	quiet            bool
 
 	// Application specific options
 	validateRows     bool
@@ -112,7 +112,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.StringVar(&inputFName, "i,input", "", "input filename")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application specific options
@@ -142,8 +142,8 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process Options
-	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+	if generateMarkdown {
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 

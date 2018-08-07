@@ -4,7 +4,7 @@
 //
 // @Author R. S. Doiel
 //
-// Copyright (c) 2017, Caltech
+// Copyright (c) 2018, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -67,11 +67,11 @@ Putting it all together in a shell script.
 	showVersion  bool
 	showExamples bool
 	//inputFName           string
-	outputFName          string
-	generateMarkdownDocs bool
-	quiet                bool
-	newLine              bool
-	eol                  string
+	outputFName      string
+	generateMarkdown bool
+	quiet            bool
+	newLine          bool
+	eol              string
 
 	// Application Options
 	showSheetCount bool
@@ -149,7 +149,7 @@ func main() {
 	//app.StringVar(&inputFName, "i,input", "", "input filename")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Specific Options
@@ -175,8 +175,8 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process options
-	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+	if generateMarkdown {
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 

@@ -3,7 +3,7 @@
 //
 // @author R. S. Doiel, <rsdoiel@library.caltech.edu>
 //
-// Copyright (c) 2017, Caltech
+// Copyright (c) 2018, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -68,16 +68,16 @@ Join a JSON array of strings into a newline delimited list
 `
 
 	// Standard Options
-	showHelp             bool
-	showLicense          bool
-	showVersion          bool
-	showExamples         bool
-	inputFName           string
-	outputFName          string
-	newLine              bool
-	quiet                bool
-	generateMarkdownDocs bool
-	eol                  string
+	showHelp         bool
+	showLicense      bool
+	showVersion      bool
+	showExamples     bool
+	inputFName       string
+	outputFName      string
+	newLine          bool
+	quiet            bool
+	generateMarkdown bool
+	eol              string
 
 	// App Options
 	delimiter       string
@@ -618,7 +618,7 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output file name")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "output documentation in Markdown")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "output documentation in Markdown")
 
 	// App Options
 	app.StringVar(&delimiter, "d,delimiter", "", "set the delimiter")
@@ -667,8 +667,8 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Handle options
-	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+	if generateMarkdown {
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

@@ -5,7 +5,7 @@
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
-// Copyright (c) 2017, Caltech
+// Copyright (c) 2018, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -45,15 +45,15 @@ Find all subdirectories starting with "img".
 `
 
 	// Standard Options
-	showHelp             bool
-	showVersion          bool
-	showLicense          bool
-	showExamples         bool
-	outputFName          string
-	generateMarkdownDocs bool
-	quiet                bool
-	newLine              bool
-	eol                  string
+	showHelp         bool
+	showVersion      bool
+	showLicense      bool
+	showExamples     bool
+	outputFName      string
+	generateMarkdown bool
+	quiet            bool
+	newLine          bool
+	eol              string
 
 	// Application Options
 	showModificationTime bool
@@ -135,7 +135,7 @@ func main() {
 	app.BoolVar(&showVersion, "v,version", false, "display version message")
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documemtations")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documemtations")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
@@ -169,8 +169,8 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process options
-	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+	if generateMarkdown {
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

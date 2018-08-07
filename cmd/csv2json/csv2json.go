@@ -53,16 +53,16 @@ Convert data1.csv to JSON blobs, one line per blob
 `
 
 	// Standard Options
-	showHelp             bool
-	showLicense          bool
-	showVersion          bool
-	showExamples         bool
-	inputFName           string
-	outputFName          string
-	generateMarkdownDocs bool
-	quiet                bool
-	newLine              bool
-	eol                  string
+	showHelp         bool
+	showLicense      bool
+	showVersion      bool
+	showExamples     bool
+	inputFName       string
+	outputFName      string
+	generateMarkdown bool
+	quiet            bool
+	newLine          bool
+	eol              string
 
 	// Application Options
 	useHeader        bool
@@ -88,7 +88,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.StringVar(&inputFName, "i,input", "", "input filename")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generation markdown documentation")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generation markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error output")
 	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline in output")
 
@@ -118,7 +118,7 @@ func main() {
 
 	// Process options
 	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

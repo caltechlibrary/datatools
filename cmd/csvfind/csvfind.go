@@ -3,7 +3,7 @@
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
-// Copyright (c) 2017, Caltech
+// Copyright (c) 2018, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -58,16 +58,16 @@ You can also search for phrases in columns.
 `
 
 	// Standard Options
-	showHelp             bool
-	showLicense          bool
-	showVersion          bool
-	showExamples         bool
-	inputFName           string
-	outputFName          string
-	generateMarkdownDocs bool
-	quiet                bool
-	newLine              bool
-	eol                  string
+	showHelp         bool
+	showLicense      bool
+	showVersion      bool
+	showExamples     bool
+	inputFName       string
+	outputFName      string
+	generateMarkdown bool
+	quiet            bool
+	newLine          bool
+	eol              string
 
 	// App Options
 	skipHeaderRow      bool
@@ -109,7 +109,7 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline from output")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generation markdown documentation")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generation markdown documentation")
 
 	// App Options
 	app.IntVar(&col, "col,cols", 0, "column to search for match in the CSV file")
@@ -147,8 +147,8 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process options
-	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+	if generateMarkdown {
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

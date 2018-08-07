@@ -52,15 +52,15 @@ This would yield
 `
 
 	// Basic Options
-	showHelp             bool
-	showLicense          bool
-	showVersion          bool
-	showExamples         bool
-	inputFName           string
-	outputFName          string
-	generateMarkdownDocs bool
-	quiet                bool
-	newLine              bool
+	showHelp         bool
+	showLicense      bool
+	showVersion      bool
+	showExamples     bool
+	inputFName       string
+	outputFName      string
+	generateMarkdown bool
+	quiet            bool
+	newLine          bool
 
 	// Application Specific Options
 	templateExpr string
@@ -85,7 +85,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.StringVar(&inputFName, "i,input", "", "input filename")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown documentation")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
@@ -110,8 +110,8 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process Options
-	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+	if generateMarkdown {
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

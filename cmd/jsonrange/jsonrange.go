@@ -135,16 +135,16 @@ would yield
 `
 
 	// Standard Options
-	showHelp             bool
-	showLicense          bool
-	showVersion          bool
-	showExamples         bool
-	inputFName           string
-	outputFName          string
-	generateMarkdownDocs bool
-	quiet                bool
-	newLine              bool
-	eol                  string
+	showHelp         bool
+	showLicense      bool
+	showVersion      bool
+	showExamples     bool
+	inputFName       string
+	outputFName      string
+	generateMarkdown bool
+	quiet            bool
+	newLine          bool
+	eol              string
 
 	// Application Specific Options
 	showLength bool
@@ -259,7 +259,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.StringVar(&inputFName, "i,input", "", "read JSON from file")
 	app.StringVar(&outputFName, "o,output", "", "write to output file")
-	app.BoolVar(&generateMarkdownDocs, "generate-markdown-docs", false, "generate markdown docs")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown docs")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
@@ -288,8 +288,8 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process options
-	if generateMarkdownDocs {
-		app.GenerateMarkdownDocs(app.Out)
+	if generateMarkdown {
+		app.GenerateMarkdown(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {
