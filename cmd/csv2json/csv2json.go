@@ -60,6 +60,7 @@ Convert data1.csv to JSON blobs, one line per blob
 	inputFName       string
 	outputFName      string
 	generateMarkdown bool
+	generateManPage  bool
 	quiet            bool
 	newLine          bool
 	eol              string
@@ -89,6 +90,7 @@ func main() {
 	app.StringVar(&inputFName, "i,input", "", "input filename")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generation markdown documentation")
+	app.BoolVar(&generateManPage, "generate-manpage", false, "generation man page")
 	app.BoolVar(&quiet, "quiet", false, "suppress error output")
 	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline in output")
 
@@ -117,8 +119,12 @@ func main() {
 	defer cli.CloseFile(outputFName, app.Out)
 
 	// Process options
-	if generateMarkdownDocs {
+	if generateMarkdown {
 		app.GenerateMarkdown(app.Out)
+		os.Exit(0)
+	}
+	if generateManPage {
+		app.GenerateManPage(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

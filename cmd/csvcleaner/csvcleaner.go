@@ -69,6 +69,7 @@ Trim leading and trailing spaces from output.
 	inputFName       string
 	outputFName      string
 	generateMarkdown bool
+	generateManPage  bool
 	quiet            bool
 	//newLine              bool
 	//eol                  string
@@ -108,6 +109,7 @@ func main() {
 	app.StringVar(&inputFName, "i,input", "", "input filename")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generation markdown documentation")
+	app.BoolVar(&generateManPage, "generate-manpage", false, "generation man page")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	//app.BoolVar(&newLine, "nl,newline", false, "include trailing newline in output")
 
@@ -146,6 +148,10 @@ func main() {
 	// Process options
 	if generateMarkdown {
 		app.GenerateMarkdown(app.Out)
+		os.Exit(0)
+	}
+	if generateManPage {
+		app.GenerateManPage(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

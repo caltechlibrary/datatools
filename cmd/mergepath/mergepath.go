@@ -48,6 +48,7 @@ This would put your home bin directory at the beginning of your path.
 	showExamples     bool
 	outputFName      string
 	generateMarkdown bool
+	generateManPage  bool
 	quiet            bool
 	newLine          bool
 	eol              string
@@ -98,6 +99,7 @@ func main() {
 	app.BoolVar(&showVersion, "v,version", false, "display version")
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
+	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
@@ -131,6 +133,10 @@ func main() {
 	// Process Options
 	if generateMarkdown {
 		app.GenerateMarkdown(app.Out)
+		os.Exit(0)
+	}
+	if generateManPage {
+		app.GenerateManPage(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

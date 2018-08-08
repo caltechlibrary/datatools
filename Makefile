@@ -116,6 +116,32 @@ publish:
 clean: 
 	if [ -d bin ]; then rm -fR bin; fi
 	if [ -d dist ]; then rm -fR dist; fi
+	if [ -d man ]; then rm -fR man; fi
+
+man: build
+	mkdir -p man/man1
+	bin/csvcols -generate-manpage | nroff -Tutf8 -man > man/man1/csvcols.1
+	bin/csvrows -generate-manpage | nroff -Tutf8 -man > man/man1/csvrows.1
+	bin/csvfind -generate-manpage | nroff -Tutf8 -man > man/man1/csvfind.1
+	bin/csvjoin -generate-manpage | nroff -Tutf8 -man > man/man1/csvjoin.1
+	bin/csv2mdtable -generate-manpage | nroff -Tutf8 -man > man/man1/csv2mdtable.1
+	bin/csv2xlsx -generate-manpage | nroff -Tutf8 -man > man/man1/csv2xlsx.1
+	bin/csv2json -generate-manpage | nroff -Tutf8 -man > man/man1/csv2json.1
+	bin/findfile -generate-manpage | nroff -Tutf8 -man > man/man1/findfile.1
+	bin/finddir -generate-manpage | nroff -Tutf8 -man > man/man1/finddir.1
+	bin/jsoncols -generate-manpage | nroff -Tutf8 -man > man/man1/jsoncols.1
+	bin/jsonrange -generate-manpage | nroff -Tutf8 -man > man/man1/jsonrange.1
+	bin/jsonjoin -generate-manpage | nroff -Tutf8 -man > man/man1/jsonjoin.1
+	bin/jsonmunge -generate-manpage | nroff -Tutf8 -man > man/man1/jsonmunge.1
+	bin/mergepath -generate-manpage | nroff -Tutf8 -man > man/man1/mergepath.1
+	bin/reldate -generate-manpage | nroff -Tutf8 -man > man/man1/reldate.1
+	bin/range -generate-manpage | nroff -Tutf8 -man > man/man1/range.1
+	bin/timefmt -generate-manpage | nroff -Tutf8 -man > man/man1/timefmt.1
+	bin/urlparse -generate-manpage | nroff -Tutf8 -man > man/man1/urlparse.1
+	bin/xlsx2json -generate-manpage | nroff -Tutf8 -man > man/man1/xlsx2json.1
+	bin/xlsx2csv -generate-manpage | nroff -Tutf8 -man > man/man1/xlsx2csv.1
+	bin/csvcleaner -generate-manpage | nroff -Tutf8 -man > man/man1/csvcleaner.1
+	bin/string -generate-manpage | nroff -Tutf8 -man > man/man1/string.1
 
 install:
 	env GOBIN=$(GOPATH)/bin go install cmd/csvcols/csvcols.go

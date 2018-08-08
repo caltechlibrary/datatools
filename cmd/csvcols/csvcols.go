@@ -71,6 +71,7 @@ Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
 	inputFName       string
 	outputFName      string
 	generateMarkdown bool
+	generateManPage  bool
 	quiet            bool
 
 	// App Options
@@ -158,6 +159,7 @@ func main() {
 	app.StringVar(&inputFName, "i,input", "", "input filename")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
+	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Options
@@ -189,6 +191,10 @@ func main() {
 	// Process options
 	if generateMarkdown {
 		app.GenerateMarkdown(app.Out)
+		os.Exit(0)
+	}
+	if generateManPage {
+		app.GenerateManPage(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

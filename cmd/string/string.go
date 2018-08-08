@@ -77,6 +77,7 @@ Join a JSON array of strings into a newline delimited list
 	newLine          bool
 	quiet            bool
 	generateMarkdown bool
+	generateManPage  bool
 	eol              string
 
 	// App Options
@@ -618,7 +619,8 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output file name")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "output documentation in Markdown")
+	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate Markdown documentation")
+	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
 
 	// App Options
 	app.StringVar(&delimiter, "d,delimiter", "", "set the delimiter")
@@ -669,6 +671,10 @@ func main() {
 	// Handle options
 	if generateMarkdown {
 		app.GenerateMarkdown(app.Out)
+		os.Exit(0)
+	}
+	if generateManPage {
+		app.GenerateManPage(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

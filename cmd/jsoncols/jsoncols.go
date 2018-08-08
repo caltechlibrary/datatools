@@ -76,6 +76,7 @@ Would yield
 	inputFName       string
 	outputFName      string
 	generateMarkdown bool
+	generateManPage  bool
 	quiet            bool
 	newLine          bool
 	prettyPrint      bool
@@ -115,6 +116,7 @@ func main() {
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
+	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
 
 	// Application Specific Options
 	app.BoolVar(&runInteractive, "r", false, "run interactively")
@@ -141,6 +143,10 @@ func main() {
 	// Process Options
 	if generateMarkdown {
 		app.GenerateMarkdown(app.Out)
+		os.Exit(0)
+	}
+	if generateManPage {
+		app.GenerateManPage(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

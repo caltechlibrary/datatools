@@ -55,6 +55,7 @@ merged-data.csv..
 	showExamples     bool
 	outputFName      string
 	generateMarkdown bool
+	generateManPage  bool
 	quiet            bool
 
 	// App Options
@@ -167,6 +168,7 @@ func main() {
 	app.BoolVar(&showExamples, "examples", false, "display example(s)")
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
+	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
 	app.BoolVar(&quiet, "quiet", false, "supress error messages")
 
 	// App Options
@@ -212,6 +214,10 @@ func main() {
 	// Process Options
 	if generateMarkdown {
 		app.GenerateMarkdown(app.Out)
+		os.Exit(0)
+	}
+	if generateManPage {
+		app.GenerateManPage(app.Out)
 		os.Exit(0)
 	}
 	if showHelp || showExamples {

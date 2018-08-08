@@ -69,6 +69,7 @@ Putting it all together in a shell script.
 	//inputFName           string
 	outputFName      string
 	generateMarkdown bool
+	generateManPage  bool
 	quiet            bool
 	newLine          bool
 	eol              string
@@ -150,6 +151,7 @@ func main() {
 	app.StringVar(&outputFName, "o,output", "", "output filename")
 	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
+	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
 	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App Specific Options
@@ -177,6 +179,10 @@ func main() {
 	// Process options
 	if generateMarkdown {
 		app.GenerateMarkdown(app.Out)
+		os.Exit(0)
+	}
+	if generateManPage {
+		app.GenerateManPage(app.Out)
 		os.Exit(0)
 	}
 
