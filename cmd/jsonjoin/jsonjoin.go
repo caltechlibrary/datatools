@@ -152,7 +152,7 @@ func main() {
 	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)))
 
 	// Document non-option parameter
-	app.AddParams("JSON_FILE_1", "[JSON_FILE_2 ...]")
+	app.SetParams("JSON_FILE_1", "[JSON_FILE_2 ...]")
 
 	// Standard Options
 	app.BoolVar(&showHelp, "h,help", false, "display help")

@@ -149,7 +149,7 @@ func main() {
 	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName)))
 
 	// Document non-option Params
-	app.AddParams("[TIME_DESCRPTION]")
+	app.SetParams("[TIME_DESCRPTION]")
 
 	// Standard Options
 	app.BoolVar(&showHelp, "h,help", false, "display help")

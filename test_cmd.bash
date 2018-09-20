@@ -343,13 +343,13 @@ function test_csvcleaner(){
     bin/csvcleaner -i how-to/csvcleaner/mysheet.csv -fields-per-row=2 -o temp.csv
     assert_exists "test_csvcleaner (args)" temp.csv
     R=$(cmp how-to/csvcleaner/2cols.csv temp.csv)
-    assert_empty "test_csvcleaner (args, 2 cols)" "$R"
+    assert_empty "test_csvcleaner (args, 2 cols, 2 rows)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
     bin/csvcleaner -i how-to/csvcleaner/mysheet.csv -fields-per-row=3 -o temp.csv
     assert_exists "test_csvcleaner (args)" temp.csv
     R=$(cmp how-to/csvcleaner/3cols.csv temp.csv)
-    assert_empty "test_csvcleaner (args, 3 cols)" "$R"
+    assert_empty "test_csvcleaner (args, 3 cols, 3 rows)" "$R"
 
     if [ -f temp.csv ]; then rm temp.csv; fi
     bin/csvcleaner -i how-to/csvcleaner/mysheet.csv -left-trim -o temp.csv

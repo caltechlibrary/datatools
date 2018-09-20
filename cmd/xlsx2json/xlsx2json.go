@@ -136,7 +136,7 @@ func main() {
 	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName)))
 
 	// Document non-option parameters
-	app.AddParams("EXCEL_WORKBOOK_NAME", "[SHEET_NAME]")
+	app.SetParams("EXCEL_WORKBOOK_NAME", "[SHEET_NAME]")
 
 	// Standard Options
 	app.BoolVar(&showHelp, "h,help", false, "display help")

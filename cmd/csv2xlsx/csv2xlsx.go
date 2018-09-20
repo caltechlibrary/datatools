@@ -119,7 +119,7 @@ func main() {
 	appName := app.AppName()
 
 	// Document non-option parameters
-	app.AddParams("WORKBOOK_NAME", "SHEET_NAME")
+	app.SetParams("WORKBOOK_NAME", "SHEET_NAME")
 
 	// Add Help Docs
 	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))

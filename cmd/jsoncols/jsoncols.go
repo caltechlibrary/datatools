@@ -99,7 +99,7 @@ func main() {
 	appName := app.AppName()
 
 	// Document non-option parameters
-	app.AddParams("[EXPRESSION]", "[INPUT_FILENAME]", "[OUTPUT_FILENAME]")
+	app.SetParams("[EXPRESSION]", "[INPUT_FILENAME]", "[OUTPUT_FILENAME]")
 
 	// Add Help Docs
 	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))

@@ -94,7 +94,7 @@ func main() {
 	appName := app.AppName()
 
 	// Document non-option parameters
-	app.AddParams(`TEXT_TO_MATCH`)
+	app.SetParams(`TEXT_TO_MATCH`)
 
 	// Add Help Docs
 	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))

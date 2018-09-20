@@ -154,7 +154,7 @@ func main() {
 	appName := app.AppName()
 
 	// Documemt non-option parameters
-	app.AddParams("CSV1", "CSV2", "COL1", "COL2")
+	app.SetParams("CSV1", "CSV2", "COL1", "COL2")
 
 	// Add Help Docs
 	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))

@@ -77,7 +77,7 @@ func main() {
 	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName)))
 
 	// Document non-option parameters
-	app.AddParams("TEMPLATE_FILENAME")
+	app.SetParams("TEMPLATE_FILENAME")
 
 	// Basic Options
 	app.BoolVar(&showHelp, "h,help", false, "display help")

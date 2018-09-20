@@ -123,7 +123,7 @@ func main() {
 	appName := app.AppName()
 
 	// Document non-options parameter
-	app.AddParams("[TARGET]", "[DIRECTORIES_TO_SEARCH]")
+	app.SetParams("[TARGET]", "[DIRECTORIES_TO_SEARCH]")
 
 	// Add Help Docs
 	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))

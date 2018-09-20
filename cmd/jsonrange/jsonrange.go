@@ -246,7 +246,7 @@ func main() {
 	appName := app.AppName()
 
 	// Document non-option parameters
-	app.AddParams("[DOT_PATH_EXPRESSION]")
+	app.SetParams("[DOT_PATH_EXPRESSION]")
 
 	// Add Help Docs
 	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))

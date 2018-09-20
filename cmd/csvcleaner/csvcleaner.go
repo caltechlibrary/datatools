@@ -207,7 +207,6 @@ func main() {
 	w.UseCRLF = useCRLF
 
 	// i is so we can track row count as we process each streamed in row
-	expectedCellCount := 0
 	hasError := false
 	i := 1
 	for {
@@ -215,28 +214,30 @@ func main() {
 		if err == io.EOF {
 			break
 		}
-		if i == 1 {
-			expectedCellCount = len(row)
+		if i == 1 && fieldsPerRecord == 0 {
+			fieldsPerRecord = len(row)
 		}
 		if err != nil {
 			serr := fmt.Sprintf("%s", err)
 			if strings.HasSuffix(serr, "wrong number of fields in line") == true && fieldsPerRecord >= 0 {
 				if verbose {
-					cli.OnError(app.Eout, fmt.Errorf("row %d: expected %d, got %d cells\n", i, expectedCellCount, len(row)), quiet)
-				}
-				// Trim trailing cells if needed
-				if fieldsPerRecord > 0 && len(row) >= fieldsPerRecord {
-					row = row[0:fieldsPerRecord]
-				}
-				// Append cells if needed
-				for len(row) < expectedCellCount {
-					row = append(row, "")
+					cli.OnError(app.Eout, fmt.Errorf("row %d: expected %d, got %d cells\n", i, fieldsPerRecord, len(row)), quiet)
 				}
 			} else {
 				hasError = true
 				if verbose {
 					cli.OnError(app.Eout, fmt.Errorf("%s", err), quiet)
 				}
+			}
+		}
+		// Trim trailing cells if needed
+		if fieldsPerRecord > 0 && len(row) > fieldsPerRecord {
+			row = row[0:fieldsPerRecord]
+		}
+		if fieldsPerRecord > 0 && len(row) < fieldsPerRecord {
+			// Append cells if needed
+			for len(row) < fieldsPerRecord { //expectedCellCount {
+				row = append(row, "")
 			}
 		}
 		if trimSpace || trimLeftSpace || trimRightSpace {

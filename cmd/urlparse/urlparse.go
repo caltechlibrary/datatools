@@ -115,7 +115,7 @@ func main() {
 	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName, appName)))
 
 	// Document non-option parameters
-	app.AddParams("URL_TO_PARSE")
+	app.SetParams("URL_TO_PARSE")
 
 	// Standard Options
 	app.BoolVar(&showHelp, "h,help", false, "display help")

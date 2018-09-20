@@ -124,7 +124,7 @@ func main() {
 	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName)))
 
 	// Document non-option parameters
-	app.AddParams("TIME_STRING_TO_CONVERT")
+	app.SetParams("TIME_STRING_TO_CONVERT")
 
 	// Standard Options
 	app.BoolVar(&showHelp, "h,help", false, "display help")

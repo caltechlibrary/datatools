@@ -20,6 +20,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -101,7 +102,14 @@ func exitOnError(eout io.Writer, err error, suppress bool) {
 	}
 }
 
-func doLength(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnLength(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
+
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
 		exitOnError(eout, err, quiet)
@@ -113,7 +121,13 @@ func doLength(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doCount(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnCount(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 1 {
 		fmt.Fprintf(eout, "first parameter is the sub string you're counting\n")
 		return 1
@@ -131,7 +145,13 @@ func doCount(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doToUpper(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnToUpper(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
 		exitOnError(eout, err, quiet)
@@ -143,7 +163,13 @@ func doToUpper(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doToLower(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnToLower(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
 		exitOnError(eout, err, quiet)
@@ -155,7 +181,13 @@ func doToLower(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doToTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnToTitle(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
 		exitOnError(eout, err, quiet)
@@ -167,7 +199,13 @@ func doToTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doEnglishTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnEnglishTitle(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
 		exitOnError(eout, err, quiet)
@@ -179,7 +217,13 @@ func doEnglishTitle(in io.Reader, out io.Writer, eout io.Writer, args []string) 
 	return 0
 }
 
-func doSplit(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnSplit(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 1 {
 		fmt.Fprintln(eout, "first parameter is the delimiting string")
 		return 1
@@ -203,7 +247,13 @@ func doSplit(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doSplitN(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnSplitN(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 2 {
 		fmt.Fprintln(eout, "first parameter is the delimiting string, second is the count")
 		return 1
@@ -234,7 +284,13 @@ func doSplitN(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doJoin(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnJoin(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 1 {
 		fmt.Fprintln(eout, "first parameter is the delimiter to join with")
 		return 1
@@ -260,7 +316,13 @@ func doJoin(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doHasPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnHasPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	// Validate parameters
 	if len(args) < 1 {
 		fmt.Fprintf(eout, "first parameter is the prefix\n")
@@ -282,7 +344,13 @@ func doHasPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string) int
 	return 0
 }
 
-func doTrimPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnTrimPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	// Validate parameters
 	if len(args) < 1 {
 		fmt.Fprintf(eout, "first parameter is the prefix\n")
@@ -304,7 +372,13 @@ func doTrimPrefix(in io.Reader, out io.Writer, eout io.Writer, args []string) in
 	return 0
 }
 
-func doHasSuffix(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnHasSuffix(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	// Validate parameters
 	if len(args) < 1 {
 		fmt.Fprintf(eout, "first parameter is the suffix\n")
@@ -326,7 +400,13 @@ func doHasSuffix(in io.Reader, out io.Writer, eout io.Writer, args []string) int
 	return 0
 }
 
-func doTrimSuffix(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnTrimSuffix(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	// Validate parameters
 	if len(args) < 1 {
 		fmt.Fprintf(eout, "first parameter is the suffix\n")
@@ -348,7 +428,13 @@ func doTrimSuffix(in io.Reader, out io.Writer, eout io.Writer, args []string) in
 	return 0
 }
 
-func doTrim(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnTrim(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 1 {
 		fmt.Fprintf(eout, "first parameter is the cutset\n")
 		return 1
@@ -369,7 +455,13 @@ func doTrim(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doTrimLeft(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnTrimLeft(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 1 {
 		fmt.Fprintf(eout, "first parameter is the cutset\n")
 		return 1
@@ -390,7 +482,13 @@ func doTrimLeft(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 	return 0
 }
 
-func doTrimRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnTrimRight(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 1 {
 		fmt.Fprintf(eout, "first parameter is the cutset\n")
 		return 1
@@ -411,7 +509,13 @@ func doTrimRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int
 	return 0
 }
 
-func doTrimSpace(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnTrimSpace(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	// Handle content coming from file
 	if inputFName != "" {
 		src, err := ioutil.ReadAll(in)
@@ -425,7 +529,13 @@ func doTrimSpace(in io.Reader, out io.Writer, eout io.Writer, args []string) int
 	return 0
 }
 
-func doContains(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnContains(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 1 {
 		fmt.Fprintf(eout, "first parameter is the target string\n")
 		return 1
@@ -445,7 +555,13 @@ func doContains(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 	return 0
 }
 
-func doPosition(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnPosition(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 1 {
 		fmt.Fprintf(eout, "first parameter is the slice you're looking for")
 		return 1
@@ -463,7 +579,13 @@ func doPosition(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 	return 0
 }
 
-func doReplace(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnReplace(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 2 {
 		fmt.Fprintf(eout, "first parameter is the target, second the replacement string\n")
 		return 1
@@ -482,7 +604,13 @@ func doReplace(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doReplacen(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnReplacen(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 3 {
 		fmt.Fprintf(eout, "first parameter is the target, second the replacement string, third is the replacement count (must be positive integer)\n")
 		return 1
@@ -509,7 +637,13 @@ func doReplacen(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 	return 1
 }
 
-func doPadLeft(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnPadLeft(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 2 {
 		fmt.Fprintf(eout, "first parameter is the padding, second the max width of the padded string\n")
 		return 1
@@ -538,7 +672,13 @@ func doPadLeft(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	return 0
 }
 
-func doPadRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnPadRight(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 2 {
 		fmt.Fprintf(eout, "first parameter is the padding, second the max width of the padded string\n")
 		return 1
@@ -567,7 +707,13 @@ func doPadRight(in io.Reader, out io.Writer, eout io.Writer, args []string) int 
 	return 0
 }
 
-func doSlice(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
+func fnSlice(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet *flag.FlagSet) int {
+	err := flagSet.Parse(args)
+	if err != nil {
+		fmt.Fprintf(eout, "%s\n", err)
+		return 1
+	}
+	args = flagSet.Args()
 	if len(args) < 2 {
 		fmt.Fprintf(eout, "first parameter is the start position (zero basedindex, inclusive), second is the end position (exclusive) of the substring\n")
 		return 1
@@ -627,30 +773,77 @@ func main() {
 	app.StringVar(&outputDelimiter, "do,output-delimiter", "", "set the output delimiter")
 
 	// Add verbs and functions
-	app.AddAction("toupper", doToUpper, "to upper case: [STRING]")
-	app.AddAction("tolower", doToLower, "to lower case: [STRING]")
-	app.AddAction("totitle", doToTitle, "to title case: [STRING]")
-	app.AddAction("englishtitle", doEnglishTitle, "English style title case: [STRING]")
-	app.AddAction("split", doSplit, "split into a JSON array: DELIMITER [STRING]")
-	app.AddAction("splitn", doSplitN, "split into an N length JSON array: DELIMITER N [STRING]")
-	app.AddAction("join", doJoin, "join JSON array into string: DELIMITER [JSON_ARRAY]")
-	app.AddAction("hasprefix", doHasPrefix, "true/false on prefix: PREFIX [STRING]")
-	app.AddAction("trimprefix", doTrimPrefix, "trims prefix: PREFIX [STRING]")
-	app.AddAction("hassuffix", doHasSuffix, "true/false on suffix: SUFFIX [STRING]")
-	app.AddAction("trimsuffix", doTrimSuffix, "trim suffix: SUFFIX [STRING]")
-	app.AddAction("trim", doTrim, "trim (beginning and end), CUTSET [STRING]")
-	app.AddAction("trimleft", doTrimLeft, "left trim: CUTSET [STRING]")
-	app.AddAction("trimright", doTrimRight, "right trim: CUTSET [STRING]")
-	app.AddAction("trimspace", doTrimSpace, "trim leading and trailing spaces: [STRING]")
-	app.AddAction("count", doCount, "count substrings: SUBSTRING [STRING]")
-	app.AddAction("contains", doContains, "has substrings: SUBSTRING [STRING]")
-	app.AddAction("length", doLength, "length of string: [STRING]")
-	app.AddAction("position", doPosition, "position of substring: SUBSTRING [STRING]")
-	app.AddAction("slice", doSlice, "copy a substring: START END [STRING]")
-	app.AddAction("replace", doReplace, "replace: OLD NEW [STRING]")
-	app.AddAction("replacen", doReplacen, "replace n times: OLD NEW N [STRING]")
-	app.AddAction("padleft", doPadLeft, "left pad: PADDING MAX_LENGTH [STRING]")
-	app.AddAction("padright", doPadRight, "right pad: PADDING MAX_LENGTH [STRING]")
+	verb := app.NewVerb("toupper", "to upper case: [STRING]", fnToUpper)
+	verb.SetParams("[STRING]")
+
+	verb = app.NewVerb("tolower", "to lower case: [STRING]", fnToLower)
+	verb.SetParams("[STRING]")
+
+	verb = app.NewVerb("totitle", "to title case: [STRING]", fnToTitle)
+	verb.SetParams("[STRING]")
+
+	verb = app.NewVerb("englishtitle", "English style title case: [STRING]", fnEnglishTitle)
+	verb.SetParams("[STRING]")
+
+	verb = app.NewVerb("split", "split into a JSON array: DELIMITER [STRING]", fnSplit)
+	verb.SetParams("DELIMITER", "[STRING]")
+
+	verb = app.NewVerb("splitn", "split into an N length JSON array: DELIMITER N [STRING]", fnSplitN)
+	verb.SetParams("DELIMITER", "N", "[STRING]")
+
+	verb = app.NewVerb("join", "join JSON array into string: DELIMITER [JSON_ARRAY]", fnJoin)
+	verb.SetParams("DELIMITER", "[JSON_ARRAY]")
+
+	verb = app.NewVerb("hasprefix", "true/false on prefix: PREFIX [STRING]", fnHasPrefix)
+	verb.SetParams("PREFIX", "[STRING]")
+
+	verb = app.NewVerb("trimprefix", "trims prefix: PREFIX [STRING]", fnTrimPrefix)
+	verb.SetParams("PREFIX", "[STRING]")
+
+	verb = app.NewVerb("hassuffix", "true/false on suffix: SUFFIX [STRING]", fnHasSuffix)
+	verb.SetParams("SUFFIX", "[STRING]")
+
+	verb = app.NewVerb("trimsuffix", "trim suffix: SUFFIX [STRING]", fnTrimSuffix)
+	verb.SetParams("SUFFIX", "[STRING]")
+
+	verb = app.NewVerb("trim", "trim (beginning and end), CUTSET [STRING]", fnTrim)
+	verb.SetParams("CURSET", "[STRING]")
+
+	verb = app.NewVerb("trimleft", "left trim: CUTSET [STRING]", fnTrimLeft)
+	verb.SetParams("CUTSET", "[STRING]")
+
+	verb = app.NewVerb("trimright", "right trim: CUTSET [STRING]", fnTrimRight)
+	verb.SetParams("CUTSET", "[STRING]")
+
+	verb = app.NewVerb("trimspace", "trim leading and trailing spaces: [STRING]", fnTrimSpace)
+	verb.SetParams("[STRING]")
+
+	verb = app.NewVerb("count", "count substrings: SUBSTRING [STRING]", fnCount)
+	verb.SetParams("SUBSTRING", "[STRING]")
+
+	verb = app.NewVerb("contains", "has substrings: SUBSTRING [STRING]", fnContains)
+	verb.SetParams("SUBSTRING", "[STRING]")
+
+	verb = app.NewVerb("length", "length of string: [STRING]", fnLength)
+	verb.SetParams("[STRING]")
+
+	verb = app.NewVerb("position", "position of substring: SUBSTRING [STRING]", fnPosition)
+	verb.SetParams("SUBSTRING", "[STRING]")
+
+	verb = app.NewVerb("slice", "copy a substring: START END [STRING]", fnSlice)
+	verb.SetParams("START", "END", "[STRING]")
+
+	verb = app.NewVerb("replace", "replace: OLD NEW [STRING]", fnReplace)
+	verb.SetParams("OLD", "NEW", "[STRING]")
+
+	verb = app.NewVerb("replacen", "replace n times: OLD NEW N [STRING]", fnReplacen)
+	verb.SetParams("OLD", "NEW", "N", "[STRING]")
+
+	verb = app.NewVerb("padleft", "left pad: PADDING MAX_LENGTH [STRING]", fnPadLeft)
+	verb.SetParams("PADDING", "MAX_LENGTH", "[STRING]")
+
+	verb = app.NewVerb("padright", "right pad: PADDING MAX_LENGTH [STRING]", fnPadRight)
+	verb.SetParams("PADDING", "MAX_LENGTH", "[STRING]")
 
 	// We're ready to process args
 	app.Parse()

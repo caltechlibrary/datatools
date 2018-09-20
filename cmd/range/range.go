@@ -128,7 +128,7 @@ func main() {
 	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName)))
 
 	// Document non-option parameters
-	app.AddParams("START_INTEGER", "END_INTEGER", "[INCREMENT_INTEGER]")
+	app.SetParams("START_INTEGER", "END_INTEGER", "[INCREMENT_INTEGER]")
 
 	// Standard Options
 	app.BoolVar(&showHelp, "h,help", false, "display help")

@@ -91,7 +91,7 @@ func main() {
 	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName)))
 
 	// Document non-option parameters
-	app.AddParams("NEW_PATH_PARTS")
+	app.SetParams("NEW_PATH_PARTS")
 
 	// Standard Options
 	app.BoolVar(&showHelp, "h,help", false, "display help")
