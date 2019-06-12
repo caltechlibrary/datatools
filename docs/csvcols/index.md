@@ -3,7 +3,7 @@
 
 	csvcols [OPTIONS] [ARGS_AS_COL_VALUES]
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 csvcols converts a set of command line args into columns output in CSV format.
@@ -13,22 +13,25 @@ listed on the commandline (first column is 1 not 0).
 
 ## OPTIONS
 
+Below are a set of options available.
+
 ```
-    -col, -cols               output specified columns (e.g. -col 1,12:14,2,4))
-    -d, -delimiter            set the input delimiter character
-    -examples                 display example
-    -generate-markdown-docs   generate markdown documentation
-    -h, -help                 display help
-    -i, -input                input filename
-    -l, -license              display license
-    -o, -output               output filename
-    -od, -output-delimiter    set the output delimiter character
-    -quiet                    suppress error messages
-    -skip-header-row          skip the header row
-    -trim-leading-space       trim leading space in field(s) for CSV input
-    -use-lazy-quotes          use lazy quotes on CSV input
-    -uuid                     add a prefix row with generated UUID cell
-    -v, -version              display version
+    -col, -cols              output specified columns (e.g. -col 1,12:14,2,4))
+    -d, -delimiter           set the input delimiter character
+    -examples                display example
+    -generate-manpage        generate man page
+    -generate-markdown       generate markdown documentation
+    -h, -help                display help
+    -i, -input               input filename
+    -l, -license             display license
+    -o, -output              output filename
+    -od, -output-delimiter   set the output delimiter character
+    -quiet                   suppress error messages
+    -skip-header-row         skip the header row
+    -trim-leading-space      trim leading space in field(s) for CSV input
+    -use-lazy-quotes         use lazy quotes on CSV input
+    -uuid                    add a prefix row with generated UUID cell
+    -v, -version             display version
 ```
 
 
@@ -56,4 +59,4 @@ Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
     csvcols -i 3col.csv -col 1,3 -o 2col.csv
 
 
-csvcols v0.0.24-pre
+csvcols v0.0.25

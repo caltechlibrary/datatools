@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../../index.html">README</a></li>
+<li><a href="../../license.html">LICENSE</a></li>
+<li><a href="../../install.html">INSTALL</a></li>
+<li><a href="../../docs/">Documentation</a></li>
+<li><a href="../../how-to/">How To</a></li>
+<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>toml2json [OPTIONS] [TOML_FILENAME] [JSON_NAME]
+</code></pre>
+
+<h2>DESCRIPTION</h2>
+
+<p>toml2json is a tool that converts TOML into JSON output.</p>
+
+<h2>OPTIONS</h2>
+
+<p>Below are a set of options available.</p>
+
+<pre><code>    -examples           display example(s)
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown documentation
+    -h, -help           display help
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -o, -output         output filename
+    -p, -pretty         pretty print output
+    -quiet              suppress error messages
+    -v, -version        display version
+</code></pre>
+
+<h2>EXAMPLES</h2>
+
+<p>These would get the file named &ldquo;my.toml&rdquo; and save it as my.json</p>
+
+<pre><code>toml2json my.toml &gt; my.json
+
+toml2json my.toml my.json
+
+cat my.toml | toml2json -i - &gt; my.json
+</code></pre>
+
+<p>toml2json v0.0.25</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

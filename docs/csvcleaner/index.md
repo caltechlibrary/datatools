@@ -3,7 +3,7 @@
 
 	csvcleaner [OPTIONS]
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 csvcleaner normalizes a CSV file based on the options selected. It
@@ -18,28 +18,31 @@ minimal memory is used to operate on the file.
 
 ## OPTIONS
 
+Below are a set of options available.
+
 ```
-    -V, -verbose              write verbose output to standard error
-    -comma                    if set use this character in place of a comma for delimiting cells
-    -comment-char             if set, rows starting with this character will be ignored as comments
-    -examples                 display example(s)
-    -fields-per-row           set the number of columns to output right padding empty cells as needed
-    -generate-markdown-docs   generation markdown documentation
-    -h, -help                 display help
-    -i, -input                input filename
-    -l, -license              display license
-    -left-trim                left trim spaces on CSV out
-    -o, -output               output filename
-    -output-comma             if set use this character in place of a comma for delimiting output cells
-    -quiet                    suppress error messages
-    -reuse                    if false then a new array is allocated for each row processed, if true the array gets reused
-    -right-trim               right trim spaces on CSV out
-    -stop-on-error            exit on error, useful if you're trying to debug a problematic CSV file
-    -trim                     trim spaces on CSV out
-    -trim-leading-space       trim leading space from field(s) for CSV input
-    -use-crlf                 if set use a charage return and line feed in output
-    -use-lazy-quotes          use lazy quotes for CSV input
-    -v, -version              display version
+    -V, -verbose          write verbose output to standard error
+    -comma                if set use this character in place of a comma for delimiting cells
+    -comment-char         if set, rows starting with this character will be ignored as comments
+    -examples             display example(s)
+    -fields-per-row       set the number of columns to output right padding empty cells as needed
+    -generate-manpage     generation man page
+    -generate-markdown    generation markdown documentation
+    -h, -help             display help
+    -i, -input            input filename
+    -l, -license          display license
+    -left-trim            left trim spaces on CSV out
+    -o, -output           output filename
+    -output-comma         if set use this character in place of a comma for delimiting output cells
+    -quiet                suppress error messages
+    -reuse                if false then a new array is allocated for each row processed, if true the array gets reused
+    -right-trim           right trim spaces on CSV out
+    -stop-on-error        exit on error, useful if you're trying to debug a problematic CSV file
+    -trim, -trim-spaces   trim spaces on CSV out
+    -trim-leading-space   trim leading space from field(s) for CSV input
+    -use-crlf             if set use a charage return and line feed in output
+    -use-lazy-quotes      use lazy quotes for CSV input
+    -v, -version          display version
 ```
 
 
@@ -60,7 +63,7 @@ Trim trailing spaces from output.
 
 Trim leading and trailing spaces from output.
 
-    cat mysheet.csv | csvcleaner -trim
+    cat mysheet.csv | csvcleaner -trim-space
 
 
-csvcleaner v0.0.24-pre
+csvcleaner v0.0.25

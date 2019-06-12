@@ -3,7 +3,7 @@
 
 	mergepath [OPTIONS] NEW_PATH_PARTS
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 mergepath can merge the new path parts with the existing path with creating duplications.
@@ -13,19 +13,22 @@ path and removing the resulting duplicate.
 
 ## OPTIONS
 
+Below are a set of options available.
+
 ```
-    -a, -append               Append the directory to the path removing any duplication
-    -c, -clip                 Remove a directory from the path
-    -d, -directory            The directory you want to add to the path.
-    -e, -envpath              The path you want to merge with.
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown documentation
-    -h, -help                 display help
-    -l, -license              display license
-    -nl, -newline             if true add a trailing newline
-    -p, -prepend              Prepend the directory to the path removing any duplication
-    -quiet                    suppress error messages
-    -v, -version              display version
+    -a, -append         Append the directory to the path removing any duplication
+    -c, -clip           Remove a directory from the path
+    -d, -directory      The directory you want to add to the path.
+    -e, -envpath        The path you want to merge with.
+    -examples           display example(s)
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown documentation
+    -h, -help           display help
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -p, -prepend        Prepend the directory to the path removing any duplication
+    -quiet              suppress error messages
+    -v, -version        display version
 ```
 
 
@@ -37,4 +40,4 @@ This would put your home bin directory at the beginning of your path.
 	export PATH=$(mergepath -p $HOME/bin)
 
 
-mergepath v0.0.24-pre
+mergepath v0.0.25

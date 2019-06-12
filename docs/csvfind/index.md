@@ -3,7 +3,7 @@
 
 	csvfind [OPTIONS] TEXT_TO_MATCH
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 csvfind processes a CSV file as input returning rows that contain the column
@@ -12,6 +12,8 @@ exact match as well as some Levenshtein matching.
 
 
 ## OPTIONS
+
+Below are a set of options available.
 
 ```
     -allow-duplicates         allow duplicates when searching for matches
@@ -22,7 +24,8 @@ exact match as well as some Levenshtein matching.
     -d, -delimiter            set delimiter character
     -delete-cost              set the delete cost to use for levenshtein matching
     -examples                 display example(s)
-    -generate-markdown-docs   generation markdown documentation
+    -generate-manpage         generation man page
+    -generate-markdown        generation markdown documentation
     -h, -help                 display help
     -i, -input                input filename
     -insert-cost              set the insert cost to use for levenshtein matching
@@ -64,4 +67,4 @@ You can also search for phrases in columns.
     csvfind -i books.csv -col=2 -contains "Red Book"
 
 
-csvfind v0.0.24-pre
+csvfind v0.0.25

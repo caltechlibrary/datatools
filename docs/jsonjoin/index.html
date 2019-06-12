@@ -28,7 +28,7 @@
 <pre><code>jsonjoin [OPTIONS] JSON_FILE_1 [JSON_FILE_2 ...]
 </code></pre>
 
-<h2>SYNOPSIS</h2>
+<h2>DESCRIPTION</h2>
 
 <p>jsonjoin is a command line tool that takes one (or more) JSON objects files
 and joins them to a root JSON object read from standard input (or
@@ -53,18 +53,21 @@ overwriting key/value pairs (-overwrite option).</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>    -create                   create an empty root object, {}
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown docs
-    -h, -help                 display help
-    -i, -input                input filename (for root object)
-    -l, -license              display license
-    -nl, -newline             if true add a trailing newline
-    -o, -output               output filename
-    -overwrite                copy all key/values into root object
-    -quiet                    suppress error messages
-    -update                   copy new key/values pairs into root object
-    -v, -version              display version
+<p>Below are a set of options available.</p>
+
+<pre><code>    -create              create an empty root object, {}
+    -examples            display example(s)
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown docs
+    -h, -help            display help
+    -i, -input           input filename (for root object)
+    -l, -license         display license
+    -nl, -newline        if true add a trailing newline
+    -o, -output          output filename
+    -overwrite           copy all key/values into root object
+    -quiet               suppress error messages
+    -update              copy new key/values pairs into root object
+    -v, -version         display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -90,7 +93,7 @@ in profile.json.</p>
 
 <p>{
      &ldquo;person&rdquo;:  { &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jd@example.org&rdquo;,
-                &ldquo;age&rdquo;: 42},
+	 			&ldquo;age&rdquo;: 42},
      &ldquo;profile&rdquo;: { &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;bio&rdquo;: &ldquo;World renowned geophysist.&rdquo;,
                   &ldquo;email&rdquo;: &ldquo;jane.doe@example.edu&rdquo; }
    }</p>
@@ -152,13 +155,13 @@ not necessarily equal B update A).</p>
 <p>{ &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jane.doe@example.edu&rdquo;, &ldquo;age&rdquo;: 42,
      &ldquo;bio&rdquo;: &ldquo;World renowned geophysist.&rdquo; }</p>
 
-<p>jsonjoin v0.0.24-pre</p>
+<p>jsonjoin v0.0.25</p>
 
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

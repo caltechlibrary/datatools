@@ -3,7 +3,7 @@
 
 	jsoncols [OPTIONS] [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 jsoncols provides scripting flexibility for data extraction from JSON data
@@ -22,22 +22,25 @@ extracted is a comma. This can be overridden with an option.
 
 ## OPTIONS
 
+Below are a set of options available.
+
 ```
-    -csv                      output as CSV or other flat delimiter row
-    -d, -delimiter            set the delimiter for multi-field csv output
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown documentation
-    -h, -help                 display help
-    -i, -input                input filename
-    -l, -license              display license
-    -nl, -newline             if true add a trailing newline
-    -o, -output               output filename
-    -p, -pretty               pretty print JSON output
-    -quiet                    suppress error messages
-    -quote                    quote strings and JSON notation
-    -r                        run interactively
-    -repl                     run interactively
-    -v, -version              display version
+    -csv                 output as CSV or other flat delimiter row
+    -d, -delimiter       set the delimiter for multi-field csv output
+    -examples            display example(s)
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown documentation
+    -h, -help            display help
+    -i, -input           input filename
+    -l, -license         display license
+    -nl, -newline        if true add a trailing newline
+    -o, -output          output filename
+    -p, -pretty          pretty print JSON output
+    -quiet               suppress error messages
+    -quote               quote strings and JSON notation
+    -r                   run interactively
+    -repl                run interactively
+    -v, -version         display version
 ```
 
 
@@ -75,4 +78,4 @@ Would yield
    "Doe, Jane","jane.doe@xample.org",42
 
 
-jsoncols v0.0.24-pre
+jsoncols v0.0.25

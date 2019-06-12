@@ -28,23 +28,26 @@
 <pre><code>xlsx2json [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
 </code></pre>
 
-<h2>SYNOPSIS</h2>
+<h2>DESCRIPTION</h2>
 
 <p>xlsx2json is a tool that converts individual Excel Workbook Sheets into
 JSON output.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>    -N, -sheets               display sheet names in Excel Workbook
-    -c, -count                display number of sheets in Excel Workbook
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown documentation
-    -h, -help                 display help
-    -l, -license              display license
-    -nl, -newline             if true add a trailing newline
-    -o, -output               output filename
-    -quiet                    suppress error messages
-    -v, -version              display version
+<p>Below are a set of options available.</p>
+
+<pre><code>    -N, -sheets         display sheet names in Excel Workbook
+    -c, -count          display number of sheets in Excel Workbook
+    -examples           display example(s)
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown documentation
+    -h, -help           display help
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -o, -output         output filename
+    -quiet              suppress error messages
+    -v, -version        display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -68,20 +71,18 @@ JSON output.</p>
 into JSON documents..</p>
 
 <pre><code>xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
-    JSON_NAME=&quot;${SHEET_NAME// /-}.json&quot;
-    xlsx2json -o &quot;${JSON_NAME}&quot; MyWorkbook.xlsx &quot;$SHEET_NAME&quot;
+	JSON_NAME=&quot;${SHEET_NAME// /-}.json&quot;
+	xlsx2json -o &quot;${JSON_NAME}&quot; MyWorkbook.xlsx &quot;$SHEET_NAME&quot;
 done    
 </code></pre>
 
-<p>%!(EXTRA string=xlsx2json, string=xlsx2json)</p>
-
-<p>xlsx2json v0.0.24-pre</p>
+<p>xlsx2json v0.0.25</p>
 
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

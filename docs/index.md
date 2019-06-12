@@ -17,14 +17,18 @@
 + [jsonjoin](jsonjoin/)
 + [jsonmunge](jsonmunge/)
 + [jsonrange](jsonrange/)
++ [json2toml](json2toml/)
++ [json2yaml](json2yaml/)
 + [mergepath](mergepath/)
 + [range](range/)
 + [reldate](reldate/)
 + [string](string/)
 + [timefmt](timefmt/)
++ [toml2json](toml2json/)
 + [urlparse](urlparse/)
 + [xlsx2csv](xlsx2csv/)
 + [xlsx2json](xlsx2json/)
++ [yaml2json](yaml2json/)
 
 ## Options
 

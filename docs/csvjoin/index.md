@@ -3,7 +3,7 @@
 
 	csvjoin [OPTIONS] CSV1 CSV2 COL1 COL2
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 csvjoin outputs CSV content based on two CSV files with matching column values.
@@ -13,33 +13,36 @@ compared as strings. Columns are counted from one rather than zero.
 
 ## OPTIONS
 
+Below are a set of options available.
+
 ```
-    -allow-duplicates         allow duplicates when searching for matches
-    -case-sensitive           make a case sensitive match (default is case insensitive)
-    -col1                     column to on join on in first CSV file
-    -col2                     column to on join on in second CSV file
-    -contains                 match columns based on csv1/col1 contained in csv2/col2
-    -csv1                     first CSV filename
-    -csv2                     second CSV filename
-    -d, -delimiter            set delimiter character
-    -delete-cost              deletion cost to use when calculating Levenshtein edit distance
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown documentation
-    -h, -help                 display help
-    -in-memory                if true read both CSV files
-    -insert-cost              insertion cost to use when calculating Levenshtein edit distance
-    -l, -license              display license
-    -levenshtein              match columns using Levensthein edit distance
-    -max-edit-distance        maximum edit distance for match using Levenshtein distance
-    -o, -output               output filename
-    -quiet                    supress error messages
-    -stop-words               a column delimited list of stop words to ingnore when matching
-    -substitute-cost          substitution cost to use when calculating Levenshtein edit distance
-    -trim-leading-space       trim leading space in field(s) for CSV input
-    -trimspaces               trim spaces around cell values before comparing
-    -use-lazy-quotes          use lazy quotes for CSV input
-    -v, -version              display version
-    -verbose                  output processing count to stderr
+    -allow-duplicates     allow duplicates when searching for matches
+    -case-sensitive       make a case sensitive match (default is case insensitive)
+    -col1                 column to on join on in first CSV file
+    -col2                 column to on join on in second CSV file
+    -contains             match columns based on csv1/col1 contained in csv2/col2
+    -csv1                 first CSV filename
+    -csv2                 second CSV filename
+    -d, -delimiter        set delimiter character
+    -delete-cost          deletion cost to use when calculating Levenshtein edit distance
+    -examples             display example(s)
+    -generate-manpage     generate man page
+    -generate-markdown    generate markdown documentation
+    -h, -help             display help
+    -in-memory            if true read both CSV files
+    -insert-cost          insertion cost to use when calculating Levenshtein edit distance
+    -l, -license          display license
+    -levenshtein          match columns using Levensthein edit distance
+    -max-edit-distance    maximum edit distance for match using Levenshtein distance
+    -o, -output           output filename
+    -quiet                supress error messages
+    -stop-words           a column delimited list of stop words to ingnore when matching
+    -substitute-cost      substitution cost to use when calculating Levenshtein edit distance
+    -trim-leading-space   trim leading space in field(s) for CSV input
+    -trimspaces           trim spaces around cell values before comparing
+    -use-lazy-quotes      use lazy quotes for CSV input
+    -v, -version          display version
+    -verbose              output processing count to stderr
 ```
 
 
@@ -56,4 +59,4 @@ merged-data.csv..
        -output=merged-data.csv
 
 
-csvjoin v0.0.24-pre
+csvjoin v0.0.25

@@ -3,7 +3,7 @@
 
 	timefmt [OPTIONS] TIME_STRING_TO_CONVERT
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 timefmt formats the current date or INPUT_DATE based on the output format
@@ -20,18 +20,21 @@ One additional time layout provided by timefmt
 
 ## OPTIONS
 
+Below are a set of options available.
+
 ```
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown documentation
-    -h, -help                 display help
-    -if, -input-format        Set format for input
-    -l, -license              display license
-    -nl, -newline             if true add a trailing newline
-    -o, -output               output filename
-    -of, -output-format       Set format for output
-    -quiet                    suppress error messages
-    -utc                      timestamps in UTC
-    -v, -version              display version
+    -examples             display example(s)
+    -generate-manpage     generate man page
+    -generate-markdown    generate markdown documentation
+    -h, -help             display help
+    -if, -input-format    Set format for input
+    -l, -license          display license
+    -nl, -newline         if true add a trailing newline
+    -o, -output           output filename
+    -of, -output-format   Set format for output
+    -quiet                suppress error messages
+    -utc                  timestamps in UTC
+    -v, -version          display version
 ```
 
 
@@ -51,4 +54,4 @@ Format the MySQL date/time of 8:08am, July 2, 2016
 Yields "02 Dec 17 08:08 UTC"
 
 
-timefmt v0.0.24-pre
+timefmt v0.0.25

@@ -3,7 +3,7 @@
 
 	jsonjoin [OPTIONS] JSON_FILE_1 [JSON_FILE_2 ...]
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 jsonjoin is a command line tool that takes one (or more) JSON objects files
@@ -30,19 +30,22 @@ Note: jsonjoin doesn't support a JSON array as the root JSON object.
 
 ## OPTIONS
 
+Below are a set of options available.
+
 ```
-    -create                   create an empty root object, {}
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown docs
-    -h, -help                 display help
-    -i, -input                input filename (for root object)
-    -l, -license              display license
-    -nl, -newline             if true add a trailing newline
-    -o, -output               output filename
-    -overwrite                copy all key/values into root object
-    -quiet                    suppress error messages
-    -update                   copy new key/values pairs into root object
-    -v, -version              display version
+    -create              create an empty root object, {}
+    -examples            display example(s)
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown docs
+    -h, -help            display help
+    -i, -input           input filename (for root object)
+    -l, -license         display license
+    -nl, -newline        if true add a trailing newline
+    -o, -output          output filename
+    -overwrite           copy all key/values into root object
+    -quiet               suppress error messages
+    -update              copy new key/values pairs into root object
+    -v, -version         display version
 ```
 
 
@@ -128,4 +131,4 @@ would yield
      "bio": "World renowned geophysist." }
 
 
-jsonjoin v0.0.24-pre
+jsonjoin v0.0.25
