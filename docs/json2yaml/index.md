@@ -33,10 +33,10 @@ These would get the file named "my.json" and save it as my.yaml
 
     json2yaml my.json > my.yaml
 
-	%!s(MISSING) my.json my.taml
+	json2yaml my.json my.taml
 
-	cat my.json | %!s(MISSING) -i - > my.taml
+	cat my.json | json2yaml -i - > my.taml
 
 
 
-json2yaml v0.0.24
+json2yaml v0.0.25

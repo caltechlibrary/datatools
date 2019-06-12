@@ -89,7 +89,7 @@ func main() {
 	// Add Help Docs
 	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
 	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName)))
+	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName)))
 
 	// Document non-option parameters
 	app.SetParams("[JSON_FILENAME]", "[YAML_FILENAME]")

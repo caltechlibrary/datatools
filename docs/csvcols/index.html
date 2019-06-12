@@ -28,7 +28,7 @@
 <pre><code>csvcols [OPTIONS] [ARGS_AS_COL_VALUES]
 </code></pre>
 
-<h2>SYNOPSIS</h2>
+<h2>DESCRIPTION</h2>
 
 <p>csvcols converts a set of command line args into columns output in CSV format.
 It can also be used CSV input rows and rendering only the column numbers
@@ -36,21 +36,24 @@ listed on the commandline (first column is 1 not 0).</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>    -col, -cols               output specified columns (e.g. -col 1,12:14,2,4))
-    -d, -delimiter            set the input delimiter character
-    -examples                 display example
-    -generate-markdown-docs   generate markdown documentation
-    -h, -help                 display help
-    -i, -input                input filename
-    -l, -license              display license
-    -o, -output               output filename
-    -od, -output-delimiter    set the output delimiter character
-    -quiet                    suppress error messages
-    -skip-header-row          skip the header row
-    -trim-leading-space       trim leading space in field(s) for CSV input
-    -use-lazy-quotes          use lazy quotes on CSV input
-    -uuid                     add a prefix row with generated UUID cell
-    -v, -version              display version
+<p>Below are a set of options available.</p>
+
+<pre><code>    -col, -cols              output specified columns (e.g. -col 1,12:14,2,4))
+    -d, -delimiter           set the input delimiter character
+    -examples                display example
+    -generate-manpage        generate man page
+    -generate-markdown       generate markdown documentation
+    -h, -help                display help
+    -i, -input               input filename
+    -l, -license             display license
+    -o, -output              output filename
+    -od, -output-delimiter   set the output delimiter character
+    -quiet                   suppress error messages
+    -skip-header-row         skip the header row
+    -trim-leading-space      trim leading space in field(s) for CSV input
+    -use-lazy-quotes         use lazy quotes on CSV input
+    -uuid                    add a prefix row with generated UUID cell
+    -v, -version             display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -79,7 +82,7 @@ cat 3col.csv
 <pre><code>csvcols -i 3col.csv -col 1,3 -o 2col.csv
 </code></pre>
 
-<p>csvcols v0.0.24-pre</p>
+<p>csvcols v0.0.25</p>
 
 </section>
 

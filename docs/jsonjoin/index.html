@@ -28,7 +28,7 @@
 <pre><code>jsonjoin [OPTIONS] JSON_FILE_1 [JSON_FILE_2 ...]
 </code></pre>
 
-<h2>SYNOPSIS</h2>
+<h2>DESCRIPTION</h2>
 
 <p>jsonjoin is a command line tool that takes one (or more) JSON objects files
 and joins them to a root JSON object read from standard input (or
@@ -53,18 +53,21 @@ overwriting key/value pairs (-overwrite option).</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>    -create                   create an empty root object, {}
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown docs
-    -h, -help                 display help
-    -i, -input                input filename (for root object)
-    -l, -license              display license
-    -nl, -newline             if true add a trailing newline
-    -o, -output               output filename
-    -overwrite                copy all key/values into root object
-    -quiet                    suppress error messages
-    -update                   copy new key/values pairs into root object
-    -v, -version              display version
+<p>Below are a set of options available.</p>
+
+<pre><code>    -create             create an empty root object, {}
+    -examples           display example(s)
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown docs
+    -h, -help           display help
+    -i, -input          input filename (for root object)
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -o, -output         output filename
+    -overwrite          copy all key/values into root object
+    -quiet              suppress error messages
+    -update             copy new key/values pairs into root object
+    -v, -version        display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -152,7 +155,7 @@ not necessarily equal B update A).</p>
 <p>{ &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jane.doe@example.edu&rdquo;, &ldquo;age&rdquo;: 42,
      &ldquo;bio&rdquo;: &ldquo;World renowned geophysist.&rdquo; }</p>
 
-<p>jsonjoin v0.0.24-pre</p>
+<p>jsonjoin v0.0.25</p>
 
 </section>
 

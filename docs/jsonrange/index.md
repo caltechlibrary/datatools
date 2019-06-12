@@ -3,7 +3,7 @@
 
 	jsonrange [OPTIONS] [DOT_PATH_EXPRESSION]
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 jsonrange returns returns a range of values based on the JSON structure being read and
@@ -34,21 +34,24 @@ The path can be chained together
 
 ## OPTIONS
 
+Below are a set of options available.
+
 ```
-    -d, -delimiter            set delimiter for range output
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown docs
-    -h, -help                 display help
-    -i, -input                read JSON from file
-    -l, -license              display license
-    -last                     return the index of the last element in list (e.g. length - 1)
-    -length                   return the number of keys or values
-    -limit                    limit the number of items output
-    -nl, -newline             if true add a trailing newline
-    -o, -output               write to output file
-    -quiet                    suppress error messages
-    -v, -version              display version
-    -values                   return the values instead of the keys
+    -d, -delimiter       set delimiter for range output
+    -examples            display example(s)
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown docs
+    -h, -help            display help
+    -i, -input           read JSON from file
+    -l, -license         display license
+    -last                return the index of the last element in list (e.g. length - 1)
+    -length              return the number of keys or values
+    -limit               limit the number of items output
+    -nl, -newline        if true add a trailing newline
+    -o, -output          write to output file
+    -quiet               suppress error messages
+    -v, -version         display version
+    -values              return the values instead of the keys
 ```
 
 
@@ -141,4 +144,4 @@ would yield
     20
 
 
-jsonrange v0.0.24-pre
+jsonrange v0.0.25

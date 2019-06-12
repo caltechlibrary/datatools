@@ -28,26 +28,29 @@
 <pre><code>csv2xlsx [OPTIONS] WORKBOOK_NAME SHEET_NAME
 </code></pre>
 
-<h2>SYNOPSIS</h2>
+<h2>DESCRIPTION</h2>
 
 <p>csv2xlsx will take CSV input and create a new sheet in an Excel Workbook.
 If the Workbook does not exist then it is created.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>    -d, -delimiter            set delimiter character (input)
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown documentation
-    -h, -help                 display help
-    -i, -input                input filename (CSV content)
-    -l, -license              display license
-    -o, -output               output filename
-    -quiet                    suppress error messages
-    -sheet                    Sheet name to create/replace
-    -trim-leading-space       trim leading space in field(s) for CSV input
-    -use-lazy-quotes          use lazy quotes for CSV input
-    -v, -version              display version
-    -workbook                 Workbook name
+<p>Below are a set of options available.</p>
+
+<pre><code>    -d, -delimiter       set delimiter character (input)
+    -examples            display example(s)
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown documentation
+    -h, -help            display help
+    -i, -input           input filename (CSV content)
+    -l, -license         display license
+    -o, -output          output filename
+    -quiet               suppress error messages
+    -sheet               Sheet name to create/replace
+    -trim-leading-space  trim leading space in field(s) for CSV input
+    -use-lazy-quotes     use lazy quotes for CSV input
+    -v, -version         display version
+    -workbook            Workbook name
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -64,10 +67,9 @@ called &lsquo;MyWorkbook.xlsx&rsquo; with the contents of data.csv.</p>
 </code></pre>
 
 <p>This does the same but the contents of data.csv are piped into
-the workbook&rsquo;s &lsquo;My worksheet 2&rsquo; sheet.
-%!(EXTRA string=csv2xlsx, string=csv2xlsx)</p>
+the workbook&rsquo;s &lsquo;My worksheet 2&rsquo; sheet.</p>
 
-<p>csv2xlsx v0.0.24-pre</p>
+<p>csv2xlsx v0.0.25</p>
 
 </section>
 

@@ -28,7 +28,7 @@
 <pre><code>csv2json [OPTIONS]
 </code></pre>
 
-<h2>SYNOPSIS</h2>
+<h2>DESCRIPTION</h2>
 
 <p>csv2json reads CSV from stdin and writes a JSON to stdout. JSON output
 can be either an array of JSON blobs or one JSON blob (row as object)
@@ -36,20 +36,23 @@ per line.</p>
 
 <h2>OPTIONS</h2>
 
-<pre><code>    -as-blobs                 output as one JSON blob per line
-    -d, -delimiter            set the delimter character
-    -examples                 display example(s)
-    -generate-markdown-docs   generation markdown documentation
-    -h, -help                 display help
-    -i, -input                input filename
-    -l, -license              display license
-    -nl, -newline             include trailing newline in output
-    -o, -output               output filename
-    -quiet                    suppress error output
-    -trim-leading-space       trim leading space in fields for CSV input
-    -use-header               treat the first row as field names
-    -use-lazy-quotes          use lazy quotes for for CSV input
-    -v, -version              display version
+<p>Below are a set of options available.</p>
+
+<pre><code>    -as-blobs            output as one JSON blob per line
+    -d, -delimiter       set the delimter character
+    -examples            display example(s)
+    -generate-manpage    generation man page
+    -generate-markdown   generation markdown documentation
+    -h, -help            display help
+    -i, -input           input filename
+    -l, -license         display license
+    -nl, -newline        include trailing newline in output
+    -o, -output          output filename
+    -quiet               suppress error output
+    -trim-leading-space  trim leading space in fields for CSV input
+    -use-header          treat the first row as field names
+    -use-lazy-quotes     use lazy quotes for for CSV input
+    -v, -version         display version
 </code></pre>
 
 <h2>EXAMPLES</h2>
@@ -64,7 +67,7 @@ per line.</p>
 <pre><code>csv2json -as-blobs -i data1.csv
 </code></pre>
 
-<p>csv2json v0.0.24-pre</p>
+<p>csv2json v0.0.25</p>
 
 </section>
 

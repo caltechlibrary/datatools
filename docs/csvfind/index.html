@@ -28,13 +28,15 @@
 <pre><code>csvfind [OPTIONS] TEXT_TO_MATCH
 </code></pre>
 
-<h2>SYNOPSIS</h2>
+<h2>DESCRIPTION</h2>
 
 <p>csvfind processes a CSV file as input returning rows that contain the column
 with matched text. Columns are counted from one instead of zero. Supports
 exact match as well as some Levenshtein matching.</p>
 
 <h2>OPTIONS</h2>
+
+<p>Below are a set of options available.</p>
 
 <pre><code>    -allow-duplicates         allow duplicates when searching for matches
     -append-edit-distance     append column with edit distance found (useful for tuning levenshtein)
@@ -44,7 +46,8 @@ exact match as well as some Levenshtein matching.</p>
     -d, -delimiter            set delimiter character
     -delete-cost              set the delete cost to use for levenshtein matching
     -examples                 display example(s)
-    -generate-markdown-docs   generation markdown documentation
+    -generate-manpage         generation man page
+    -generate-markdown        generation markdown documentation
     -h, -help                 display help
     -i, -input                input filename
     -insert-cost              set the insert cost to use for levenshtein matching
@@ -86,7 +89,7 @@ exact match as well as some Levenshtein matching.</p>
 <pre><code>csvfind -i books.csv -col=2 -contains &quot;Red Book&quot;
 </code></pre>
 
-<p>csvfind v0.0.24-pre</p>
+<p>csvfind v0.0.25</p>
 
 </section>
 

@@ -3,7 +3,7 @@
 
 	xlsx2json [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 xlsx2json is a tool that converts individual Excel Workbook Sheets into
@@ -12,17 +12,20 @@ JSON output.
 
 ## OPTIONS
 
+Below are a set of options available.
+
 ```
-    -N, -sheets               display sheet names in Excel Workbook
-    -c, -count                display number of sheets in Excel Workbook
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown documentation
-    -h, -help                 display help
-    -l, -license              display license
-    -nl, -newline             if true add a trailing newline
-    -o, -output               output filename
-    -quiet                    suppress error messages
-    -v, -version              display version
+    -N, -sheets         display sheet names in Excel Workbook
+    -c, -count          display number of sheets in Excel Workbook
+    -examples           display example(s)
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown documentation
+    -h, -help           display help
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -o, -output         output filename
+    -quiet              suppress error messages
+    -v, -version        display version
 ```
 
 
@@ -48,6 +51,6 @@ into JSON documents..
     	JSON_NAME="${SHEET_NAME// /-}.json"
     	xlsx2json -o "${JSON_NAME}" MyWorkbook.xlsx "$SHEET_NAME"
 	done    
-%!(EXTRA string=xlsx2json, string=xlsx2json)
 
-xlsx2json v0.0.24-pre
+
+xlsx2json v0.0.25

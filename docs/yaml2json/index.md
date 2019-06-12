@@ -14,16 +14,16 @@ yaml2json is a tool that converts YAML into JSON output.
 Below are a set of options available.
 
 ```
-    -examples           display example(s)
-    -generate-manpage   generate man page
-    -generate-markdown  generate markdown documentation
-    -h, -help           display help
-    -l, -license        display license
-    -nl, -newline       if true add a trailing newline
-    -o, -output         output filename
-    -p, -pretty         pretty print output
-    -quiet              suppress error messages
-    -v, -version        display version
+    -examples            display example(s)
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown documentation
+    -h, -help            display help
+    -l, -license         display license
+    -nl, -newline        if true add a trailing newline
+    -o, -output          output filename
+    -p, -pretty          pretty print output
+    -quiet               suppress error messages
+    -v, -version         display version
 ```
 
 
@@ -39,4 +39,4 @@ These would get the file named "my.yaml" and save it as my.json
 	cat my.yaml | yaml2json -i - > my.json
 
 
-yaml2json v0.0.24
+yaml2json v0.0.25

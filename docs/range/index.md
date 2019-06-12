@@ -3,7 +3,7 @@
 
 	range [OPTIONS] START_INTEGER END_INTEGER [INCREMENT_INTEGER]
 
-## SYNOPSIS
+## DESCRIPTION
 
 
 range is a simple utility for shell scripts that emits a list of 
@@ -17,18 +17,21 @@ down otherwise it counts up.
 
 ## OPTIONS
 
+Below are a set of options available.
+
 ```
-    -e, -end                  The ending integer.
-    -examples                 display example(s)
-    -generate-markdown-docs   generate markdown documentation
-    -h, -help                 display help
-    -inc, -increment          The non-zero integer increment value.
-    -l, -license              display license
-    -nl, -newline             if true add a trailing newline
-    -quiet                    suppress error messages
-    -random                   Pick a range value from range
-    -s, -start                The starting integer.
-    -v, -version              display version
+    -e, -end            The ending integer.
+    -examples           display example(s)
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown documentation
+    -h, -help           display help
+    -inc, -increment    The non-zero integer increment value.
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -quiet              suppress error messages
+    -random             Pick a range value from range
+    -s, -start          The starting integer.
+    -v, -version        display version
 ```
 
 
@@ -67,4 +70,4 @@ Pick a random integer between zero and ten
 Yields a random integer from 0 to 10
 
 
-range v0.0.24-pre
+range v0.0.25

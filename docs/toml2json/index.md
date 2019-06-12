@@ -14,16 +14,16 @@ toml2json is a tool that converts TOML into JSON output.
 Below are a set of options available.
 
 ```
-    -examples            display example(s)
-    -generate-manpage    generate man page
-    -generate-markdown   generate markdown documentation
-    -h, -help            display help
-    -l, -license         display license
-    -nl, -newline        if true add a trailing newline
-    -o, -output          output filename
-    -p, -pretty          pretty print output
-    -quiet               suppress error messages
-    -v, -version         display version
+    -examples           display example(s)
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown documentation
+    -h, -help           display help
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -o, -output         output filename
+    -p, -pretty         pretty print output
+    -quiet              suppress error messages
+    -v, -version        display version
 ```
 
 
@@ -39,4 +39,4 @@ These would get the file named "my.toml" and save it as my.json
 	cat my.toml | toml2json -i - > my.json
 
 
-toml2json v0.0.24
+toml2json v0.0.25
