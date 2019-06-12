@@ -67,8 +67,8 @@
 Putting it all together in a shell script.</p>
 
 <pre><code>xlsx2csv -N MyWorkbook.xlsx | while read SHEET_NAME; do
-    CSV_NAME=&quot;${SHEET_NAME// /-}.csv&quot;
-    xlsx2csv -o &quot;${CSV_NAME}&quot; MyWorkbook.xlsx &quot;${SHEET_NAME}&quot; 
+	CSV_NAME=&quot;${SHEET_NAME// /-}.csv&quot;
+	xlsx2csv -o &quot;${CSV_NAME}&quot; MyWorkbook.xlsx &quot;${SHEET_NAME}&quot; 
 done
 </code></pre>
 

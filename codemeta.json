@@ -6,7 +6,7 @@
     "codeRepository": "https://github.com/caltechlibrary/datatools",
     "issueTracker": "https://github.com/caltechlibrary/datatools/issues",
     "license": "https://data.caltech.edu/license",
-    "version": "0.0.24",
+    "version": "0.0.25",
     "author": [
         {
             "@type": "Person",
@@ -18,7 +18,7 @@
         }
     ],
     "developmentStatus": "active",
-    "downloadUrl": "https://github.com/caltechlibrary/datatools/archive/v0.0.24.zip",
+    "downloadUrl": "https://github.com/caltechlibrary/datatools/archive/v0.0.25.zip",
     "keywords": [
         "csv",
         "json",

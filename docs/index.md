@@ -25,6 +25,10 @@
 + [urlparse](urlparse/)
 + [xlsx2csv](xlsx2csv/)
 + [xlsx2json](xlsx2json/)
++ [toml2json](toml2json/)
++ [json2toml](json2toml/)
++ [yaml2json](yaml2json/)
++ [json2yaml](json2yaml/)
 
 ## Options
 

@@ -34,7 +34,7 @@ import (
 )
 
 const (
-	Version = `v0.0.24`
+	Version = `v0.0.25`
 
 	LicenseText = `
 %s %s

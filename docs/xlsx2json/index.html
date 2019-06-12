@@ -68,8 +68,8 @@ JSON output.</p>
 into JSON documents..</p>
 
 <pre><code>xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
-    JSON_NAME=&quot;${SHEET_NAME// /-}.json&quot;
-    xlsx2json -o &quot;${JSON_NAME}&quot; MyWorkbook.xlsx &quot;$SHEET_NAME&quot;
+	JSON_NAME=&quot;${SHEET_NAME// /-}.json&quot;
+	xlsx2json -o &quot;${JSON_NAME}&quot; MyWorkbook.xlsx &quot;$SHEET_NAME&quot;
 done    
 </code></pre>
 

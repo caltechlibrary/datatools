@@ -20,7 +20,9 @@ build$(EXT): bin/csvcols$(EXT) bin/csvrows$(EXT) bin/csvfind$(EXT) bin/csvjoin$(
 	bin/csv2mdtable$(EXT) bin/csv2xlsx$(EXT) bin/csv2json$(EXT) bin/jsonjoin$(EXT) \
 	bin/jsonmunge$(EXT) bin/findfile$(EXT) bin/finddir$(EXT) bin/mergepath$(EXT) \
 	bin/reldate$(EXT) bin/range$(EXT) bin/timefmt$(EXT) bin/urlparse$(EXT) \
-	bin/csvcleaner$(EXT) bin/string$(EXT) 
+	bin/csvcleaner$(EXT) bin/string$(EXT) \
+	bin/toml2json$(EXT) bin/json2toml$(EXT) \
+	bin/yaml2json$(EXT) bin/json2yaml$(EXT) 
 
 
 bin/csvcols$(EXT): datatools.go cmd/csvcols/csvcols.go
@@ -89,6 +91,18 @@ bin/csvcleaner$(EXT): datatools.go cmd/csvcleaner/csvcleaner.go
 bin/string$(EXT): datatools.go cmd/string/string.go
 	go build -o bin/string$(EXT) cmd/string/string.go
 
+bin/toml2json$(EXT): datatools.go cmd/toml2json/main.go
+	go build -o bin/toml2json$(EXT) cmd/toml2json/main.go
+
+bin/json2toml$(EXT): datatools.go cmd/json2toml/main.go
+	go build -o bin/json2toml$(EXT) cmd/json2toml/main.go
+
+bin/yaml2json$(EXT): datatools.go cmd/yaml2json/main.go
+	go build -o bin/yaml2json$(EXT) cmd/yaml2json/main.go
+
+bin/json2yaml$(EXT): datatools.go cmd/json2yaml/main.go
+	go build -o bin/json2yaml$(EXT) cmd/json2yaml/main.go
+
 test: build
 	go test
 	bash test_cmd.bash
@@ -142,6 +156,10 @@ man: build
 	bin/xlsx2csv -generate-manpage | nroff -Tutf8 -man > man/man1/xlsx2csv.1
 	bin/csvcleaner -generate-manpage | nroff -Tutf8 -man > man/man1/csvcleaner.1
 	bin/string -generate-manpage | nroff -Tutf8 -man > man/man1/string.1
+	bin/toml2json -generate-manpage | nroff -Tutf8 -man > man/man1/toml2json.1
+	bin/json2toml -generate-manpage | nroff -Tutf8 -man > man/man1/json2toml.1
+	bin/yaml2json -generate-manpage | nroff -Tutf8 -man > man/man1/yaml2json.1
+	bin/json2yaml -generate-manpage | nroff -Tutf8 -man > man/man1/json2yaml.1
 
 install:
 	env GOBIN=$(GOPATH)/bin go install cmd/csvcols/csvcols.go
@@ -166,6 +184,10 @@ install:
 	env GOBIN=$(GOPATH)/bin go install cmd/xlsx2csv/xlsx2csv.go
 	env GOBIN=$(GOPATH)/bin go install cmd/csvcleaner/csvcleaner.go
 	env GOBIN=$(GOPATH)/bin go install cmd/string/string.go
+	env GOBIN=$(GOPATH)/bin go install cmd/toml2json/toml2json.go
+	env GOBIN=$(GOPATH)/bin go install cmd/json2toml/json2toml.go
+	env GOBIN=$(GOPATH)/bin go install cmd/yaml2json/yaml2json.go
+	env GOBIN=$(GOPATH)/bin go install cmd/json2yaml/json2yaml.go
 
 dist/linux-amd64:
 	mkdir -p dist/bin
@@ -191,6 +213,10 @@ dist/linux-amd64:
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/urlparse cmd/urlparse/urlparse.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/csvcleaner cmd/csvcleaner/csvcleaner.go
 	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/string cmd/string/string.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/toml2json cmd/toml2json/toml2json.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/json2toml cmd/json2toml/json2toml.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/yaml2json cmd/yaml2json/yaml2json.go
+	env  GOOS=linux GOARCH=amd64 go build -o dist/bin/json2yaml cmd/json2yaml/json2yaml.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-linux-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
@@ -219,6 +245,10 @@ dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/urlparse cmd/urlparse/urlparse.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvcleaner cmd/csvcleaner/csvcleaner.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/string cmd/string/string.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/toml2json cmd/toml2json/toml2json.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/json2toml cmd/json2toml/json2toml.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/yaml2json cmd/yaml2json/yaml2json.go
+	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/json2yaml cmd/json2yaml/json2yaml.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 	
@@ -248,6 +278,10 @@ dist/windows-amd64:
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/urlparse.exe cmd/urlparse/urlparse.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/csvcleaner.exe cmd/csvcleaner/csvcleaner.go
 	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/string.exe cmd/string/string.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/toml2json.exe cmd/toml2json/toml2json.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/json2toml.exe cmd/json2toml/json2toml.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/yaml2json.exe cmd/yaml2json/yaml2json.go
+	env  GOOS=windows GOARCH=amd64 go build -o dist/bin/json2yaml.exe cmd/json2yaml/json2yaml.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-windows-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 
@@ -278,6 +312,10 @@ dist/raspbian-arm7:
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/urlparse cmd/urlparse/urlparse.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/csvcleaner cmd/csvcleaner/csvcleaner.go
 	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/string cmd/string/string.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/toml2json cmd/toml2json/toml2json.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/json2toml cmd/json2toml/json2toml.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/yaml2json cmd/yaml2json/yaml2json.go
+	env  GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/json2yaml cmd/json2yaml/json2yaml.go
 	cd dist && zip -r $(PROJECT)-$(VERSION)-raspbian-arm7.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 

@@ -6,7 +6,7 @@ Posix shell scripting (e.g. writing scripts that run under Bash). The tools are 
 
 ## For data
 
-Command line utilities for simplifying work with CSV, JSON, Excel Workbooks and plain text files or content.
+Command line utilities for simplifying work with CSV, JSON, TOML, YAML, Excel Workbooks and plain text files or content.
 
 + [csv2json](docs/csv2json/) - a tool to take a CSV file and convert it into a JSON array or a list of JSON blobs one per line
 + [csv2mdtable](docs/csv2mdtable/) - a tool to render CSV as a Github Flavored Markdown table
@@ -16,12 +16,16 @@ Command line utilities for simplifying work with CSV, JSON, Excel Workbooks and 
 + [csvfind](docs/csvfind/) - a tool for filtering a CSV file rows by column
 + [csvjoin](docs/csvjoin/) - a tool to join two CSV files on common values in designated columns, writes combined CSV rows
 + [csvrows](docs/csvrows/) - a tool for formatting command line arguments into CSV columns of rows or filtering CSV for specific rows
++ [json2toml](docs/json2toml/) - a tool for converting JSON to TOML
++ [json2yaml](docs/json2yaml/) - a tool for converting JSON to YAML
 + [jsoncols](docs/jsoncols/) - a tool for exploring and extracting JSON values into columns
 + [jsonjoin](docs/jsonjoin/) - a tool for joining JSON object documents
 + [jsonmunge](docs/jsonmunge/) - a tool to transform JSON documents into something else
 + [jsonrange](docs/jsonrange/) - a tool for iterating over JSON objects and arrays (return keys or values)
++ [toml2json](docs/toml2json/) - a tool for converting TOML to JSON
 + [xlsx2csv](docs/xlsx2csv/) - a tool for converting Excel Workbooks sheets to CSV files
 + [xlsx2json](docs/xlsx2json/) - a tool for converting Excel Workbooks to JSON files
++ [yaml2json](docs/yaml2json/) - a tool for converting YAML files to JSON
 
 
 Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
@@ -76,7 +80,7 @@ Use the utilities try "-help" option for a full list of options.
 
 See [INSTALL.md](install/) for details for installing pre-compiled versions of the programs.
 
-_datatools_ are go get-able. If you have go v1.8 (or newer) you can install with the command below.
+_datatools_ are go get-able. If you have go v1.12 (or newer) you can install with the command below.
 
 ```
     go get github.com/caltechlibrary/datatools/...
