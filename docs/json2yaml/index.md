@@ -14,15 +14,15 @@ json2yaml is a tool that converts JSON objects into YAML output.
 Below are a set of options available.
 
 ```
-    -examples            display example(s)
-    -generate-manpage    generate man page
-    -generate-markdown   generate markdown documentation
-    -h, -help            display help
-    -l, -license         display license
-    -nl, -newline        if true add a trailing newline
-    -o, -output          output filename
-    -quiet               suppress error messages
-    -v, -version         display version
+    -examples           display example(s)
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown documentation
+    -h, -help           display help
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -o, -output         output filename
+    -quiet              suppress error messages
+    -v, -version        display version
 ```
 
 

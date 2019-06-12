@@ -15,23 +15,23 @@ requested (e.g. protocol, hostname, path, query string)
 Below are a set of options available.
 
 ```
-    -H, -host            Display the hostname (and port if specified) found in URL.
-    -P, -protocol        Display the protocol of URL (defaults to http)
-    -base, -basename     Display the base filename at the end of the path.
-    -d, -delimiter       Set the output delimited for parsed display. (defaults to tab)
-    -dir, -dirname       Display all but the last element of the path
-    -examples            display example(s)
-    -ext, -extname       Display the filename extension (e.g. .html).
-    -generate-manpage    generate man page
-    -generate-markdown   generate markdown documentation
-    -h, -help            display help
-    -i, -input           input filename
-    -l, -license         display license
-    -nl, -newline        if true add a trailing newline
-    -o, -output          output filename
-    -p, -path            Display the path after the hostname.
-    -quiet               suppress error messages
-    -v, -version         display version
+    -H, -host           Display the hostname (and port if specified) found in URL.
+    -P, -protocol       Display the protocol of URL (defaults to http)
+    -base, -basename    Display the base filename at the end of the path.
+    -d, -delimiter      Set the output delimited for parsed display. (defaults to tab)
+    -dir, -dirname      Display all but the last element of the path
+    -examples           display example(s)
+    -ext, -extname      Display the filename extension (e.g. .html).
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown documentation
+    -h, -help           display help
+    -i, -input          input filename
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -o, -output         output filename
+    -p, -path           Display the path after the hostname.
+    -quiet              suppress error messages
+    -v, -version        display version
 ```
 
 

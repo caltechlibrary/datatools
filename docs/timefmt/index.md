@@ -23,18 +23,18 @@ One additional time layout provided by timefmt
 Below are a set of options available.
 
 ```
-    -examples            display example(s)
-    -generate-manpage    generate man page
-    -generate-markdown   generate markdown documentation
-    -h, -help            display help
-    -if, -input-format   Set format for input
-    -l, -license         display license
-    -nl, -newline        if true add a trailing newline
-    -o, -output          output filename
-    -of, -output-format  Set format for output
-    -quiet               suppress error messages
-    -utc                 timestamps in UTC
-    -v, -version         display version
+    -examples             display example(s)
+    -generate-manpage     generate man page
+    -generate-markdown    generate markdown documentation
+    -h, -help             display help
+    -if, -input-format    Set format for input
+    -l, -license          display license
+    -nl, -newline         if true add a trailing newline
+    -o, -output           output filename
+    -of, -output-format   Set format for output
+    -quiet                suppress error messages
+    -utc                  timestamps in UTC
+    -v, -version          display version
 ```
 
 

@@ -15,20 +15,20 @@ If the Workbook does not exist then it is created.
 Below are a set of options available.
 
 ```
-    -d, -delimiter       set delimiter character (input)
-    -examples            display example(s)
-    -generate-manpage    generate man page
-    -generate-markdown   generate markdown documentation
-    -h, -help            display help
-    -i, -input           input filename (CSV content)
-    -l, -license         display license
-    -o, -output          output filename
-    -quiet               suppress error messages
-    -sheet               Sheet name to create/replace
-    -trim-leading-space  trim leading space in field(s) for CSV input
-    -use-lazy-quotes     use lazy quotes for CSV input
-    -v, -version         display version
-    -workbook            Workbook name
+    -d, -delimiter        set delimiter character (input)
+    -examples             display example(s)
+    -generate-manpage     generate man page
+    -generate-markdown    generate markdown documentation
+    -h, -help             display help
+    -i, -input            input filename (CSV content)
+    -l, -license          display license
+    -o, -output           output filename
+    -quiet                suppress error messages
+    -sheet                Sheet name to create/replace
+    -trim-leading-space   trim leading space in field(s) for CSV input
+    -use-lazy-quotes      use lazy quotes for CSV input
+    -v, -version          display version
+    -workbook             Workbook name
 ```
 
 
