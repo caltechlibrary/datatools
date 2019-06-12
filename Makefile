@@ -91,17 +91,17 @@ bin/csvcleaner$(EXT): datatools.go cmd/csvcleaner/csvcleaner.go
 bin/string$(EXT): datatools.go cmd/string/string.go
 	go build -o bin/string$(EXT) cmd/string/string.go
 
-bin/toml2json$(EXT): datatools.go cmd/toml2json/main.go
-	go build -o bin/toml2json$(EXT) cmd/toml2json/main.go
+bin/toml2json$(EXT): datatools.go cmd/toml2json/toml2json.go
+	go build -o bin/toml2json$(EXT) cmd/toml2json/toml2json.go
 
-bin/json2toml$(EXT): datatools.go cmd/json2toml/main.go
-	go build -o bin/json2toml$(EXT) cmd/json2toml/main.go
+bin/json2toml$(EXT): datatools.go cmd/json2toml/json2toml.go
+	go build -o bin/json2toml$(EXT) cmd/json2toml/json2toml.go
 
-bin/yaml2json$(EXT): datatools.go cmd/yaml2json/main.go
-	go build -o bin/yaml2json$(EXT) cmd/yaml2json/main.go
+bin/yaml2json$(EXT): datatools.go cmd/yaml2json/yaml2json.go
+	go build -o bin/yaml2json$(EXT) cmd/yaml2json/yaml2json.go
 
-bin/json2yaml$(EXT): datatools.go cmd/json2yaml/main.go
-	go build -o bin/json2yaml$(EXT) cmd/json2yaml/main.go
+bin/json2yaml$(EXT): datatools.go cmd/json2yaml/json2yaml.go
+	go build -o bin/json2yaml$(EXT) cmd/json2yaml/json2yaml.go
 
 test: build
 	go test
