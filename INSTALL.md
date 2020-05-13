@@ -122,14 +122,27 @@ downloading the zip file.
 
 ## Compiling from source
 
-_datatools_ is "go gettable".  Use the "go get" command to download the dependant packages
+_datatools_ is "go gettable" if you have gotten xlsx v1.0.5 package from [github.com/tealeg/xlsx](https://github.com/tealeg/xlsx).  The datatools package does not support versions v2.x and greater of xlsx. Below are the steps
+I use today with "go get" command to download the dependant packages
 as well as _datatools_'s source code.
 
+Setting up the right version of xlsx for datatools
+
 ```shell
-    go get -u github.com/caltechlibrary/datatools/...
+    cd
+    go get github.com/tealeg/xlsx
+    cd src/github.com/tealeg
+    git checkout v1.0.5
+    cd
 ```
 
-Or clone the repstory and then compile
+Using `go get` to install datatools using v1.0.5 of xlsx.
+
+```
+    go get github.com/caltechlibrary/datatools/...
+```
+
+Or clone the repository and then compile
 
 ```shell
     cd
@@ -139,5 +152,4 @@ Or clone the repstory and then compile
     make test
     make install
 ```
-
 
