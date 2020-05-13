@@ -1,12 +1,15 @@
 
 # datatools
 
-_datatools_ provides a variety of command line programs for working with data in different formats as well as to ease
-Posix shell scripting (e.g. writing scripts that run under Bash). The tools are group as data, strings and scripting.
+_datatools_ provides a variety of command line programs for working with 
+data in different formats as well as to ease Posix shell scripting 
+(e.g. writing scripts that run under Bash). The tools are group as data, 
+strings and scripting.
 
 ## For data
 
-Command line utilities for simplifying work with CSV, JSON, TOML, YAML, Excel Workbooks and plain text files or content.
+Command line utilities for simplifying work with CSV, JSON, TOML, YAML, 
+Excel Workbooks and plain text files or content.
 
 + [csv2json](docs/csv2json/) - a tool to take a CSV file and convert it into a JSON array or a list of JSON blobs one per line
 + [csv2mdtable](docs/csv2mdtable/) - a tool to render CSV as a Github Flavored Markdown table
@@ -35,12 +38,15 @@ Use "-help" option for a full list of options for each utility (e.g. `csv2json -
 
 ## For strings
 
-_datatools_ provides the [string](docs/string/) command for working with text strings (limited to memory available).
-This is commonly needed when cleanup data for analysis. The _string_ command was created for when the old Unix 
-stand bys- grep, awk, sed, tr are unwieldly or inconvient. _string_ provides operations are common in most language 
-like, trimming, spliting, and transforming letter case.  The _string_ command also makes it easy to join 
-JSON string arrays into single a string using a delimiter or split a string into a JSON array
-based on a delimiter. The form of the command is `string [OPTIONS] [ACTION] [ARCTION_PARAMETERS...]`
+_datatools_ provides the [string](docs/string/) command for working with 
+text strings (limited to memory available).  This is commonly needed when 
+cleanup data for analysis. The _string_ command was created for when the 
+old Unix standbys- grep, awk, sed, tr are unwieldly or inconvient. 
+_string_ provides operations are common in most language like, trimming, 
+spliting, and transforming letter case.  The _string_ command also makes 
+it easy to join JSON string arrays into single a string using a delimiter 
+or split a string into a JSON array based on a delimiter. The form of the 
+command is `string [OPTIONS] [ACTION] [ARCTION_PARAMETERS...]`
 
 ```shell
     string toupper "one two three"
@@ -78,12 +84,6 @@ Use the utilities try "-help" option for a full list of options.
 
 ## Installation
 
-See [INSTALL.md](install/) for details for installing pre-compiled versions of the programs.
-
-_datatools_ are go get-able. If you have go v1.12 (or newer) you can install with the command below.
-
-```
-    go get github.com/caltechlibrary/datatools/...
-```
-
+See [INSTALL.md](install.html) for details for installing pre-compiled 
+versions of the programs.
 

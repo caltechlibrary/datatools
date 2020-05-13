@@ -81,7 +81,7 @@ Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7 processor, raspb
 <ul>
 <li>(e.g. if you&rsquo;re on a Windows 10 laptop/Surface with a amd64 style CPU you&rsquo;d choose the Zip file with &ldquo;windows-amd64&rdquo; in the name).</li>
 </ul></li>
-<li>Download the zip file and unzip the file.<br />
+<li>Download the zip file and unzip the file.<br>
 </li>
 <li>Copy the contents of the folder named &ldquo;bin&rdquo; to a folder that is in your path
 
@@ -181,13 +181,25 @@ downloading the zip file.</p>
 
 <h2>Compiling from source</h2>
 
-<p><em>datatools</em> is &ldquo;go gettable&rdquo;.  Use the &ldquo;go get&rdquo; command to download the dependant packages
+<p><em>datatools</em> is &ldquo;go gettable&rdquo; if you have gotten xlsx v1.0.5 package from <a href="https://github.com/tealeg/xlsx">github.com/tealeg/xlsx</a>.  The datatools package does not support versions v2.x and greater of xlsx. Below are the steps
+I use today with &ldquo;go get&rdquo; command to download the dependant packages
 as well as <em>datatools</em>&rsquo;s source code.</p>
 
-<pre><code class="language-shell">    go get -u github.com/caltechlibrary/datatools/...
+<p>Setting up the right version of xlsx for datatools</p>
+
+<pre><code class="language-shell">    cd
+    go get github.com/tealeg/xlsx
+    cd src/github.com/tealeg
+    git checkout v1.0.5
+    cd
 </code></pre>
 
-<p>Or clone the repstory and then compile</p>
+<p>Using <code>go get</code> to install datatools using v1.0.5 of xlsx.</p>
+
+<pre><code>    go get github.com/caltechlibrary/datatools/...
+</code></pre>
+
+<p>Or clone the repository and then compile</p>
 
 <pre><code class="language-shell">    cd
     git clone https://github.com/caltechlibrary/datatools src/github.com/caltechlibrary/datatools

@@ -25,12 +25,15 @@
 <section>
 <h1>datatools</h1>
 
-<p><em>datatools</em> provides a variety of command line programs for working with data in different formats as well as to ease
-Posix shell scripting (e.g. writing scripts that run under Bash). The tools are group as data, strings and scripting.</p>
+<p><em>datatools</em> provides a variety of command line programs for working with
+data in different formats as well as to ease Posix shell scripting
+(e.g. writing scripts that run under Bash). The tools are group as data,
+strings and scripting.</p>
 
 <h2>For data</h2>
 
-<p>Command line utilities for simplifying work with CSV, JSON, TOML, YAML, Excel Workbooks and plain text files or content.</p>
+<p>Command line utilities for simplifying work with CSV, JSON, TOML, YAML,
+Excel Workbooks and plain text files or content.</p>
 
 <ul>
 <li><a href="docs/csv2json/">csv2json</a> - a tool to take a CSV file and convert it into a JSON array or a list of JSON blobs one per line</li>
@@ -60,12 +63,15 @@ Windows 10 (amd64) and Raspbian (ARM7). See <a href="https://github.com/caltechl
 
 <h2>For strings</h2>
 
-<p><em>datatools</em> provides the <a href="docs/string/">string</a> command for working with text strings (limited to memory available).
-This is commonly needed when cleanup data for analysis. The <em>string</em> command was created for when the old Unix
-stand bys- grep, awk, sed, tr are unwieldly or inconvient. <em>string</em> provides operations are common in most language
-like, trimming, spliting, and transforming letter case.  The <em>string</em> command also makes it easy to join
-JSON string arrays into single a string using a delimiter or split a string into a JSON array
-based on a delimiter. The form of the command is <code>string [OPTIONS] [ACTION] [ARCTION_PARAMETERS...]</code></p>
+<p><em>datatools</em> provides the <a href="docs/string/">string</a> command for working with
+text strings (limited to memory available).  This is commonly needed when
+cleanup data for analysis. The <em>string</em> command was created for when the
+old Unix standbys- grep, awk, sed, tr are unwieldly or inconvient.
+<em>string</em> provides operations are common in most language like, trimming,
+spliting, and transforming letter case.  The <em>string</em> command also makes
+it easy to join JSON string arrays into single a string using a delimiter
+or split a string into a JSON array based on a delimiter. The form of the
+command is <code>string [OPTIONS] [ACTION] [ARCTION_PARAMETERS...]</code></p>
 
 <pre><code class="language-shell">    string toupper &quot;one two three&quot;
 </code></pre>
@@ -105,12 +111,8 @@ Windows 10 (amd64) and Raspbian (ARM7). See <a href="https://github.com/caltechl
 
 <h2>Installation</h2>
 
-<p>See <a href="install/">INSTALL.md</a> for details for installing pre-compiled versions of the programs.</p>
-
-<p><em>datatools</em> are go get-able. If you have go v1.12 (or newer) you can install with the command below.</p>
-
-<pre><code>    go get github.com/caltechlibrary/datatools/...
-</code></pre>
+<p>See <a href="install.html">INSTALL.md</a> for details for installing pre-compiled
+versions of the programs.</p>
 
 </section>
 
