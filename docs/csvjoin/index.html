@@ -11,33 +11,47 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../../index.html">README</a></li>
-<li><a href="../../license.html">LICENSE</a></li>
-<li><a href="../../install.html">INSTALL</a></li>
-<li><a href="../../docs/">Documentation</a></li>
-<li><a href="../../how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../../index.html">README</a>
+</li>
+<li>
+<a href="../../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../../docs/">Documentation</a>
+</li>
+<li>
+<a href="../../how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>USAGE</h1>
-
-<pre><code>csvjoin [OPTIONS] CSV1 CSV2 COL1 COL2
-</code></pre>
-
-<h2>DESCRIPTION</h2>
-
-<p>csvjoin outputs CSV content based on two CSV files with matching column values.
-Each CSV input file has a designated column to match on. The values are
-compared as strings. Columns are counted from one rather than zero.</p>
-
-<h2>OPTIONS</h2>
-
-<p>Below are a set of options available.</p>
-
+<h1 id="usage">
+USAGE
+</h1>
+<pre><code>csvjoin [OPTIONS] CSV1 CSV2 COL1 COL2</code></pre>
+<h2 id="description">
+DESCRIPTION
+</h2>
+<p>
+csvjoin outputs CSV content based on two CSV files with matching column values. Each CSV input file has a designated column to match on. The values are compared as strings. Columns are counted from one rather than zero.
+</p>
+<h2 id="options">
+OPTIONS
+</h2>
+<p>
+Below are a set of options available.
+</p>
 <pre><code>    -allow-duplicates     allow duplicates when searching for matches
     -case-sensitive       make a case sensitive match (default is case insensitive)
     -col1                 column to on join on in first CSV file
@@ -64,28 +78,24 @@ compared as strings. Columns are counted from one rather than zero.</p>
     -trimspaces           trim spaces around cell values before comparing
     -use-lazy-quotes      use lazy quotes for CSV input
     -v, -version          display version
-    -verbose              output processing count to stderr
-</code></pre>
-
-<h2>EXAMPLES</h2>
-
-<p>Simple usage of building a merged CSV file from data1.csv
-and data2.csv where column 1 in data1.csv matches the value in
-column 3 of data2.csv with the results being written to
-merged-data.csv..</p>
-
+    -verbose              output processing count to stderr</code></pre>
+<h2 id="examples">
+EXAMPLES
+</h2>
+<p>
+Simple usage of building a merged CSV file from data1.csv and data2.csv where column 1 in data1.csv matches the value in column 3 of data2.csv with the results being written to merged-data.csv..
+</p>
 <pre><code>csvjoin -csv1=data1.csv -col1=2 \
    -csv2=data2.csv -col2=4 \
-   -output=merged-data.csv
-</code></pre>
-
-<p>csvjoin v0.0.25</p>
-
+   -output=merged-data.csv</code></pre>
+<p>
+csvjoin v0.0.25
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

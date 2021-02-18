@@ -1,14 +1,7 @@
-{{- $relroot := .relroot -}}
 + [Home](/)
-{{- with .readme }}
-+ [README]({{- $relroot -}}{{- . -}}){{- end }}
-{{- with .license }}
-+ [LICENSE]({{- $relroot -}}{{- . }}){{- end }}
-{{- with .install }}
-+ [INSTALL]({{- $relroot -}}{{- . -}}){{- end }}
-{{- with .docs }}
-+ [Documentation]({{- $relroot -}}{{- . -}}){{- end }}
-{{- with .howto }}
-+ [How To]({{- $relroot -}}{{- . -}}){{- end }}
-{{- with .gitrepo }}
-+ [Github]({{- . -}}){{- end }}
+${if(readme)}+ [README](${if(relroot)}${relroot}${endif}${readme})${endif}
+${if(license)}+ [LICENSE](${if(relroot)}${relroot}${endif}${license})${endif}
+${if(install)}+ [INSTALL](${if(relroot)}${relroot}${endif}${install})${endif}
+${if(docs)}+ [Documentation](${if(relroot)}${relroot}${endif}${docs})${endif}
+${if(howto)}+ [How To](${if(relroot)}${relroot}${endif}${howto})${endif}
+${if(gitrepo)}+ [Github](${gitrepo})${endif}

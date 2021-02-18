@@ -11,44 +11,59 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../../index.html">README</a></li>
-<li><a href="../../license.html">LICENSE</a></li>
-<li><a href="../../install.html">INSTALL</a></li>
-<li><a href="../../docs/">Documentation</a></li>
-<li><a href="../../how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../../index.html">README</a>
+</li>
+<li>
+<a href="../../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../../docs/">Documentation</a>
+</li>
+<li>
+<a href="../../how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>string join DELIMITER [JSON_ARRAY]</h1>
-
-<p>This command will return take a JSON array of strings
-and return a single string joined with the delimiter.</p>
-
-<h2>Typical command line</h2>
-
-<pre><code class="language-shell">    string join '|' '[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]'
-</code></pre>
-
-<p>Would return <code>one|two|three</code></p>
-
-<h2>Piping content</h2>
-
-<p>NOTE: To read content from standard input we use the <code>-i -</code> option.</p>
-
-<pre><code class="language-shell">    echo '[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]' | string join '|'
-</code></pre>
-
-<p>Would return <code>one|two|three</code></p>
-
+<h1 id="string-join-delimiter-json_array">
+string join DELIMITER [JSON_ARRAY]
+</h1>
+<p>
+This command will return take a JSON array of strings and return a single string joined with the delimiter.
+</p>
+<h2 id="typical-command-line">
+Typical command line
+</h2>
+<pre class="shell"><code>    string join &#39;|&#39; &#39;[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]&#39;</code></pre>
+<p>
+Would return <code>one|two|three</code>
+</p>
+<h2 id="piping-content">
+Piping content
+</h2>
+<p>
+NOTE: To read content from standard input we use the <code>-i -</code> option.
+</p>
+<pre class="shell"><code>    echo &#39;[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]&#39; | string join &#39;|&#39;</code></pre>
+<p>
+Would return <code>one|two|three</code>
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>
