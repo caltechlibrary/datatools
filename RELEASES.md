@@ -1,7 +1,9 @@
 
-# Release Process and tags
+Release Process and tags
+========================
 
-## Preleases and production releases
+Preleases and production releases
+---------------------------------
 
 This describes a simple release process organized around semantic versioned tags.
 
@@ -20,13 +22,15 @@ be followed by v0.0.10-pre, v0.0.11-pre, v0.0.12-pre before a v0.0.12 appears as
 
 Production and pre-releases should include Zip files of the compiled cli to be tested by `bash test_cmds.bash`.
 
-## Dev releases
+Dev releases
+------------
 
 Dev release may happend from time to time as needed. They should always end in a '-dev' version number (e.g. v0.0.10-dev). 
 They normally should not have any pre-compiled binaries to avoid confusion. They should be flagged as draft (pre-release)
 on Github.
 
-## Making a release
+Making a release
+----------------
 
 1. Set the version number in PACKAGE.go (where PACKAGE is the name of the package, e.g. dataset is the name of the dataset
 package so you'd change the version number in dataset.go).

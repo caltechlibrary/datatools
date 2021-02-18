@@ -1,12 +1,14 @@
 
-# datatools
+datatools
+=========
 
 _datatools_ provides a variety of command line programs for working with 
 data in different formats as well as to ease Posix shell scripting 
 (e.g. writing scripts that run under Bash). The tools are group as data, 
 strings and scripting.
 
-## For data
+For data
+--------
 
 Command line utilities for simplifying work with CSV, JSON, TOML, YAML, 
 Excel Workbooks and plain text files or content.
@@ -36,7 +38,8 @@ Windows 10 (amd64) and Raspbian (ARM7). See https://github.com/caltechlibrary/da
 
 Use "-help" option for a full list of options for each utility (e.g. `csv2json -help`).
 
-## For strings
+For strings
+-----------
 
 _datatools_ provides the [string](docs/string/) command for working with 
 text strings (limited to memory available).  This is commonly needed when 
@@ -64,7 +67,8 @@ Some of the features included
 
 See [string](docs/string/) for full details
 
-## For scripting
+For scripting
+-------------
 
 Various utilities for simplifying work on the command line. 
 
@@ -82,7 +86,8 @@ Windows 10 (amd64) and Raspbian (ARM7). See https://github.com/caltechlibrary/da
 Use the utilities try "-help" option for a full list of options.
 
 
-## Installation
+Installation
+------------
 
 See [INSTALL.md](install.html) for details for installing pre-compiled 
 versions of the programs.

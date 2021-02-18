@@ -2,7 +2,7 @@
 // datatools.go is a package for working with various types of data (e.g. CSV, XLSX, JSON) in support
 // of the utilities included in the datatools.go package.
 //
-// Copyright (c) 2019, Caltech
+// Copyright (c) 2021, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
