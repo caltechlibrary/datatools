@@ -4,7 +4,7 @@
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
-// Copyright (c) 2017, Caltech
+// Copyright (c) 2021, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -21,7 +21,7 @@ package timefmt
 
 const (
 	// Version of this package
-	Version = "v0.0.1"
+	Version = "v0.0.2"
 
 	// MySql style timestamp layout
 	MySQL = "2006-01-02 15:04:05"

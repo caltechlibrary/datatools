@@ -11,40 +11,53 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../../index.html">README</a></li>
-<li><a href="../../license.html">LICENSE</a></li>
-<li><a href="../../install.html">INSTALL</a></li>
-<li><a href="../../docs/">Documentation</a></li>
-<li><a href="../../how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../../index.html">README</a>
+</li>
+<li>
+<a href="../../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../../docs/">Documentation</a>
+</li>
+<li>
+<a href="../../how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>USAGE</h1>
-
-<pre><code>csvrows [OPTIONS] [ARGS_AS_ROW_VALUES]
-</code></pre>
-
-<h2>DESCRIPTION</h2>
-
-<p>csvrows converts a set of command line args into rows of CSV formated output.
-It can also be used to filter or list specific rows of CSV input
-The first row is 1 not 0. Often row 1 is the header row and %!s(MISSING) makes it
-easy to output only the data rows.</p>
-
-<h2>OPTIONS</h2>
-
-<p>Below are a set of options available.</p>
-
+<h1 id="usage">
+USAGE
+</h1>
+<pre><code>csvrows [OPTIONS] [ARGS_AS_ROW_VALUES]</code></pre>
+<h2 id="description">
+DESCRIPTION
+</h2>
+<p>
+csvrows converts a set of command line args into rows of CSV formated output. It can also be used to filter or list specific rows of CSV input The first row is 1 not 0. Often row 1 is the header row and %!s(MISSING) makes it easy to output only the data rows.
+</p>
+<h2 id="options">
+OPTIONS
+</h2>
+<p>
+Below are a set of options available.
+</p>
 <pre><code>    -d, -delimiter        set delimiter character
     -examples             display example(s)
     -generate-manpage     generate man page
     -generate-markdown    generate markdown documentation
     -h, -help             display help
-    -header               display the header row (alias for '-rows 1')
+    -header               display the header row (alias for &#39;-rows 1&#39;)
     -i, -input            input filename
     -l, -license          display license
     -o, -output           output filename
@@ -54,48 +67,42 @@ easy to output only the data rows.</p>
     -skip-header-row      skip the header row (alias for -row 2-
     -trim-leading-space   trim leading space in field(s) for CSV input
     -use-lazy-quotes      use lazy quotes for CSV input
-    -v, -version          display version
-</code></pre>
-
-<h2>EXAMPLES</h2>
-
-<p>Simple usage of building a CSV file one rows at a time.</p>
-
+    -v, -version          display version</code></pre>
+<h2 id="examples">
+EXAMPLES
+</h2>
+<p>
+Simple usage of building a CSV file one rows at a time.
+</p>
 <pre><code>csvrows &quot;First,Second,Third&quot; &quot;one,two,three&quot; &gt; 4rows.csv
 csvrows &quot;ein,zwei,drei&quot; &quot;1,2,3&quot; &gt;&gt; 4rows.csv
-cat 4row.csv
-</code></pre>
-
-<p>Example parsing a pipe delimited string into a CSV line</p>
-
+cat 4row.csv</code></pre>
+<p>
+Example parsing a pipe delimited string into a CSV line
+</p>
 <pre><code>csvrows -d &quot;|&quot; &quot;First,Second,Third|one,two,three&quot; &gt; 4rows.csv
 csvrows -delimiter &quot;|&quot; &quot;ein,zwei,drei|1,2,3&quot; &gt;&gt; 4rows.csv
-cat 4rows.csv
-</code></pre>
-
-<p>Filter a 10 row CSV file for rows 1,4,6 (top most row is one)</p>
-
-<pre><code>cat 10row.csv | csvrows -row 1,4,6 &gt; 3rows.csv
-</code></pre>
-
-<p>Filter a 10 row CSV file for rows 1,4,6 from file named &ldquo;10row.csv&rdquo;</p>
-
-<pre><code>csvrows -i 10row.csv -row 1,4,6 &gt; 3rows.csv
-</code></pre>
-
-<p>Filter 3 randomly selected rows from 10row.csv rendering new CSV with
-a header row from 10row.csv.</p>
-
-<pre><code>csvrows -i 10row.csv -header=true -random=3
-</code></pre>
-
-<p>csvrows v0.0.25</p>
-
+cat 4rows.csv</code></pre>
+<p>
+Filter a 10 row CSV file for rows 1,4,6 (top most row is one)
+</p>
+<pre><code>cat 10row.csv | csvrows -row 1,4,6 &gt; 3rows.csv</code></pre>
+<p>
+Filter a 10 row CSV file for rows 1,4,6 from file named “10row.csv”
+</p>
+<pre><code>csvrows -i 10row.csv -row 1,4,6 &gt; 3rows.csv</code></pre>
+<p>
+Filter 3 randomly selected rows from 10row.csv rendering new CSV with a header row from 10row.csv.
+</p>
+<pre><code>csvrows -i 10row.csv -header=true -random=3</code></pre>
+<p>
+csvrows v0.0.25
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

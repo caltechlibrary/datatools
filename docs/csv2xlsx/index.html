@@ -11,32 +11,47 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../../index.html">README</a></li>
-<li><a href="../../license.html">LICENSE</a></li>
-<li><a href="../../install.html">INSTALL</a></li>
-<li><a href="../../docs/">Documentation</a></li>
-<li><a href="../../how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../../index.html">README</a>
+</li>
+<li>
+<a href="../../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../../docs/">Documentation</a>
+</li>
+<li>
+<a href="../../how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>USAGE</h1>
-
-<pre><code>csv2xlsx [OPTIONS] WORKBOOK_NAME SHEET_NAME
-</code></pre>
-
-<h2>DESCRIPTION</h2>
-
-<p>csv2xlsx will take CSV input and create a new sheet in an Excel Workbook.
-If the Workbook does not exist then it is created.</p>
-
-<h2>OPTIONS</h2>
-
-<p>Below are a set of options available.</p>
-
+<h1 id="usage">
+USAGE
+</h1>
+<pre><code>csv2xlsx [OPTIONS] WORKBOOK_NAME SHEET_NAME</code></pre>
+<h2 id="description">
+DESCRIPTION
+</h2>
+<p>
+csv2xlsx will take CSV input and create a new sheet in an Excel Workbook. If the Workbook does not exist then it is created.
+</p>
+<h2 id="options">
+OPTIONS
+</h2>
+<p>
+Below are a set of options available.
+</p>
 <pre><code>    -d, -delimiter        set delimiter character (input)
     -examples             display example(s)
     -generate-manpage     generate man page
@@ -50,32 +65,29 @@ If the Workbook does not exist then it is created.</p>
     -trim-leading-space   trim leading space in field(s) for CSV input
     -use-lazy-quotes      use lazy quotes for CSV input
     -v, -version          display version
-    -workbook             Workbook name
-</code></pre>
-
-<h2>EXAMPLES</h2>
-
-<p>Converting a csv to a workbook.</p>
-
-<pre><code>csv2xlsx -i data.csv MyWorkbook.xlsx 'My worksheet 1'
-</code></pre>
-
-<p>This creates a new &lsquo;My worksheet 1&rsquo; in the Excel Workbook
-called &lsquo;MyWorkbook.xlsx&rsquo; with the contents of data.csv.</p>
-
-<pre><code>cat data.csv | csv2xlsx MyWorkbook.xlsx 'My worksheet 2'
-</code></pre>
-
-<p>This does the same but the contents of data.csv are piped into
-the workbook&rsquo;s &lsquo;My worksheet 2&rsquo; sheet.</p>
-
-<p>csv2xlsx v0.0.25</p>
-
+    -workbook             Workbook name</code></pre>
+<h2 id="examples">
+EXAMPLES
+</h2>
+<p>
+Converting a csv to a workbook.
+</p>
+<pre><code>csv2xlsx -i data.csv MyWorkbook.xlsx &#39;My worksheet 1&#39;</code></pre>
+<p>
+This creates a new ‘My worksheet 1’ in the Excel Workbook called ‘MyWorkbook.xlsx’ with the contents of data.csv.
+</p>
+<pre><code>cat data.csv | csv2xlsx MyWorkbook.xlsx &#39;My worksheet 2&#39;</code></pre>
+<p>
+This does the same but the contents of data.csv are piped into the workbook’s ‘My worksheet 2’ sheet.
+</p>
+<p>
+csv2xlsx v0.0.25
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

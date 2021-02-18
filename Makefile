@@ -221,7 +221,7 @@ dist/linux-amd64:
 	rm -fR dist/bin
 
 
-dist/macosx-amd64:
+dist/macos-amd64:
 	mkdir -p dist/bin
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvcols cmd/csvcols/csvcols.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/csvrows cmd/csvrows/csvrows.go
@@ -249,10 +249,41 @@ dist/macosx-amd64:
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/json2toml cmd/json2toml/json2toml.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/yaml2json cmd/yaml2json/yaml2json.go
 	env  GOOS=darwin GOARCH=amd64 go build -o dist/bin/json2yaml cmd/json2yaml/json2yaml.go
-	cd dist && zip -r $(PROJECT)-$(VERSION)-macosx-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
+	cd dist && zip -r $(PROJECT)-$(VERSION)-macos-amd64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
 	rm -fR dist/bin
 	
 
+dist/macos-arm64:
+	mkdir -p dist/bin
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/csvcols cmd/csvcols/csvcols.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/csvrows cmd/csvrows/csvrows.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/csvfind cmd/csvfind/csvfind.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/csvjoin cmd/csvjoin/csvjoin.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/jsoncols cmd/jsoncols/jsoncols.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/jsonrange cmd/jsonrange/jsonrange.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/xlsx2json cmd/xlsx2json/xlsx2json.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/xlsx2csv cmd/xlsx2csv/xlsx2csv.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/csv2mdtable cmd/csv2mdtable/csv2mdtable.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/csv2xlsx cmd/csv2xlsx/csv2xlsx.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/csv2json cmd/csv2json/csv2json.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/jsonmunge cmd/jsonmunge/jsonmunge.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/jsonjoin cmd/jsonjoin/jsonjoin.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/findfile cmd/findfile/findfile.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/finddir cmd/finddir/finddir.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/mergepath cmd/mergepath/mergepath.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/reldate cmd/reldate/reldate.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/range cmd/range/range.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/timefmt cmd/timefmt/timefmt.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/urlparse cmd/urlparse/urlparse.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/csvcleaner cmd/csvcleaner/csvcleaner.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/string cmd/string/string.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/toml2json cmd/toml2json/toml2json.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/json2toml cmd/json2toml/json2toml.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/yaml2json cmd/yaml2json/yaml2json.go
+	env  GOOS=darwin GOARCH=arm64 go build -o dist/bin/json2yaml cmd/json2yaml/json2yaml.go
+	cd dist && zip -r $(PROJECT)-$(VERSION)-macos-arm64.zip README.md LICENSE INSTALL.md bin/* docs/* how-to/* demos/*
+	rm -fR dist/bin
+	
 
 dist/windows-amd64:
 	mkdir -p dist/bin
@@ -329,5 +360,5 @@ distribute_docs:
 	cp -vR how-to dist/
 	./package-versions.bash > dist/package-versions.txt
 	
-release: distribute_docs dist/linux-amd64 dist/macosx-amd64 dist/windows-amd64 dist/raspbian-arm7
+release: distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/raspbian-arm7
 

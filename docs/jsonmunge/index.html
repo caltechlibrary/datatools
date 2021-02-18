@@ -11,39 +11,52 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../../index.html">README</a></li>
-<li><a href="../../license.html">LICENSE</a></li>
-<li><a href="../../install.html">INSTALL</a></li>
-<li><a href="../../docs/">Documentation</a></li>
-<li><a href="../../how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../../index.html">README</a>
+</li>
+<li>
+<a href="../../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../../docs/">Documentation</a>
+</li>
+<li>
+<a href="../../how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>USAGE</h1>
-
-<pre><code>jsonmunge [OPTIONS] TEMPLATE_FILENAME
-</code></pre>
-
-<h2>DESCRIPTION</h2>
-
-<p>jsonmunge is a command line tool that takes a JSON document and
-one or more Go templates rendering the results. Useful for
-reshaping a JSON document, transforming into a new format,
-or filter for specific content.</p>
-
+<h1 id="usage">
+USAGE
+</h1>
+<pre><code>jsonmunge [OPTIONS] TEMPLATE_FILENAME</code></pre>
+<h2 id="description">
+DESCRIPTION
+</h2>
+<p>
+jsonmunge is a command line tool that takes a JSON document and one or more Go templates rendering the results. Useful for reshaping a JSON document, transforming into a new format, or filter for specific content.
+</p>
 <ul>
-<li>TEMPLATE_FILENAME is the name of a Go text tempate file used to render
-the outbound JSON document</li>
+<li>
+TEMPLATE_FILENAME is the name of a Go text tempate file used to render the outbound JSON document
+</li>
 </ul>
-
-<h2>OPTIONS</h2>
-
-<p>Below are a set of options available.</p>
-
+<h2 id="options">
+OPTIONS
+</h2>
+<p>
+Below are a set of options available.
+</p>
 <pre><code>    -E, -expression      use template expression as template
     -examples            display example(s)
     -generate-manpage    generate man page
@@ -54,36 +67,38 @@ the outbound JSON document</li>
     -nl, -newline        if true add a trailing newline
     -o, -output          output filename
     -quiet               suppress error messages
-    -v, -version         display version
-</code></pre>
-
-<h2>EXAMPLES</h2>
-
-<p>If person.json contained</p>
-
-<p>{&ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jd@example.org&rdquo;, &ldquo;age&rdquo;: 42}</p>
-
-<p>and the template, name.tmpl, contained</p>
-
-<p>{{- .name -}}</p>
-
-<p>Getting just the name could be done with</p>
-
-<pre><code>cat person.json | jsonmunge name.tmpl
-</code></pre>
-
-<p>This would yield</p>
-
-<pre><code>&quot;Doe, Jane&quot;
-</code></pre>
-
-<p>jsonmunge v0.0.25</p>
-
+    -v, -version         display version</code></pre>
+<h2 id="examples">
+EXAMPLES
+</h2>
+<p>
+If person.json contained
+</p>
+<p>
+{“name”: “Doe, Jane”, “email”:“jd@example.org”, “age”: 42}
+</p>
+<p>
+and the template, name.tmpl, contained
+</p>
+<p>
+{{- .name -}}
+</p>
+<p>
+Getting just the name could be done with
+</p>
+<pre><code>cat person.json | jsonmunge name.tmpl</code></pre>
+<p>
+This would yield
+</p>
+<pre><code>&quot;Doe, Jane&quot;</code></pre>
+<p>
+jsonmunge v0.0.25
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

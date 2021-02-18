@@ -11,53 +11,72 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../index.html">README</a></li>
-<li><a href="../license.html">LICENSE</a></li>
-<li><a href="../install.html">INSTALL</a></li>
-<li><a href="../docs/">Documentation</a></li>
-<li><a href="./">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../index.html">README</a>
+</li>
+<li>
+<a href="../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../docs/">Documentation</a>
+</li>
+<li>
+<a href="./">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>How to find duplicates in a column</h1>
-
-<p>Searching for duplicate values in a column can be done using <em>cat</em>, <em>csvcols</em>, <em>sort</em>
-and <em>csvfind</em>. Here&rsquo;s the basic algorithm from the command line or Bash script.</p>
-
+<h1 id="how-to-find-duplicates-in-a-column">
+How to find duplicates in a column
+</h1>
+<p>
+Searching for duplicate values in a column can be done using <em>cat</em>, <em>csvcols</em>, <em>sort</em> and <em>csvfind</em>. Here’s the basic algorithm from the command line or Bash script.
+</p>
 <ul>
-<li>for each line of your CSV file
-
+<li>
+for each line of your CSV file
 <ul>
-<li>extract the value in the colum</li>
-<li>sort for unique values</li>
-<li>for each unique value use <em>csvfind</em> to output matching rows</li>
-</ul></li>
+<li>
+extract the value in the colum
+</li>
+<li>
+sort for unique values
+</li>
+<li>
+for each unique value use <em>csvfind</em> to output matching rows
+</li>
 </ul>
-
-<p>Here&rsquo;s an example Bash script looking for duplicates in <em>dups.csv</em>
-in column 2, second column (columns are counted from 1 rather than zero)</p>
-
-<pre><code class="language-shell">    CSV_FILE=&quot;dups.csv&quot;
+</li>
+</ul>
+<p>
+Here’s an example Bash script looking for duplicates in <em>dups.csv</em> in column 2, second column (columns are counted from 1 rather than zero)
+</p>
+<pre class="shell"><code>    CSV_FILE=&quot;dups.csv&quot;
     CSV_COL_NO=&quot;2&quot;
 
     csvcols -i &quot;$CSV_FILE&quot; -col &quot;$CSV_COL_NO&quot; | sort -u | while read CELL; do
-	    if [ &quot;$CELL&quot; != &quot;&quot; ]; then
-		    csvfind -i &quot;$CSV_FILE&quot; -trim-spaces -col &quot;$CSV_COL_NO&quot;  &quot;${CELL}&quot;
-	    fi
-    done
-</code></pre>
-
-<p>This would result a new CSV file with duplicates grouped together.</p>
-
+        if [ &quot;$CELL&quot; != &quot;&quot; ]; then
+            csvfind -i &quot;$CSV_FILE&quot; -trim-spaces -col &quot;$CSV_COL_NO&quot;  &quot;${CELL}&quot;
+        fi
+    done</code></pre>
+<p>
+This would result a new CSV file with duplicates grouped together.
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

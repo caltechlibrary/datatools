@@ -4,7 +4,7 @@
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
-// Copyright (c) 2017, Caltech
+// Copyright (c) 2021, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@ const (
 	// The standard format for dates I find convient
 	YYYYMMDD = "2006-01-02"
 	// Version of this package
-	Version = "v0.0.2"
+	Version = "v0.0.3"
 )
 
 // finds the end of the month value (e.g. 28, 29, 30, 31)

@@ -1,17 +1,21 @@
 
-# Action Items
+Action Items
+------------
 
-## Bug
+Bug
+---
 
 + [ ] findfile v0.0.23-pre option -f, -full-path doesn't return full paths
 
-## Next
+Next
+----
 
 + [ ] upgrade to use the new cli v0.0.5-dev
 + [ ] csvrows would output a range of rows (e.g. [2:] would be all rows but the first row)
 + [ ] csv utilities should support integer ranges notation for columns and rows references, E.g. "1,3:4,7,10:" or all
 
-## Someday, Maybe
+Someday, Maybe
+--------------
 
 + [ ] finddir should have an option to exclude directories (e.g. exclude .git directories from a listing)
 + [ ] textscraper - a tool for select out text and storing it as a JSON field value, sort grep plus sed cleanup and semi-structured text (e.g. webpage)
@@ -54,7 +58,8 @@
     + [ ] show lines with prefix, suffix, containing or regxp
     + [ ] show lines without prefix, suffix, containing or regexp
 
-## Completed
+Completed
+---------
 
 + [x] consolidate string utilities (e.g. toupper, tolower, totitle) into string cli
 + [x] csvcols -col option should not be a boolean, it should take a range like other csv cli
