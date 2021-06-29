@@ -93,7 +93,14 @@ func relativeWeekday(t time.Time, weekday time.Weekday) (time.Time, error) {
 // computes the relative time in days from time returning a new
 // time and error.
 func RelativeTime(t time.Time, i int, u string) (time.Time, error) {
+	//NOTE: Month needs to come before Monday.
 	switch {
+	case strings.HasPrefix(u, "year"):
+		return t.AddDate(i, 0, 0), nil
+	case strings.HasPrefix(u, "month"):
+		return t.AddDate(0, i, 0), nil
+	case strings.HasPrefix(u, "week"):
+		return t.AddDate(0, 0, 7*i), nil
 	case strings.HasPrefix(u, "sun"):
 		return relativeWeekday(t, time.Sunday)
 	case strings.HasPrefix(u, "mon"):
@@ -110,12 +117,6 @@ func RelativeTime(t time.Time, i int, u string) (time.Time, error) {
 		return relativeWeekday(t, time.Saturday)
 	case strings.HasPrefix(u, "day"):
 		return t.AddDate(0, 0, i), nil
-	case strings.HasPrefix(u, "week"):
-		return t.AddDate(0, 0, 7*i), nil
-	case strings.HasPrefix(u, "month"):
-		return t.AddDate(0, i, 0), nil
-	case strings.HasPrefix(u, "year"):
-		return t.AddDate(i, 0, 0), nil
 	}
 	return t, errors.New("Time unit must be day(s), week(s), month(s) or year(s) or weekday name.")
 }
