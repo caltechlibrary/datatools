@@ -11,50 +11,56 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../../index.html">README</a></li>
-<li><a href="../../license.html">LICENSE</a></li>
-<li><a href="../../install.html">INSTALL</a></li>
-<li><a href="../../docs/">Documentation</a></li>
-<li><a href="../../how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../../index.html">README</a>
+</li>
+<li>
+<a href="../../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../../docs/">Documentation</a>
+</li>
+<li>
+<a href="../../how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>USAGE</h1>
-
-<pre><code>jsonjoin [OPTIONS] JSON_FILE_1 [JSON_FILE_2 ...]
-</code></pre>
-
-<h2>DESCRIPTION</h2>
-
-<p>jsonjoin is a command line tool that takes one (or more) JSON objects files
-and joins them to a root JSON object read from standard input (or
-file identified by -input option).  By default the resulting
-joined JSON object is written to standard out.</p>
-
-<p>The default behavior for jsonjoin is to create key/value pairs
-based on the joined JSON document names and their contents.
-This can be thought of as a branching behavior. Each additional
-file becomes a branch and its key/value pairs become leafs.
-The root JSON object is assumed to come from standard input
-but can be designated by the -input option or created by the
--create option. Each additional file specified as a command line
-argument is then treated as a new branch.</p>
-
-<p>In addition to the branching behavior you can join JSON objects in a
-flat manner.  The flat joining process can be ether non-destructive
-adding new key/value pairs (-update option) or destructive
-overwriting key/value pairs (-overwrite option).</p>
-
-<p>Note: jsonjoin doesn&rsquo;t support a JSON array as the root JSON object.</p>
-
-<h2>OPTIONS</h2>
-
-<p>Below are a set of options available.</p>
-
+<h1 id="usage">
+USAGE
+</h1>
+<pre><code>jsonjoin [OPTIONS] JSON_FILE_1 [JSON_FILE_2 ...]</code></pre>
+<h2 id="description">
+DESCRIPTION
+</h2>
+<p>
+jsonjoin is a command line tool that takes one (or more) JSON objects files and joins them to a root JSON object read from standard input (or file identified by -input option). By default the resulting joined JSON object is written to standard out.
+</p>
+<p>
+The default behavior for jsonjoin is to create key/value pairs based on the joined JSON document names and their contents. This can be thought of as a branching behavior. Each additional file becomes a branch and its key/value pairs become leafs. The root JSON object is assumed to come from standard input but can be designated by the -input option or created by the -create option. Each additional file specified as a command line argument is then treated as a new branch.
+</p>
+<p>
+In addition to the branching behavior you can join JSON objects in a flat manner. The flat joining process can be ether non-destructive adding new key/value pairs (-update option) or destructive overwriting key/value pairs (-overwrite option).
+</p>
+<p>
+Note: jsonjoin doesn’t support a JSON array as the root JSON object.
+</p>
+<h2 id="options">
+OPTIONS
+</h2>
+<p>
+Below are a set of options available.
+</p>
 <pre><code>    -create              create an empty root object, {}
     -examples            display example(s)
     -generate-manpage    generate man page
@@ -67,101 +73,104 @@ overwriting key/value pairs (-overwrite option).</p>
     -overwrite           copy all key/values into root object
     -quiet               suppress error messages
     -update              copy new key/values pairs into root object
-    -v, -version         display version
-</code></pre>
-
-<h2>EXAMPLES</h2>
-
-<p>Consider two JSON objects one in person.json and another
-in profile.json.</p>
-
-<p>person.json contains</p>
-
-<p>{ &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jd@example.org&rdquo;, &ldquo;age&rdquo;: 42 }</p>
-
-<p>profile.json contains</p>
-
-<p>{ &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;bio&rdquo;: &ldquo;World renowned geophysist.&rdquo;,
-     &ldquo;email&rdquo;: &ldquo;jane.doe@example.edu&rdquo; }</p>
-
-<p>A simple join of person.json with profile.json (note the
--create option)</p>
-
-<p>jsonjoin -create person.json profile.json</p>
-
-<p>would yield and object like</p>
-
-<p>{
-     &ldquo;person&rdquo;:  { &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jd@example.org&rdquo;,
-	 			&ldquo;age&rdquo;: 42},
-     &ldquo;profile&rdquo;: { &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;bio&rdquo;: &ldquo;World renowned geophysist.&rdquo;,
-                  &ldquo;email&rdquo;: &ldquo;jane.doe@example.edu&rdquo; }
-   }</p>
-
-<p>Likewise if you want to treat person.json as the root object and add
-profile.json as a branch try</p>
-
-<p>cat person.json | jsonjoin profile.json</p>
-
-<p>or</p>
-
-<p>jsonjoin -i person.json profile.json</p>
-
-<p>this yields an object like</p>
-
-<p>{
-     &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jd@example.org&rdquo;, &ldquo;age&rdquo;: 42,
-     &ldquo;profile&rdquo;: { &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;bio&rdquo;: &ldquo;World renowned geophysist.&rdquo;,
-                  &ldquo;email&rdquo;: &ldquo;jane.doe@example.edu&rdquo; }
-   }</p>
-
-<p>You can modify this behavor with -update or -overwrite. Both options are
-order dependant (i.e. not associative, A update B does
-not necessarily equal B update A).</p>
-
+    -v, -version         display version</code></pre>
+<h2 id="examples">
+EXAMPLES
+</h2>
+<p>
+Consider two JSON objects one in person.json and another in profile.json.
+</p>
+<p>
+person.json contains
+</p>
+<p>
+{ “name”: “Doe, Jane”, “email”:“jd@example.org”, “age”: 42 }
+</p>
+<p>
+profile.json contains
+</p>
+<p>
+{ “name”: “Doe, Jane”, “bio”: “World renowned geophysist.”, “email”: “jane.doe@example.edu” }
+</p>
+<p>
+A simple join of person.json with profile.json (note the -create option)
+</p>
+<p>
+jsonjoin -create person.json profile.json
+</p>
+<p>
+would yield and object like
+</p>
+<p>
+{ “person”: { “name”: “Doe, Jane”, “email”:“jd@example.org”, “age”: 42}, “profile”: { “name”: “Doe, Jane”, “bio”: “World renowned geophysist.”, “email”: “jane.doe@example.edu” } }
+</p>
+<p>
+Likewise if you want to treat person.json as the root object and add profile.json as a branch try
+</p>
+<p>
+cat person.json | jsonjoin profile.json
+</p>
+<p>
+or
+</p>
+<p>
+jsonjoin -i person.json profile.json
+</p>
+<p>
+this yields an object like
+</p>
+<p>
+{ “name”: “Doe, Jane”, “email”:“jd@example.org”, “age”: 42, “profile”: { “name”: “Doe, Jane”, “bio”: “World renowned geophysist.”, “email”: “jane.doe@example.edu” } }
+</p>
+<p>
+You can modify this behavor with -update or -overwrite. Both options are order dependant (i.e. not associative, A update B does not necessarily equal B update A).
+</p>
 <ul>
-<li>-update will add unique key/values from the second object to the first object</li>
-<li>-overwrite replace key/values in first object one with second objects&rsquo;</li>
+<li>
+-update will add unique key/values from the second object to the first object
+</li>
+<li>
+-overwrite replace key/values in first object one with second objects’
+</li>
 </ul>
-
-<p>Running</p>
-
-<pre><code>jsonjoin -create -update person.json profile.json
-</code></pre>
-
-<p>would yield</p>
-
-<p>{ &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jd@example.org&rdquo;, &ldquo;age&rdquo;: 42,
-     &ldquo;bio&rdquo;: &ldquo;World renowned geophysist.&rdquo; }</p>
-
-<p>Running</p>
-
-<pre><code>jsonjoin -create -update profile.json person.json
-</code></pre>
-
-<p>would yield</p>
-
-<p>{ &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;,  &ldquo;age&rdquo;: 42,
-     &ldquo;bio&rdquo;: &ldquo;World renowned geophysist.&rdquo;,
-     &ldquo;email&rdquo;: &ldquo;jane.doe@example.edu&rdquo; }</p>
-
-<p>Running</p>
-
-<pre><code>jsonjoin -create -overwrite person.json profile.json
-</code></pre>
-
-<p>would yield</p>
-
-<p>{ &ldquo;name&rdquo;: &ldquo;Doe, Jane&rdquo;, &ldquo;email&rdquo;:&ldquo;jane.doe@example.edu&rdquo;, &ldquo;age&rdquo;: 42,
-     &ldquo;bio&rdquo;: &ldquo;World renowned geophysist.&rdquo; }</p>
-
-<p>jsonjoin v0.0.25</p>
-
+<p>
+Running
+</p>
+<pre><code>jsonjoin -create -update person.json profile.json</code></pre>
+<p>
+would yield
+</p>
+<p>
+{ “name”: “Doe, Jane”, “email”:“jd@example.org”, “age”: 42, “bio”: “World renowned geophysist.” }
+</p>
+<p>
+Running
+</p>
+<pre><code>jsonjoin -create -update profile.json person.json</code></pre>
+<p>
+would yield
+</p>
+<p>
+{ “name”: “Doe, Jane”, “age”: 42, “bio”: “World renowned geophysist.”, “email”: “jane.doe@example.edu” }
+</p>
+<p>
+Running
+</p>
+<pre><code>jsonjoin -create -overwrite person.json profile.json</code></pre>
+<p>
+would yield
+</p>
+<p>
+{ “name”: “Doe, Jane”, “email”:“jane.doe@example.edu”, “age”: 42, “bio”: “World renowned geophysist.” }
+</p>
+<p>
+jsonjoin v0.0.25
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

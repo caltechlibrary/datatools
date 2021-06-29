@@ -11,31 +11,47 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../../index.html">README</a></li>
-<li><a href="../../license.html">LICENSE</a></li>
-<li><a href="../../install.html">INSTALL</a></li>
-<li><a href="../../docs/">Documentation</a></li>
-<li><a href="../../how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../../index.html">README</a>
+</li>
+<li>
+<a href="../../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../../docs/">Documentation</a>
+</li>
+<li>
+<a href="../../how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>USAGE</h1>
-
-<pre><code>findfile [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]
-</code></pre>
-
-<h2>DESCRIPTION</h2>
-
-<p>findfile finds files based on matching prefix, suffix or contained text in base filename.</p>
-
-<h2>OPTIONS</h2>
-
-<p>Below are a set of options available.</p>
-
+<h1 id="usage">
+USAGE
+</h1>
+<pre><code>findfile [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]</code></pre>
+<h2 id="description">
+DESCRIPTION
+</h2>
+<p>
+findfile finds files based on matching prefix, suffix or contained text in base filename.
+</p>
+<h2 id="options">
+OPTIONS
+</h2>
+<p>
+Below are a set of options available.
+</p>
 <pre><code>    -c, -contains            find file(s) based on basename containing text
     -d, -depth               Limit depth of directories walked
     -error, -stop-on-error   Stop walk on file system errors (e.g. permissions)
@@ -51,23 +67,22 @@
     -p, -prefix              find file(s) based on basename prefix
     -quiet                   suppress error messages
     -s, -suffix              find file(s) based on basename suffix
-    -v, -version             display version message
-</code></pre>
-
-<h2>EXAMPLES</h2>
-
-<p>Search the current directory and subdirectories for Markdown files with extension of &ldquo;.md&rdquo;.</p>
-
-<pre><code>findfile -s .md
-</code></pre>
-
-<p>findfile v0.0.25</p>
-
+    -v, -version             display version message</code></pre>
+<h2 id="examples">
+EXAMPLES
+</h2>
+<p>
+Search the current directory and subdirectories for Markdown files with extension of “.md”.
+</p>
+<pre><code>findfile -s .md</code></pre>
+<p>
+findfile v0.0.25
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

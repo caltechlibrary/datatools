@@ -11,63 +11,83 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="index.html">README</a></li>
-<li><a href="license.html">LICENSE</a></li>
-<li><a href="install.html">INSTALL</a></li>
-<li><a href="docs/">Documentation</a></li>
-<li><a href="how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="index.html">README</a>
+</li>
+<li>
+<a href="license.html">LICENSE</a>
+</li>
+<li>
+<a href="install.html">INSTALL</a>
+</li>
+<li>
+<a href="docs/">Documentation</a>
+</li>
+<li>
+<a href="how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>Release Process and tags</h1>
-
-<h2>Preleases and production releases</h2>
-
-<p>This describes a simple release process organized around semantic versioned tags.</p>
-
-<p>When a new release is ready it should be tag as v0.XX.XX-pre (where XX is a number) and published as a &lsquo;pre-release&rsquo; on
-Github. Send a note to the development group so someone other than the proposer of the release will be able to
-indepentently evaluate the release changes.  At a minimum they should run <code>bash test_cmds.bash</code> and walk through some
-of the documentation examples. If the release is verified as ready then a new release will be cut with a tag like
-v0.XX.XX (there the XX are the same as in v0.XX.XX-pre). E.g. v0.0.10-pre would become v0.0.10 on success.</p>
-
-<p>If the release fails verification, bugs need to be fixed and a new release proposed create after the fixes.
-The &ldquo;patch&rdquo; number persion should be incremented in v0.XX.XX-pre (e.g. v0.0.10-pre would be followed by
-v0.0.11-pre indicating that patches).</p>
-
-<p>NOTE: This means there their can be skips in the production patch numbers between release. E.g. v.0.0.9 might
-be followed by v0.0.10-pre, v0.0.11-pre, v0.0.12-pre before a v0.0.12 appears as a production release.</p>
-
-<p>Production and pre-releases should include Zip files of the compiled cli to be tested by <code>bash test_cmds.bash</code>.</p>
-
-<h2>Dev releases</h2>
-
-<p>Dev release may happend from time to time as needed. They should always end in a &lsquo;-dev&rsquo; version number (e.g. v0.0.10-dev).
-They normally should not have any pre-compiled binaries to avoid confusion. They should be flagged as draft (pre-release)
-on Github.</p>
-
-<h2>Making a release</h2>
-
-<ol>
-<li>Set the version number in PACKAGE.go (where PACKAGE is the name of the package, e.g. dataset is the name of the dataset
-package so you&rsquo;d change the version number in dataset.go).</li>
-<li>Run <code>make clean</code></li>
-<li>Run <code>make test</code> and make sure they pass, if some fail document it if you plan to release it (e.g. GSheet integration not tested because&hellip;)</li>
-<li>Run <code>make release</code></li>
+<h1 id="release-process-and-tags">
+Release Process and tags
+</h1>
+<h2 id="preleases-and-production-releases">
+Preleases and production releases
+</h2>
+<p>
+This describes a simple release process organized around semantic versioned tags.
+</p>
+<p>
+When a new release is ready it should be tag as v0.XX.XX-pre (where XX is a number) and published as a ‘pre-release’ on Github. Send a note to the development group so someone other than the proposer of the release will be able to indepentently evaluate the release changes. At a minimum they should run <code>bash test_cmds.bash</code> and walk through some of the documentation examples. If the release is verified as ready then a new release will be cut with a tag like v0.XX.XX (there the XX are the same as in v0.XX.XX-pre). E.g. v0.0.10-pre would become v0.0.10 on success.
+</p>
+<p>
+If the release fails verification, bugs need to be fixed and a new release proposed create after the fixes. The “patch” number persion should be incremented in v0.XX.XX-pre (e.g. v0.0.10-pre would be followed by v0.0.11-pre indicating that patches).
+</p>
+<p>
+NOTE: This means there their can be skips in the production patch numbers between release. E.g. v.0.0.9 might be followed by v0.0.10-pre, v0.0.11-pre, v0.0.12-pre before a v0.0.12 appears as a production release.
+</p>
+<p>
+Production and pre-releases should include Zip files of the compiled cli to be tested by <code>bash test_cmds.bash</code>.
+</p>
+<h2 id="dev-releases">
+Dev releases
+</h2>
+<p>
+Dev release may happend from time to time as needed. They should always end in a ‘-dev’ version number (e.g. v0.0.10-dev). They normally should not have any pre-compiled binaries to avoid confusion. They should be flagged as draft (pre-release) on Github.
+</p>
+<h2 id="making-a-release">
+Making a release
+</h2>
+<ol type="1">
+<li>
+Set the version number in PACKAGE.go (where PACKAGE is the name of the package, e.g. dataset is the name of the dataset package so you’d change the version number in dataset.go).
+</li>
+<li>
+Run <code>make clean</code>
+</li>
+<li>
+Run <code>make test</code> and make sure they pass, if some fail document it if you plan to release it (e.g. GSheet integration not tested because…)
+</li>
+<li>
+Run <code>make release</code>
+</li>
 </ol>
-
-<p>You are now ready to go to Github and create a release. If you are uploading compiled versions upload the zip files in the <em>dist</em>
-folder.</p>
-
+<p>
+You are now ready to go to Github and create a release. If you are uploading compiled versions upload the zip files in the <em>dist</em> folder.
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

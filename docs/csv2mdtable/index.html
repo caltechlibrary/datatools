@@ -11,32 +11,47 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../../index.html">README</a></li>
-<li><a href="../../license.html">LICENSE</a></li>
-<li><a href="../../install.html">INSTALL</a></li>
-<li><a href="../../docs/">Documentation</a></li>
-<li><a href="../../how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../../index.html">README</a>
+</li>
+<li>
+<a href="../../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../../docs/">Documentation</a>
+</li>
+<li>
+<a href="../../how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>USAGE</h1>
-
-<pre><code>csv2mdtable [OPTIONS]
-</code></pre>
-
-<h2>DESCRIPTION</h2>
-
-<p>csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.</p>
-
-<h2>OPTIONS</h2>
-
-<p>Below are a set of options available.</p>
-
+<h1 id="usage">
+USAGE
+</h1>
+<pre><code>csv2mdtable [OPTIONS]</code></pre>
+<h2 id="description">
+DESCRIPTION
+</h2>
+<p>
+csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown table to stdout.
+</p>
+<h2 id="options">
+OPTIONS
+</h2>
+<p>
+Below are a set of options available.
+</p>
 <pre><code>    -d, -delimiter       set delimiter character
     -examples            display example(s)
     -generate-manpage    generate man page
@@ -49,28 +64,26 @@ table to stdout.</p>
     -quiet               suppress error message
     -trim-leading-space  trim leading space in field(s) for CSV input
     -use-lazy-quotes     using lazy quotes for CSV input
-    -v, -version         display version
-</code></pre>
-
-<h2>EXAMPLES</h2>
-
-<p>Convert data1.csv to data1.md using Unix pipes.</p>
-
-<pre><code>cat data1.csv | csv2mdtable &gt; data1.md
-</code></pre>
-
-<p>Convert data1.csv to data1.md using options.</p>
-
-<pre><code>csv2mdtable -i data1.csv -o data1.md
-</code></pre>
-
-<p>csv2mdtable v0.0.25</p>
-
+    -v, -version         display version</code></pre>
+<h2 id="examples">
+EXAMPLES
+</h2>
+<p>
+Convert data1.csv to data1.md using Unix pipes.
+</p>
+<pre><code>cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<p>
+Convert data1.csv to data1.md using options.
+</p>
+<pre><code>csv2mdtable -i data1.csv -o data1.md</code></pre>
+<p>
+csv2mdtable v0.0.25
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

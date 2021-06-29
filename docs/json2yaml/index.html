@@ -11,31 +11,47 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../../index.html">README</a></li>
-<li><a href="../../license.html">LICENSE</a></li>
-<li><a href="../../install.html">INSTALL</a></li>
-<li><a href="../../docs/">Documentation</a></li>
-<li><a href="../../how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../../index.html">README</a>
+</li>
+<li>
+<a href="../../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../../docs/">Documentation</a>
+</li>
+<li>
+<a href="../../how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>USAGE</h1>
-
-<pre><code>json2yaml [OPTIONS] [JSON_FILENAME] [YAML_FILENAME]
-</code></pre>
-
-<h2>DESCRIPTION</h2>
-
-<p>json2yaml is a tool that converts JSON objects into YAML output.</p>
-
-<h2>OPTIONS</h2>
-
-<p>Below are a set of options available.</p>
-
+<h1 id="usage">
+USAGE
+</h1>
+<pre><code>json2yaml [OPTIONS] [JSON_FILENAME] [YAML_FILENAME]</code></pre>
+<h2 id="description">
+DESCRIPTION
+</h2>
+<p>
+json2yaml is a tool that converts JSON objects into YAML output.
+</p>
+<h2 id="options">
+OPTIONS
+</h2>
+<p>
+Below are a set of options available.
+</p>
 <pre><code>    -examples           display example(s)
     -generate-manpage   generate man page
     -generate-markdown  generate markdown documentation
@@ -44,27 +60,26 @@
     -nl, -newline       if true add a trailing newline
     -o, -output         output filename
     -quiet              suppress error messages
-    -v, -version        display version
-</code></pre>
-
-<h2>EXAMPLES</h2>
-
-<p>These would get the file named &ldquo;my.json&rdquo; and save it as my.yaml</p>
-
+    -v, -version        display version</code></pre>
+<h2 id="examples">
+EXAMPLES
+</h2>
+<p>
+These would get the file named “my.json” and save it as my.yaml
+</p>
 <pre><code>json2yaml my.json &gt; my.yaml
 
 json2yaml my.json my.taml
 
-cat my.json | json2yaml -i - &gt; my.taml
-</code></pre>
-
-<p>json2yaml v0.0.25</p>
-
+cat my.json | json2yaml -i - &gt; my.taml</code></pre>
+<p>
+json2yaml v0.0.25
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

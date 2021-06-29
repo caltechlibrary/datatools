@@ -11,40 +11,67 @@
 </header>
 <nav>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="../../index.html">README</a></li>
-<li><a href="../../license.html">LICENSE</a></li>
-<li><a href="../../install.html">INSTALL</a></li>
-<li><a href="../../docs/">Documentation</a></li>
-<li><a href="../../how-to/">How To</a></li>
-<li><a href="https://github.com/caltechlibrary/datatools">Github</a></li>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="../../index.html">README</a>
+</li>
+<li>
+<a href="../../license.html">LICENSE</a>
+</li>
+<li>
+<a href="../../install.html">INSTALL</a>
+</li>
+<li>
+<a href="../../docs/">Documentation</a>
+</li>
+<li>
+<a href="../../how-to/">How To</a>
+</li>
+<li>
+<a href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
 </ul>
-
 </nav>
 
 <section>
-<h1>USAGE</h1>
-
-<pre><code>string [OPTIONS] [VERB] [VERB PARAMETERS...]
-</code></pre>
-
-<h2>DESCRIPTION</h2>
-
-<p>string is a command line tool for transforming strings in common ways.</p>
-
+<h1 id="usage">
+USAGE
+</h1>
+<pre><code>string [OPTIONS] [VERB] [VERB PARAMETERS...]</code></pre>
+<h2 id="description">
+DESCRIPTION
+</h2>
+<p>
+string is a command line tool for transforming strings in common ways.
+</p>
 <ul>
-<li>string length</li>
-<li>changing cases</li>
-<li>checking for prefixes, suffixes</li>
-<li>trimming prefixes, suffixes and cutsets (i.e. list of characters to cut)</li>
-<li>position, counting and replacing substrings</li>
-<li>splitting a string into a JSON array of strings, joining JSON a string arrays into a string</li>
+<li>
+string length
+</li>
+<li>
+changing cases
+</li>
+<li>
+checking for prefixes, suffixes
+</li>
+<li>
+trimming prefixes, suffixes and cutsets (i.e. list of characters to cut)
+</li>
+<li>
+position, counting and replacing substrings
+</li>
+<li>
+splitting a string into a JSON array of strings, joining JSON a string arrays into a string
+</li>
 </ul>
-
-<h2>OPTIONS</h2>
-
-<p>Below are a set of options available.</p>
-
+<h2 id="options">
+OPTIONS
+</h2>
+<p>
+Below are a set of options available.
+</p>
 <pre><code>    -d, -delimiter           set the delimiter
     -do, -output-delimiter   set the output delimiter
     -e, -examples            display examples
@@ -56,43 +83,38 @@
     -nl, -newline            if true add a trailing newline
     -o, -output              output file name
     -quiet                   suppress error messages
-    -v, -version             display version
-</code></pre>
-
-<h2>EXAMPLES</h2>
-
-<p>Convert text to upper case</p>
-
-<pre><code>string toupper &quot;one&quot;
-</code></pre>
-
-<p>Convert text to lower case</p>
-
-<pre><code>string tolower &quot;ONE&quot;
-</code></pre>
-
-<p>Captialize an English phrase</p>
-
-<pre><code>string englishtitle &quot;one more thing to know&quot;
-</code></pre>
-
-<p>Split a space newline delimited list of words into a JSON array</p>
-
-<pre><code>string -i wordlist.txt split &quot;\n&quot;
-</code></pre>
-
-<p>Join a JSON array of strings into a newline delimited list</p>
-
-<pre><code>string join '\n' '[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;,&quot;four&quot;,&quot;five&quot;]'
-</code></pre>
-
-<p>string v0.0.25</p>
-
+    -v, -version             display version</code></pre>
+<h2 id="examples">
+EXAMPLES
+</h2>
+<p>
+Convert text to upper case
+</p>
+<pre><code>string toupper &quot;one&quot;</code></pre>
+<p>
+Convert text to lower case
+</p>
+<pre><code>string tolower &quot;ONE&quot;</code></pre>
+<p>
+Captialize an English phrase
+</p>
+<pre><code>string englishtitle &quot;one more thing to know&quot;</code></pre>
+<p>
+Split a space newline delimited list of words into a JSON array
+</p>
+<pre><code>string -i wordlist.txt split &quot;\n&quot;</code></pre>
+<p>
+Join a JSON array of strings into a newline delimited list
+</p>
+<pre><code>string join &#39;\n&#39; &#39;[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;,&quot;four&quot;,&quot;five&quot;]&#39;</code></pre>
+<p>
+string v0.0.25
+</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2019 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>
