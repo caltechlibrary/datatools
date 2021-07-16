@@ -32,9 +32,10 @@ version.go: .FORCE
 	@echo '' >>version.go
 	@echo 'const Version = "$(VERSION)"' >>version.go
 	@echo '' >>version.go
+	@if [ -f bin/codemeta ]; then ./bin/codemeta; fi
 
 $(PROGRAMS): $(PACKAGE)
-	mkdir -p bin
+	@mkdir -p bin
 	go build -o bin/$@$(EXT) cmd/$@/$@.go
 
 test: $(PACKAGE)
