@@ -97,5 +97,7 @@ date-released: %s`, cm.Published))...)
 		src = append(src, []byte(fmt.Sprintf(`
 date-released: %s`, dt))...)
 	}
+	// Add a trailing NL
+	src = append(src, []byte("\n")...)
 	return src, nil
 }
