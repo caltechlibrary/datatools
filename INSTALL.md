@@ -42,7 +42,7 @@ The basic recipe
 + Test
 
 
-### Mac OS X
+### Mac OS
 
 1. Download the zip file
 2. Unzip the zip file
@@ -127,9 +127,7 @@ downloading the zip file.
 Compiling from source
 ---------------------
 
-_datatools_ is "go gettable" if you have gotten xlsx v1.0.5 package from [github.com/tealeg/xlsx](https://github.com/tealeg/xlsx).  The datatools package does not support versions v2.x and greater of xlsx. Below are the steps
-I use today with "go get" command to download the dependant packages
-as well as _datatools_'s source code.
+_datatools_ is "go gettable" if you have previously gotten xlsx v1.0.5 package from [github.com/tealeg/xlsx](https://github.com/tealeg/xlsx).  The datatools package does not support versions v2.x and greater of xlsx. Below are the steps I use today with "go get" command to download the dependant packages as well as _datatools_'s source code.
 
 Setting up the right version of xlsx for datatools
 

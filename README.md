@@ -31,6 +31,7 @@ Excel Workbooks and plain text files or content.
 + [xlsx2csv](docs/xlsx2csv/) - a tool for converting Excel Workbooks sheets to CSV files
 + [xlsx2json](docs/xlsx2json/) - a tool for converting Excel Workbooks to JSON files
 + [yaml2json](docs/yaml2json/) - a tool for converting YAML files to JSON
++ [codemeta2cff](docs/codemeta2cff) - a tool to convert a codemeta.json file into a CITATION.cff file.
 
 
 Compiled versions are provided for Linux (amd64), Mac OS X (amd64),

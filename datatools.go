@@ -29,13 +29,13 @@ import (
 	"strings"
 	"unicode"
 
+	// Caltech Library Packages
+
 	// 3rd Party packages
 	"github.com/dexyk/stringosim"
 )
 
 const (
-	Version = `v1.0.2`
-
 	LicenseText = `
 %s %s
 
