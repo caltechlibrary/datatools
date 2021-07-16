@@ -88,6 +88,10 @@ authors:`)
 doi: %s`, doi))...)
 		}
 	}
+	if cm.Version != "" {
+		src = append(src, []byte(fmt.Sprintf(`
+version: %s`, cm.Version))...)
+	}
 	if cm.Published != "" {
 		src = append(src, []byte(fmt.Sprintf(`
 date-released: %s`, cm.Published))...)
