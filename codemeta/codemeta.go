@@ -105,3 +105,20 @@ date-released: %s`, dt))...)
 	src = append(src, []byte("\n")...)
 	return src, nil
 }
+
+// Show returns a the value as a string for the json path described by
+// dataPaths. If dataPath is "." return the whole object as a string.
+// if the dataPath is not valid return an empty string.
+func (cm *Codemeta) Show(dataPath string) (string, error) {
+	return "", fmt.Errorf("Show() not implemented.")
+}
+
+// Set sets the value in the codemeta.json file for a provided json path.
+func (cm *Codemeta) Set(dataPath string, value string) error {
+	return fmt.Errorf("Set() not implemented.")
+}
+
+// Delete removes the value in the codemeta.json file for a provided json path.
+func (cm *Codemeta) Delete(dataPath string) error {
+	return fmt.Errorf("Delete() not implemented.")
+}

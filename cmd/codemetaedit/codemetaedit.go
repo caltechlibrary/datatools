@@ -1,4 +1,4 @@
-// codemeta2cff.go converts a codemeta.json file to CITATION.cff.
+// codemetaedit.go is a command line edit for working with a codemeta.json file.
 //
 // Author: R. S. Doiel <rsdoiel@caltech.edu>
 //
@@ -38,7 +38,6 @@ import (
 	"fmt"
 	"os"
 	"path"
-	"strings"
 
 	// Caltech Library Package
 	"github.com/caltechlibrary/datatools"
@@ -52,29 +51,37 @@ func usage(appName string, exitCode int) {
 	fmt.Fprintf(out, `
 USAGE: %s
 
-    %s [CODEMETA_JSON CITATION_CFF]
+    %s ACTION [OPTION] [CODEMETA_JSON]
 
-Reads codemeta.json file and writes CITATION.cff. By default
-it assume both are in the current directory.  You can also
-provide the name and path to both files.
+The tool is for updating a codemeta.json file from the command
+line.  It assumings the codemeta.json file is in the current
+directory unless a name and path are provided. There are 
+four "actions" that can be performed.
 
-OPTIONS
 
-    -h, -help      display help
+ACTIONS
+
+   help            display help
+   show            show the value of a field given a json path
+   set             set the value of a field given a json path
+   delete          removes a a value given a json path
 
 EXAMPLE
 
-Generating the CITATION.cff from the codemeta.json file the current
-working directory.
+Retreive the version number in the codemeta.json file.
 
-    %s
+	%s show ".version"
 
-Specifying the full paths.
+Set the "@id" of the first author in the codemeta.json file.
 
-	%s /opt/local/myproject/codemeta.json /opt/local/myproject/CITATION.cff
+    %s set '.author[0]["@id"]' 'https://orcid.org/0000-0003-0900-6903'
+
+Remove the third author from the codemeta.json file.
+
+    %s delete '.author[2]'
 
 datatools v%s
-`, appName, appName, appName, appName, datatools.Version)
+`, appName, appName, appName, appName, appName, datatools.Version)
 	os.Exit(exitCode)
 }
 
@@ -99,16 +106,24 @@ func main() {
 		fmt.Printf("datatools, %s v%s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
-	codemeta, citation := "codemeta.json", "CITATION.cff"
-	if len(args) == 2 {
-		codemeta, citation = args[0], args[1]
-	} else if len(args) == 1 {
-		codemeta = args[0]
-	} else if len(args) != 0 {
-		fmt.Fprintf(os.Stderr, "Unexpected parameters: %q\n", strings.Join(os.Args, " "))
+	if len(args) < 1 {
 		usage(appName, 1)
 	}
-	err := datatools.CodemetaToCitationCff(codemeta, citation)
+	var err error
+	action := args[0]
+	switch action {
+	case "help":
+		usage(appName, 0)
+	case "show":
+		err = datatools.CodemetaShow(args[1:]...)
+	case "set":
+		err = datatools.CodemetaSet(args[1:]...)
+	case "delete":
+		err = datatools.CodemetaDelete(args[1:]...)
+	default:
+		fmt.Fprintf(os.Stderr, "Unsupported action.\n")
+		usage(appName, 1)
+	}
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
 		os.Exit(1)
