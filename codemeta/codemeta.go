@@ -18,8 +18,8 @@ type PersonOrOrganization struct {
 	// Given/Family are used by individual persons
 	GivenName   string `json:"givenName,omitempty"`
 	FamilyName  string `json:"familyName,omitempty"`
-	Affiliation string `json:"affiliation"`
-	Email       string `json:"email"`
+	Affiliation string `json:"affiliation,omitempty"`
+	Email       string `json:"email,omitempty"`
 }
 
 type Codemeta struct {
