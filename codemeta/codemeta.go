@@ -91,6 +91,9 @@ doi: %s`, doi))...)
 	if cm.Version != "" {
 		src = append(src, []byte(fmt.Sprintf(`
 version: %s`, cm.Version))...)
+        if cm.Name != "" {
+                src = append(src, []byte(fmt.Sprintf(`
+title: %s`, cm.Name))...)
 	}
 	if cm.Published != "" {
 		src = append(src, []byte(fmt.Sprintf(`
