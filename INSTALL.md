@@ -20,13 +20,13 @@ For all the released version go to the project page on Github and click latest r
 >    https://github.com/caltechlibrary/datatools/releases/latest
 
 
-| Platform    | Zip Filename                               |
-|-------------|--------------------------------------------|
-| Windows     | datatools-VERSION_NUMBER-windows-amd64.zip |
-| Mac OS X    | datatools-VERSION_NUMBER-macos-amd64.zip  |
-| Mac OS X    | datatools-VERSION_NUMBER-macos-arm64.zip  |
-| Linux/Intel | datatools-VERSION_NUMBER-linux-amd64.zip   |
-| Raspbery Pi | datatools-VERSION_NUMBER-raspbian-arm7.zip |
+| Platform       | Zip Filename                                      |
+|----------------|---------------------------------------------------|
+| Windows        | datatools-VERSION_NUMBER-windows-amd64.zip        |
+| Mac OS X       | datatools-VERSION_NUMBER-macos-amd64.zip          |
+| Mac OS X       | datatools-VERSION_NUMBER-macos-arm64.zip          |
+| Linux/Intel    | datatools-VERSION_NUMBER-linux-amd64.zip          |
+| Raspbery Pi OS | datatools-VERSION_NUMBER-raspberry_pi_os-arm7.zip |
 
 
 The basic recipe
@@ -116,7 +116,7 @@ downloading the zip file.
 
 ```shell
     cd Downloads/
-    unzip datatools-*-raspbian-arm7.zip
+    unzip datatools-*-raspberry_pi_os-arm7.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
