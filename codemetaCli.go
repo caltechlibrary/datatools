@@ -41,5 +41,5 @@ func CodemetaToCitationCff(srcName, destName string) error {
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(destName, src, 0777)
+	return ioutil.WriteFile(destName, src, 0666)
 }
