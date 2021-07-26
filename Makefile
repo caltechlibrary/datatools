@@ -126,7 +126,28 @@ distribute_docs:
 	@cp -vR docs dist/
 	@cp -vR how-to dist/
 	
-release: distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/raspbian-arm7
+gen_batfiles: .FORCE
+	@echo '@echo off' >make.bat
+	@echo 'REM This is a Windows 10 Batch file for building dataset command' >>make.bat
+	@echo 'REM from the command prompt.' >>make.bat
+	@echo 'REM' >>make.bat
+	@echo 'REM It requires: go version 1.16.6 or better and the cli for git installed' >>make.bat
+	@echo 'REM' >>make.bat
+	@echo 'go version' >>make.bat
+	@echo 'mkdir bin' >>make.bat
+	@echo 'echo "Getting ready to build the datatools in bin"' >>make.bat
+	@for FNAME in $(PROGRAMS); do echo "go build -o bin/$${FNAME}.exe cmd/$${FNAME}/$${FNAME}.exe" | sed -E 's/\//\\/g' >> make.bat; done
+	@echo 'echo "Checking compile should see version number of dataset"' >>make.bat
+	@for FNAME in $(PROGRAMS); do echo "bin/$${FNAME}.exe -version" | sed -E 's/\//\\/g' >> make.bat; done
+	@echo 'echo "If OK, you can now copy the dataset.exe to %USERPROFILE%\go\bin"' >>make.bat
+	@echo 'echo ""' >>make.bat
+	@echo 'echo "      copy bin/* %USERPROFILE%/AppData/go/bin"' | sed -E 's/\//\\/g' >>make.bat
+	@echo '""' >>make.bat
+	@echo 'echo "or someplace else in your %PATH%"' >>make.bat
+	@echo '""' >>make.bat
+	@git add make.bat
+
+release: build gen_batfiles distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/raspbian-arm7
 
 
 .FORCE:
