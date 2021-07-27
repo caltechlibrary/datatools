@@ -7,7 +7,7 @@ PROGRAMS = $(shell ls -1 cmd/)
 
 PACKAGE = $(shell ls -1 *.go)
 
-VERSION = $(shell jq .version codemeta.json | cut -d\"  -f 2)
+VERSION = $(shell grep '"version":' codemeta.json | cut -d\"  -f 4)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
@@ -32,6 +32,7 @@ version.go: .FORCE
 	@echo '' >>version.go
 	@echo 'const Version = "$(VERSION)"' >>version.go
 	@echo '' >>version.go
+	@git add version.go
 	@if [ -f bin/codemeta ]; then ./bin/codemeta; fi
 
 $(PROGRAMS): $(PACKAGE)
