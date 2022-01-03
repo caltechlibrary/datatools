@@ -93,16 +93,34 @@ doi: %s`, doi))...)
 		src = append(src, []byte(fmt.Sprintf(`
 version: %s`, cm.Version))...)
 	}
+	now := time.Now()
+	dt := now.Format("2006-01-02")
 	if cm.Name != "" {
 		src = append(src, []byte(fmt.Sprintf(`
 title: %s`, cm.Name))...)
 	}
+	/*
+			// This is code to supported created, modified dates when/if
+			// they get added to CITATION.cff
+			if cm.Created != "" {
+				src = append(src, []byte(fmt.Sprintf(`
+		date-created: %s`, cm.Created))...)
+			} else {
+				src = append(src, []byte(fmt.Sprintf(`
+		date-created: %s`, dt))...)
+			}
+			if cm.Updated != "" {
+				src = append(src, []byte(fmt.Sprintf(`
+		date-updated: %s`, cm.Updated))...)
+			} else {
+				src = append(src, []byte(fmt.Sprintf(`
+		date-updated: %s`, cm.Updated))...)
+			}
+	*/
 	if cm.Published != "" {
 		src = append(src, []byte(fmt.Sprintf(`
 date-released: %s`, cm.Published))...)
 	} else {
-		now := time.Now()
-		dt := now.Format("2006-01-02")
 		src = append(src, []byte(fmt.Sprintf(`
 date-released: %s`, dt))...)
 	}
