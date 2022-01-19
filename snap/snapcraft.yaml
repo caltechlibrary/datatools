@@ -5,7 +5,7 @@ summary: Command line tools for processing text data files
 description: |
         A set of command line tools for working with CSV, Excel Workbooks,
         JSON and structured text documents.
-grade: dev # must be 'stable' to release into candidate/stable channels
+grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
