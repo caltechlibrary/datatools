@@ -11,6 +11,8 @@ VERSION = $(shell grep '"version":' codemeta.json | cut -d\"  -f 4)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
+CODEMETA2CFF = $(shell which codemeta2cff)
+
 OS = $(shell uname)
 
 #PREFIX = /usr/local/bin
@@ -34,6 +36,7 @@ version.go: .FORCE
 	@echo '' >>version.go
 	@git add version.go
 	@if [ -f bin/codemeta ]; then ./bin/codemeta; fi
+	$(CODEMETA2CFF)
 
 $(PROGRAMS): $(PACKAGE)
 	@mkdir -p bin
@@ -117,6 +120,12 @@ dist/raspbian-arm7: $(PROGRAMS)
 	@cd dist && zip -r $(PROJECT)-v$(VERSION)-raspberry_pi_os-arm7.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
 	@rm -fR dist/bin
 
+dist/datatools_$(VERSION)_amd64.snap:
+	@mkdir -p dist/
+	snapcraft
+	@mv datatools_$(VERSION)_amd64.snap dist/
+	@chmod 664 dist/datatools_$(VERSION)_amd64.snap
+
 distribute_docs:
 	@mkdir -p dist/
 	@cp -v codemeta.json dist/
@@ -148,7 +157,9 @@ gen_batfiles: .FORCE
 	@echo '""' >>make.bat
 	@git add make.bat
 
-release: build gen_batfiles distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/raspbian-arm7
+snap: dist/datatools_$(VERSION)_amd64.snap
+
+release: build gen_batfiles distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/raspbian-arm7 snap
 
 
 .FORCE:
