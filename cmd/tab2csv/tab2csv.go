@@ -9,6 +9,7 @@ import (
 	"encoding/csv"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"path"
 
@@ -46,6 +47,12 @@ This would yield
 	showHelp    bool
 	showLicense bool
 	showVersion bool
+
+	// CSV Reader Options
+	lazyQuotes        bool
+	trimLeadingSpaces bool
+	reuseRecord       bool
+	fieldsPerRecord   int
 )
 
 func main() {
@@ -55,6 +62,12 @@ func main() {
 	flag.BoolVar(&showHelp, "help", false, "display help")
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	// CSV Reader options
+	flag.IntVar(&fieldsPerRecord, "fields-per-record", 0, "sets the number o fields expected in each row, -1 turns this off")
+	flag.BoolVar(&lazyQuotes, "lazy-quotes", false, "use lazy quoting for reader")
+	flag.BoolVar(&trimLeadingSpaces, "left-trim", false, "trims leading space read")
+	flag.BoolVar(&reuseRecord, "reuse-record", false, "re-uses the backing array on reader")
 
 	// Parse Environment and Options
 	flag.Parse()
@@ -73,11 +86,16 @@ func main() {
 		os.Exit(0)
 	}
 
-	exitCode := 0
 	// Setup the CSV output
 	r := csv.NewReader(os.Stdin)
 	r.Comma = '\t'
 	r.Comment = '#'
+	r.FieldsPerRecord = fieldsPerRecord
+	r.LazyQuotes = lazyQuotes
+	r.TrimLeadingSpace = trimLeadingSpaces
+	r.ReuseRecord = reuseRecord
+
+	exitCode := 0
 	w := csv.NewWriter(os.Stdout)
 	/*
 		if delimiter != "" {
@@ -86,10 +104,11 @@ func main() {
 	*/
 	for {
 		row, err := r.Read()
-		if err != nil {
+		if err == io.EOF {
+			break
+		} else if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			exitCode = 1
-			break
 		} else {
 			if err := w.Write(row); err != nil {
 				fmt.Fprintln(os.Stderr, err)
