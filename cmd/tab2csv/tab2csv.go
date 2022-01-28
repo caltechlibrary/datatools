@@ -49,10 +49,10 @@ This would yield
 	showVersion bool
 
 	// CSV Reader Options
-	lazyQuotes        bool
-	trimLeadingSpaces bool
-	reuseRecord       bool
-	fieldsPerRecord   int
+	lazyQuotes       bool
+	trimLeadingSpace bool
+	reuseRecord      bool
+	fieldsPerRecord  int
 )
 
 func main() {
@@ -65,8 +65,8 @@ func main() {
 
 	// CSV Reader options
 	flag.IntVar(&fieldsPerRecord, "fields-per-record", 0, "sets the number o fields expected in each row, -1 turns this off")
-	flag.BoolVar(&lazyQuotes, "lazy-quotes", false, "use lazy quoting for reader")
-	flag.BoolVar(&trimLeadingSpaces, "left-trim", false, "trims leading space read")
+	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quoting for reader")
+	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trims leading space read")
 	flag.BoolVar(&reuseRecord, "reuse-record", false, "re-uses the backing array on reader")
 
 	// Parse Environment and Options
@@ -92,7 +92,7 @@ func main() {
 	r.Comment = '#'
 	r.FieldsPerRecord = fieldsPerRecord
 	r.LazyQuotes = lazyQuotes
-	r.TrimLeadingSpace = trimLeadingSpaces
+	r.TrimLeadingSpace = trimLeadingSpace
 	r.ReuseRecord = reuseRecord
 
 	exitCode := 0
