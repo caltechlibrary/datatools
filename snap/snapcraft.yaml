@@ -1,13 +1,13 @@
 name: datatools # Caltech Library Datatools
 base: core20 # the base snap is the execution environment for this snap
-version: '1.0.5-dev' # Development semver
+version: '1.0.5' # Development semver
 summary: Command line tools for processing text data files
 description: |
         A set of command line tools for working with CSV, Excel Workbooks,
         JSON and structured text documents.
 license: BSD-3-Clause
-grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
 
 apps:
   codemeta2cff:

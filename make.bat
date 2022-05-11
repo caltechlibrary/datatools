@@ -28,6 +28,7 @@ go build -o bin\mergepath.exe cmd\mergepath\mergepath.exe
 go build -o bin\range.exe cmd\range\range.exe
 go build -o bin\reldate.exe cmd\reldate\reldate.exe
 go build -o bin\string.exe cmd\string\string.exe
+go build -o bin\tab2csv.exe cmd\tab2csv\tab2csv.exe
 go build -o bin\timefmt.exe cmd\timefmt\timefmt.exe
 go build -o bin\toml2json.exe cmd\toml2json\toml2json.exe
 go build -o bin\urlparse.exe cmd\urlparse\urlparse.exe
@@ -56,6 +57,7 @@ bin\mergepath.exe -version
 bin\range.exe -version
 bin\reldate.exe -version
 bin\string.exe -version
+bin\tab2csv.exe -version
 bin\timefmt.exe -version
 bin\toml2json.exe -version
 bin\urlparse.exe -version
