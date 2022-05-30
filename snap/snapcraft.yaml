@@ -14,108 +14,158 @@ apps:
         command: bin/codemeta2cff
         plugs:
                 - home
+                - desktop
+                - removable-media
   csv2json:
         command: bin/csv2json
         plugs:
                 - home
+                - desktop
+                - removable-media
   csv2mdtable:
         command: bin/csv2mdtable
         plugs:
                 - home
+                - desktop
+                - removable-media
   csv2xlsx:
         command: bin/csv2xlsx
         plugs:
                 - home
+                - desktop
+                - removable-media
   csvcleaner:
         command: bin/csvcleaner
         plugs:
                 - home
+                - desktop
+                - removable-media
   csvcols:
         command: bin/csvcols
         plugs:
                 - home
+                - desktop
+                - removable-media
   csvfind:
         command: bin/csvfind
         plugs:
                 - home
+                - desktop
+                - removable-media
   csvjoin:
         command: bin/csvjoin
         plugs:
                 - home
+                - desktop
+                - removable-media
   csvrows:
         command: bin/csvrows
         plugs:
                 - home
+                - desktop
+                - removable-media
   finddir:
         command: bin/finddir
         plugs:
                 - home
+                - desktop
+                - removable-media
   findfile:
         command: bin/findfile
         plugs:
                 - home
+                - desktop
+                - removable-media
   json2toml:
         command: bin/json2toml
         plugs:
                 - home
+                - desktop
+                - removable-media
   json2yaml:
         command: bin/json2yaml
         plugs:
                 - home
+                - desktop
+                - removable-media
   jsoncols:
         command: bin/jsoncols
         plugs:
                 - home
+                - desktop
+                - removable-media
   jsonjoin:
         command: bin/jsonjoin
         plugs:
                 - home
+                - desktop
+                - removable-media
   jsonmunge:
         command: bin/jsonmunge
         plugs:
                 - home
+                - desktop
+                - removable-media
   jsonrange:
         command: bin/jsonrange
         plugs:
                 - home
+                - desktop
+                - removable-media
   mergepath:
         command: bin/mergepath
         plugs:
                 - home
+                - desktop
+                - removable-media
   range:
         command: bin/range
         plugs:
                 - home
+                - desktop
+                - removable-media
   string:
         command: bin/string
         plugs:
                 - home
+                - desktop
+                - removable-media
   toml2json:
         command: bin/toml2json
         plugs:
                 - home
+                - desktop
+                - removable-media
   urlparse:
         command: bin/urlparse
         plugs:
                 - home
+                - desktop
+                - removable-media
   xlsx2csv:
         command: bin/xlsx2csv
         plugs:
                 - home
+                - desktop
+                - removable-media
   xlsx2json:
         command: bin/xlsx2json
         plugs:
                 - home
+                - desktop
+                - removable-media
   yaml2json:
         command: bin/yaml2json
         plugs:
                 - home
+                - desktop
+                - removable-media
 
 parts:
   datatools:
     plugin: go
     go-channel: stable
     build-environment:
-            - "CGO_ENABLED" : "0"
+            - "CGO_ENABLED" : "1"
     source-type: git
     source: https://github.com/caltechlibrary/datatools
