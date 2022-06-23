@@ -15,7 +15,7 @@ CODEMETA2CFF = $(shell which codemeta2cff)
 
 OS = $(shell uname)
 
-#PREFIX = /usr/local/bin
+#PREFIX = /usr/local
 PREFIX = $(HOME)
 
 ifneq ($(prefix),)
