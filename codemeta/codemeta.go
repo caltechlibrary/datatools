@@ -17,10 +17,10 @@ type PersonOrOrganization struct {
 	// Name is used by organizations
 	Name string `json:"name,omitempty"`
 	// Given/Family are used by individual persons
-	GivenName   string `json:"givenName,omitempty"`
-	FamilyName  string `json:"familyName,omitempty"`
-	Affiliation string `json:"affiliation,omitempty"`
-	Email       string `json:"email,omitempty"`
+	GivenName   string                `json:"givenName,omitempty"`
+	FamilyName  string                `json:"familyName,omitempty"`
+	Affiliation *PersonOrOrganization `json:"affiliation,omitempty"`
+	Email       string                `json:"email,omitempty"`
 }
 
 type Codemeta struct {

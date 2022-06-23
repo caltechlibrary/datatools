@@ -6,13 +6,16 @@
     "codeRepository": "https://github.com/caltechlibrary/datatools",
     "issueTracker": "https://github.com/caltechlibrary/datatools/issues",
     "license": "https://data.caltech.edu/license",
-    "version": "1.0.5",
+    "version": "1.1.0",
     "author": [
         {
             "@type": "Person",
             "givenName": "Robert",
             "familyName": "Doiel",
-            "affiliation": "Caltech Library",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "Caltech Library"
+            },
             "email": "rsdoiel@caltech.edu",
             "@id": "https://orcid.org/0000-0003-0900-6903"
         }
