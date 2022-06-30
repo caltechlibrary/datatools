@@ -65,23 +65,36 @@ func (person *PersonOrOrganization) ToCFF() ([]byte, error) {
 		return []byte(""), fmt.Errorf("Missing family name, given name or ORCID")
 	}
 	return []byte(fmt.Sprintf(`
-   - family-names: %s
-     given-names: %s
-     orcid: %s`, person.FamilyName, person.GivenName, person.Id)), nil
+  - family-names: %s
+    given-names: %s
+    orcid: %s`, person.FamilyName, person.GivenName, person.Id)), nil
 }
 
 // ToCff crosswalks a Codemeta data structure rendering
 // CITATION.cff document as an array of byte.
 // Based on documentation at https://citation-file-format.github.io/
 func (cm *Codemeta) ToCff() ([]byte, error) {
-	src := []byte(`
-cff-version: 1.1.0
+	src := []byte(fmt.Sprintf(`# YAML 1.2
+cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-authors:`)
+title: %s
+authors:`, cm.Name))
 	for _, person := range cm.Author {
 		if text, err := person.ToCFF(); err == nil {
 			src = append(src, text...)
 		}
+	}
+	if cm.Description != "" {
+		src = append(src, []byte(fmt.Sprintf(`
+abstract: %s`, cm.Description))...)
+	}
+	if cm.CodeRepository != "" {
+		src = append(src, []byte(fmt.Sprintf(`
+repository-code: %q`, cm.CodeRepository))...)
+	}
+	if cm.Type == "SoftwareSourceCode" {
+		src = append(src, []byte(`
+type: software`)...)
 	}
 	if strings.HasPrefix(cm.Identifier, "https://doi.org/") {
 		if doi, err := doitools.NormalizeDOI(cm.Identifier); err == nil {
@@ -93,31 +106,48 @@ doi: %s`, doi))...)
 		src = append(src, []byte(fmt.Sprintf(`
 version: %s`, cm.Version))...)
 	}
+	if cm.License != "" {
+		// Is it a URL or text?
+		if strings.HasPrefix(cm.License, "https://") || strings.HasPrefix(cm.License, "http://") {
+			src = append(src, []byte(fmt.Sprintf(`
+license-url: %q`, cm.License))...)
+		} else {
+			src = append(src, []byte(fmt.Sprintf(`
+license: %s`, cm.License))...)
+		}
+	}
+	if len(cm.Keywords) > 0 {
+		src = append(src, []byte(`
+keyword:`)...)
+		for _, keyword := range cm.Keywords {
+			src = append(src, []byte(fmt.Sprintf(`
+  - %s`, keyword))...)
+		}
+	}
 	now := time.Now()
 	dt := now.Format("2006-01-02")
-	if cm.Name != "" {
-		src = append(src, []byte(fmt.Sprintf(`
-title: %s`, cm.Name))...)
-	}
 	/*
-			// This is code to supported created, modified dates when/if
-			// they get added to CITATION.cff
-			if cm.Created != "" {
+		// This is code to supported created, modified dates when/if
+		// they get added to CITATION.cff
+		if cm.Created != "" {
 				src = append(src, []byte(fmt.Sprintf(`
 		date-created: %s`, cm.Created))...)
-			} else {
-				src = append(src, []byte(fmt.Sprintf(`
+		} else {
+			src = append(src, []byte(fmt.Sprintf(`
 		date-created: %s`, dt))...)
-			}
-			if cm.Updated != "" {
-				src = append(src, []byte(fmt.Sprintf(`
+		}
+		if cm.Updated != "" {
+			src = append(src, []byte(fmt.Sprintf(`
 		date-updated: %s`, cm.Updated))...)
-			} else {
-				src = append(src, []byte(fmt.Sprintf(`
+		} else {
+			src = append(src, []byte(fmt.Sprintf(`
 		date-updated: %s`, cm.Updated))...)
-			}
+		}
 	*/
-	if cm.Published != "" {
+	if cm.Updated != "" {
+		src = append(src, []byte(fmt.Sprintf(`
+date-released: %s`, cm.Updated))...)
+	} else if cm.Published != "" {
 		src = append(src, []byte(fmt.Sprintf(`
 date-released: %s`, cm.Published))...)
 	} else {

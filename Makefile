@@ -121,11 +121,11 @@ dist/raspbian-arm7: $(PROGRAMS)
 	@cd dist && zip -r $(PROJECT)-v$(VERSION)-raspberry_pi_os-arm7.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
 	@rm -fR dist/bin
 
-dist/datatools_$(VERSION)_amd64.snap:
-	@mkdir -p dist/
-	snapcraft
-	@mv datatools_$(VERSION)_amd64.snap dist/
-	@chmod 664 dist/datatools_$(VERSION)_amd64.snap
+#dist/datatools_$(VERSION)_amd64.snap:
+#	@mkdir -p dist/
+#	snapcraft
+#	@mv datatools_$(VERSION)_amd64.snap dist/
+#	@chmod 664 dist/datatools_$(VERSION)_amd64.snap
 
 distribute_docs:
 	@mkdir -p dist/
