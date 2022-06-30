@@ -74,8 +74,7 @@ func (person *PersonOrOrganization) ToCFF() ([]byte, error) {
 // CITATION.cff document as an array of byte.
 // Based on documentation at https://citation-file-format.github.io/
 func (cm *Codemeta) ToCff() ([]byte, error) {
-	src := []byte(fmt.Sprintf(`# YAML 1.2
-cff-version: 1.2.0
+	src := []byte(fmt.Sprintf(`cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: %s
 authors:`, cm.Name))
