@@ -30,7 +30,8 @@
 <a href="../../how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -44,7 +45,10 @@ USAGE
 DESCRIPTION
 </h2>
 <p>
-csvjoin outputs CSV content based on two CSV files with matching column values. Each CSV input file has a designated column to match on. The values are compared as strings. Columns are counted from one rather than zero.
+csvjoin outputs CSV content based on two CSV files with matching column
+values. Each CSV input file has a designated column to match on. The
+values are compared as strings. Columns are counted from one rather than
+zero.
 </p>
 <h2 id="options">
 OPTIONS
@@ -83,7 +87,9 @@ Below are a set of options available.
 EXAMPLES
 </h2>
 <p>
-Simple usage of building a merged CSV file from data1.csv and data2.csv where column 1 in data1.csv matches the value in column 3 of data2.csv with the results being written to merged-data.csv..
+Simple usage of building a merged CSV file from data1.csv and data2.csv
+where column 1 in data1.csv matches the value in column 3 of data2.csv
+with the results being written to merged-data.csv..
 </p>
 <pre><code>csvjoin -csv1=data1.csv -col1=2 \
    -csv2=data2.csv -col2=4 \

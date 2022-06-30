@@ -30,7 +30,8 @@
 <a href="../../how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -44,7 +45,8 @@ USAGE
 DESCRIPTION
 </h2>
 <p>
-xlsx2json is a tool that converts individual Excel Workbook Sheets into JSON output.
+xlsx2json is a tool that converts individual Excel Workbook Sheets into
+JSON output.
 </p>
 <h2 id="options">
 OPTIONS
@@ -67,7 +69,8 @@ Below are a set of options available.
 EXAMPLES
 </h2>
 <p>
-This would get the sheet named “Sheet 1” from “MyWorkbook.xlsx” and save as sheet1.json
+This would get the sheet named “Sheet 1” from “MyWorkbook.xlsx” and save
+as sheet1.json
 </p>
 <pre><code>xlsx2json MyWorkbook.xlsx &quot;My worksheet 1&quot; &gt; sheet1.json</code></pre>
 <p>
@@ -79,7 +82,8 @@ This will output the title of the sheets in the workbook
 </p>
 <pre><code>xlsx2json -sheets MyWorkbook.xlsx</code></pre>
 <p>
-Putting it all together in a shell script and convert all sheets to into JSON documents..
+Putting it all together in a shell script and convert all sheets to into
+JSON documents..
 </p>
 <pre><code>xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
     JSON_NAME=&quot;${SHEET_NAME// /-}.json&quot;

@@ -30,7 +30,8 @@
 <a href="../../how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -71,7 +72,8 @@ Extract a workbook sheet as a CSV file
 </p>
 <pre><code>xlsx2csv MyWorkbook.xlsx &quot;My worksheet 1&quot; &gt; sheet1.csv</code></pre>
 <p>
-This would get the first sheet from the workbook and save it as a CSV file.
+This would get the first sheet from the workbook and save it as a CSV
+file.
 </p>
 <pre><code>xlsx2csv -count MyWorkbook.xlsx</code></pre>
 <p>
@@ -79,7 +81,8 @@ This will output the number of sheets in the Workbook.
 </p>
 <pre><code>xlsx2csv -sheets MyWorkbook.xlsx</code></pre>
 <p>
-This will display a list of sheet names, one per line. Putting it all together in a shell script.
+This will display a list of sheet names, one per line. Putting it all
+together in a shell script.
 </p>
 <pre><code>xlsx2csv -N MyWorkbook.xlsx | while read SHEET_NAME; do
     CSV_NAME=&quot;${SHEET_NAME// /-}.csv&quot;

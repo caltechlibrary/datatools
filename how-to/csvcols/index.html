@@ -30,7 +30,8 @@
 <a href="../../how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -63,7 +64,11 @@ Using options filter a 3 column CSV file for columns 1,3 into 2col.csv.
 Quoting issues
 </h2>
 <p>
-Sometimes CSV files have sloppy or problematic quoting. Two options are provided (-use-lazy-quotes, -trim-leading-space). In the example below the CSV has trailing white space in the second row. By using <code>-use-lazy-quotes</code> option we can get the first two columns without running into CSV parsing errors.
+Sometimes CSV files have sloppy or problematic quoting. Two options are
+provided (-use-lazy-quotes, -trim-leading-space). In the example below
+the CSV has trailing white space in the second row. By using
+<code>-use-lazy-quotes</code> option we can get the first two columns
+without running into CSV parsing errors.
 </p>
 <pre class="shell"><code>    csvcols -i quoting-example.csv -use-lazy-quotes -col 1,2</code></pre>
 <p>

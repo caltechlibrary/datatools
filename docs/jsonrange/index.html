@@ -30,7 +30,8 @@
 <a href="../../how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -44,26 +45,43 @@ USAGE
 DESCRIPTION
 </h2>
 <p>
-jsonrange returns returns a range of values based on the JSON structure being read and options applied. Without options the JSON structure is read from standard input and writes a list of keys to standard out. Keys are either attribute names or for arrays the index position (counting form zero). If a DOT_PATH_EXPRESSION is included on the command line then that is used to generate the results. Using options to can choose to read the JSON data structure from a file, write the output to a file as well as display values instead of keys. a list of “keys” of an index or map in JSON.
+jsonrange returns returns a range of values based on the JSON structure
+being read and options applied. Without options the JSON structure is
+read from standard input and writes a list of keys to standard out. Keys
+are either attribute names or for arrays the index position (counting
+form zero). If a DOT_PATH_EXPRESSION is included on the command line
+then that is used to generate the results. Using options to can choose
+to read the JSON data structure from a file, write the output to a file
+as well as display values instead of keys. a list of “keys” of an index
+or map in JSON.
 </p>
 <p>
-Using options it can also return a list of values. The JSON object is read from standard in and the resulting list is normally written to standard out. There are options to read or write to files. Additional parameters are assumed to be a dot path notation select the parts of the JSON data structure you want from the range.
+Using options it can also return a list of values. The JSON object is
+read from standard in and the resulting list is normally written to
+standard out. There are options to read or write to files. Additional
+parameters are assumed to be a dot path notation select the parts of the
+JSON data structure you want from the range.
 </p>
 <p>
-DOT_PATH_EXPRESSION is a dot path stale expression indicating what you want range over. E.g.
+DOT_PATH_EXPRESSION is a dot path stale expression indicating what you
+want range over. E.g.
 </p>
 <ul>
 <li>
-. would indicate the whole JSON data structure read is used to range over
+. would indicate the whole JSON data structure read is used to range
+over
 </li>
 <li>
-.name would indicate to range over the value pointed at by the “name” attribute
+.name would indicate to range over the value pointed at by the “name”
+attribute
 </li>
 <li>
-[“name”] would indicate to range over the value pointed at by the “name” attribute
+[“name”] would indicate to range over the value pointed at by the “name”
+attribute
 </li>
 <li>
-[0] would indicate to range over the value held in the zero-th element of the array
+[0] would indicate to range over the value held in the zero-th element
+of the array
 </li>
 </ul>
 <p>
@@ -71,7 +89,8 @@ The path can be chained together
 </p>
 <ul>
 <li>
-.name.family would point to the value heald by the “name” attributes’ “family” attribute.
+.name.family would point to the value heald by the “name” attributes’
+“family” attribute.
 </li>
 </ul>
 <h2 id="options">

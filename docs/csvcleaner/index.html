@@ -30,7 +30,8 @@
 <a href="../../how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -44,10 +45,15 @@ USAGE
 DESCRIPTION
 </h2>
 <p>
-csvcleaner normalizes a CSV file based on the options selected. It helps to address issues like variable number of columns, leading/trailing spaces in columns, and non-UTF-8 encoding issues.
+csvcleaner normalizes a CSV file based on the options selected. It helps
+to address issues like variable number of columns, leading/trailing
+spaces in columns, and non-UTF-8 encoding issues.
 </p>
 <p>
-By default input is expected from standard in and output is sent to standard out (errors to standard error). These can be modified by appropriate options. The csv file is processed as a stream of rows so minimal memory is used to operate on the file.
+By default input is expected from standard in and output is sent to
+standard out (errors to standard error). These can be modified by
+appropriate options. The csv file is processed as a stream of rows so
+minimal memory is used to operate on the file.
 </p>
 <h2 id="options">
 OPTIONS
@@ -81,7 +87,8 @@ Below are a set of options available.
 EXAMPLES
 </h2>
 <p>
-Normalizing a spread sheet’s column count to 5 padding columns as needed per row.
+Normalizing a spread sheet’s column count to 5 padding columns as needed
+per row.
 </p>
 <pre><code>cat mysheet.csv | csvcleaner -field-per-row=5</code></pre>
 <p>
