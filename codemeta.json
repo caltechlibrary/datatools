@@ -1,24 +1,21 @@
 {
     "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
     "@type": "SoftwareSourceCode",
-    "description": "A set of command line tools for working with CSV, Excel Workbooks, Google Sheets, JSON and structured text documents.",
-    "name": "datatools",
-    "codeRepository": "https://github.com/caltechlibrary/datatools",
-    "issueTracker": "https://github.com/caltechlibrary/datatools/issues",
     "license": "https://data.caltech.edu/license",
-    "version": "1.0.1",
-    "author": [
-        {
-            "@type": "Person",
-            "givenName": "Robert",
-            "familyName": "Doiel",
-            "affiliation": "Caltech Library",
-            "email": "rsdoiel@caltech.edu",
-            "@id": "https://orcid.org/0000-0003-0900-6903"
-        }
-    ],
+    "codeRepository": "https://github.com/caltechlibrary/datatools",
+    "datePublished": "2017-02-06",
+    "dateModified": "2022-06-30",
+    "downloadUrl": "https://github.com/caltechlibrary/datatools/releases/",
+    "issueTracker": "https://github.com/caltechlibrary/datatools/issues",
+    "name": "datatools",
+    "version": "1.1.2",
+    "description": "A set of command line tools for working with CSV, Excel Workbooks, Google Sheets, JSON and structured text documents.",
+    "applicationCategory": "computer programming",
     "developmentStatus": "active",
-    "downloadUrl": "https://github.com/caltechlibrary/datatools/archive/v0.0.25.zip",
+    "funder": [{
+        "@type": "Organization",
+        "name": "Caltech Library"
+    }],
     "keywords": [
         "csv",
         "json",
@@ -26,9 +23,25 @@
         "golang",
         "bash"
     ],
-    "maintainer": "https://orcid.org/0000-0003-0900-6903",
     "programmingLanguage": [
-        "Go",
-        "Python"
+        "Go 1.18"
+    ],
+    "operatingSystem": [
+        "Linux",
+        "Windows",
+        "macOS"
+    ],
+    "author": [
+        {
+            "@type": "Person",
+            "@id": "https://orcid.org/0000-0003-0900-6903",
+            "givenName": "R. S.",
+            "familyName": "Doiel",
+            "email": "rsdoiel@caltech.edu",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "Caltech Library"
+            }
+        }
     ]
 }

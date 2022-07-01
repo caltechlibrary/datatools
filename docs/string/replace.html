@@ -30,7 +30,8 @@
 <a href="../../how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -40,13 +41,15 @@
 string replace OLD NEW [STRING]
 </h1>
 <p>
-This command will return the replace the OLD value with NEW for the STRING.
+This command will return the replace the OLD value with NEW for the
+STRING.
 </p>
 <h2 id="typical-command-line">
 Typical command line
 </h2>
 <p>
-NOTE: we’ll use the option <code>-nl</code> to append a new line to the output and make it easier to read.
+NOTE: we’ll use the option <code>-nl</code> to append a new line to the
+output and make it easier to read.
 </p>
 <pre class="shell"><code>    string -nl replace &quot;friendly&quot; &quot;enemies&quot; &quot;The people were friendly&quot;</code></pre>
 <p>
@@ -60,7 +63,8 @@ Would return <code>The people were friendly</code>
 Piping content
 </h2>
 <p>
-NOTE: To read content from standard input we use the <code>-i -</code> option.
+NOTE: To read content from standard input we use the <code>-i -</code>
+option.
 </p>
 <pre class="shell"><code>    echo &quot;The people were friendly&quot; | string -nl -i - replace &quot;friendly&quot; &quot;enemies&quot;</code></pre>
 <p>

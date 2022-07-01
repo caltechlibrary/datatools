@@ -30,7 +30,8 @@
 <a href="../../how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -44,7 +45,10 @@ USAGE
 DESCRIPTION
 </h2>
 <p>
-csvrows converts a set of command line args into rows of CSV formated output. It can also be used to filter or list specific rows of CSV input The first row is 1 not 0. Often row 1 is the header row and %!s(MISSING) makes it easy to output only the data rows.
+csvrows converts a set of command line args into rows of CSV formated
+output. It can also be used to filter or list specific rows of CSV input
+The first row is 1 not 0. Often row 1 is the header row and %!s(MISSING)
+makes it easy to output only the data rows.
 </p>
 <h2 id="options">
 OPTIONS
@@ -92,7 +96,8 @@ Filter a 10 row CSV file for rows 1,4,6 from file named “10row.csv”
 </p>
 <pre><code>csvrows -i 10row.csv -row 1,4,6 &gt; 3rows.csv</code></pre>
 <p>
-Filter 3 randomly selected rows from 10row.csv rendering new CSV with a header row from 10row.csv.
+Filter 3 randomly selected rows from 10row.csv rendering new CSV with a
+header row from 10row.csv.
 </p>
 <pre><code>csvrows -i 10row.csv -header=true -random=3</code></pre>
 <p>

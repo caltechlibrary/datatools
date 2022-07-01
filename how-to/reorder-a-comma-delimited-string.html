@@ -30,7 +30,8 @@
 <a href="./">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -40,25 +41,32 @@
 Reorder a comma delimiter string
 </h1>
 <p>
-The examples below are each borken down in two parts. The first part shows a short version of the commands you might use in practice. This is followed by a step by step implementation to take some of the mystery out of the short version.
+The examples below are each borken down in two parts. The first part
+shows a short version of the commands you might use in practice. This is
+followed by a step by step implementation to take some of the mystery
+out of the short version.
 </p>
 <h2 id="problem">
 Problem
 </h2>
 <p>
-How to easily convert a name in “FAMILY, GIVEN” form to “GIVEN FAMILY” form?
+How to easily convert a name in “FAMILY, GIVEN” form to “GIVEN FAMILY”
+form?
 </p>
 <h2 id="the-traditional-shell-approach">
 The traditional shell approach
 </h2>
 <p>
-Traditionally this can be done using a number of Unix commands such as <em>echo</em> and <em>cut</em>. If you break down the task into getting each name separately it is pretty easy using a couple shell variables.
+Traditionally this can be done using a number of Unix commands such as
+<em>echo</em> and <em>cut</em>. If you break down the task into getting
+each name separately it is pretty easy using a couple shell variables.
 </p>
 <pre class="shell"><code>    NAME=&quot;Doiel, Robert&quot;
     GIVEN_FAMILY=&quot;$(echo -n &quot;$NAME&quot; | cut -d , -f 1) $(echo -n &quot;$NAME&quot; | cut -d , -f 2)&quot;
     echo &quot;$FAMILY $GIVEN&quot;</code></pre>
 <p>
-This uses the subshell syntax and two separate pipe lines. Let’s break it down by parts.
+This uses the subshell syntax and two separate pipe lines. Let’s break
+it down by parts.
 </p>
 <pre class="shell"><code>    NAME=&quot;Doiel, Robert&quot;
     echo &quot;Step 1: [$NAME]&quot;
@@ -67,24 +75,33 @@ This uses the subshell syntax and two separate pipe lines. Let’s break it down
     GIVEN_NAME=$(echo -n &quot;$NAME&quot; | cut -d , -f 2)
     echo &quot;Step 3: [$GIVEN_NAME $FAMILY_NAME]&quot;</code></pre>
 <p>
-Each pipeline builds up a name (family and given) and the final <em>echo</em> displays them.
+Each pipeline builds up a name (family and given) and the final
+<em>echo</em> displays them.
 </p>
 <p>
-NOTE: The trouble is this doesn’t give you what you want. Notice the leading space. You can fix that but that is just the start of the rabbit whole.
+NOTE: The trouble is this doesn’t give you what you want. Notice the
+leading space. You can fix that but that is just the start of the rabbit
+whole.
 </p>
 <h2 id="the-datatools-aproach">
 The datatools aproach
 </h2>
 <p>
-If we think about the family name and given name as elements of an array we can easily reorder them. In this approach we’ll use two commands. The <em>string</em> and <em>jsoncols</em> commands from <em>datatools</em>.
+If we think about the family name and given name as elements of an array
+we can easily reorder them. In this approach we’ll use two commands. The
+<em>string</em> and <em>jsoncols</em> commands from <em>datatools</em>.
 </p>
 <pre class="shell"><code>    NAME=&quot;Doiel, Robert&quot;
     string split &quot;, &quot; &quot;$NAME&quot; | jsoncols -i - -d &#39; &#39; &#39;.[0]&#39; &#39;.[1]&#39;</code></pre>
 <p>
-First difference you’ll notice is we’re using an Unix pipe to send the output of one command to another. While you can eventually do that in the traditional approach it becomes very complicated very quickly. Using <em>datatools</em> it is easy to move from strings to JSON and back.
+First difference you’ll notice is we’re using an Unix pipe to send the
+output of one command to another. While you can eventually do that in
+the traditional approach it becomes very complicated very quickly. Using
+<em>datatools</em> it is easy to move from strings to JSON and back.
 </p>
 <p>
-Let’s take the <em>datatools</em> approach and output the results of each step rather than using a pipeline.
+Let’s take the <em>datatools</em> approach and output the results of
+each step rather than using a pipeline.
 </p>
 <pre class="shell"><code>    NAME=&quot;Doiel, Robert&quot;
     echo &quot;Step 1: [$NAME]&quot;
@@ -93,7 +110,9 @@ Let’s take the <em>datatools</em> approach and output the results of each step
     GIVEN_FAMILY=$(jsoncols -d &#39; &#39; &#39;.[0]&#39; &#39;.[1]&#39; &quot;$JSON_ARRAY&quot;)
     echo &quot;Step 3: [$GIVEN_FAMILY]&quot;</code></pre>
 <p>
-NOTE: In this version there is no leading space issue. <em>string</em> command can split on multiple characters and in our case it is splitting on comma space not just on the comma like we get with <em>cut</em>.
+NOTE: In this version there is no leading space issue. <em>string</em>
+command can split on multiple characters and in our case it is splitting
+on comma space not just on the comma like we get with <em>cut</em>.
 </p>
 </section>
 

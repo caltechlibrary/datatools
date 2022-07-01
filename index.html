@@ -30,7 +30,8 @@
 <a href="how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -40,81 +41,120 @@
 datatools
 </h1>
 <p>
-<em>datatools</em> provides a variety of command line programs for working with data in different formats as well as to ease Posix shell scripting (e.g. writing scripts that run under Bash). The tools are group as data, strings and scripting.
+<em>datatools</em> provides a variety of command line programs for
+working with data in different formats as well as to ease Posix shell
+scripting (e.g. writing scripts that run under Bash). The tools are
+group as data, strings and scripting.
 </p>
 <h2 id="for-data">
 For data
 </h2>
 <p>
-Command line utilities for simplifying work with CSV, JSON, TOML, YAML, Excel Workbooks and plain text files or content.
+Command line utilities for simplifying work with CSV, JSON, TOML, YAML,
+Excel Workbooks and plain text files or content.
 </p>
 <ul>
 <li>
-<a href="docs/csv2json/">csv2json</a> - a tool to take a CSV file and convert it into a JSON array or a list of JSON blobs one per line
+<a href="docs/csv2json/">csv2json</a> - a tool to take a CSV file and
+convert it into a JSON array or a list of JSON blobs one per line
 </li>
 <li>
-<a href="docs/csv2mdtable/">csv2mdtable</a> - a tool to render CSV as a Github Flavored Markdown table
+<a href="docs/csv2mdtable/">csv2mdtable</a> - a tool to render CSV as a
+Github Flavored Markdown table
 </li>
 <li>
-<a href="docs/csv2xlsx/">csv2xlsx</a> - a tool to take a CSV file and add it as a sheet to a Excel Workbook
+<a href="docs/csv2xlsx/">csv2xlsx</a> - a tool to take a CSV file and
+add it as a sheet to a Excel Workbook
 </li>
 <li>
-<a href="docs/csvcleaner/">csvcleaner</a> - normalize a CSV file by column and row including trimming spaces and removing comments
+<a href="docs/csvcleaner/">csvcleaner</a> - normalize a CSV file by
+column and row including trimming spaces and removing comments
 </li>
 <li>
-<a href="docs/csvcols/">csvcols</a> - a tool for formatting command line arguments into CSV row of columns or filtering CSV rows for specific columns
+<a href="docs/csvcols/">csvcols</a> - a tool for formatting command line
+arguments into CSV row of columns or filtering CSV rows for specific
+columns
 </li>
 <li>
-<a href="docs/csvfind/">csvfind</a> - a tool for filtering a CSV file rows by column
+<a href="docs/csvfind/">csvfind</a> - a tool for filtering a CSV file
+rows by column
 </li>
 <li>
-<a href="docs/csvjoin/">csvjoin</a> - a tool to join two CSV files on common values in designated columns, writes combined CSV rows
+<a href="docs/csvjoin/">csvjoin</a> - a tool to join two CSV files on
+common values in designated columns, writes combined CSV rows
 </li>
 <li>
-<a href="docs/csvrows/">csvrows</a> - a tool for formatting command line arguments into CSV columns of rows or filtering CSV for specific rows
+<a href="docs/csvrows/">csvrows</a> - a tool for formatting command line
+arguments into CSV columns of rows or filtering CSV for specific rows
 </li>
 <li>
-<a href="docs/json2toml/">json2toml</a> - a tool for converting JSON to TOML
+<a href="docs/json2toml/">json2toml</a> - a tool for converting JSON to
+TOML
 </li>
 <li>
-<a href="docs/json2yaml/">json2yaml</a> - a tool for converting JSON to YAML
+<a href="docs/json2yaml/">json2yaml</a> - a tool for converting JSON to
+YAML
 </li>
 <li>
-<a href="docs/jsoncols/">jsoncols</a> - a tool for exploring and extracting JSON values into columns
+<a href="docs/jsoncols/">jsoncols</a> - a tool for exploring and
+extracting JSON values into columns
 </li>
 <li>
-<a href="docs/jsonjoin/">jsonjoin</a> - a tool for joining JSON object documents
+<a href="docs/jsonjoin/">jsonjoin</a> - a tool for joining JSON object
+documents
 </li>
 <li>
-<a href="docs/jsonmunge/">jsonmunge</a> - a tool to transform JSON documents into something else
+<a href="docs/jsonmunge/">jsonmunge</a> - a tool to transform JSON
+documents into something else
 </li>
 <li>
-<a href="docs/jsonrange/">jsonrange</a> - a tool for iterating over JSON objects and arrays (return keys or values)
+<a href="docs/jsonrange/">jsonrange</a> - a tool for iterating over JSON
+objects and arrays (return keys or values)
 </li>
 <li>
-<a href="docs/toml2json/">toml2json</a> - a tool for converting TOML to JSON
+<a href="docs/toml2json/">toml2json</a> - a tool for converting TOML to
+JSON
 </li>
 <li>
-<a href="docs/xlsx2csv/">xlsx2csv</a> - a tool for converting Excel Workbooks sheets to CSV files
+<a href="docs/xlsx2csv/">xlsx2csv</a> - a tool for converting Excel
+Workbooks sheets to CSV files
 </li>
 <li>
-<a href="docs/xlsx2json/">xlsx2json</a> - a tool for converting Excel Workbooks to JSON files
+<a href="docs/xlsx2json/">xlsx2json</a> - a tool for converting Excel
+Workbooks to JSON files
 </li>
 <li>
-<a href="docs/yaml2json/">yaml2json</a> - a tool for converting YAML files to JSON
+<a href="docs/yaml2json/">yaml2json</a> - a tool for converting YAML
+files to JSON
+</li>
+<li>
+<a href="docs/codemeta2cff">codemeta2cff</a> - a tool to convert a
+codemeta.json file into a CITATION.cff file.
 </li>
 </ul>
 <p>
-Compiled versions are provided for Linux (amd64), Mac OS X (amd64), Windows 10 (amd64) and Raspbian (ARM7). See https://github.com/caltechlibrary/datatools/releases.
+Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
+Windows 10 (amd64) and Raspbian (ARM7). See
+https://github.com/caltechlibrary/datatools/releases.
 </p>
 <p>
-Use “-help” option for a full list of options for each utility (e.g. <code>csv2json -help</code>).
+Use “-help” option for a full list of options for each utility
+(e.g. <code>csv2json -help</code>).
 </p>
 <h2 id="for-strings">
 For strings
 </h2>
 <p>
-<em>datatools</em> provides the <a href="docs/string/">string</a> command for working with text strings (limited to memory available). This is commonly needed when cleanup data for analysis. The <em>string</em> command was created for when the old Unix standbys- grep, awk, sed, tr are unwieldly or inconvient. <em>string</em> provides operations are common in most language like, trimming, spliting, and transforming letter case. The <em>string</em> command also makes it easy to join JSON string arrays into single a string using a delimiter or split a string into a JSON array based on a delimiter. The form of the command is <code>string [OPTIONS] [ACTION] [ARCTION_PARAMETERS…]</code>
+<em>datatools</em> provides the <a href="docs/string/">string</a>
+command for working with text strings (limited to memory available).
+This is commonly needed when cleanup data for analysis. The
+<em>string</em> command was created for when the old Unix standbys-
+grep, awk, sed, tr are unwieldly or inconvient. <em>string</em> provides
+operations are common in most language like, trimming, spliting, and
+transforming letter case. The <em>string</em> command also makes it easy
+to join JSON string arrays into single a string using a delimiter or
+split a string into a JSON array based on a delimiter. The form of the
+command is <code>string [OPTIONS] [ACTION] [ARCTION_PARAMETERS…]</code>
 </p>
 <pre class="shell"><code>    string toupper &quot;one two three&quot;</code></pre>
 <p>
@@ -151,29 +191,37 @@ Various utilities for simplifying work on the command line.
 </p>
 <ul>
 <li>
-<a href="docs/findfile/">findfile</a> - find files based on prefix, suffix or contained string
+<a href="docs/findfile/">findfile</a> - find files based on prefix,
+suffix or contained string
 </li>
 <li>
-<a href="docs/finddir/">finddir</a> - find directories based on prefix, suffix or contained string
+<a href="docs/finddir/">finddir</a> - find directories based on prefix,
+suffix or contained string
 </li>
 <li>
-<a href="docs/mergepath/">mergepath</a> - prefix, append, clip path variables
+<a href="docs/mergepath/">mergepath</a> - prefix, append, clip path
+variables
 </li>
 <li>
-<a href="docs/range/">range</a> - emit a range of integers (useful for numbered loops in Bash)
+<a href="docs/range/">range</a> - emit a range of integers (useful for
+numbered loops in Bash)
 </li>
 <li>
-<a href="docs/reldate/">reldate</a> - display a relative date in YYYY-MM-DD format
+<a href="docs/reldate/">reldate</a> - display a relative date in
+YYYY-MM-DD format
 </li>
 <li>
-<a href="docs/timefmt/">timefmt</a> - format a time value based on Golang’s time format language
+<a href="docs/timefmt/">timefmt</a> - format a time value based on
+Golang’s time format language
 </li>
 <li>
 <a href="docs/urlparse/">urlparse</a> - split a URL into parts
 </li>
 </ul>
 <p>
-Compiled versions are provided for Linux (amd64), Mac OS X (amd64), Windows 10 (amd64) and Raspbian (ARM7). See https://github.com/caltechlibrary/datatools/releases.
+Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
+Windows 10 (amd64) and Raspbian (ARM7). See
+https://github.com/caltechlibrary/datatools/releases.
 </p>
 <p>
 Use the utilities try “-help” option for a full list of options.
@@ -182,7 +230,8 @@ Use the utilities try “-help” option for a full list of options.
 Installation
 </h2>
 <p>
-See <a href="install.html">INSTALL.md</a> for details for installing pre-compiled versions of the programs.
+See <a href="install.html">INSTALL.md</a> for details for installing
+pre-compiled versions of the programs.
 </p>
 </section>
 

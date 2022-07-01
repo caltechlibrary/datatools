@@ -30,7 +30,8 @@
 <a href="../../how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -44,7 +45,9 @@ USAGE
 DESCRIPTION
 </h2>
 <p>
-csvfind processes a CSV file as input returning rows that contain the column with matched text. Columns are counted from one instead of zero. Supports exact match as well as some Levenshtein matching.
+csvfind processes a CSV file as input returning rows that contain the
+column with matched text. Columns are counted from one instead of zero.
+Supports exact match as well as some Levenshtein matching.
 </p>
 <h2 id="options">
 OPTIONS
@@ -82,18 +85,21 @@ Below are a set of options available.
 EXAMPLES
 </h2>
 <p>
-Find the rows where the third column matches “The Red Book of Westmarch” exactly
+Find the rows where the third column matches “The Red Book of Westmarch”
+exactly
 </p>
 <pre><code>csvfind -i books.csv -col=2 &quot;The Red Book of Westmarch&quot;</code></pre>
 <p>
-Find the rows where the third column (colums numbered 1,2,3) matches approximately “The Red Book of Westmarch”
+Find the rows where the third column (colums numbered 1,2,3) matches
+approximately “The Red Book of Westmarch”
 </p>
 <pre><code>csvfind -i books.csv -col=2 -levenshtein \
    -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
    -max-edit-distance=50 -append-edit-distance \
    &quot;The Red Book of Westmarch&quot;</code></pre>
 <p>
-In this example we’ve appended the edit distance to see how close the matches are.
+In this example we’ve appended the edit distance to see how close the
+matches are.
 </p>
 <p>
 You can also search for phrases in columns.

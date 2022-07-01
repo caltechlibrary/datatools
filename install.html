@@ -30,7 +30,8 @@
 <a href="how-to/">How To</a>
 </li>
 <li>
-<a href="https://github.com/caltechlibrary/datatools">Github</a>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
 </ul>
 </nav>
@@ -40,7 +41,8 @@
 Installation
 </h1>
 <p>
-<em>datatools</em> is a collection of command line programs run from a shell like Bash.
+<em>datatools</em> is a collection of command line programs run from a
+shell like Bash.
 </p>
 <h2 id="compiled-version">
 Compiled version
@@ -49,13 +51,18 @@ Compiled version
 This is generalized instructions for a release.
 </p>
 <p>
-Compiled versions are available for Mac OS X (amd64 and M1 processor, macos-amd64 and macos-arm64), Linux (amd64 process, linux-amd64), Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7 processor, raspbian-arm7)
+Compiled versions are available for Mac OS X (amd64 and M1 processor,
+macos-amd64 and macos-arm64), Linux (amd64 process, linux-amd64),
+Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7
+processor, raspbian-arm7)
 </p>
 <p>
-VERSION_NUMBER is a <a href="http://semver.org/">symantic version number</a> (e.g. v0.1.2)
+VERSION_NUMBER is a <a href="http://semver.org/">symantic version
+number</a> (e.g. v0.1.2)
 </p>
 <p>
-For all the released version go to the project page on Github and click latest release
+For all the released version go to the project page on Github and click
+latest release
 </p>
 <blockquote>
 <p>
@@ -108,10 +115,10 @@ datatools-VERSION_NUMBER-linux-amd64.zip
 </tr>
 <tr class="odd">
 <td>
-Raspbery Pi
+Raspbery Pi OS
 </td>
 <td>
-datatools-VERSION_NUMBER-raspbian-arm7.zip
+datatools-VERSION_NUMBER-raspberry_pi_os-arm7.zip
 </td>
 </tr>
 </tbody>
@@ -121,10 +128,12 @@ The basic recipe
 </h2>
 <ul>
 <li>
-Find the Zip file listed matching the architecture you’re running and download it
+Find the Zip file listed matching the architecture you’re running and
+download it
 <ul>
 <li>
-(e.g. if you’re on a Windows 10 laptop/Surface with a amd64 style CPU you’d choose the Zip file with “windows-amd64” in the name).
+(e.g. if you’re on a Windows 10 laptop/Surface with a amd64 style CPU
+you’d choose the Zip file with “windows-amd64” in the name).
 </li>
 </ul>
 </li>
@@ -132,7 +141,8 @@ Find the Zip file listed matching the architecture you’re running and download
 Download the zip file and unzip the file.<br />
 </li>
 <li>
-Copy the contents of the folder named “bin” to a folder that is in your path
+Copy the contents of the folder named “bin” to a folder that is in your
+path
 <ul>
 <li>
 (e.g. “$HOME/bin” is common).
@@ -143,7 +153,8 @@ Copy the contents of the folder named “bin” to a folder that is in your path
 Adjust your PATH if needed
 <ul>
 <li>
-(e.g. export PATH=“<span class="math inline"><em>H</em><em>O</em><em>M</em><em>E</em>/<em>b</em><em>i</em><em>n</em>:</span>PATH”)
+(e.g. export PATH=“<span
+class="math inline"><em>H</em><em>O</em><em>M</em><em>E</em>/<em>b</em><em>i</em><em>n</em>:</span>PATH”)
 </li>
 </ul>
 </li>
@@ -151,8 +162,8 @@ Adjust your PATH if needed
 Test
 </li>
 </ul>
-<h3 id="mac-os-x">
-Mac OS X
+<h3 id="mac-os">
+Mac OS
 </h3>
 <ol type="1">
 <li>
@@ -172,7 +183,8 @@ Test
 </li>
 </ol>
 <p>
-Here’s an example of the commands run in the Terminal App after downloading the zip file.
+Here’s an example of the commands run in the Terminal App after
+downloading the zip file.
 </p>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-macos-amd64.zip
@@ -198,7 +210,8 @@ Test
 </li>
 </ol>
 <p>
-Here’s an example of the commands run in from the Bash shell on Windows 10 after downloading the zip file.
+Here’s an example of the commands run in from the Bash shell on Windows
+10 after downloading the zip file.
 </p>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-windows-amd64.zip
@@ -224,7 +237,8 @@ Test
 </li>
 </ol>
 <p>
-Here’s an example of the commands run in from the Bash shell after downloading the zip file.
+Here’s an example of the commands run in from the Bash shell after
+downloading the zip file.
 </p>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-linux-amd64.zip
@@ -236,7 +250,8 @@ Here’s an example of the commands run in from the Bash shell after downloading
 Raspberry Pi
 </h3>
 <p>
-Released version is for a Raspberry Pi 2 or later use (i.e. requires ARM 7 support).
+Released version is for a Raspberry Pi 2 or later use (i.e. requires ARM
+7 support).
 </p>
 <ol type="1">
 <li>
@@ -253,10 +268,11 @@ Test
 </li>
 </ol>
 <p>
-Here’s an example of the commands run in from the Bash shell after downloading the zip file.
+Here’s an example of the commands run in from the Bash shell after
+downloading the zip file.
 </p>
 <pre class="shell"><code>    cd Downloads/
-    unzip datatools-*-raspbian-arm7.zip
+    unzip datatools-*-raspberry_pi_os-arm7.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
@@ -265,7 +281,12 @@ Here’s an example of the commands run in from the Bash shell after downloading
 Compiling from source
 </h2>
 <p>
-<em>datatools</em> is “go gettable” if you have gotten xlsx v1.0.5 package from <a href="https://github.com/tealeg/xlsx">github.com/tealeg/xlsx</a>. The datatools package does not support versions v2.x and greater of xlsx. Below are the steps I use today with “go get” command to download the dependant packages as well as <em>datatools</em>’s source code.
+<em>datatools</em> is “go gettable” if you have previously gotten xlsx
+v1.0.5 package from <a
+href="https://github.com/tealeg/xlsx">github.com/tealeg/xlsx</a>. The
+datatools package does not support versions v2.x and greater of xlsx.
+Below are the steps I use today with “go get” command to download the
+dependant packages as well as <em>datatools</em>’s source code.
 </p>
 <p>
 Setting up the right version of xlsx for datatools
