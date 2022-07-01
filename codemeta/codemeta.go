@@ -117,7 +117,7 @@ license: %s`, cm.License))...)
 	}
 	if len(cm.Keywords) > 0 {
 		src = append(src, []byte(`
-keyword:`)...)
+keywords:`)...)
 		for _, keyword := range cm.Keywords {
 			src = append(src, []byte(fmt.Sprintf(`
   - %s`, keyword))...)

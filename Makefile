@@ -160,7 +160,7 @@ gen_batfiles: .FORCE
 
 snap: dist/datatools_$(VERSION)_amd64.snap
 
-release: build gen_batfiles distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/raspbian-arm7 snap
+release: build gen_batfiles distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/raspbian-arm7
 
 
 .FORCE:
