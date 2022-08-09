@@ -114,6 +114,12 @@ dist/windows-amd64: $(PROGRAMS)
 	@cd dist && zip -r $(PROJECT)-v$(VERSION)-windows-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
 	@rm -fR dist/bin
 
+dist/windows-arm64: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=windows GOARCH=arm64 go build -o dist/bin/$$FNAME.exe cmd/$$FNAME/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
+	@rm -fR dist/bin
+
 
 dist/raspbian-arm7: $(PROGRAMS)
 	@mkdir -p dist/bin
@@ -160,7 +166,7 @@ gen_batfiles: .FORCE
 
 snap: dist/datatools_$(VERSION)_amd64.snap
 
-release: build gen_batfiles distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/raspbian-arm7
+release: clean build gen_batfiles distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/windows-arm64 dist/raspbian-arm7
 
 
 .FORCE:
