@@ -37,14 +37,14 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 </nav>
 
 <section>
-<h1 id="installation">
+<h1>
 Installation
 </h1>
 <p>
 <em>datatools</em> is a collection of command line programs run from a
 shell like Bash.
 </p>
-<h2 id="compiled-version">
+<h2>
 Compiled version
 </h2>
 <p>
@@ -53,8 +53,8 @@ This is generalized instructions for a release.
 <p>
 Compiled versions are available for Mac OS X (amd64 and M1 processor,
 macos-amd64 and macos-arm64), Linux (amd64 process, linux-amd64),
-Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7
-processor, raspbian-arm7)
+Windows (amd64 and arm64 processor, windows-amd64 and windows-arm64) and
+Rapsberry Pi (arm7 processor, raspbian-arm7)
 </p>
 <p>
 VERSION_NUMBER is a <a href="http://semver.org/">symantic version
@@ -69,61 +69,17 @@ latest release
 https://github.com/caltechlibrary/datatools/releases/latest
 </p>
 </blockquote>
-<table>
-<thead>
-<tr class="header">
-<th>
-Platform
-</th>
-<th>
-Zip Filename
-</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>
-Windows
-</td>
-<td>
-datatools-VERSION_NUMBER-windows-amd64.zip
-</td>
-</tr>
-<tr class="even">
-<td>
-Mac OS X
-</td>
-<td>
-datatools-VERSION_NUMBER-macos-amd64.zip
-</td>
-</tr>
-<tr class="odd">
-<td>
-Mac OS X
-</td>
-<td>
-datatools-VERSION_NUMBER-macos-arm64.zip
-</td>
-</tr>
-<tr class="even">
-<td>
-Linux/Intel
-</td>
-<td>
-datatools-VERSION_NUMBER-linux-amd64.zip
-</td>
-</tr>
-<tr class="odd">
-<td>
-Raspbery Pi OS
-</td>
-<td>
-datatools-VERSION_NUMBER-raspberry_pi_os-arm7.zip
-</td>
-</tr>
-</tbody>
-</table>
-<h2 id="the-basic-recipe">
+<p>
+<div class="line-block">Platform | Zip Filename |</div>
+|—————-|—————————————————| | Windows |
+datatools-VERSION_NUMBER-windows-amd64.zip | | Windows |
+datatools-VERSION_NUMBER-windows-arm64.zip | | Mac OS X |
+datatools-VERSION_NUMBER-macos-amd64.zip | | Mac OS X |
+datatools-VERSION_NUMBER-macos-arm64.zip | | Linux/Intel |
+datatools-VERSION_NUMBER-linux-amd64.zip | | Raspbery Pi OS |
+datatools-VERSION_NUMBER-raspberry_pi_os-arm7.zip |
+</p>
+<h2>
 The basic recipe
 </h2>
 <ul>
@@ -138,23 +94,16 @@ you’d choose the Zip file with “windows-amd64” in the name).
 </ul>
 </li>
 <li>
-Download the zip file and unzip the file.<br />
+Download the zip file and unzip the file.
 </li>
 <li>
 Copy the contents of the folder named “bin” to a folder that is in your
 path
 <ul>
 <li>
-(e.g. “$HOME/bin” is common).
-</li>
-</ul>
-</li>
-<li>
-Adjust your PATH if needed
-<ul>
-<li>
-(e.g. export PATH=“<span
-class="math inline"><em>H</em><em>O</em><em>M</em><em>E</em>/<em>b</em><em>i</em><em>n</em>:</span>PATH”)
+(e.g. “<span class="math inline">$HOME/bin" is common).&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt; &lt;li&gt;Adjust your PATH if needed &lt;ul&gt;
+&lt;li&gt;(e.g. export PATH="$</span>HOME/bin:$PATH”)
 </li>
 </ul>
 </li>
@@ -162,7 +111,7 @@ class="math inline"><em>H</em><em>O</em><em>M</em><em>E</em>/<em>b</em><em>i</em
 Test
 </li>
 </ul>
-<h3 id="mac-os">
+<h3>
 Mac OS
 </h3>
 <ol type="1">
@@ -186,15 +135,31 @@ Test
 Here’s an example of the commands run in the Terminal App after
 downloading the zip file.
 </p>
+<h4>
+Intel (amd64) Hardware
+</h4>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-macos-amd64.zip
     mkdir -p $HOME/bin
-    cp -v bin/* $HOME/bin/
+    mv -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
-<h3 id="windows">
+<h4>
+ARM64 (arm64) Hardware
+</h4>
+<pre class="shell"><code>    cd Downloads/
+    unzip datatools-*-macos-arm64.zip
+    mkdir -p $HOME/bin
+    mv -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    csvfind -version</code></pre>
+<h3>
 Windows
 </h3>
+<p>
+(Assumes you’re working from Bash as provided by Linux Subsystem for
+Windows)
+</p>
 <ol type="1">
 <li>
 Download the zip file
@@ -213,13 +178,25 @@ Test
 Here’s an example of the commands run in from the Bash shell on Windows
 10 after downloading the zip file.
 </p>
+<h4>
+Intel (amd64) Hardware
+</h4>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-windows-amd64.zip
     mkdir -p $HOME/bin
-    cp -v bin/* $HOME/bin/
+    mv -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
-<h3 id="linux">
+<h4>
+ARM64 (arm64) Hardware
+</h4>
+<pre class="shell"><code>    cd Downloads/
+    unzip datatools-*-windows-arm64.zip
+    mkdir -p $HOME/bin
+    mv -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    csvfind -version</code></pre>
+<h3>
 Linux
 </h3>
 <ol type="1">
@@ -246,7 +223,7 @@ downloading the zip file.
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
-<h3 id="raspberry-pi">
+<h3>
 Raspberry Pi
 </h3>
 <p>
@@ -277,7 +254,7 @@ downloading the zip file.
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
-<h2 id="compiling-from-source">
+<h2>
 Compiling from source
 </h2>
 <p>
