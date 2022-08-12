@@ -78,6 +78,7 @@ Various utilities for simplifying work on the command line.
 + [mergepath](docs/mergepath/) - prefix, append, clip path variables
 + [range](docs/range/) - emit a range of integers (useful for numbered loops in Bash)
 + [reldate](docs/reldate/) - display a relative date in YYYY-MM-DD format
++ [reltime](docs/reltime/) - display a relative time in 24 hour notation, HH:MM:SS format
 + [timefmt](docs/timefmt/) - format a time value based on Golang's time format language
 + [urlparse](docs/urlparse/) - split a URL into parts
 
