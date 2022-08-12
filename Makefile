@@ -27,7 +27,7 @@ ifeq ($(OS), Windows)
         EXT = .exe
 endif
 
-build: version.go $(PROGRAMS)
+build: version.go $(PROGRAMS) CITATION.cff
 
 version.go: .FORCE
 	@echo "package $(PROJECT)" >version.go
@@ -35,8 +35,9 @@ version.go: .FORCE
 	@echo 'const Version = "$(VERSION)"' >>version.go
 	@echo '' >>version.go
 	@git add version.go
-	@if [ -f bin/codemeta ]; then ./bin/codemeta; fi
-	$(CODEMETA2CFF)
+
+CITATION.cff: $(PROGRAMS) .FORCE
+	-if [ -f ./bin/codemeta2cff$(EXT) ]; then ./bin/codemeta2cff; fi
 
 $(PROGRAMS): $(PACKAGE)
 	@mkdir -p bin
