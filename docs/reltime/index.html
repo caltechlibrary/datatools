@@ -37,46 +37,51 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 </nav>
 
 <section>
-<h1 id="usage">
-USAGE
+<h1 id="name">
+NAME
 </h1>
-<pre><code>toml2json [OPTIONS] [TOML_FILENAME] [JSON_NAME]</code></pre>
-<h2 id="description">
+<p>
+reltime
+</p>
+<h1 id="synopsis">
+SYNOPSIS
+</h1>
+<p>
+reltime RELATIVE_TIME_STRING
+</p>
+<h1 id="description">
 DESCRIPTION
-</h2>
+</h1>
 <p>
-toml2json is a tool that converts TOML into JSON output.
+reltime provides a relative time string in the “HH:MM:SS” in 24 hour
+format.
 </p>
-<h2 id="options">
-OPTIONS
-</h2>
 <p>
-Below are a set of options available.
+The notation for the relative time string is based on Go’s time duration
+string. From https://golang.google.cn/pkg/time/#ParseDuration,
 </p>
-<pre><code>    -examples           display example(s)
-    -generate-manpage   generate man page
-    -generate-markdown  generate markdown documentation
-    -h, -help           display help
-    -l, -license        display license
-    -nl, -newline       if true add a trailing newline
-    -o, -output         output filename
-    -p, -pretty         pretty print output
-    -quiet              suppress error messages
-    -v, -version        display version</code></pre>
-<h2 id="examples">
+<blockquote>
+<p>
+A duration string is a possibly signed sequence of decimal numbers, each
+with optional fraction and a unit suffix, such as “300ms”, “-1.5h” or
+“2h45m”. Valid time units are “ns”, “us” (or “µs”), “ms”, “s”, “m”, “h”.
+</p>
+</blockquote>
+<h1 id="examples">
 EXAMPLES
-</h2>
+</h1>
 <p>
-These would get the file named “my.toml” and save it as my.json
+Get the dime ninety minutes in the past.
 </p>
-<pre><code>toml2json my.toml &gt; my.json
-
-toml2json my.toml my.json
-
-cat my.toml | toml2json -i - &gt; my.json</code></pre>
+<pre class="shell"><code>    reltime -- -90m</code></pre>
 <p>
-toml2json v0.0.25
+Get the time 24 hours ago
 </p>
+<pre class="shell"><code>    reltime -- -24h</code></pre>
+<p>
+Get the time 16 hours, 23 minutes and 4 seconds in the future.
+</p>
+<pre class="shell"><code>    reltime 16h23m4s</code></pre>
 </section>
 
 <footer>
