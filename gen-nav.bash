@@ -14,6 +14,7 @@ function write_nav() {
                 docs="text:${RELPATH}docs/" \
                 install="text:${RELPATH}install.html" \
                 howto="text:${RELPATH}how-to/" \
+                about="text:${RELPATH}about.html" \
                 gitrepo="text:${GIT_REPO}" \
                 >"${DNAME}${D}/nav.md"
             fi
@@ -28,6 +29,7 @@ mkpage nav.tmpl relroot="text:" \
         docs="text:docs/" \
         install="text:install.html" \
         howto="text:how-to/" \
+        about="text:about.html" \
         gitrepo="text:${GIT_REPO}" \
         >"nav.md"
 
@@ -38,6 +40,7 @@ mkpage nav.tmpl relroot="text:" \
         docs="text:./" \
         install="text:../install.html" \
         howto="text:../how-to/" \
+        about="text:../about.html" \
         gitrepo="text:${GIT_REPO}" \
         >"docs/nav.md"
 
@@ -48,6 +51,7 @@ mkpage nav.tmpl relroot="text:" \
         docs="text:../docs/" \
         install="text:../install.html" \
         howto="text:./" \
+        about="text:../about.html" \
         gitrepo="text:${GIT_REPO}" \
         >"how-to/nav.md"
 

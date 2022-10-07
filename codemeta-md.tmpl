@@ -1,0 +1,66 @@
+---
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+${if(name)}title: "${name}"${endif}
+${if(description)}abstract: "${description}"${endif}
+${if(author)}authors:
+${for(author)}
+  - family-names: ${it.familyName}
+    given-names: ${it.givenName}
+    orcid: "${it.at__id}"
+${endfor}${endif}
+${if(codeRepository)}repository-code: "${codeRepository}"${endif}
+${if(version)}version: ${version}${endif}
+${if(license)}license-url: "${license}"${endif}
+${if(keywords)}keywords: [ ${for(keywords)}"${it}"${sep}, ${endfor} ]${endif}
+${if(datePublished)}date-released: ${datePublished}${endif}
+---
+
+About this software
+===================
+
+## ${name} ${version}
+
+${if(author)}
+### Authors
+
+${for(author)}
+- ${it.givenName} ${it.familyName}
+${endfor}
+${endif}
+
+${if(description)}
+${description}
+${endif}
+
+
+${if(license)}- License: ${license}${endif}
+${if(codeRepository)}- GitHub: ${codeRepository}${endif}
+${if(issueTracker)}- Issues: ${issueTracker}${endif}
+
+
+${if(programmingLanguage)}
+### Programming languages
+
+${for(programmingLanguage)}
+- ${programmingLanguage}
+${endfor}
+${endif}
+
+${if(operatingSystem)}
+### Operating Systems
+
+${for(operatingSystem)}
+- ${operatingSystem}
+${endfor}
+${endif}
+
+${if(softwareRequirements)}
+### Software Requiremets
+
+${for(softwareRequirements)}
+- ${softwareRequirements}
+${endfor}
+$endif$
+

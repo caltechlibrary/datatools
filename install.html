@@ -30,6 +30,9 @@
 <a href="how-to/">How To</a>
 </li>
 <li>
+<a href="about.html">About</a>
+</li>
+<li>
 <a
 href="https://github.com/caltechlibrary/datatools">Github</a>
 </li>
@@ -53,8 +56,8 @@ This is generalized instructions for a release.
 <p>
 Compiled versions are available for Mac OS X (amd64 and M1 processor,
 macos-amd64 and macos-arm64), Linux (amd64 process, linux-amd64),
-Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7
-processor, raspbian-arm7)
+Windows (amd64 and arm64 processor, windows-amd64 and windows-arm64) and
+Rapsberry Pi (arm7 processor, raspbian-arm7)
 </p>
 <p>
 VERSION_NUMBER is a <a href="http://semver.org/">symantic version
@@ -91,13 +94,21 @@ datatools-VERSION_NUMBER-windows-amd64.zip
 </tr>
 <tr class="even">
 <td>
+Windows
+</td>
+<td>
+datatools-VERSION_NUMBER-windows-arm64.zip
+</td>
+</tr>
+<tr class="odd">
+<td>
 Mac OS X
 </td>
 <td>
 datatools-VERSION_NUMBER-macos-amd64.zip
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>
 Mac OS X
 </td>
@@ -105,7 +116,7 @@ Mac OS X
 datatools-VERSION_NUMBER-macos-arm64.zip
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>
 Linux/Intel
 </td>
@@ -113,7 +124,7 @@ Linux/Intel
 datatools-VERSION_NUMBER-linux-amd64.zip
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>
 Raspbery Pi OS
 </td>
@@ -186,15 +197,31 @@ Test
 Here’s an example of the commands run in the Terminal App after
 downloading the zip file.
 </p>
+<h4 id="intel-amd64-hardware">
+Intel (amd64) Hardware
+</h4>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-macos-amd64.zip
     mkdir -p $HOME/bin
-    cp -v bin/* $HOME/bin/
+    mv -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    csvfind -version</code></pre>
+<h4 id="arm64-arm64-hardware">
+ARM64 (arm64) Hardware
+</h4>
+<pre class="shell"><code>    cd Downloads/
+    unzip datatools-*-macos-arm64.zip
+    mkdir -p $HOME/bin
+    mv -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
 <h3 id="windows">
 Windows
 </h3>
+<p>
+(Assumes you’re working from Bash as provided by Linux Subsystem for
+Windows)
+</p>
 <ol type="1">
 <li>
 Download the zip file
@@ -213,10 +240,22 @@ Test
 Here’s an example of the commands run in from the Bash shell on Windows
 10 after downloading the zip file.
 </p>
+<h4 id="intel-amd64-hardware-1">
+Intel (amd64) Hardware
+</h4>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-windows-amd64.zip
     mkdir -p $HOME/bin
-    cp -v bin/* $HOME/bin/
+    mv -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    csvfind -version</code></pre>
+<h4 id="arm64-arm64-hardware-1">
+ARM64 (arm64) Hardware
+</h4>
+<pre class="shell"><code>    cd Downloads/
+    unzip datatools-*-windows-arm64.zip
+    mkdir -p $HOME/bin
+    mv -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
 <h3 id="linux">

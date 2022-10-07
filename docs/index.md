@@ -22,6 +22,7 @@
 + [mergepath](mergepath/)
 + [range](range/)
 + [reldate](reldate/)
++ [reltime](reltime/)
 + [string](string/)
 + [timefmt](timefmt/)
 + [toml2json](toml2json/)

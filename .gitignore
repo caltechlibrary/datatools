@@ -33,3 +33,6 @@ _testmain.go
 dist/*
 bin/*
 *.snap
+
+# Project ignores
+_codemeta.json

@@ -27,6 +27,7 @@ go build -o bin\jsonrange.exe cmd\jsonrange\jsonrange.exe
 go build -o bin\mergepath.exe cmd\mergepath\mergepath.exe
 go build -o bin\range.exe cmd\range\range.exe
 go build -o bin\reldate.exe cmd\reldate\reldate.exe
+go build -o bin\reltime.exe cmd\reltime\reltime.exe
 go build -o bin\string.exe cmd\string\string.exe
 go build -o bin\tab2csv.exe cmd\tab2csv\tab2csv.exe
 go build -o bin\timefmt.exe cmd\timefmt\timefmt.exe
@@ -56,6 +57,7 @@ bin\jsonrange.exe -version
 bin\mergepath.exe -version
 bin\range.exe -version
 bin\reldate.exe -version
+bin\reltime.exe -version
 bin\string.exe -version
 bin\tab2csv.exe -version
 bin\timefmt.exe -version

@@ -10,6 +10,8 @@ Bug
 Next
 ----
 
++ [ ] Drop cli package, update Makefile, switch from mk_website.py to website.mak, add Man pages
++ [ ] Review https://csvkit.readthedocs.io/en/latest/ and implement the features in datatools that make sense, e.g. csvsql, a csv2sql, sql2csv, etc.
 + [ ] upgrade to use the new cli v0.0.5-dev
 + [ ] csvrows would output a range of rows (e.g. [2:] would be all rows but the first row)
 + [ ] csv utilities should support integer ranges notation for columns and rows references, E.g. "1,3:4,7,10:" or all

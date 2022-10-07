@@ -10,7 +10,7 @@ Compiled version
 This is generalized instructions for a release. 
 
 Compiled versions are available for Mac OS X (amd64 and M1 processor, macos-amd64 and macos-arm64), Linux (amd64 process, linux-amd64), 
-Windows (amd64 processor, windows-amd64) and Rapsberry Pi (arm7 processor, raspbian-arm7)
+Windows (amd64 and arm64 processor, windows-amd64 and windows-arm64) and Rapsberry Pi (arm7 processor, raspbian-arm7)
 
 VERSION_NUMBER is a [symantic version number](http://semver.org/) (e.g. v0.1.2)
 
@@ -23,6 +23,7 @@ For all the released version go to the project page on Github and click latest r
 | Platform       | Zip Filename                                      |
 |----------------|---------------------------------------------------|
 | Windows        | datatools-VERSION_NUMBER-windows-amd64.zip        |
+| Windows        | datatools-VERSION_NUMBER-windows-arm64.zip        |
 | Mac OS X       | datatools-VERSION_NUMBER-macos-amd64.zip          |
 | Mac OS X       | datatools-VERSION_NUMBER-macos-arm64.zip          |
 | Linux/Intel    | datatools-VERSION_NUMBER-linux-amd64.zip          |
@@ -53,16 +54,32 @@ The basic recipe
 Here's an example of the commands run in the Terminal App after downloading the 
 zip file.
 
+#### Intel (amd64) Hardware
+
 ```shell
     cd Downloads/
     unzip datatools-*-macos-amd64.zip
     mkdir -p $HOME/bin
-    cp -v bin/* $HOME/bin/
+    mv -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version
 ```
 
+#### ARM64 (arm64) Hardware
+
+```shell
+    cd Downloads/
+    unzip datatools-*-macos-arm64.zip
+    mkdir -p $HOME/bin
+    mv -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    csvfind -version
+```
+
+
 ### Windows
+
+(Assumes you're working from Bash as provided by Linux Subsystem for Windows)
 
 1. Download the zip file
 2. Unzip the zip file
@@ -72,14 +89,28 @@ zip file.
 Here's an example of the commands run in from the Bash shell on Windows 10 after
 downloading the zip file.
 
+#### Intel (amd64) Hardware
+
 ```shell
     cd Downloads/
     unzip datatools-*-windows-amd64.zip
     mkdir -p $HOME/bin
-    cp -v bin/* $HOME/bin/
+    mv -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version
 ```
+
+#### ARM64 (arm64) Hardware
+
+```shell
+    cd Downloads/
+    unzip datatools-*-windows-arm64.zip
+    mkdir -p $HOME/bin
+    mv -v bin/* $HOME/bin/
+    export PATH=$HOME/bin:$PATH
+    csvfind -version
+```
+
 
 
 ### Linux 
