@@ -11,7 +11,7 @@ VERSION = $(shell grep '"version":' codemeta.json | cut -d\"  -f 4)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-CODEMETA2CFF = $(shell which codemeta2cff)
+PANDOC = $(shell which pandoc)
 
 OS = $(shell uname)
 
@@ -22,12 +22,12 @@ ifneq ($(prefix),)
         PREFIX = $(prefix)
 endif
 
-EXT = 
+EXT =
 ifeq ($(OS), Windows)
         EXT = .exe
 endif
 
-build: version.go $(PROGRAMS) CITATION.cff
+build: version.go $(PROGRAMS) CITATION.cff about.md
 
 version.go: .FORCE
 	@echo "package $(PROJECT)" >version.go
@@ -36,8 +36,13 @@ version.go: .FORCE
 	@echo '' >>version.go
 	@git add version.go
 
-CITATION.cff: $(PROGRAMS) .FORCE
-	-if [ -f ./bin/codemeta2cff$(EXT) ]; then ./bin/codemeta2cff; fi
+about.md: codemeta.json .FORCE
+	cat codemeta.json | sed -E   's/"@context"/"at__context"/g;s/"@type"/"at__type"/g;s/"@id"/"at__id"/g' >_codemeta.json
+	if [ -f $(PANDOC) ]; then echo "" | $(PANDOC) --metadata title="About $(PROJECT)" --metadata-file=_codemeta.json --template=codemeta-md.tmpl >about.md; fi
+
+CITATION.cff: codemeta.json .FORCE
+	cat codemeta.json | sed -E   's/"@context"/"at__context"/g;s/"@type"/"at__type"/g;s/"@id"/"at__id"/g' >_codemeta.json
+	if [ -f $(PANDOC) ]; then echo "" | $(PANDOC) --metadata title="Cite $(PROJECT)" --metadata-file=_codemeta.json --template=codemeta-cff.tmpl >CITATION.cff; fi
 
 $(PROGRAMS): $(PACKAGE)
 	@mkdir -p bin
@@ -70,7 +75,7 @@ publish:
 	bash mk-website.bash
 	bash publish.bash
 
-clean: 
+clean:
 	@if [ -f version.go ]; then rm version.go; fi
 	@if [ -d bin ]; then rm -fR bin; fi
 	@if [ -d dist ]; then rm -fR dist; fi
@@ -100,14 +105,14 @@ dist/macos-amd64: $(PROGRAMS)
 	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=amd64 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
 	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macos-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
 	@rm -fR dist/bin
-	
+
 
 dist/macos-arm64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=arm64 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
 	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macos-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
 	@rm -fR dist/bin
-	
+
 
 dist/windows-amd64: $(PROGRAMS)
 	@mkdir -p dist/bin
@@ -143,7 +148,7 @@ distribute_docs:
 	@cp -v INSTALL.md dist/
 	@cp -vR docs dist/
 	@cp -vR how-to dist/
-	
+
 gen_batfiles: .FORCE
 	@echo '@echo off' >make.bat
 	@echo 'REM This is a Windows 10 Batch file for building dataset command' >>make.bat

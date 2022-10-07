@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+${if(name)}title: "${name}"${endif}
+${if(description)}abstract: "${description}"${endif}
+${if(author)}authors:
+${for(author)}
+  - family-names: ${it.familyName}
+    given-names: ${it.givenName}
+    orcid: "${it.at__id}"
+${endfor}${endif}
+${if(codeRepository)}repository-code: "${codeRepository}"${endif}
+${if(version)}version: ${version}${endif}
+${if(license)}license-url: "${license}"${endif}
+${if(keywords)}keywords: [ ${for(keywords)}"${it}"${sep}, ${endfor} ]${endif}
+${if(datePublished)}date-released: ${datePublished}${endif}
