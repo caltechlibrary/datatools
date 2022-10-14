@@ -6,10 +6,17 @@ Bug
 ---
 
 + [ ] findfile v0.0.23-pre option -f, -full-path doesn't return full paths
++ [ ] [Issue #12](https://github.com/caltechlibrary/datatools/issues/12)
+    - do we support non-string representation of context?
+    - do we support string representation in person/organisation?
+    - is this added complexity worth it?
 
 Next
 ----
 
++ [ ] Possible needed tooling
+    - A codemeta generator (e.g. read a CITATION.cff and write a codemeta file)
+    - A codemeta updater that would can be run from Make which would add/update the updateDate based on the release info at GitHub
 + [ ] Drop cli package, update Makefile, switch from mk_website.py to website.mak, add Man pages
 + [ ] Review https://csvkit.readthedocs.io/en/latest/ and implement the features in datatools that make sense, e.g. csvsql, a csv2sql, sql2csv, etc.
 + [ ] upgrade to use the new cli v0.0.5-dev
@@ -51,7 +58,7 @@ Someday, Maybe
     + camel case
     + snake case
     + lower case/upper case
-    + space to underscores 
+    + space to underscores
     + strip punctuation
     + rename keys
 + [ ] csvrotate would take a CSV file as import and output columns as rows
