@@ -1,4 +1,4 @@
-// tabs2csv converts a tab delimited file to a CSV formatted file.
+// csv2tab converts a CSV file to tab separated values.
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 package main
