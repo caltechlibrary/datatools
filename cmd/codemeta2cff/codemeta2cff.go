@@ -30,7 +30,6 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-//
 package main
 
 import (
@@ -44,37 +43,54 @@ import (
 	"github.com/caltechlibrary/datatools"
 )
 
-func usage(appName string, exitCode int) {
-	out := os.Stderr
-	if exitCode == 0 {
-		out = os.Stdout
-	}
-	fmt.Fprintf(out, `
-USAGE: %s
+var (
+	helpText = `% {app_name}(1) user manual
+% R. S. Doiel
+% 2022-10-28
 
-    %s [CODEMETA_JSON CITATION_CFF]
+# NAME
+
+{app_name}
+
+# SYSNOPSIS
+
+{app_name} [OPTIONS] [CODEMETA_JSON CITATION_CFF]
+
+# DESCRIPTION
 
 Reads codemeta.json file and writes CITATION.cff. By default
 it assume both are in the current directory.  You can also
 provide the name and path to both files.
 
-OPTIONS
+# OPTIONS
 
-    -h, -help      display help
+-help
+: display help
 
-EXAMPLE
+# EXAMPLE
 
 Generating the CITATION.cff from the codemeta.json file the current
 working directory.
 
-    %s
+~~~
+{app_name}
+~~~
 
 Specifying the full paths.
 
-	%s /opt/local/myproject/codemeta.json /opt/local/myproject/CITATION.cff
+~~~
+{app_name} /opt/local/myproject/codemeta.json /opt/local/myproject/CITATION.cff
+~~~
 
-datatools v%s
-`, appName, appName, appName, appName, datatools.Version)
+`
+)
+
+func usage(appName string, exitCode int) {
+	out := os.Stderr
+	if exitCode == 0 {
+		out = os.Stdout
+	}
+	fmt.Fprintf(out, "%s\n", strings.ReplaceAll(helpText, "{app_name}", appName))
 	os.Exit(exitCode)
 }
 
