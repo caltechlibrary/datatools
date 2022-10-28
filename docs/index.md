@@ -5,6 +5,7 @@
 
 + [csv2json](csv2json/)
 + [csv2mdtable](csv2mdtable/)
++ [csv2tab](csv2tab/)
 + [csv2xlsx](csv2xlsx/)
 + [csvcleaner](csvcleaner/)
 + [csvcols](csvcols/)
@@ -24,6 +25,7 @@
 + [reldate](reldate/)
 + [reltime](reltime/)
 + [string](string/)
++ [tab2csv](tab2csv/)
 + [timefmt](timefmt/)
 + [toml2json](toml2json/)
 + [urlparse](urlparse/)

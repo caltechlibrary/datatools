@@ -15,6 +15,7 @@ Excel Workbooks and plain text files or content.
 
 + [csv2json](docs/csv2json/) - a tool to take a CSV file and convert it into a JSON array or a list of JSON blobs one per line
 + [csv2mdtable](docs/csv2mdtable/) - a tool to render CSV as a Github Flavored Markdown table
++ [csv2tab](docs/csv2tab/) - a tool to take a CSV file and convert to tab separated values
 + [csv2xlsx](docs/csv2xlsx/) - a tool to take a CSV file and add it as a sheet to a Excel Workbook
 + [csvcleaner](docs/csvcleaner/) - normalize a CSV file by column and row including trimming spaces and removing comments
 + [csvcols](docs/csvcols/) - a tool for formatting command line arguments into CSV row of columns or filtering CSV rows for specific columns
@@ -27,6 +28,7 @@ Excel Workbooks and plain text files or content.
 + [jsonjoin](docs/jsonjoin/) - a tool for joining JSON object documents
 + [jsonmunge](docs/jsonmunge/) - a tool to transform JSON documents into something else
 + [jsonrange](docs/jsonrange/) - a tool for iterating over JSON objects and arrays (return keys or values)
++ [tab2csv](docs/tab2csv/) - a tool to convert from tab separated values to comma separated values
 + [toml2json](docs/toml2json/) - a tool for converting TOML to JSON
 + [xlsx2csv](docs/xlsx2csv/) - a tool for converting Excel Workbooks sheets to CSV files
 + [xlsx2json](docs/xlsx2json/) - a tool for converting Excel Workbooks to JSON files

@@ -14,9 +14,9 @@ Bug
 Next
 ----
 
++ [ ] Create man pages for all cli, adopt man page structure for usage.
 + [ ] Possible needed tooling
-    - A codemeta generator (e.g. read a CITATION.cff and write a codemeta file)
-    - A codemeta updater that would can be run from Make which would add/update the updateDate based on the release info at GitHub
+    - [x] A codemeta generator (e.g. read a CITATION.cff and write a codemeta file)
 + [ ] Drop cli package, update Makefile, switch from mk_website.py to website.mak, add Man pages
 + [ ] Review https://csvkit.readthedocs.io/en/latest/ and implement the features in datatools that make sense, e.g. csvsql, a csv2sql, sql2csv, etc.
 + [ ] upgrade to use the new cli v0.0.5-dev
