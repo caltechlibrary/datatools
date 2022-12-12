@@ -34,6 +34,30 @@ ${if(description)}
 ${description}
 ${endif}
 
+${if(contributor)}
+### Contributors
+
+${for(contributor)}
+- ${it.givenName} ${it.familyName}
+${endfor}
+${endif}
+
+${if(maintainer)}
+### Maintainers
+
+${for(maintainer)}
+- ${it.givenName} ${it.familyName}
+${endfor}
+${endif}
+
+${if(description)}
+${description}
+${endif}
+
+${if(description)}
+${description}
+${endif}
+
 
 ${if(license)}- License: ${license}${endif}
 ${if(codeRepository)}- GitHub: ${codeRepository}${endif}

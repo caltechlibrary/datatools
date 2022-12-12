@@ -36,11 +36,12 @@ type Codemeta struct {
 	Version           string                  `json:"version"`
 	Author            []*PersonOrOrganization `json:"author"`
 	Contributor       []*PersonOrOrganization `json:"contributor,omitempty"`
+	Maintainer        []*PersonOrOrganization `json:"maintainer,omitempty"`
 	Editor            []*PersonOrOrganization `json:"editor,omitempty"`
 	DevelopmentStatus string                  `json:"developmentStatus"`
 	DownloadURL       string                  `json:"downloadUrl"`
 	Keywords          []string                `json:"keywords"`
-	Maintainer        string                  `json:"maintainer,omitempty"`
+	//Maintainer        string                  `json:"maintainer,omitempty"`
 	Funder            []*PersonOrOrganization `json:"funder,omitempty"`
 	CopyrightHolder   []*PersonOrOrganization `json:"copyrightHolder,omitempty"`
 	CopyrightYear     string                  `json:"copyrightYear,omitempty"`
