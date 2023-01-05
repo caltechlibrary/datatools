@@ -11,16 +11,16 @@ authors:
     orcid: "https://orcid.org/0000-0003-0900-6903"
 
 repository-code: "https://github.com/caltechlibrary/datatools"
-version: 1.1.5
+version: 1.2.0
 license-url: "https://data.caltech.edu/license"
-keywords: [ "csv", "json", "xlsx", "golang", "bash" ]
-date-released: 2022-06-30
+keywords: [ "csv", "excel", "sql", "json", "xlsx", "golang", "bash" ]
+date-released: 2022-01-05
 ---
 
 About this software
 ===================
 
-## datatools 1.1.5
+## datatools 1.2.0
 
 ### Authors
 

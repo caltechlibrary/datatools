@@ -33,7 +33,6 @@ val VARCHAR(256),
 created DATETIME DEFAULT CURRENT_TIMESTAMP)`
 	res, err := db.Exec(stmt)
 	if err != nil {
-		fmt.Printf("DEBUG res create %q -> %+v\n", stmt, res)
 		return dsn, err
 	}
 
@@ -41,7 +40,6 @@ created DATETIME DEFAULT CURRENT_TIMESTAMP)`
 	for i := 0; i < 10; i++ {
 		val := fmt.Sprintf("v%06d", i)
 		if _, err := db.Exec(stmt, i, val); err != nil {
-			fmt.Printf("DEBUG res insert stmt %q -> %+v\n", stmt, res)
 			return dsn, err
 		}
 	}
@@ -85,5 +83,4 @@ func TestSQLQueryToCSV(t *testing.T) {
 		t.Error(err)
 		t.FailNow()
 	}
-	fmt.Printf("DEBUG buf ->\n%s\n", buf)
 }

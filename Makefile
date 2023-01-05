@@ -3,7 +3,9 @@
 #
 PROJECT = datatools
 
-PROGRAMS = $(shell ls -1 cmd/)
+PROGRAMS = codemeta2cff csv2json csv2mdtable csv2tab csv2xlsx csvcleaner csvcols csvfind csvjoin csvrows finddir findfile json2toml json2yaml jsoncols jsonjoin jsonmunge jsonrange mergepath range reldate reltime sql2csv string tab2csv timefmt toml2json urlparse xlsx2csv xlsx2json yaml2json
+
+MAN_PAGES = codemeta2cff.1 sql2csv.1
 
 PACKAGE = $(shell ls -1 *.go)
 
@@ -54,6 +56,12 @@ test: $(PACKAGE)
 #	cd timefmt && go test
 	cd codemeta && go test
 	bash test_cmd.bash
+	
+$(MAN_PAGES): .FORCE
+	mkdir -p man/man1
+	pandoc $@.md --from markdown --to man -s >man/man1/$@
+
+man: $(MAN_PAGES)
 
 website:
 	bash gen-nav.bash
@@ -79,7 +87,7 @@ clean:
 	@if [ -f version.go ]; then rm version.go; fi
 	@if [ -d bin ]; then rm -fR bin; fi
 	@if [ -d dist ]; then rm -fR dist; fi
-	@if [ -d man ]; then rm -fR man; fi
+	#@if [ -d man ]; then rm -fR man; fi
 
 # NOTE: macOS causes problems if you copy a binary versus move it.
 install: build
@@ -87,50 +95,57 @@ install: build
 	@for FNAME in $(PROGRAMS); do if [ -f ./bin/$$FNAME ]; then mv -v ./bin/$$FNAME $(PREFIX)/bin/$$FNAME; fi; done
 	@echo ""
 	@echo "Make sure $(PREFIX)/bin is in your PATH"
+	@echo "Installing man pages in $(PREFIX)/man/man1"
+	@mkdir -p $(PREFIX)/man/man1
+	@for FNAME in $(MAN_PAGES); do cp -v man/man1/$$FNAME $(PREFIX)/man/man1/; done
+	@echo "Make sure $(PREFIX)/man is in your MANPATH"
 
 uninstall: .FORCE
 	@echo "Removing programs in $(PREFIX)/bin"
 	@for FNAME in $(PROGRAMS); do if [ -f $(PREFIX)/bin/$$FNAME ]; then rm -v $(PREFIX)/bin/$$FNAME; fi; done
+	@echo "Removing man pages in $(PREFIX)/man"
+	@for FNAME in $(MAN_PAGES); do if [ -f $(PREFIX)/man/man1/$$FNAME ]; then rm -v $(PREFIX)/man/man1/$$FNAME; fi; done
+
 
 
 dist/linux-amd64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env  GOOS=linux GOARCH=amd64 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-linux-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-linux-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 
 dist/macos-amd64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=amd64 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macos-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macos-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 
 dist/macos-arm64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=arm64 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macos-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macos-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 
 dist/windows-amd64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=windows GOARCH=amd64 go build -o dist/bin/$$FNAME.exe cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-windows-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-windows-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 dist/windows-arm64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=windows GOARCH=arm64 go build -o dist/bin/$$FNAME.exe cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 
 dist/raspbian-arm7: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-raspberry_pi_os-arm7.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* demos/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-raspberry_pi_os-arm7.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 #dist/datatools_$(VERSION)_amd64.snap:
@@ -148,6 +163,7 @@ distribute_docs:
 	@cp -v INSTALL.md dist/
 	@cp -vR docs dist/
 	@cp -vR how-to dist/
+	@cp -vR man dist/
 
 gen_batfiles: .FORCE
 	@echo '@echo off' >make.bat
@@ -172,7 +188,7 @@ gen_batfiles: .FORCE
 
 snap: dist/datatools_$(VERSION)_amd64.snap
 
-release: clean build gen_batfiles distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/windows-arm64 dist/raspbian-arm7
+release: clean build man gen_batfiles distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/windows-arm64 dist/raspbian-arm7
 
 
 .FORCE:
