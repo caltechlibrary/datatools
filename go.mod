@@ -10,7 +10,10 @@ require (
 	github.com/caltechlibrary/tmplfn v0.0.21
 	github.com/dexyk/stringosim v0.0.0-20170922105913-9d0b3e91a842
 	github.com/ghodss/yaml v1.0.0
-	github.com/google/uuid v1.2.0
+	github.com/glebarez/go-sqlite v1.20.0
+	github.com/go-sql-driver/mysql v1.7.0
+	github.com/google/uuid v1.3.0
+	github.com/lib/pq v1.10.7
 	github.com/tealeg/xlsx v1.0.5
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

@@ -36,3 +36,4 @@ bin/*
 
 # Project ignores
 _codemeta.json
+testout
