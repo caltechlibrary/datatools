@@ -40,76 +40,49 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 </nav>
 
 <section>
-<h1 id="about-this-software">
-About this software
+<h1 id="name">
+NAME
 </h1>
-<h2 id="datatools-1.2.0">
-datatools 1.2.0
-</h2>
-<h3 id="authors">
-Authors
-</h3>
-<ul>
-<li>
-R. S. Doiel
-</li>
-</ul>
-<h3 id="maintainers">
-Maintainers
-</h3>
-<ul>
-<li>
-R. S. Doiel
-</li>
-</ul>
 <p>
-A set of command line tools for working with CSV, Excel Workbooks, JSON
-and structured text documents.
+codemeta2cff
 </p>
-<ul>
-<li>
-License: https://data.caltech.edu/license
-</li>
-<li>
-GitHub: https://github.com/caltechlibrary/datatools
-</li>
-<li>
-Issues: https://github.com/caltechlibrary/datatools/issues
-</li>
-</ul>
-<h3 id="programming-languages">
-Programming languages
-</h3>
-<ul>
-<li>
-Go 1.19.4
-</li>
-</ul>
-<h3 id="operating-systems">
-Operating Systems
-</h3>
-<ul>
-<li>
-Linux
-</li>
-<li>
-Windows
-</li>
-<li>
-macOS
-</li>
-</ul>
-<h3 id="software-requiremets">
-Software Requiremets
-</h3>
-<ul>
-<li>
-Golang 1.19 or better
-</li>
-<li>
-Pandoc 2.19 or better
-</li>
-</ul>
+<h1 id="sysnopsis">
+SYSNOPSIS
+</h1>
+<p>
+codemeta2cff <a href="#options">OPTIONS</a> [CODEMETA_JSON CITATION_CFF]
+</p>
+<h1 id="description">
+DESCRIPTION
+</h1>
+<p>
+Reads codemeta.json file and writes CITATION.cff. By default it assume
+both are in the current directory. You can also provide the name and
+path to both files.
+</p>
+<h1 id="options">
+OPTIONS
+</h1>
+<dl>
+<dt>
+-help
+</dt>
+<dd>
+display help
+</dd>
+</dl>
+<h1 id="example">
+EXAMPLE
+</h1>
+<p>
+Generating the CITATION.cff from the codemeta.json file the current
+working directory.
+</p>
+<pre><code>codemeta2cff</code></pre>
+<p>
+Specifying the full paths.
+</p>
+<pre><code>codemeta2cff /opt/local/myproject/codemeta.json /opt/local/myproject/CITATION.cff</code></pre>
 </section>
 
 <footer>

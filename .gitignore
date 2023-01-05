@@ -35,4 +35,5 @@ bin/*
 *.snap
 
 # Project ignores
-_codemeta.json
+*.json
+testout

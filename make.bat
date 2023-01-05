@@ -10,6 +10,7 @@ echo "Getting ready to build the datatools in bin"
 go build -o bin\codemeta2cff.exe cmd\codemeta2cff\codemeta2cff.exe
 go build -o bin\csv2json.exe cmd\csv2json\csv2json.exe
 go build -o bin\csv2mdtable.exe cmd\csv2mdtable\csv2mdtable.exe
+go build -o bin\csv2tab.exe cmd\csv2tab\csv2tab.exe
 go build -o bin\csv2xlsx.exe cmd\csv2xlsx\csv2xlsx.exe
 go build -o bin\csvcleaner.exe cmd\csvcleaner\csvcleaner.exe
 go build -o bin\csvcols.exe cmd\csvcols\csvcols.exe
@@ -28,6 +29,7 @@ go build -o bin\mergepath.exe cmd\mergepath\mergepath.exe
 go build -o bin\range.exe cmd\range\range.exe
 go build -o bin\reldate.exe cmd\reldate\reldate.exe
 go build -o bin\reltime.exe cmd\reltime\reltime.exe
+go build -o bin\sql2csv.exe cmd\sql2csv\sql2csv.exe
 go build -o bin\string.exe cmd\string\string.exe
 go build -o bin\tab2csv.exe cmd\tab2csv\tab2csv.exe
 go build -o bin\timefmt.exe cmd\timefmt\timefmt.exe
@@ -40,6 +42,7 @@ echo "Checking compile should see version number of dataset"
 bin\codemeta2cff.exe -version
 bin\csv2json.exe -version
 bin\csv2mdtable.exe -version
+bin\csv2tab.exe -version
 bin\csv2xlsx.exe -version
 bin\csvcleaner.exe -version
 bin\csvcols.exe -version
@@ -58,6 +61,7 @@ bin\mergepath.exe -version
 bin\range.exe -version
 bin\reldate.exe -version
 bin\reltime.exe -version
+bin\sql2csv.exe -version
 bin\string.exe -version
 bin\tab2csv.exe -version
 bin\timefmt.exe -version

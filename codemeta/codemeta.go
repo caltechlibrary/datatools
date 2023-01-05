@@ -37,10 +37,11 @@ type Codemeta struct {
 	Author            []*PersonOrOrganization `json:"author"`
 	Contributor       []*PersonOrOrganization `json:"contributor,omitempty"`
 	Editor            []*PersonOrOrganization `json:"editor,omitempty"`
+	Maintainer        []*PersonOrOrganization `json:"maintainer,omitempty"`
 	DevelopmentStatus string                  `json:"developmentStatus"`
 	DownloadURL       string                  `json:"downloadUrl"`
 	Keywords          []string                `json:"keywords"`
-	Maintainer        string                  `json:"maintainer,omitempty"`
+	//Maintainer        string                  `json:"maintainer,omitempty"`
 	Funder            []*PersonOrOrganization `json:"funder,omitempty"`
 	CopyrightHolder   []*PersonOrOrganization `json:"copyrightHolder,omitempty"`
 	CopyrightYear     string                  `json:"copyrightYear,omitempty"`

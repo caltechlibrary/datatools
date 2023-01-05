@@ -14,6 +14,9 @@ Bug
 Next
 ----
 
+- [ ] ioutil is depreciated, need to update the code that uses it.
+- [ ] Update how docs are generated, see about dropped cli package, there are better simpler ways to move forward
+- [ ] Review [Go-app.dev](https://go-app.dev) and see if I can make a useful format converted GUI based on the code for all the cli in the project.
 + [ ] Create man pages for all cli, adopt man page structure for usage.
 + [ ] Possible needed tooling
     - [x] A codemeta generator (e.g. read a CITATION.cff and write a codemeta file)

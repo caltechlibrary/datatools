@@ -74,6 +74,8 @@ func main() {
 
 	if showHelp {
 		fmt.Fprintf(os.Stdout, description, appName, appName)
+		//FIXME: need to forse this to standard out ...
+		flag.PrintDefaults()
 		fmt.Fprintf(os.Stdout, examples, appName)
 		os.Exit(0)
 	}

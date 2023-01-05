@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="index.html">README</a>
+</li>
+<li>
+<a href="license.html">LICENSE</a>
+</li>
+<li>
+<a href="install.html">INSTALL</a>
+</li>
+<li>
+<a href="docs/">Documentation</a>
+</li>
+<li>
+<a href="how-to/">How To</a>
+</li>
+<li>
+<a href="about.html">About</a>
+</li>
+<li>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
+</ul>
+</nav>
+
+<section>
+<h1 id="name">
+NAME
+</h1>
+<p>
+sql2csv
+</p>
+<h1 id="synopsis">
+SYNOPSIS
+</h1>
+<p>
+sql2csv <a href="#options">OPTIONS</a> SQL_STATEMENT
+</p>
+<p>
+sql2csv <a href="#options">OPTIONS</a> CONFIG_FILE SQL_STATEMENT
+</p>
+<h1 id="description">
+DESCRIPTION
+</h1>
+<p>
+sql2csv takes a config file describing a SQL database connection and
+output options needed and a SQL statement as the final parameter. The
+output of the SQL query is rendered in CSV format to standard out.
+sql2csv supports querying MySQL 8, Postgres and SQLite3 databases.
+</p>
+<p>
+The configuration file is a JSON document with the following key value
+pairs.
+</p>
+<dl>
+<dt>
+dsn_url
+</dt>
+<dd>
+(string) A data source name in URL form where the “protocol” element
+identifies the database resource being accessed (e.g. “sqlite://”,
+“mysql://”, “postgres://”). A data source name are rescribed at <a
+href="https://github.com/golang/go/wiki/SQLInterface"
+class="uri">https://github.com/golang/go/wiki/SQLInterface</a>.
+</dd>
+<dt>
+header_row
+</dt>
+<dd>
+(boolean) if true print a header row in the output, false for no header
+row output
+</dd>
+<dt>
+delimiter
+</dt>
+<dd>
+(single character, default is “,”), sets the field delimited used in
+output. It can be set to “ for tab separated values.
+</dd>
+<dt>
+use_crlf
+</dt>
+<dd>
+(boolean, default is false) if set to true to use “” as the line
+terminator between rows of output.
+</dd>
+</dl>
+<p>
+To connect with a database sql2csv relies on a data source name (DSN) in
+URL format. In the URL form the URL’s scheme indicates the type of
+database you are connecting to (e.g. sqlite, mysql, postgres). The rest
+of the DNS has the following form
+</p>
+<pre><code>[username[:password]@][protocol[(address)]]/dbname[?param1=value1&amp;...&amp;paramN=valueN]</code></pre>
+<p>
+For a simple database like SQLite3 a minimal DSN in url form for a
+database file “my_database.sqlite3” would look like
+</p>
+<pre><code>    sqlite://file:my_database.sqlite3</code></pre>
+<p>
+For MySQL you need to provide more information to connect
+(e.g. username, password). In this example the username is “jane.doe”,
+password is “something_secret” the database is “my_database”. (this
+example assumes that MySQL 8 is running on localhost at the usual port).
+</p>
+<pre><code>    mysql://jane.doe:something_secret@/my_database</code></pre>
+<p>
+Postgres is similar to the MySQL connection string except the “scheme”
+is “postgres” instead of “mysql”.
+</p>
+<h1 id="options">
+OPTIONS
+</h1>
+<dl>
+<dt>
+-help
+</dt>
+<dd>
+display help
+</dd>
+<dt>
+-version
+</dt>
+<dd>
+display version
+</dd>
+<dt>
+-license
+</dt>
+<dd>
+display license
+</dd>
+</dl>
+<p>
+A the following options will override a configuration.
+</p>
+<dl>
+<dt>
+-dsn
+</dt>
+<dd>
+use the data source name in URL form instead of a JSON configuration
+file
+</dd>
+<dt>
+-header
+</dt>
+<dd>
+use a header row if true, false skip the header row
+</dd>
+<dt>
+-delimiter
+</dt>
+<dd>
+Set the delimiter to use, default is comma
+</dd>
+<dt>
+-use-cdlf
+</dt>
+<dd>
+Force the line ending per row to carage return and line feed if true,
+false use line feed
+</dd>
+</dl>
+<h1 id="example">
+EXAMPLE
+</h1>
+<p>
+Using the “dbcfg.json” configuration file, display ten rows from table
+“mytable” in database indicated in “dbcfg.json”.
+</p>
+<p>
+sql2csv dbcfg.json ‘SELECT * FROM mytable LIMIT 10’
+</p>
+<p>
+The CSV output is written standard out and can be redirected into a file
+if desired.
+</p>
+<p>
+sql2csv dbcfg.json ‘SELECT * FROM mytable LIMIT 10’<br />
+&gt;ten-rows.csv
+</p>
+<p>
+sql2csv 1.1.5
+</p>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

@@ -11,24 +11,28 @@ authors:
     orcid: "https://orcid.org/0000-0003-0900-6903"
 
 repository-code: "https://github.com/caltechlibrary/datatools"
-version: 1.1.4
+version: 1.2.0
 license-url: "https://data.caltech.edu/license"
-keywords: [ "csv", "json", "xlsx", "golang", "bash" ]
-date-released: 2022-06-30
+keywords: [ "csv", "excel", "sql", "json", "xlsx", "golang", "bash" ]
+date-released: 2022-01-05
 ---
 
 About this software
 ===================
 
-## datatools 1.1.4
+## datatools 1.2.0
 
 ### Authors
 
 - R. S. Doiel
 
+
+### Maintainers
+
+- R. S. Doiel
+
 A set of command line tools for working with CSV, Excel Workbooks, JSON
 and structured text documents.
-
 
 - License: https://data.caltech.edu/license
 - GitHub: https://github.com/caltechlibrary/datatools
@@ -37,7 +41,7 @@ and structured text documents.
 
 ### Programming languages
 
-- Go 1.19.2
+- Go 1.19.4
 
 ### Operating Systems
 
@@ -47,5 +51,5 @@ and structured text documents.
 
 ### Software Requiremets
 
-- Golang 1.19.2 or better
-- Pandoc 2.19.2 or better
+- Golang 1.19 or better
+- Pandoc 2.19 or better
