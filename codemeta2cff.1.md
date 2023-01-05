@@ -1,6 +1,8 @@
-% codemeta2cff(1) user manual
-% R. S. Doiel
-% 2022-10-28
+---
+title: "codemeta2cff(1) user manual"
+author: "R. S. Doiel"
+pubDate: "2022-10-28"
+---
 
 # NAME
 

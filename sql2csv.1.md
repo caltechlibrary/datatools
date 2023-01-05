@@ -1,6 +1,8 @@
-% sql2csv (1) user manual
-% R. S. Doiel
-% 2023-01-03
+---
+title: "sql2csv (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-05
+---
 
 # NAME
 
