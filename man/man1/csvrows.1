@@ -14,52 +14,71 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "csvrows" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: csvrows [OPTIONS] [ARGS_AS_ROW_VALUES]
+csvrows
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+csvrows OPTIONS [ARGS_AS_ROW_VALUES]
+.SH DESCRIPTION
 .PP
 csvrows converts a set of command line args into rows of CSV formated
 output.
 It can also be used to filter or list specific rows of CSV input The
 first row is 1 not 0.
-Often row 1 is the header row and %!s(MISSING) makes it easy to output
-only the data rows.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--d, -delimiter        set delimiter character
--examples             display example(s)
--generate-manpage     generate man page
--generate-markdown    generate markdown documentation
--h, -help             display help
--header               display the header row (alias for \[aq]-rows 1\[aq])
--i, -input            input filename
--l, -license          display license
--o, -output           output filename
--quiet                suppress error messages
--random               return N randomly selected rows
--row, -rows           output specified rows in order (e.g. -row 1,5,2-4))
--skip-header-row      skip the header row (alias for -row 2-
--trim-leading-space   trim leading space in field(s) for CSV input
--use-lazy-quotes      use lazy quotes for CSV input
--v, -version          display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+Often row 1 is the header row and csvrows makes it easy to output only
+the data rows.
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-d, -delimiter
+set delimiter character
+.TP
+-header
+display the header row (alias for `-rows 1')
+.TP
+-i, -input
+input filename
+.TP
+-o, -output
+output filename
+.TP
+-quiet
+suppress error messages
+.TP
+-random
+return N randomly selected rows
+.TP
+-row, -rows
+output specified rows in order (e.g.\ -row 1,5,2-4))
+.TP
+-skip-header-row
+skip the header row (alias for -row 2-
+.TP
+-trim-leading-space
+trim leading space in field(s) for CSV input
+.TP
+-use-lazy-quotes
+use lazy quotes for CSV input
+.SH EXAMPLES
 .PP
 Simple usage of building a CSV file one rows at a time.
 .IP
 .nf
 \f[C]
-csvrows \[dq]First,Second,Third\[dq] \[dq]one,two,three\[dq] > 4rows.csv
-csvrows \[dq]ein,zwei,drei\[dq] \[dq]1,2,3\[dq] >> 4rows.csv
-cat 4row.csv
+    csvrows \[dq]First,Second,Third\[dq] \[dq]one,two,three\[dq] > 4rows.csv
+    csvrows \[dq]ein,zwei,drei\[dq] \[dq]1,2,3\[dq] >> 4rows.csv
+    cat 4row.csv
 \f[R]
 .fi
 .PP
@@ -67,9 +86,9 @@ Example parsing a pipe delimited string into a CSV line
 .IP
 .nf
 \f[C]
-csvrows -d \[dq]|\[dq] \[dq]First,Second,Third|one,two,three\[dq] > 4rows.csv
-csvrows -delimiter \[dq]|\[dq] \[dq]ein,zwei,drei|1,2,3\[dq] >> 4rows.csv
-cat 4rows.csv
+    csvrows -d \[dq]|\[dq] \[dq]First,Second,Third|one,two,three\[dq] > 4rows.csv
+    csvrows -delimiter \[dq]|\[dq] \[dq]ein,zwei,drei|1,2,3\[dq] >> 4rows.csv
+    cat 4rows.csv
 \f[R]
 .fi
 .PP
@@ -77,7 +96,7 @@ Filter a 10 row CSV file for rows 1,4,6 (top most row is one)
 .IP
 .nf
 \f[C]
-cat 10row.csv | csvrows -row 1,4,6 > 3rows.csv
+    cat 10row.csv | csvrows -row 1,4,6 > 3rows.csv
 \f[R]
 .fi
 .PP
@@ -86,7 +105,7 @@ Filter a 10 row CSV file for rows 1,4,6 from file named
 .IP
 .nf
 \f[C]
-csvrows -i 10row.csv -row 1,4,6 > 3rows.csv
+    csvrows -i 10row.csv -row 1,4,6 > 3rows.csv
 \f[R]
 .fi
 .PP
@@ -95,8 +114,10 @@ header row from 10row.csv.
 .IP
 .nf
 \f[C]
-csvrows -i 10row.csv -header=true -random=3
+    csvrows -i 10row.csv -header=true -random=3
 \f[R]
 .fi
 .PP
 csvrows 1.2.1
+.SH AUTHORS
+R. S. Doiel.

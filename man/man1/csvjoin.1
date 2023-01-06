@@ -14,54 +14,95 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "csvjoin (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: csvjoin [OPTIONS] CSV1 CSV2 COL1 COL2
+csvjoin
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+csvjoin OPTIONS CSV1 CSV2 COL1 COL2
+.SH DESCRIPTION
 .PP
 csvjoin outputs CSV content based on two CSV files with matching column
 values.
 Each CSV input file has a designated column to match on.
 The values are compared as strings.
 Columns are counted from one rather than zero.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--allow-duplicates    allow duplicates when searching for matches
--case-sensitive      make a case sensitive match (default is case insensitive)
--col1                column to on join on in first CSV file
--col2                column to on join on in second CSV file
--contains            match columns based on csv1/col1 contained in csv2/col2
--csv1                first CSV filename
--csv2                second CSV filename
--d, -delimiter       set delimiter character
--delete-cost         deletion cost to use when calculating Levenshtein edit distance
--examples            display example(s)
--generate-manpage    generate man page
--generate-markdown   generate markdown documentation
--h, -help            display help
--in-memory           if true read both CSV files
--insert-cost         insertion cost to use when calculating Levenshtein edit distance
--l, -license         display license
--levenshtein         match columns using Levensthein edit distance
--max-edit-distance   maximum edit distance for match using Levenshtein distance
--o, -output          output filename
--quiet               supress error messages
--stop-words          a column delimited list of stop words to ingnore when matching
--substitute-cost     substitution cost to use when calculating Levenshtein edit distance
--trim-leading-space  trim leading space in field(s) for CSV input
--trimspaces          trim spaces around cell values before comparing
--use-lazy-quotes     use lazy quotes for CSV input
--v, -version         display version
--verbose             output processing count to stderr
-\f[R]
-.fi
-.PP
-EXAMPLES
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-allow-duplicates
+allow duplicates when searching for matches
+.TP
+-case-sensitive
+make a case sensitive match (default is case insensitive)
+.TP
+-col1
+column to on join on in first CSV file
+.TP
+-col2
+column to on join on in second CSV file
+.TP
+-contains
+match columns based on csv1/col1 contained in csv2/col2
+.TP
+-csv1
+first CSV filename
+.TP
+-csv2
+second CSV filename
+.TP
+-d, -delimiter
+set delimiter character
+.TP
+-delete-cost
+deletion cost to use when calculating Levenshtein edit distance
+.TP
+-in-memory
+if true read both CSV files
+.TP
+-insert-cost
+insertion cost to use when calculating Levenshtein edit distance
+.TP
+-levenshtein
+match columns using Levensthein edit distance
+.TP
+-max-edit-distance
+maximum edit distance for match using Levenshtein distance
+.TP
+-o, -output
+output filename
+.TP
+-quiet
+supress error messages
+.TP
+-stop-words
+a column delimited list of stop words to ingnore when matching
+.TP
+-substitute-cost
+substitution cost to use when calculating Levenshtein edit distance
+.TP
+-trim-leading-space
+trim leading space in field(s) for CSV input
+.TP
+-trimspaces
+trim spaces around cell values before comparing
+.TP
+-use-lazy-quotes
+use lazy quotes for CSV input
+.TP
+-verbose
+output processing count to stderr
+.SH EXAMPLES
 .PP
 Simple usage of building a merged CSV file from data1.csv and data2.csv
 where column 1 in data1.csv matches the value in column 3 of data2.csv
@@ -69,10 +110,12 @@ with the results being written to merged-data.csv..
 .IP
 .nf
 \f[C]
-csvjoin -csv1=data1.csv -col1=2 \[rs]
-   -csv2=data2.csv -col2=4 \[rs]
-   -output=merged-data.csv
+    csvjoin -csv1=data1.csv -col1=2 \[rs]
+       -csv2=data2.csv -col2=4 \[rs]
+       -output=merged-data.csv
 \f[R]
 .fi
 .PP
 csvjoin 1.2.1
+.SH AUTHORS
+R. S. Doiel.

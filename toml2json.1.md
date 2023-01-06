@@ -7,16 +7,16 @@ toml2json is a tool that converts TOML into JSON output.
 
 OPTIONS
 
-    -examples            display example(s)
-    -generate-manpage    generate man page
-    -generate-markdown   generate markdown documentation
-    -h, -help            display help
-    -l, -license         display license
-    -nl, -newline        if true add a trailing newline
-    -o, -output          output filename
-    -p, -pretty          pretty print output
-    -quiet               suppress error messages
-    -v, -version         display version
+    -examples           display example(s)
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown documentation
+    -h, -help           display help
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -o, -output         output filename
+    -p, -pretty         pretty print output
+    -quiet              suppress error messages
+    -v, -version        display version
 
 
 EXAMPLES

@@ -13,17 +13,17 @@ or filter for specific content.
 
 OPTIONS
 
-    -E, -expression      use template expression as template
-    -examples            display example(s)
-    -generate-manpage    generate man page
-    -generate-markdown   generate markdown documentation
-    -h, -help            display help
-    -i, -input           input filename
-    -l, -license         display license
-    -nl, -newline        if true add a trailing newline
-    -o, -output          output filename
-    -quiet               suppress error messages
-    -v, -version         display version
+    -E, -expression     use template expression as template
+    -examples           display example(s)
+    -generate-manpage   generate man page
+    -generate-markdown  generate markdown documentation
+    -h, -help           display help
+    -i, -input          input filename
+    -l, -license        display license
+    -nl, -newline       if true add a trailing newline
+    -o, -output         output filename
+    -quiet              suppress error messages
+    -v, -version        display version
 
 
 EXAMPLES

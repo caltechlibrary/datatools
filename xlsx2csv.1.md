@@ -7,17 +7,17 @@ xlsx2csv is a tool that converts individual Excel Sheets to CSV output.
 
 OPTIONS
 
-    -N, -sheets         display the Workbook sheet names
-    -c, -count          display number of Workbook sheets
-    -examples           display example(s)
-    -generate-manpage   generate man page
-    -generate-markdown  generate markdown documentation
-    -h, -help           display help
-    -l, -license        display license
-    -nl, -newline       if true add a trailing newline
-    -o, -output         output filename
-    -quiet              suppress error messages
-    -v, -version        display version
+    -N, -sheets          display the Workbook sheet names
+    -c, -count           display number of Workbook sheets
+    -examples            display example(s)
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown documentation
+    -h, -help            display help
+    -l, -license         display license
+    -nl, -newline        if true add a trailing newline
+    -o, -output          output filename
+    -quiet               suppress error messages
+    -v, -version         display version
 
 
 EXAMPLES

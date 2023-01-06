@@ -9,19 +9,19 @@ path and removing the resulting duplicate.
 
 OPTIONS
 
-    -a, -append         Append the directory to the path removing any duplication
-    -c, -clip           Remove a directory from the path
-    -d, -directory      The directory you want to add to the path.
-    -e, -envpath        The path you want to merge with.
-    -examples           display example(s)
-    -generate-manpage   generate man page
-    -generate-markdown  generate markdown documentation
-    -h, -help           display help
-    -l, -license        display license
-    -nl, -newline       if true add a trailing newline
-    -p, -prepend        Prepend the directory to the path removing any duplication
-    -quiet              suppress error messages
-    -v, -version        display version
+    -a, -append          Append the directory to the path removing any duplication
+    -c, -clip            Remove a directory from the path
+    -d, -directory       The directory you want to add to the path.
+    -e, -envpath         The path you want to merge with.
+    -examples            display example(s)
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown documentation
+    -h, -help            display help
+    -l, -license         display license
+    -nl, -newline        if true add a trailing newline
+    -p, -prepend         Prepend the directory to the path removing any duplication
+    -quiet               suppress error messages
+    -v, -version         display version
 
 
 EXAMPLES
