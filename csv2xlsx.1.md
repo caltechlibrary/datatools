@@ -1,16 +1,16 @@
 ---
-title: "{app_name} (1) user manual"
+title: "csv2xlsx (1) user manual"
 author: "R. S. Doiel"
 pubDate: 2023-01-06
 ---
 
 # NAME
 
-{app_name} 
+csv2xlsx 
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] WORKBOOK_NAME SHEET_NAME
+csv2xlsx [OPTIONS] WORKBOOK_NAME SHEET_NAME
 
 # DESCRIPTION
 
@@ -58,18 +58,19 @@ If the Workbook does not exist then it is created.
 Converting a csv to a workbook.
 
 ~~~
-	{app_name} -i data.csv MyWorkbook.xlsx 'My worksheet 1'
+	csv2xlsx -i data.csv MyWorkbook.xlsx 'My worksheet 1'
 ~~~
 
 This creates a new 'My worksheet 1' in the Excel Workbook
 called 'MyWorkbook.xlsx' with the contents of data.csv.
 
 ~~~
-	cat data.csv | {app_name} MyWorkbook.xlsx 'My worksheet 2'
+	cat data.csv | csv2xlsx MyWorkbook.xlsx 'My worksheet 2'
 ~~~
 
 This does the same but the contents of data.csv are piped into
 the workbook's 'My worksheet 2' sheet.
 
-{app_name} {version}
+csv2xlsx 1.2.1
+
 

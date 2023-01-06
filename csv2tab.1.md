@@ -1,16 +1,16 @@
 ---
-title: "{app_name} (1) user manual"
+title: "csv2tab (1) user manual"
 author: "R. S. Doiel"
 pubDate: 2023-01-06
 ---
 
 # NAME
 
-{app_name} 
+csv2tab 
 
 # SYNOPSIS
 
-{app_name} [OPTIONS]
+csv2tab [OPTIONS]
 
 # DESCRIPTION
 
@@ -51,5 +51,6 @@ This would yield
 	Doe, Jane	jane.doe@example.org	42
 ~~~
 
-{app_name} {version}
+csv2tab 1.2.1
+
 
