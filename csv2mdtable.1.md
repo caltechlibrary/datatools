@@ -4,17 +4,17 @@ author: "R. S. Doiel"
 pubDate: 2023-01-06
 ---
 
-#NAME
+# NAME
 
-{app_name}
+csv2mdtable
 
 # SYNOPSIS
 
-{app_name} [OPTIONS]
+csv2mdtable [OPTIONS]
 
 # DESCRIPTION
 
-{app_name} reads CSV from stdin and writes a Github Flavored Markdown
+csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
 table to stdout.
 
 # OPTIONS
@@ -55,14 +55,15 @@ table to stdout.
 Convert data1.csv to data1.md using Unix pipes.
 
 ~~~
-    cat data1.csv | {app_name} > data1.md
+    cat data1.csv | csv2mdtable > data1.md
 ~~~
 
 Convert data1.csv to data1.md using options.
 
 ~~~
-    {app_name} -i data1.csv -o data1.md
+    csv2mdtable -i data1.csv -o data1.md
 ~~~
 
-{app_name} {version}
+csv2mdtable 1.2.1
+
 

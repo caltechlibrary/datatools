@@ -1,7 +1,7 @@
 ---
 title: "codemeta2cff(1) user manual"
 author: "R. S. Doiel"
-pubDate: "2022-10-28"
+pubDate: 2022-10-28
 ---
 
 # NAME

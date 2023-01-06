@@ -6,11 +6,11 @@ pubDate: 2023-01-06
 
 # NAME
 
-{app_name}
+csv2json
 
 # SYNOPSIS
 
-{app_name} [OPTIIONS]
+csv2json [OPTIIONS]
 
 # DESCRIPTION
 
@@ -79,4 +79,5 @@ Convert data1.csv to JSON blobs, one line per blob
 ~~~
     csv2json -as-blobs -i data1.csv
 ~~~
+
 
