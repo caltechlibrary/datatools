@@ -26,19 +26,19 @@ Note: jsonjoin doesn't support a JSON array as the root JSON object.
 
 OPTIONS
 
-    -create             create an empty root object, {}
-    -examples           display example(s)
-    -generate-manpage   generate man page
-    -generate-markdown  generate markdown docs
-    -h, -help           display help
-    -i, -input          input filename (for root object)
-    -l, -license        display license
-    -nl, -newline       if true add a trailing newline
-    -o, -output         output filename
-    -overwrite          copy all key/values into root object
-    -quiet              suppress error messages
-    -update             copy new key/values pairs into root object
-    -v, -version        display version
+    -create              create an empty root object, {}
+    -examples            display example(s)
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown docs
+    -h, -help            display help
+    -i, -input           input filename (for root object)
+    -l, -license         display license
+    -nl, -newline        if true add a trailing newline
+    -o, -output          output filename
+    -overwrite           copy all key/values into root object
+    -quiet               suppress error messages
+    -update              copy new key/values pairs into root object
+    -v, -version         display version
 
 
 EXAMPLES

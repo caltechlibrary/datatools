@@ -1,34 +1,71 @@
+---
+title: "findfile (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-06
+---
 
-USAGE: findfile [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]
+# NAME
 
-DESCRIPTION
+findfile
+
+# SYNOPSIS
+
+findfile [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]
+
+# DESCRIPTION
 
 findfile finds files based on matching prefix, suffix or contained text in base filename.
 
-OPTIONS
+# OPTIONS
 
-    -c, -contains            find file(s) based on basename containing text
-    -d, -depth               Limit depth of directories walked
-    -error, -stop-on-error   Stop walk on file system errors (e.g. permissions)
-    -examples                display example(s)
-    -f, -full-path           list full path for files found
-    -generate-manpage        generate man page
-    -generate-markdown       generate markdown documentation
-    -h, -help                display this help message
-    -l, -license             display license information
-    -m, -mod-time            display file modification time before the path
-    -nl, -newline            if true add a trailing newline
-    -o, -output              output filename
-    -p, -prefix              find file(s) based on basename prefix
-    -quiet                   suppress error messages
-    -s, -suffix              find file(s) based on basename suffix
-    -v, -version             display version message
+-help
+: display this help message
+
+-license
+: display license information
+
+-version
+: display version message
+
+-c, -contains
+: find file(s) based on basename containing text
+
+-d, -depth
+: Limit depth of directories walked
+
+-error, -stop-on-error
+: Stop walk on file system errors (e.g. permissions)
+
+-f, -full-path
+: list full path for files found
+
+-m, -mod-time
+: display file modification time before the path
+
+-nl, -newline
+: if true add a trailing newline
+
+-o, -output
+: output filename
+
+-p, -prefix
+: find file(s) based on basename prefix
+
+-quiet
+: suppress error messages
+
+-s, -suffix
+: find file(s) based on basename suffix
 
 
-EXAMPLES
+# EXAMPLES
 
 Search the current directory and subdirectories for Markdown files with extension of ".md".
 
+~~~
 	findfile -s .md
+~~~
 
 findfile 1.2.1
+
+

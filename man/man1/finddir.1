@@ -14,47 +14,68 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "finddir (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: finddir [OPTIONS] [TARGET] [DIRECTORIES_TO_SEARCH]
+finddir
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+finddir OPTIONS [TARGET] [DIRECTORIES_TO_SEARCH]
+.SH DESCRIPTION
 .PP
-finddir finds directory based on matching prefix, suffix or contained
+finddir finds directory based on matching prefix, suffix o contained
 text in base filename.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--c, -contains        find file(s) based on basename containing text
--d, -depth           Limit depth of directories walked
--e, -error-stop      Stop walk on file system errors (e.g. permissions)
--examples            display example(s)
--f, -full-path       list full path for files found
--generate-manpage    generate man page
--generate-markdown   generate markdown documemtations
--h, -help            display this help message
--l, -license         display license information
--m, -mod-time        display file modification time before the path
--nl, -newline        if true add a trailing newline
--o, -output          output filename
--p, -prefix          find file(s) based on basename prefix
--quiet               suppress error messages
--s, -suffix          find file(s) based on basename suffix
--v, -version         display version message
-\f[R]
-.fi
-.PP
-EXAMPLES
+.SH OPTIONS
+.TP
+-help
+display this help message
+.TP
+-license
+display license information
+.TP
+-version
+display version message
+.TP
+-c, -contains
+find file(s) based on basename containing text
+.TP
+-d, -depth
+Limit depth of directories walked
+.TP
+-e, -error-stop
+Stop walk on file system errors (e.g.\ permissions)
+.TP
+-f, -full-path
+list full path for files found
+.TP
+-m, -mod-time
+display file modification time before the path
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+output filename
+.TP
+-p, -prefix
+find file(s) based on basename prefix
+.TP
+-quiet
+suppress error messages
+.TP
+-s, -suffix
+find file(s) based on basename suffix
+.SH EXAMPLES
 .PP
 Find all subdirectories starting with \[lq]img\[rq].
 .IP
 .nf
 \f[C]
-finddir -p img
+    finddir -p img
 \f[R]
 .fi
 .PP
 finddir 1.2.1
+.SH AUTHORS
+R. S. Doiel.
