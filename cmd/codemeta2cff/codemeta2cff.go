@@ -44,9 +44,11 @@ import (
 )
 
 var (
-	helpText = `% {app_name}(1) user manual
-% R. S. Doiel
-% 2022-10-28
+	helpText = `---
+title: "{app_name}(1) user manual"
+author: "R. S. Doiel"
+pubDate: 2022-10-28
+---
 
 # NAME
 

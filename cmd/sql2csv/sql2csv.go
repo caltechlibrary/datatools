@@ -14,9 +14,11 @@ import (
 )
 
 const (
-	helpText = `% {app_name} (1) user manual
-% R. S. Doiel
-% 2023-01-03
+	helpText = `---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-05
+---
 
 # NAME
 
@@ -145,7 +147,7 @@ func main() {
 	appName := path.Base(os.Args[0])
 	showHelp, showLicense, showVersion := false, false, false
 	writeHeaderRow, useCRLF := sqlCfg.WriteHeaderRow, sqlCfg.UseCRLF
-	dsn, delimiter := "", sqlCfg.Delimiter
+	dsn, delimiter := "", ""
 	fName, stmt := "", ""
 
 	// Handle options
@@ -155,7 +157,7 @@ func main() {
 	flag.BoolVar(&writeHeaderRow, "header-row", writeHeaderRow, "write a header row if true")
 	flag.BoolVar(&useCRLF, "use-crlf", useCRLF, "delimited rows with a carriage return and line feed")
 	flag.StringVar(&dsn, "dsn", dsn, "connect using the data source name provided in URL form")
-	flag.StringVar(&delimiter, "delimiter", delimiter, "set the delimiter, defaults to comma")
+	flag.StringVar(&delimiter, "delimiter", "", "set the delimiter, defaults to comma")
 	flag.Parse()
 	args := flag.Args()
 
@@ -203,7 +205,10 @@ func main() {
 	case "\\t":
 		delimiter = "\t"
 	}
-	sqlCfg.Delimiter = delimiter
+
+	if delimiter != "" {
+		sqlCfg.Delimiter = delimiter
+	}
 	if dsn != "" {
 		sqlCfg.DSN = dsn
 	}
