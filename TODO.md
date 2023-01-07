@@ -5,6 +5,8 @@ Action Items
 Bug
 ---
 
+- [ ] Some man pages use the old "USAGE" format, needs to be updated to use Pandoc structure
+- [ ] Need to finish depreciating the cli package in favor of the standard flag package
 + [ ] findfile v0.0.23-pre option -f, -full-path doesn't return full paths
 + [ ] [Issue #12](https://github.com/caltechlibrary/datatools/issues/12)
     - do we support non-string representation of context?
