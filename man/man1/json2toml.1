@@ -14,44 +14,52 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "json2toml (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: json2toml [OPTIONS] [JSON_FILENAME] [TOML_FILENAME]
+json2toml
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+json2toml OPTIONS [JSON_FILENAME] [TOML_FILENAME]
+.SH DESCRIPTION
 .PP
 json2toml is a tool that converts JSON objects into TOML output.
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
 .PP
-OPTIONS
-.IP
-.nf
-\f[C]
--examples           display example(s)
--generate-manpage   generate man page
--generate-markdown  generate markdown documentation
--h, -help           display help
--l, -license        display license
--nl, -newline       if true add a trailing newline
--o, -output         output filename
--p, -pretty         pretty print output
--quiet              suppress error messages
--v, -version        display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+-version: display version
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+output filename
+.TP
+-p, -pretty
+pretty print output
+.TP
+-quiet
+suppress error messages
+.SH EXAMPLES
 .PP
 These would get the file named \[lq]my.json\[rq] and save it as my.toml
 .IP
 .nf
 \f[C]
-json2toml my.json > my.toml
+    json2toml my.json > my.toml
 
-json2toml my.json my.toml
+    json2toml my.json my.toml
 
-cat my.json | json2toml -i - > my.toml
+    cat my.json | json2toml -i - > my.toml
 \f[R]
 .fi
 .PP
 json2toml 1.2.1
+.SH AUTHORS
+R. S. Doiel.

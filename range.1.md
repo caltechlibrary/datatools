@@ -13,18 +13,18 @@ down otherwise it counts up.
 
 OPTIONS
 
-    -e, -end            The ending integer.
-    -examples           display example(s)
-    -generate-manpage   generate man page
-    -generate-markdown  generate markdown documentation
-    -h, -help           display help
-    -inc, -increment    The non-zero integer increment value.
-    -l, -license        display license
-    -nl, -newline       if true add a trailing newline
-    -quiet              suppress error messages
-    -random             Pick a range value from range
-    -s, -start          The starting integer.
-    -v, -version        display version
+    -e, -end             The ending integer.
+    -examples            display example(s)
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown documentation
+    -h, -help            display help
+    -inc, -increment     The non-zero integer increment value.
+    -l, -license         display license
+    -nl, -newline        if true add a trailing newline
+    -quiet               suppress error messages
+    -random              Pick a range value from range
+    -s, -start           The starting integer.
+    -v, -version         display version
 
 
 EXAMPLES

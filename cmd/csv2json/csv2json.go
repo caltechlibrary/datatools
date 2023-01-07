@@ -23,45 +23,111 @@ package main
 import (
 	"encoding/csv"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"strings"
 
 	// My packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 )
 
 var (
-	description = `
-%s reads CSV from stdin and writes a JSON to stdout. JSON output
+	helpText = `---
+title: "csv2json (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-06
+---
+
+# NAME
+
+{app_name}
+
+# SYNOPSIS
+
+{app_name} [OPTIIONS]
+
+# DESCRIPTION
+
+csv2json reads CSV from stdin and writes a JSON to stdout. JSON output
 can be either an array of JSON blobs or one JSON blob (row as object)
 per line.
-`
 
-	examples = `
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+-as-blobs
+: output as one JSON blob per line
+
+-d, -delimiter
+: set the delimter character
+
+-examples
+: display example(s)
+
+-fields-per-record
+: Set the number of fields expected in the CSV read, -1 to turn off
+
+-i, -input
+: input filename
+
+-nl, -newline
+: include trailing newline in output
+
+-o, -output
+: output filename
+
+-quiet
+: suppress error output
+
+-reuse-record
+: reuse the backing array
+
+-trim-leading-space
+: trim leading space in fields for CSV input
+
+-use-header
+: treat the first row as field names
+
+-use-lazy-quotes
+: use lazy quotes for for CSV input
+
+
+# EXAMPLES
+
 Convert data1.csv to data1.json using Unix pipes.
 
-    cat data1.csv | %s > data1.json
+~~~
+    cat data1.csv | csv2json > data1.json
+~~~
 
 Convert data1.csv to JSON blobs, one line per blob
 
-    %s -as-blobs -i data1.csv
+~~~
+    csv2json -as-blobs -i data1.csv
+~~~
+
 `
 
 	// Standard Options
-	showHelp         bool
-	showLicense      bool
-	showVersion      bool
-	showExamples     bool
-	inputFName       string
-	outputFName      string
-	generateMarkdown bool
-	generateManPage  bool
-	quiet            bool
-	newLine          bool
-	eol              string
+	showHelp    bool
+	showLicense bool
+	showVersion bool
+	inputFName  string
+	outputFName string
+	quiet       bool
+	newLine     bool
+	eol         string
 
 	// Application Options
 	useHeader        bool
@@ -73,76 +139,71 @@ Convert data1.csv to JSON blobs, one line per blob
 	reuseRecord      bool
 )
 
-func main() {
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
 
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName)))
+func main() {
+	appName := path.Base(os.Args[0])
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.StringVar(&inputFName, "i,input", "", "input filename")
-	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generation markdown documentation")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generation man page")
-	app.BoolVar(&quiet, "quiet", false, "suppress error output")
-	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline in output")
+	flag.BoolVar(&showHelp, "help", showHelp, "display help")
+	flag.BoolVar(&showLicense, "license", showLicense, "display license")
+	flag.BoolVar(&showVersion, "version", showVersion, "display version")
+	flag.StringVar(&inputFName, "i", "", "input filename")
+	flag.StringVar(&inputFName, "input", "", "input filename")
+	flag.StringVar(&outputFName, "o", "", "output filename")
+	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error output")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline in output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline in output")
 
 	// App Options
-	app.BoolVar(&useHeader, "use-header", true, "treat the first row as field names")
-	app.BoolVar(&asBlobs, "as-blobs", false, "output as one JSON blob per line")
-	app.StringVar(&delimiter, "d,delimiter", "", "set the delimter character")
-	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for for CSV input")
-	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in fields for CSV input")
-	app.BoolVar(&reuseRecord, "reuse-record", false, "reuse the backing array")
-	app.IntVar(&fieldsPerRecord, "fields-per-record", 0, "Set the number of fields expected in the CSV read, -1 to turn off")
+	flag.BoolVar(&useHeader, "use-header", true, "treat the first row as field names")
+	flag.BoolVar(&asBlobs, "as-blobs", false, "output as one JSON blob per line")
+	flag.StringVar(&delimiter, "d", "", "set the delimter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set the delimter character")
+	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for for CSV input")
+	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in fields for CSV input")
+	flag.BoolVar(&reuseRecord, "reuse-record", false, "reuse the backing array")
+	flag.IntVar(&fieldsPerRecord, "fields-per-record", 0, "Set the number of fields expected in the CSV read, -1 to turn off")
 
 	// Parse environment and options
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
 
 	// Setup IO
 	var err error
 
-	app.Eout = os.Stderr
+	in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
 
-	app.In, err = cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(inputFName, app.In)
-
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if inputFName != "" {
+		in, err = os.Open(inputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+	}
+	if outputFName != "" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+	}
 
 	// Process options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(os.Stdout, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense == true {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(os.Stdout, "%s\n", fmtTxt(datatools.LicenseText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showVersion == true {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(os.Stdout, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 	if newLine {
@@ -151,7 +212,7 @@ func main() {
 
 	rowNo := 0
 	fieldNames := []string{}
-	r := csv.NewReader(app.In)
+	r := csv.NewReader(in)
 	r.Comment = '#'
 	r.FieldsPerRecord = fieldsPerRecord
 	r.LazyQuotes = lazyQuotes
@@ -163,9 +224,13 @@ func main() {
 	if useHeader == true {
 		row, err := r.Read()
 		if err == io.EOF {
-			cli.ExitOnError(app.Eout, fmt.Errorf("No data"), quiet)
+			fmt.Fprintln(eout, "No data")
+			os.Exit(1)
 		}
-		cli.ExitOnError(app.Eout, err, quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 		for _, val := range row {
 			fieldNames = append(fieldNames, strings.TrimSpace(val))
 		}
@@ -179,7 +244,10 @@ func main() {
 		if err == io.EOF {
 			break
 		}
-		cli.ExitOnError(app.Eout, err, quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 
 		// Pad the fieldnames if necessary
 		object = map[string]interface{}{}
@@ -192,18 +260,20 @@ func main() {
 		}
 		src, err := json.Marshal(object)
 		if err != nil {
-			cli.OnError(app.Eout, fmt.Errorf("error row %d, %s\n", rowNo, err), quiet)
+			if !quiet {
+				fmt.Fprintf(eout, "error row %d, %s\n", rowNo, err)
+			}
 			hasError = true
 		}
 		if asBlobs == true {
-			fmt.Fprintf(app.Out, "%s%s", src, eol)
+			fmt.Fprintf(out, "%s%s", src, eol)
 		} else {
 			arrayOfObjects = append(arrayOfObjects, string(src))
 		}
 		rowNo++
 	}
 	if asBlobs == false {
-		fmt.Fprintf(app.Out, "[%s]%s", strings.Join(arrayOfObjects, ","), eol)
+		fmt.Fprintf(out, "[%s]%s", strings.Join(arrayOfObjects, ","), eol)
 	}
 	if hasError == true {
 		os.Exit(1)

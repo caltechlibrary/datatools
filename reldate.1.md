@@ -17,16 +17,16 @@ be Thu, Friday can be Fri or Saturday can be Sat.
 
 OPTIONS
 
-    -e, -end-of-month   Display the end of month day. E.g. 2012-02-29
-    -examples           display example(s)
-    -f, -from           Date the relative time is calculated from.
-    -generate-manpage   generate man page
-    -generate-markdown  generate markdown documentation
-    -h, -help           display help
-    -l, -license        display license
-    -nl, -newline       if true add a trailing newline
-    -quiet              suppress error messages
-    -v, -version        display version
+    -e, -end-of-month    Display the end of month day. E.g. 2012-02-29
+    -examples            display example(s)
+    -f, -from            Date the relative time is calculated from.
+    -generate-manpage    generate man page
+    -generate-markdown   generate markdown documentation
+    -h, -help            display help
+    -l, -license         display license
+    -nl, -newline        if true add a trailing newline
+    -quiet               suppress error messages
+    -v, -version         display version
 
 
 EXAMPLES

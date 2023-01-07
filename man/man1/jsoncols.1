@@ -14,13 +14,15 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "jsoncols (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: jsoncols [OPTIONS] [EXPRESSION] [INPUT_FILENAME]
-[OUTPUT_FILENAME]
+jsoncols
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+jsoncols OPTIONS [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]
+.SH DESCRIPTION
 .PP
 jsoncols provides scripting flexibility for data extraction from JSON
 data returning the results in columns.
@@ -44,37 +46,50 @@ want to explicitly write to stdout
 .IP \[bu] 2
 if not provided then jsoncols write to stdout
 .RE
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--csv                 output as CSV or other flat delimiter row
--d, -delimiter       set the delimiter for multi-field csv output
--examples            display example(s)
--generate-manpage    generate man page
--generate-markdown   generate markdown documentation
--h, -help            display help
--i, -input           input filename
--l, -license         display license
--nl, -newline        if true add a trailing newline
--o, -output          output filename
--p, -pretty          pretty print JSON output
--quiet               suppress error messages
--quote               quote strings and JSON notation
--r                   run interactively
--repl                run interactively
--v, -version         display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-csv
+output as CSV or other flat delimiter row
+.TP
+-d, -delimiter
+set the delimiter for multi-field csv output
+.TP
+-i, -input
+input filename
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+output filename
+.TP
+-p, -pretty
+pretty print JSON output
+.TP
+-quiet
+suppress error messages
+.TP
+-quote
+quote strings and JSON notation
+.TP
+-r, -repl
+run interactively
+.SH EXAMPLES
 .PP
 If myblob.json contained
 .IP
 .nf
 \f[C]
-{\[dq]name\[dq]: \[dq]Doe, Jane\[dq], \[dq]email\[dq]:\[dq]jane.doe\[at]example.org\[dq], \[dq]age\[dq]: 42}
+    {\[dq]name\[dq]: \[dq]Doe, Jane\[dq], \[dq]email\[dq]:\[dq]jane.doe\[at]example.org\[dq], \[dq]age\[dq]: 42}
 \f[R]
 .fi
 .PP
@@ -82,7 +97,7 @@ Getting just the name could be done with
 .IP
 .nf
 \f[C]
-jsoncols -i myblob.json .name
+    jsoncols -i myblob.json .name
 \f[R]
 .fi
 .PP
@@ -90,7 +105,7 @@ This would yield
 .IP
 .nf
 \f[C]
-\[dq]Doe, Jane\[dq]
+    \[dq]Doe, Jane\[dq]
 \f[R]
 .fi
 .PP
@@ -99,7 +114,7 @@ listing each field in the expression inside a space delimited string.
 .IP
 .nf
 \f[C]
-jsoncols -i myblob.json -d\[rs]|  .name .age
+    jsoncols -i myblob.json -d\[rs]|  .name .age
 \f[R]
 .fi
 .PP
@@ -107,7 +122,7 @@ This would yield
 .IP
 .nf
 \f[C]
-Doe, Jane|42
+    Doe, Jane|42
 \f[R]
 .fi
 .PP
@@ -115,12 +130,18 @@ You can also pipe JSON data in.
 .IP
 .nf
 \f[C]
-cat myblob.json | jsoncols .name .email .age
+    cat myblob.json | jsoncols .name .email .age
 \f[R]
 .fi
 .PP
 Would yield
-.PP
-\[lq]Doe, Jane\[rq],\[lq]jane.doe\[at]xample.org\[rq],42
+.IP
+.nf
+\f[C]
+   \[dq]Doe, Jane\[dq],\[dq]jane.doe\[at]xample.org\[dq],42
+\f[R]
+.fi
 .PP
 jsoncols 1.2.1
+.SH AUTHORS
+R. S. Doiel.

@@ -20,42 +20,142 @@ package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"strings"
 
 	// Caltech Library packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 )
 
 var (
-	description = `
-%s processes a CSV file as input returning rows that contain the column
-with matched text. Columns are counted from one instead of zero. Supports 
-exact match as well as some Levenshtein matching.
-`
+	helpText = `---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-06
+---
 
-	examples = `
-Find the rows where the third column matches "The Red Book of Westmarch" exactly
+# NAME
 
-    %s -i books.csv -col=2 "The Red Book of Westmarch"
+{app_name}
 
-Find the rows where the third column (colums numbered 1,2,3) matches approximately 
-"The Red Book of Westmarch"
+# SYNOPSIS
 
-    %s -i books.csv -col=2 -levenshtein \
+{app_name} [OPTIONS] TEXT_TO_MATCH
+
+# DESCRIPTION
+
+{app_name} processes a CSV file as input returning rows that contain
+the column with matched text. Columns are counted from one instead of
+zero. Supports exact match as well as some Levenshtein matching.
+
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+
+-allow-duplicates
+: allow duplicates when searching for matches
+
+-append-edit-distance
+: append column with edit distance found (useful for tuning levenshtein)
+
+-case-sensitive
+: perform a case sensitive match (default is false)
+
+-col, -cols
+: column to search for match in the CSV file
+
+-contains
+: use contains phrase for matching
+
+-d, -delimiter
+: set delimiter character
+
+-delete-cost
+: set the delete cost to use for levenshtein matching
+
+-i, -input
+: input filename
+
+-insert-cost
+: set the insert cost to use for levenshtein matching
+
+-levenshtein
+: use levenshtein matching
+
+-max-edit-distance
+: set the edit distance thresh hold for match, default 0
+
+-nl, -newline
+: include trailing newline from output
+
+-o, -output
+: output filename
+
+-quiet
+: suppress error messages
+
+-skip-header-row
+: skip the header row
+
+-stop-words
+: use the colon delimited list of stop words
+
+-substitute-cost
+: set the substitution cost to use for levenshtein matching
+
+-trim-leading-space
+: trim leadings space in field(s) for CSV input
+
+-trimspace, -trimspaces
+: trim spaces around cell values before comparing
+
+-use-lazy-quotes
+: use lazy quotes on CSV input
+
+
+# EXAMPLES
+
+Find the rows where the third column matches "The Red Book of Westmarch"
+exactly
+
+~~~
+    {app_name} -i books.csv -col=2 "The Red Book of Westmarch"
+~~~
+
+Find the rows where the third column (colums numbered 1,2,3) matches
+approximately "The Red Book of Westmarch"
+
+~~~
+    {app_name} -i books.csv -col=2 -levenshtein \
        -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
        -max-edit-distance=50 -append-edit-distance \
        "The Red Book of Westmarch"
+~~~
 
-In this example we've appended the edit distance to see how close the matches are.
+In this example we've appended the edit distance to see how close the
+matches are.
 
 You can also search for phrases in columns.
 
-    %s -i books.csv -col=2 -contains "Red Book"
+~~~
+    {app_name} -i books.csv -col=2 -contains "Red Book"
+~~~
+
+{app_name} {version}
 `
+
 
 	// Standard Options
 	showHelp         bool
@@ -89,88 +189,89 @@ You can also search for phrases in columns.
 	trimLeadingSpace   bool
 )
 
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
+
 func main() {
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
-
-	// Document non-option parameters
-	app.SetParams(`TEXT_TO_MATCH`)
-
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName)))
+	appName := path.Base(os.Args[0])
 
 	// Basic Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.StringVar(&inputFName, "i,input", "", "input filename")
-	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&newLine, "nl,newline", true, "include trailing newline from output")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generation markdown documentation")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generation man page")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.StringVar(&inputFName, "i", "", "input filename")
+	flag.StringVar(&inputFName, "input", "", "input filename")
+	flag.StringVar(&outputFName, "o", "", "output filename")
+	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "nl", true, "include trailing newline from output")
+	flag.BoolVar(&newLine, "newline", true, "include trailing newline from output")
+
 
 	// App Options
-	app.IntVar(&col, "col,cols", 0, "column to search for match in the CSV file")
-	app.BoolVar(&useContains, "contains", false, "use contains phrase for matching")
-	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
-	app.BoolVar(&useLevenshtein, "levenshtein", false, "use levenshtein matching")
-	app.IntVar(&maxEditDistance, "max-edit-distance", 5, "set the edit distance thresh hold for match, default 0")
-	app.IntVar(&insertCost, "insert-cost", 1, "set the insert cost to use for levenshtein matching")
-	app.IntVar(&deleteCost, "delete-cost", 1, "set the delete cost to use for levenshtein matching")
-	app.IntVar(&substituteCost, "substitute-cost", 1, "set the substitution cost to use for levenshtein matching")
-	app.BoolVar(&caseSensitive, "case-sensitive", false, "perform a case sensitive match (default is false)")
-	app.BoolVar(&appendEditDistance, "append-edit-distance", false, "append column with edit distance found (useful for tuning levenshtein)")
-	app.StringVar(&stopWordsOption, "stop-words", "", "use the colon delimited list of stop words")
-	app.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
-	app.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
-	app.BoolVar(&trimSpaces, "trimspace,trimspaces", false, "trim spaces around cell values before comparing")
-	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes on CSV input")
-	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leadings space in field(s) for CSV input")
+	flag.IntVar(&col, "col", 0, "column to search for match in the CSV file")
+	flag.IntVar(&col, "cols", 0, "column to search for match in the CSV file")
+	flag.BoolVar(&useContains, "contains", false, "use contains phrase for matching")
+	flag.StringVar(&delimiter, "d", "", "set delimiter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
+	flag.BoolVar(&useLevenshtein, "levenshtein", false, "use levenshtein matching")
+	flag.IntVar(&maxEditDistance, "max-edit-distance", 5, "set the edit distance thresh hold for match, default 0")
+	flag.IntVar(&insertCost, "insert-cost", 1, "set the insert cost to use for levenshtein matching")
+	flag.IntVar(&deleteCost, "delete-cost", 1, "set the delete cost to use for levenshtein matching")
+	flag.IntVar(&substituteCost, "substitute-cost", 1, "set the substitution cost to use for levenshtein matching")
+	flag.BoolVar(&caseSensitive, "case-sensitive", false, "perform a case sensitive match (default is false)")
+	flag.BoolVar(&appendEditDistance, "append-edit-distance", false, "append column with edit distance found (useful for tuning levenshtein)")
+	flag.StringVar(&stopWordsOption, "stop-words", "", "use the colon delimited list of stop words")
+	flag.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
+	flag.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
+	flag.BoolVar(&trimSpaces, "trimspace,trimspaces", false, "trim spaces around cell values before comparing")
+	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes on CSV input")
+	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leadings space in field(s) for CSV input")
 
 	// Parse env and options
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
+	args := flag.Args()
 
 	// Setup IO
 	var err error
 
-	app.Eout = app.Eout
+	in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
 
-	app.In, err = cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(inputFName, app.In)
+if inputFName != "" {
+	in, err := os.Open(inputFName)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
+	}
+	defer in.Close()
 
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+}
+
+if outputFName != "" {
+	out, err := os.Create(outputFName)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
+	}
+	defer out.Close()
+}
+
 
 	// Process options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 	if newLine {
@@ -178,12 +279,14 @@ func main() {
 	}
 
 	if col <= 0 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Cannot have a zero or negative column reference %d", col), quiet)
+		fmt.Fprintf(eout, "Cannot have a zero or negative column reference %d\n", col)
+		os.Exit(1)
 	}
 	col = col - 1
 
 	if len(args) == 0 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Missing string to match, try %s --help", appName), quiet)
+		fmt.Fprintf(eout, "Missing string to match, try %s --help\n", appName)
+		os.Exit(1)
 	}
 
 	target := args[0]
@@ -199,10 +302,10 @@ func main() {
 		target = strings.Join(datatools.ApplyStopWords(strings.Split(target, " "), stopWords), " ")
 	}
 
-	csvIn := csv.NewReader(app.In)
+	csvIn := csv.NewReader(in)
 	csvIn.LazyQuotes = lazyQuotes
 	csvIn.TrimLeadingSpace = trimLeadingSpace
-	csvOut := csv.NewWriter(app.Out)
+	csvOut := csv.NewWriter(out)
 	if delimiter != "" {
 		csvIn.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		csvOut.Comma = datatools.NormalizeDelimiterRune(delimiter)
@@ -218,7 +321,9 @@ func main() {
 			break
 		}
 		if err != nil {
-			cli.OnError(app.Eout, fmt.Errorf("%d %s", lineNo, err), quiet)
+			if ! quiet {
+				fmt.Fprintf(eout, "%d %s\n", lineNo, err)
+			}
 		} else {
 			// Find the value we're matching against
 			if col < len(record) {
@@ -242,7 +347,9 @@ func main() {
 					if strings.Contains(src, target) {
 						err := csvOut.Write(record)
 						if err != nil {
-							cli.OnError(app.Eout, fmt.Errorf("%d %s", lineNo, err), quiet)
+							if ! quiet {
+								fmt.Fprintf(eout, "%d %s\n", lineNo, err)
+							}
 						}
 					}
 				case useLevenshtein == true:
@@ -253,14 +360,18 @@ func main() {
 						}
 						err := csvOut.Write(record)
 						if err != nil {
-							cli.OnError(app.Eout, fmt.Errorf("%d %s", lineNo, err), quiet)
+							if ! quiet {
+								fmt.Fprintf(eout, "%d %s\n", lineNo, err)
+							}
 						}
 					}
 				default:
 					if strings.Compare(src, target) == 0 {
 						err := csvOut.Write(record)
 						if err != nil {
-							cli.OnError(app.Eout, fmt.Errorf("%d %s", lineNo, err), quiet)
+							if ! quiet {
+								fmt.Fprintf(eout, "%d %s\n", lineNo, err)
+							}
 						}
 					}
 				}
@@ -268,12 +379,16 @@ func main() {
 					break
 				}
 			} else {
-				cli.OnError(app.Eout, fmt.Errorf("%d line skipped, missing column %d", lineNo, col), quiet)
+				if ! quiet {
+					fmt.Fprintf(eout, "%d line skipped, missing column %d\n", lineNo, col)
+				}
 			}
 		}
 	}
 	csvOut.Flush()
 	err = csvOut.Error()
-	cli.ExitOnError(app.Eout, err, quiet)
-	fmt.Fprintf(app.Out, "%s", eol)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+	}
+	fmt.Fprintf(out, "%s", eol)
 }

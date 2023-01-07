@@ -14,6 +14,9 @@ Bug
 Next
 ----
 
+- [ ] Reorganize documentation into man pages and how tos
+- [ ] documentation, simplify site navigation by flattening to two levels with second level linked by user manual page and "how to" page.
+- [ ] Update the build process to match my current practices
 - [ ] ioutil is depreciated, need to update the code that uses it.
 - [ ] Update how docs are generated, see about dropped cli package, there are better simpler ways to move forward
 - [ ] Review [Go-app.dev](https://go-app.dev) and see if I can make a useful format converted GUI based on the code for all the cli in the project.

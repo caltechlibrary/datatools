@@ -5,7 +5,7 @@ PROJECT = datatools
 
 PROGRAMS = codemeta2cff csv2json csv2mdtable csv2tab csv2xlsx csvcleaner csvcols csvfind csvjoin csvrows finddir findfile json2toml json2yaml jsoncols jsonjoin jsonmunge jsonrange mergepath range reldate reltime sql2csv string tab2csv timefmt toml2json urlparse xlsx2csv xlsx2json yaml2json
 
-MAN_PAGES = codemeta2cff.1 sql2csv.1
+MAN_PAGES = codemeta2cff.1 csv2json.1 csv2mdtable.1 csv2tab.1 csv2xlsx.1 csvcleaner.1 csvcols.1 csvfind.1 csvjoin.1 csvrows.1 finddir.1 findfile.1 json2toml.1 json2yaml.1 jsoncols.1 jsonjoin.1 jsonmunge.1 jsonrange.1 mergepath.1 range.1 reldate.1 reltime.1 sql2csv.1 string.1 tab2csv.1 timefmt.1 toml2json.1 urlparse.1 xlsx2csv.1 xlsx2json.1 yaml2json.1
 
 PACKAGE = $(shell ls -1 *.go)
 
@@ -32,11 +32,18 @@ endif
 build: version.go $(PROGRAMS) CITATION.cff about.md
 
 version.go: .FORCE
-	@echo "package $(PROJECT)" >version.go
+	@echo 'package $(PROJECT)' >version.go
 	@echo '' >>version.go
-	@echo 'const Version = "$(VERSION)"' >>version.go
+	@echo 'const (' >>version.go
+	@echo '    Version = "$(VERSION)"' >>version.go
 	@echo '' >>version.go
-	@git add version.go
+	@echo 'LicenseText = `' >>version.go
+	@cat LICENSE >>version.go
+	@echo '`' >>version.go
+	@echo ')' >>version.go
+	@echo '' >>version.go
+	-git add version.go
+
 
 about.md: codemeta.json .FORCE
 	cat codemeta.json | sed -E   's/"@context"/"at__context"/g;s/"@type"/"at__type"/g;s/"@id"/"at__id"/g' >_codemeta.json
@@ -52,10 +59,10 @@ $(PROGRAMS): $(PACKAGE)
 
 test: $(PACKAGE)
 	go test
+	bash test_cmd.bash
 #	cd reldate && go test
 #	cd timefmt && go test
 	cd codemeta && go test
-	bash test_cmd.bash
 	
 $(MAN_PAGES): .FORCE
 	mkdir -p man/man1

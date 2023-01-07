@@ -20,12 +20,14 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"os"
+	"path"
+	"strings"
 
 	// CaltechLibrary packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 
 	// 3rd Party packages
@@ -33,18 +35,61 @@ import (
 )
 
 var (
-	description = `
-%s is a tool that converts JSON objects into TOML output.
-`
+	helpText = `---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2013-01-06
+---
 
-	examples = `
+# NAME
+
+{app_name} 
+
+# SYNOPSIS
+
+{app_name} [OPTIONS] [JSON_FILENAME] [TOML_FILENAME]
+
+# DESCRIPTION
+
+{app_name} is a tool that converts JSON objects into TOML output.
+
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version:
+display version
+
+-nl, -newline
+: if true add a trailing newline
+
+-o, -output
+: output filename
+
+-p, -pretty
+: pretty print output
+
+-quiet
+: suppress error messages
+
+
+# EXAMPLES
+
 These would get the file named "my.json" and save it as my.toml
 
-    %s my.json > my.toml
+~~~
+    {app_name} my.json > my.toml
 
-	%s my.json my.toml
+	{app_name} my.json my.toml
 
-	cat my.json | %s -i - > my.toml
+	cat my.json | {app_name} -i - > my.toml
+~~~
+
+{app_name} {version}
 
 `
 
@@ -64,6 +109,10 @@ These would get the file named "my.json" and save it as my.toml
 	// Application Options
 	prettyPrint bool
 )
+
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
 
 func json2TOML(in io.Reader, out io.Writer, printPrint bool) error {
 	var (
@@ -89,35 +138,27 @@ func json2TOML(in io.Reader, out io.Writer, printPrint bool) error {
 }
 
 func main() {
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
-
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName)))
-
-	// Document non-option parameters
-	app.SetParams("[JSON_FILENAME]", "[TOML_FILENAME]")
+	appName := path.Base(os.Args[0])
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	//app.StringVar(&inputFName, "i,input", "", "input filename")
-	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
-	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.StringVar(&outputFName, "o", "", "output filename")
+	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+
+	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
 
 	// App Specific Options
-	app.BoolVar(&prettyPrint, "p,pretty", false, "pretty print output")
+	flag.BoolVar(&prettyPrint, "p", false, "pretty print output")
+	flag.BoolVar(&prettyPrint, "pretty", false, "pretty print output")
 
 	// Parse env and options
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
+	args := flag.Args()
 
 	// Handle case of input/output filenames provided without -i, -o
 	if len(args) > 0 {
@@ -129,46 +170,50 @@ func main() {
 
 	// Setup IO
 	var err error
-	app.Eout = os.Stderr
 
-	app.In, err = cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(inputFName, app.In)
+	in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
 
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if inputFName != "" {
+		in, err = os.Open(inputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer in.Close()
+	}
+
+	if outputFName != "" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
+	}
 
 	// Process options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 	if newLine {
 		eol = "\n"
 	}
 
-	err = json2TOML(app.In, app.Out, prettyPrint)
-	cli.ExitOnError(app.Eout, err, quiet)
-	fmt.Fprintf(app.Out, "%s", eol)
+	err = json2TOML(in, out, prettyPrint)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
+	}
+	fmt.Fprintf(out, "%s", eol)
 }

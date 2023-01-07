@@ -14,43 +14,50 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "json2yaml (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: json2yaml [OPTIONS] [JSON_FILENAME] [YAML_FILENAME]
+json2yaml
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+json2yaml OPTIONS [JSON_FILENAME] [YAML_FILENAME]
+.SH DESCRIPTION
 .PP
 json2yaml is a tool that converts JSON objects into YAML output.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--examples           display example(s)
--generate-manpage   generate man page
--generate-markdown  generate markdown documentation
--h, -help           display help
--l, -license        display license
--nl, -newline       if true add a trailing newline
--o, -output         output filename
--quiet              suppress error messages
--v, -version        display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+output filename
+.TP
+-quiet
+suppress error messages
+.SH EXAMPLES
 .PP
 These would get the file named \[lq]my.json\[rq] and save it as my.yaml
 .IP
 .nf
 \f[C]
-json2yaml my.json > my.yaml
+    json2yaml my.json > my.yaml
 
-json2yaml my.json my.taml
+    json2yaml my.json my.taml
 
-cat my.json | json2yaml -i - > my.taml
+    cat my.json | json2yaml -i - > my.taml
 \f[R]
 .fi
 .PP
 json2yaml 1.2.1
+.SH AUTHORS
+R. S. Doiel.

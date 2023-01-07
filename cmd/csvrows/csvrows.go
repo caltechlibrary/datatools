@@ -21,12 +21,13 @@ package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"os"
+	"path"
 	"strings"
 
 	// Caltech Library packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 )
 
@@ -36,38 +37,108 @@ const (
 )
 
 var (
-	description = `
-%s converts a set of command line args into rows of CSV formated output.
-It can also be used to filter or list specific rows of CSV input
-The first row is 1 not 0. Often row 1 is the header row and %s makes it
-easy to output only the data rows.
-`
+	helpText = `---
+title: "{app_name}"
+author: "R. S. Doiel"
+pubDate: 2023-01-06
+---
 
-	examples = `
+# NAME
+
+{app_name} 
+
+# SYNOPSIS
+
+{app_name} [OPTIONS] [ARGS_AS_ROW_VALUES]
+
+# DESCRIPTION
+
+{app_name} converts a set of command line args into rows of CSV
+formated output.  It can also be used to filter or list specific rows
+of CSV input The first row is 1 not 0. Often row 1 is the header row 
+and {app_name} makes it easy to output only the data rows.
+
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+-d, -delimiter
+: set delimiter character
+
+-header
+: display the header row (alias for '-rows 1')
+
+-i, -input
+: input filename
+
+-o, -output
+: output filename
+
+-quiet
+: suppress error messages
+
+-random
+: return N randomly selected rows
+
+-row, -rows
+: output specified rows in order (e.g. -row 1,5,2-4))
+
+-skip-header-row
+: skip the header row (alias for -row 2-
+
+-trim-leading-space
+: trim leading space in field(s) for CSV input
+
+-use-lazy-quotes
+: use lazy quotes for CSV input
+
+
+# EXAMPLES
+
 Simple usage of building a CSV file one rows at a time.
 
-    %s "First,Second,Third" "one,two,three" > 4rows.csv
-    %s "ein,zwei,drei" "1,2,3" >> 4rows.csv
+~~~
+    {app_name} "First,Second,Third" "one,two,three" > 4rows.csv
+    {app_name} "ein,zwei,drei" "1,2,3" >> 4rows.csv
     cat 4row.csv
+~~~
 
 Example parsing a pipe delimited string into a CSV line
 
-    %s -d "|" "First,Second,Third|one,two,three" > 4rows.csv
-    %s -delimiter "|" "ein,zwei,drei|1,2,3" >> 4rows.csv
+~~~
+    {app_name} -d "|" "First,Second,Third|one,two,three" > 4rows.csv
+    {app_name} -delimiter "|" "ein,zwei,drei|1,2,3" >> 4rows.csv
     cat 4rows.csv
+~~~
 
 Filter a 10 row CSV file for rows 1,4,6 (top most row is one)
 
-    cat 10row.csv | %s -row 1,4,6 > 3rows.csv
+~~~
+    cat 10row.csv | {app_name} -row 1,4,6 > 3rows.csv
+~~~
 
 Filter a 10 row CSV file for rows 1,4,6 from file named "10row.csv"
 
-    %s -i 10row.csv -row 1,4,6 > 3rows.csv
+~~~
+    {app_name} -i 10row.csv -row 1,4,6 > 3rows.csv
+~~~
 
 Filter 3 randomly selected rows from 10row.csv rendering new CSV with
 a header row from 10row.csv.
 
-	%s -i 10row.csv -header=true -random=3
+~~~
+	{app_name} -i 10row.csv -header=true -random=3
+~~~
+
+{app_name} {version}
+
 `
 
 	// Standard options
@@ -94,85 +165,82 @@ a header row from 10row.csv.
 	trimLeadingSpace bool
 )
 
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
+
 func main() {
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
-
-	// Document non-option parameters
-	app.SetParams(`[ARGS_AS_ROW_VALUES]`)
-
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName, appName)))
+	appName := path.Base(os.Args[0])
 
 	// Standard options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.StringVar(&inputFName, "i,input", "", "input filename")
-	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
-	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.StringVar(&inputFName, "i", "", "input filename")
+	flag.StringVar(&inputFName, "input", "", "input filename")
+	flag.StringVar(&outputFName, "o", "", "output filename")
+	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// Application specific options
-	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
-	app.StringVar(&outputRows, "row,rows", "", "output specified rows in order (e.g. -row 1,5,2-4))")
-	app.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2-")
-	app.BoolVar(&showHeader, "header", false, "display the header row (alias for '-rows 1')")
-	app.IntVar(&randomRows, "random", 0, "return N randomly selected rows")
-	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for CSV input")
-	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
+	flag.StringVar(&delimiter, "d", "", "set delimiter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
+	flag.StringVar(&outputRows, "row", "", "output specified rows in order (e.g. -row 1,5,2-4))")
+	flag.StringVar(&outputRows, "rows", "", "output specified rows in order (e.g. -row 1,5,2-4))")
+	flag.BoolVar(&skipHeaderRow, "skip-header-row", false, "skip the header row (alias for -row 2-")
+	flag.BoolVar(&showHeader, "header", false, "display the header row (alias for '-rows 1')")
+	flag.IntVar(&randomRows, "random", 0, "return N randomly selected rows")
+	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for CSV input")
+	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
 
 	// Parse env and options
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
+	args := flag.Args()
 
 	// Setup IO
 	var err error
 
-	app.Eout = os.Stderr
+	in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
 
-	app.In, err = cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(inputFName, app.In)
+	if inputFName != "" {
+		in, err = os.Open(inputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer in.Close()
+	}
 
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if outputFName != "" {
+		out, err := os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
+	}
+
 
 	// Process Options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 
 	if randomRows > 0 {
-		if err := datatools.CSVRandomRows(app.In, app.Out, showHeader, randomRows, delimiter, lazyQuotes, trimLeadingSpace); err != nil {
-			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
+		if err := datatools.CSVRandomRows(in, out, showHeader, randomRows, delimiter, lazyQuotes, trimLeadingSpace); err != nil {
+			fmt.Fprintf(eout, "%s, %s\n", inputFName, err)
 			os.Exit(1)
 		}
 		os.Exit(0)
@@ -180,7 +248,10 @@ func main() {
 
 	if outputRows != "" {
 		rowNos, err := datatools.ParseRange(outputRows)
-		cli.ExitOnError(app.Eout, err, quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 
 		// NOTE: We need to adjust from humans counting from 1 to counting from zero
 		for i := 0; i < len(rowNos); i++ {
@@ -189,15 +260,15 @@ func main() {
 				rowNos[i] = 0
 			}
 		}
-		if err := datatools.CSVRows(app.In, app.Out, showHeader, rowNos, delimiter, lazyQuotes, trimLeadingSpace); err != nil {
-			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
+		if err := datatools.CSVRows(in, out, showHeader, rowNos, delimiter, lazyQuotes, trimLeadingSpace); err != nil {
+			fmt.Fprintf(eout, "%s, %s\n", inputFName, err)
 			os.Exit(1)
 		}
 		os.Exit(0)
 	}
 	if inputFName != "" {
-		if err := datatools.CSVRowsAll(app.In, app.Out, showHeader, delimiter, lazyQuotes, trimLeadingSpace); err != nil {
-			fmt.Fprintf(app.Eout, "%s, %s\n", inputFName, err)
+		if err := datatools.CSVRowsAll(in, out, showHeader, delimiter, lazyQuotes, trimLeadingSpace); err != nil {
+			fmt.Fprintf(eout, "%s, %s\n", inputFName, err)
 			os.Exit(1)
 		}
 		os.Exit(0)
@@ -209,7 +280,7 @@ func main() {
 	}
 
 	// Clean up cells removing outer quotes if necessary
-	w := csv.NewWriter(app.Out)
+	w := csv.NewWriter(out)
 	if delimiter != "" {
 		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}
@@ -221,14 +292,19 @@ func main() {
 			r.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		}
 		record, err := r.Read()
-		cli.ExitOnError(app.Eout, err, quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 		r = nil
 		if err := w.Write(record); err != nil {
-			cli.ExitOnError(app.Eout, err, quiet)
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
 		}
 	}
 	w.Flush()
 	if err := w.Error(); err != nil {
-		cli.ExitOnError(app.Eout, err, quiet)
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
 	}
 }

@@ -20,32 +20,129 @@ package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"strings"
 
 	// My packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 )
 
 var (
-	description = `
-%s outputs CSV content based on two CSV files with matching column values.
-Each CSV input file has a designated column to match on. The values are
-compared as strings. Columns are counted from one rather than zero.
-`
+	helpText = `---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-06
+---
 
-	examples = `
+# NAME
+
+{app_name}
+
+# SYNOPSIS
+
+{app_name} [OPTIONS] CSV1 CSV2 COL1 COL2
+
+# DESCRIPTION
+
+{app_name} outputs CSV content based on two CSV files with matching
+column values.  Each CSV input file has a designated column to match
+on. The values are compared as strings. Columns are counted from one
+rather than zero.
+
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+-allow-duplicates
+: allow duplicates when searching for matches
+
+-case-sensitive
+: make a case sensitive match (default is case insensitive)
+
+-col1
+: column to on join on in first CSV file
+
+-col2
+: column to on join on in second CSV file
+
+-contains
+: match columns based on csv1/col1 contained in csv2/col2
+
+-csv1
+: first CSV filename
+
+-csv2
+: second CSV filename
+
+-d, -delimiter
+: set delimiter character
+
+-delete-cost
+: deletion cost to use when calculating Levenshtein edit distance
+
+-in-memory
+: if true read both CSV files
+
+-insert-cost
+: insertion cost to use when calculating Levenshtein edit distance
+
+-levenshtein
+: match columns using Levensthein edit distance
+
+-max-edit-distance
+: maximum edit distance for match using Levenshtein distance
+
+-o, -output
+: output filename
+
+-quiet
+: supress error messages
+
+-stop-words
+: a column delimited list of stop words to ingnore when matching
+
+-substitute-cost
+: substitution cost to use when calculating Levenshtein edit distance
+
+-trim-leading-space
+: trim leading space in field(s) for CSV input
+
+-trimspaces
+: trim spaces around cell values before comparing
+
+-use-lazy-quotes
+: use lazy quotes for CSV input
+
+-verbose
+: output processing count to stderr
+
+
+# EXAMPLES
+
 Simple usage of building a merged CSV file from data1.csv
 and data2.csv where column 1 in data1.csv matches the value in
 column 3 of data2.csv with the results being written to 
 merged-data.csv..
 
-    %s -csv1=data1.csv -col1=2 \
+~~~
+    {app_name} -csv1=data1.csv -col1=2 \
        -csv2=data2.csv -col2=4 \
        -output=merged-data.csv
+~~~
+
+{app_name} {version}
+
 `
 
 	// Standard Options
@@ -79,6 +176,10 @@ merged-data.csv..
 	lazyQuotes       bool
 	trimLeadingSpace bool
 )
+
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
 
 // cellsMatch checks if two cells' values match
 func cellsMatch(val1, val2 string, stopWords []string) bool {
@@ -150,116 +251,103 @@ func scanTable(eout io.Writer, w *csv.Writer, rowA []string, col1 int, table [][
 }
 
 func main() {
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
+	appName := path.Base(os.Args[0])
 
-	// Documemt non-option parameters
-	app.SetParams("CSV1", "CSV2", "COL1", "COL2")
-
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName)))
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
-	app.BoolVar(&quiet, "quiet", false, "supress error messages")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.StringVar(&outputFName, "o", "", "output filename")
+	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "supress error messages")
 
 	// App Options
-	app.BoolVar(&verbose, "verbose", false, "output processing count to stderr")
-	app.StringVar(&csv1FName, "csv1", "", "first CSV filename")
-	app.StringVar(&csv2FName, "csv2", "", "second CSV filename")
-	app.IntVar(&col1, "col1", 0, "column to on join on in first CSV file")
-	app.IntVar(&col2, "col2", 0, "column to on join on in second CSV file")
-	app.BoolVar(&caseSensitive, "case-sensitive", false, "make a case sensitive match (default is case insensitive)")
-	app.BoolVar(&useContains, "contains", false, "match columns based on csv1/col1 contained in csv2/col2")
-	app.BoolVar(&useLevenshtein, "levenshtein", false, "match columns using Levensthein edit distance")
-	app.IntVar(&insertCost, "insert-cost", 1, "insertion cost to use when calculating Levenshtein edit distance")
-	app.IntVar(&deleteCost, "delete-cost", 1, "deletion cost to use when calculating Levenshtein edit distance")
-	app.IntVar(&substituteCost, "substitute-cost", 1, "substitution cost to use when calculating Levenshtein edit distance")
-	app.IntVar(&maxEditDistance, "max-edit-distance", 5, "maximum edit distance for match using Levenshtein distance")
-	app.StringVar(&stopWordsOption, "stop-words", "", "a column delimited list of stop words to ingnore when matching")
-	app.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
-	app.BoolVar(&trimSpaces, "trimspaces", false, "trim spaces around cell values before comparing")
-	app.BoolVar(&asInMemory, "in-memory", false, "if true read both CSV files")
-	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter character")
-	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for CSV input")
-	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
+	flag.BoolVar(&verbose, "verbose", false, "output processing count to stderr")
+	flag.StringVar(&csv1FName, "csv1", "", "first CSV filename")
+	flag.StringVar(&csv2FName, "csv2", "", "second CSV filename")
+	flag.IntVar(&col1, "col1", 0, "column to on join on in first CSV file")
+	flag.IntVar(&col2, "col2", 0, "column to on join on in second CSV file")
+	flag.BoolVar(&caseSensitive, "case-sensitive", false, "make a case sensitive match (default is case insensitive)")
+	flag.BoolVar(&useContains, "contains", false, "match columns based on csv1/col1 contained in csv2/col2")
+	flag.BoolVar(&useLevenshtein, "levenshtein", false, "match columns using Levensthein edit distance")
+	flag.IntVar(&insertCost, "insert-cost", 1, "insertion cost to use when calculating Levenshtein edit distance")
+	flag.IntVar(&deleteCost, "delete-cost", 1, "deletion cost to use when calculating Levenshtein edit distance")
+	flag.IntVar(&substituteCost, "substitute-cost", 1, "substitution cost to use when calculating Levenshtein edit distance")
+	flag.IntVar(&maxEditDistance, "max-edit-distance", 5, "maximum edit distance for match using Levenshtein distance")
+	flag.StringVar(&stopWordsOption, "stop-words", "", "a column delimited list of stop words to ingnore when matching")
+	flag.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
+	flag.BoolVar(&trimSpaces, "trimspaces", false, "trim spaces around cell values before comparing")
+	flag.BoolVar(&asInMemory, "in-memory", false, "if true read both CSV files")
+	flag.StringVar(&delimiter, "d", "", "set delimiter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
+	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for CSV input")
+	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
 
 	// Parse env and options
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
 
 	// Setup IO
 	var err error
 
-	app.Eout = os.Stderr
+	out := os.Stdout
+	eout := os.Stderr
 
-	/* NOTE: we don't read from stdin as we need tp csv files
-	app.In, err = cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(inputFName, app.In)
-	*/
 
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if outputFName != "" {
+		out, err := os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
+	}
+
 
 	// Process Options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 
 	// NOTE: We are counting columns for humans from 1 rather than zero.
 	if col1 <= 0 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("col1 must be one or greater, %d\n", col1), quiet)
+		fmt.Fprintf(eout, "col1 must be one or greater, %d\n", col1)
+		os.Exit(1)
 	}
 	if col2 <= 0 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("col2 must be one or greater, %d\n", col2), quiet)
+		fmt.Fprintf(eout, "col2 must be one or greater, %d\n", col2)
+		os.Exit(1)
 	}
 	col1--
 	col2--
 
 	if len(csv1FName) == 0 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Missing first CSV filename"), quiet)
+		fmt.Fprintln(eout, "Missing first CSV filename")
+		os.Exit(1)
 	}
 
 	if len(csv2FName) == 0 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Missing second CSV filename"), quiet)
+		fmt.Fprintln(eout, "Missing second CSV filename")
+		os.Exit(1)
 	}
 
 	if col1 < 0 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Cannot use a negative column index %d\n", col1), quiet)
+		fmt.Fprintf(eout, "Cannot use a negative column index %d\n", col1)
+		os.Exit(1)
 	}
 	if col2 < 0 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Cannot use a negative column index %d\n", col2), quiet)
+		fmt.Fprintf(eout, "Cannot use a negative column index %d\n", col2)
+		os.Exit(1)
 	}
 
 	// FIXME: Should only read the smaller of two files into memory
@@ -268,20 +356,26 @@ func main() {
 	// Read in CSV2 to memory then iterate over CSV1 output rows that have
 	// matching column's value
 	fp1, err := os.Open(csv1FName)
-	cli.ExitOnError(app.Eout, err, quiet)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
+	}
 	defer fp1.Close()
 	csv1 := csv.NewReader(fp1)
 	csv1.LazyQuotes = lazyQuotes
 	csv1.TrimLeadingSpace = trimLeadingSpace
 
 	fp2, err := os.Open(csv2FName)
-	cli.ExitOnError(app.Eout, err, quiet)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
+	}
 	defer fp2.Close()
 	csv2 := csv.NewReader(fp2)
 	csv2.LazyQuotes = lazyQuotes
 	csv2.TrimLeadingSpace = trimLeadingSpace
 
-	w := csv.NewWriter(app.Out)
+	w := csv.NewWriter(out)
 	if delimiter != "" {
 		csv1.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		csv2.Comma = datatools.NormalizeDelimiterRune(delimiter)
@@ -296,8 +390,10 @@ func main() {
 			break
 		}
 		if err != nil {
-			cli.OnError(app.Eout, fmt.Errorf("%s, %s (%T %+v)", csv2FName, err, record, record), quiet)
-		}
+			if ! quiet {
+				fmt.Fprintf(eout, "%s, %s (%T %+v)\n", csv2FName, err, record, record)
+			}
+		} 
 		csv2Table = append(csv2Table, record)
 	}
 
@@ -310,17 +406,23 @@ func main() {
 				break
 			}
 			if err != nil {
-				cli.OnError(app.Eout, fmt.Errorf("%d %s\n", lineNo, err), quiet)
+				if ! quiet {
+					fmt.Fprintf(eout, "%d %s\n", lineNo, err)
+				}
 			} else {
 				if col1 < len(rowA) && rowA[col1] != "" {
 					// We are relying on the side effect of writing the CSV output in scanTable
-					if err := scanTable(app.Eout, w, rowA, col1, csv2Table, col2, stopWords); err != nil {
-						cli.OnError(app.Eout, fmt.Errorf("Can't write CSV at line %d of csv table 1, %s\n", lineNo, err), quiet)
+					if err := scanTable(eout, w, rowA, col1, csv2Table, col2, stopWords); err != nil {
+						if ! quiet {
+							fmt.Fprintf(eout, "Can't write CSV at line %d of csv table 1, %s\n", lineNo, err)
+						}
 					}
 				}
 				if verbose == true {
 					if (lineNo%100) == 0 && lineNo > 0 {
-						cli.OnError(app.Eout, fmt.Errorf("\n%d rows of %s processed\n", lineNo, csv1FName), quiet)
+						if ! quiet {
+							fmt.Fprintf(eout, "\n%d rows of %s processed\n", lineNo, csv1FName)
+						}
 					}
 				}
 			}
@@ -336,7 +438,9 @@ func main() {
 				break
 			}
 			if err != nil {
-				cli.OnError(app.Eout, fmt.Errorf("%s, %s (%T %+v)", csv1FName, err, record, record), quiet)
+				if ! quiet {
+					fmt.Fprintf(eout, "%s, %s (%T %+v)\n", csv1FName, err, record, record)
+				}
 			}
 			csv1Table = append(csv1Table, record)
 		}
@@ -344,13 +448,17 @@ func main() {
 		for i, rowA := range csv1Table {
 			if col1 < len(rowA) && rowA[col1] != "" {
 				// We are relying on the side effect of writing the CSV output in scanTable
-				if err := scanTable(app.Eout, w, rowA, col1, csv2Table, col2, stopWords); err != nil {
-					cli.OnError(app.Eout, fmt.Errorf("Can't write CSV at line %d of csv table 1, %s", lineNo, err), quiet)
+				if err := scanTable(eout, w, rowA, col1, csv2Table, col2, stopWords); err != nil {
+					if ! quiet {
+						fmt.Fprintf(eout, "Can't write CSV at line %d of csv table 1, %s\n", lineNo, err)
+					}
 				}
 			}
 			if verbose == true {
 				if (lineNo%100) == 0 && lineNo > 0 {
-					cli.OnError(app.Eout, fmt.Errorf("%d rows of %s processed", lineNo, csv1FName), quiet)
+					if ! quiet {
+						fmt.Fprintf(eout, "%d rows of %s processed\n", lineNo, csv1FName)
+					}
 				}
 			}
 			lineNo = i
@@ -358,5 +466,8 @@ func main() {
 	}
 	w.Flush()
 	err = w.Error()
-	cli.ExitOnError(app.Eout, err, quiet)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
+	}
 }
