@@ -1,129 +1,162 @@
+---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-09
+---
 
-USAGE: string [OPTIONS] [VERB] [VERB PARAMETERS...]
+# NAME
 
-DESCRIPTION
+{app_name}
 
-string is a command line tool for transforming strings in common ways.
+# SYNOPSIS
 
-+ string length
-+ changing cases
-+ checking for prefixes, suffixes 
-+ trimming prefixes, suffixes and cutsets (i.e. list of characters to cut)
-+ position, counting and replacing substrings
-+ splitting a string into a JSON array of strings, joining JSON a string arrays into a string
+{app_name} [OPTIONS] [VERB] [VERB PARAMETERS...]
 
-OPTIONS
+# DESCRIPTION
 
-    -d, -delimiter           set the delimiter
-    -do, -output-delimiter   set the output delimiter
-    -e, -examples            display examples
-    -generate-manpage        generate man page
-    -generate-markdown       generate Markdown documentation
-    -h, -help                display help
-    -i, -input               input file name
-    -l, -license             display license
-    -nl, -newline            if true add a trailing newline
-    -o, -output              output file name
-    -quiet                   suppress error messages
-    -v, -version             display version
+{app_name} is a command line tool for transforming strings in common ways.
 
+- string length
+- changing cases
+- checking for prefixes, suffixes 
+- trimming prefixes, suffixes and cutsets (i.e. list of characters to cut)
+- position, counting and replacing substrings
+- splitting a string into a JSON array of strings, joining JSON a string arrays into a string
 
-VERBS
+# OPTIONS
 
-    contains       has substrings: SUBSTRING [STRING]
-                    `string contains SUBSTRING [STRING]`
+-help
+: display help
 
-    count          count substrings: SUBSTRING [STRING]
-                    `string count SUBSTRING [STRING]`
+-license
+:display license
 
-    englishtitle   English style title case: [STRING]
-                    `string englishtitle [STRING]`
+-version
+: display version
 
-    hasprefix      true/false on prefix: PREFIX [STRING]
-                    `string hasprefix PREFIX [STRING]`
+-d, -delimiter
+: set the delimiter
 
-    hassuffix      true/false on suffix: SUFFIX [STRING]
-                    `string hassuffix SUFFIX [STRING]`
+-do, -output-delimiter
+: set the output delimiter
 
-    join           join JSON array into string: DELIMITER [JSON_ARRAY]
-                    `string join DELIMITER [JSON_ARRAY]`
+-i, -input
+: input file name
 
-    length         length of string: [STRING]
-                    `string length [STRING]`
+-nl, -newline
+: if true add a trailing newline
 
-    padleft        left pad: PADDING MAX_LENGTH [STRING]
-                    `string padleft PADDING MAX_LENGTH [STRING]`
+-o, -output
+: output file name
 
-    padright       right pad: PADDING MAX_LENGTH [STRING]
-                    `string padright PADDING MAX_LENGTH [STRING]`
-
-    position       position of substring: SUBSTRING [STRING]
-                    `string position SUBSTRING [STRING]`
-
-    replace        replace: OLD NEW [STRING]
-                    `string replace OLD NEW [STRING]`
-
-    replacen       replace n times: OLD NEW N [STRING]
-                    `string replacen OLD NEW N [STRING]`
-
-    slice          copy a substring: START END [STRING]
-                    `string slice START END [STRING]`
-
-    split          split into a JSON array: DELIMITER [STRING]
-                    `string split DELIMITER [STRING]`
-
-    splitn         split into an N length JSON array: DELIMITER N [STRING]
-                    `string splitn DELIMITER N [STRING]`
-
-    tolower        to lower case: [STRING]
-                    `string tolower [STRING]`
-
-    totitle        to title case: [STRING]
-                    `string totitle [STRING]`
-
-    toupper        to upper case: [STRING]
-                    `string toupper [STRING]`
-
-    trim           trim (beginning and end), CUTSET [STRING]
-                    `string trim CURSET [STRING]`
-
-    trimleft       left trim: CUTSET [STRING]
-                    `string trimleft CUTSET [STRING]`
-
-    trimprefix     trims prefix: PREFIX [STRING]
-                    `string trimprefix PREFIX [STRING]`
-
-    trimright      right trim: CUTSET [STRING]
-                    `string trimright CUTSET [STRING]`
-
-    trimspace      trim leading and trailing spaces: [STRING]
-                    `string trimspace [STRING]`
-
-    trimsuffix     trim suffix: SUFFIX [STRING]
-                    `string trimsuffix SUFFIX [STRING]`
+-quiet
+: suppress error messages
 
 
+## VERBS
 
-EXAMPLES
+contains
+: has substrings: SUBSTRING [STRING] `{app_name} contains SUBSTRING [STRING]`
+
+count
+: count substrings: SUBSTRING [STRING] `{app_name} count SUBSTRING [STRING]`
+
+englishtitle
+: English style title case: [STRING] `{app_name} englishtitle [STRING]`
+
+hasprefix
+: true/false on prefix: PREFIX [STRING] `{app_name} hasprefix PREFIX [STRING]`
+
+hassuffix
+: true/false on suffix: SUFFIX [STRING] `{app_name} hassuffix SUFFIX [STRING]`
+
+join
+: join JSON array into string: DELIMITER [JSON_ARRAY] `{app_name} join DELIMITER [JSON_ARRAY]`
+
+length
+: length of string: [STRING] `{app_name} length [STRING]`
+
+padleft
+: left pad PADDING MAX_LENGTH [STRING] `{app_name} padleft PADDING MAX_LENGTH [STRING]`
+
+padright
+: right pad PADDING MAX_LENGTH [STRING] `{app_name} padright PADDING MAX_LENGTH [STRING]`
+
+position
+: position of substring: SUBSTRING [STRING] `{app_name} position SUBSTRING [STRING]`
+
+replace
+: replace: OLD NEW [STRING] `{app_name} replace OLD NEW [STRING]`
+
+replacen
+: replace n times: OLD NEW N [STRING] `{app_name} replacen OLD NEW N [STRING]`
+
+slice
+: copy a substring: START END [STRING] `{app_name} slice START END [STRING]`
+
+split
+: split into a JSON array: DELIMITER [STRING] `{app_name} split DELIMITER [STRING]`
+
+splitn
+: split into an N length JSON array: DELIMITER N [STRING] `{app_name} splitn DELIMITER N [STRING]`
+
+tolower
+: to lower case: [STRING] `{app_name} tolower [STRING]`
+
+totitle
+: to title case: [STRING] `{app_name} totitle [STRING]`
+
+toupper
+: to upper case: [STRING] `{app_name} toupper [STRING]`
+
+trim
+: trim (beginning and end), CUTSET [STRING] `{app_name} trim CURSET [STRING]`
+
+trimleft
+: left trim CUTSET [STRING] `{app_name} trimleft CUTSET [STRING]`
+
+trimprefix
+: trims prefix: PREFIX [STRING] `{app_name} trimprefix PREFIX [STRING]`
+
+trimright
+: right trim: CUTSET [STRING] `{app_name} trimright CUTSET [STRING]`
+
+trimspace
+: trim leading and trailing spaces: [STRING] `{app_name} trimspace [STRING]`
+
+trimsuffix
+: trim suffix: SUFFIX [STRING] `{app_name} trimsuffix SUFFIX [STRING]`
+
+# EXAMPLES
 
 Convert text to upper case
 
-	string toupper "one"
+~~~
+	{app_name} toupper "one"
+~~~
 
 Convert text to lower case
 
-	string tolower "ONE"
+~~~
+	{app_name} tolower "ONE"
+~~~
 
 Captialize an English phrase
 
-	string englishtitle "one more thing to know"
+~~~
+	{app_name} englishtitle "one more thing to know"
+~~~
 
 Split a space newline delimited list of words into a JSON array
 
-	string -i wordlist.txt split "\n"
+~~~
+	{app_name} -i wordlist.txt split "\n"
+~~~
 
 Join a JSON array of strings into a newline delimited list
 
-	string join '\n' '["one","two","three","four","five"]'
+~~~
+	{app_name} join '\n' '["one","two","three","four","five"]'
+~~~
 
-string 1.2.1
+{app_name} {version}
