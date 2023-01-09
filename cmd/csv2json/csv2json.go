@@ -184,6 +184,7 @@ func main() {
 			fmt.Fprintln(eout, err)
 			os.Exit(1)
 		}
+		defer in.Close()
 	}
 	if outputFName != "" {
 		out, err = os.Create(outputFName)
@@ -191,6 +192,7 @@ func main() {
 			fmt.Fprintln(eout, err)
 			os.Exit(1)
 		}
+		defer out.Close()
 	}
 
 	// Process options

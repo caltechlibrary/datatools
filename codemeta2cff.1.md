@@ -8,7 +8,7 @@ pubDate: 2022-10-28
 
 codemeta2cff
 
-# SYSNOPSIS
+# SYNOPSIS
 
 codemeta2cff [OPTIONS] [CODEMETA_JSON CITATION_CFF]
 

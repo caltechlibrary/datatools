@@ -1,32 +1,57 @@
+---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-09
+---
 
-USAGE: yaml2json [OPTIONS] [YAML_FILENAME] [JSON_NAME]
+# NAME
 
-DESCRIPTION
+{app_name}
 
-yaml2json is a tool that converts YAML into JSON output.
+# SYNOPSIS
 
-OPTIONS
+{app_name} [OPTIONS] [YAML_FILENAME] [JSON_NAME]
 
-    -examples           display example(s)
-    -generate-manpage   generate man page
-    -generate-markdown  generate markdown documentation
-    -h, -help           display help
-    -l, -license        display license
-    -nl, -newline       if true add a trailing newline
-    -o, -output         output filename
-    -p, -pretty         pretty print output
-    -quiet              suppress error messages
-    -v, -version        display version
+# DESCRIPTION
+
+{app_name} is a tool that converts YAML into JSON output.
+
+# OPTIONS
 
 
-EXAMPLES
+-help:
+display help
+
+-license
+: display license
+
+-version
+: display version
+
+-nl, -newline
+: if true add a trailing newline
+
+-o, -output
+: output filename
+
+-p, -pretty
+: pretty print output
+
+-quiet
+: suppress error messages
+
+
+# EXAMPLES
 
 These would get the file named "my.yaml" and save it as my.json
 
-    yaml2json my.yaml > my.json
+~~~
+    {app_name} my.yaml > my.json
 
-    yaml2json my.yaml my.json
+    {app_name} my.yaml my.json
 
-	cat my.yaml | yaml2json -i - > my.json
+	cat my.yaml | {app_name} -i - > my.json
+~~~
 
-yaml2json 1.2.1
+{app_name} {version}
+
