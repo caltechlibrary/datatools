@@ -8,131 +8,228 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"strings"
 
 	// CaltechLibrary Packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 	"github.com/caltechlibrary/dotpath"
 )
 
 var (
-	description = `
-%s returns returns a range of values based on the JSON structure being read and
-options applied.  Without options the JSON structure is read from standard input
-and writes a list of keys to standard out. Keys are either attribute names or for
-arrays the index position (counting form zero).  If a DOT_PATH_EXPRESSION is included
-on the command line then that is used to generate the results. Using options to 
-can choose to read the JSON data structure from a file, write the output to a file
-as well as display values instead of keys. a list of "keys" of an index or map in JSON.  
+	helpText =`---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-09
+---
 
-Using options it can also return a list of values.  The JSON object is read from standard in and the
-resulting list is normally written to standard out. There are options to read or
-write to files.  Additional parameters are assumed to be a dot path notation
-select the parts of the JSON data structure you want from the range. 
+# NAME
 
-DOT_PATH_EXPRESSION is a dot path stale expression indicating what you want range over.
-E.g.
+{app_name} 
 
-+ . would indicate the whole JSON data structure read is used to range over
-+ .name would indicate to range over the value pointed at by the "name" attribute 
-+ ["name"] would indicate to range over the value pointed at by the "name" attribute
-+ [0] would indicate to range over the value held in the zero-th element of the array
+# SYNOPSIS
+
+{app_name} [OPTIONS] [DOT_PATH_EXPRESSION]
+
+# DESCRIPTION
+
+{app_name} returns returns a range of values based on the JSON structure
+being read and options applied.  Without options the JSON structure is
+read from standard input and writes a list of keys to standard out. Keys
+are either attribute names or for arrays the index position (counting
+form zero).  If a DOT_PATH_EXPRESSION is included on the command line then
+that is used to generate the results. Using options to can choose to read
+the JSON data structure from a file, write the output to a file as well
+as display values instead of keys. a list of "keys" of an index or map in
+JSON.  
+
+Using options it can also return a list of values.  The JSON object is
+read from standard in and the resulting list is normally written to
+standard out. There are options to read or write to files.  Additional
+parameters are assumed to be a dot path notation select the parts of the
+JSON data structure you want from the range. 
+
+DOT_PATH_EXPRESSION is a dot path stale expression indicating what you
+want range over.  E.g.
+
+- . would indicate the whole JSON data structure read is used to range over
+- .name would indicate to range over the value pointed at by the "name" attribute 
+- ["name"] would indicate to range over the value pointed at by the "name" attribute
+- [0] would indicate to range over the value held in the zero-th element of the array
 
 The path can be chained together
 
-+ .name.family would point to the value heald by the "name" attributes' "family" attribute.
-`
+- .name.family would point to the value heald by the "name" attributes' "family" attribute.
 
-	examples = `
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+-d, -delimiter
+: set delimiter for range output
+
+-i, -input
+: read JSON from file
+
+-last
+: return the index of the last element in list (e.g. length - 1)
+
+-length
+: return the number of keys or values
+
+-limit
+: limit the number of items output
+
+-nl, -newline
+: if true add a trailing newline
+
+-o, -output
+: write to output file
+
+-quiet
+: suppress error messages
+
+-values
+: return the values instead of the keys
+
+
+# EXAMPLES
+
 Working with a map
 
+~~~
     echo '{"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}' \
-       | %s
+       | {app_name}
+~~~
 
 This would yield
 
+~~~
     name
     email
     age
+~~~
 
 Using the -values option on a map
 
+~~~
     echo '{"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}' \
-      | %s -values
+      | {app_name} -values
+~~~
 
 This would yield
 
+~~~
     "Doe, Jane"
     "jane.doe@example.org"
     42
+~~~
 
 
 Working with an array
 
-    echo '["one", 2, {"label":"three","value":3}]' | %s
+~~~
+    echo '["one", 2, {"label":"three","value":3}]' | {app_name}
+~~~
 
 would yield
 
+~~~
     0
     1
     2
+~~~
 
 Using the -values option on the same array
 
-    echo '["one", 2, {"label":"three","value":3}]' | %s -values
+~~~
+    echo '["one", 2, {"label":"three","value":3}]' | {app_name} -values
+~~~
 
 would yield
 
+~~~
     one
     2
     {"label":"three","value":3}
+~~~
 
 Checking the length of a map or array or number of keys in map
 
-    echo '["one","two","three"]' | %s -length
+~~~
+    echo '["one","two","three"]' | {app_name} -length
+~~~
 
 would yield
 
+~~~
     3
+~~~
 
 Check for the index of last element
 
-    echo '["one","two","three"]' | %s -last
+~~~
+    echo '["one","two","three"]' | {app_name} -last
+~~~
 
 would yield
 
+~~~
     2
+~~~
 
 Check for the index value of last element
 
-    echo '["one","two","three"]' | %s -values -last
+~~~
+    echo '["one","two","three"]' | {app_name} -values -last
+~~~
 
 would yield
 
+~~~
     "three"
+~~~
 
 Limitting the number of items returned
 
-    echo '[10,20,30,40,50]' | %s -limit 2
+~~~
+    echo '[10,20,30,40,50]' | %!s(MISSING) -limit 2
+~~~
 
 would yield
 
+~~~
     1
     2
+~~~
 
 Limitting the number of values returned
 
-    echo '[10,20,30,40,50]' | %s -values -limit 2
+~~~
+    echo '[10,20,30,40,50]' | %!s(MISSING) -values -limit 2
+~~~
 
 would yield
 
+~~~
     10
     20
+~~~
+
+{app_name} {version}
 `
+
 
 	// Standard Options
 	showHelp         bool
@@ -154,6 +251,10 @@ would yield
 	delimiter  string
 	limit      int
 )
+
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
 
 func mapKeys(data map[string]interface{}, limit int) ([]string, error) {
 	result := []string{}
@@ -242,76 +343,71 @@ func srcVals(data interface{}, limit int) ([]string, error) {
 }
 
 func main() {
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
-
-	// Document non-option parameters
-	app.SetParams("[DOT_PATH_EXPRESSION]")
-
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName, appName)))
+	appName := path.Base(os.Args[0])
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.StringVar(&inputFName, "i,input", "", "read JSON from file")
-	app.StringVar(&outputFName, "o,output", "", "write to output file")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown docs")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
-	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.StringVar(&inputFName, "i", "", "read JSON from file")
+	flag.StringVar(&inputFName, "input", "", "read JSON from file")
+	flag.StringVar(&outputFName, "o", "", "write to output file")
+	flag.StringVar(&outputFName, "output", "", "write to output file")
+	
+
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
 
 	// Application Options
-	app.BoolVar(&showLength, "length", false, "return the number of keys or values")
-	app.BoolVar(&showLast, "last", false, "return the index of the last element in list (e.g. length - 1)")
-	app.BoolVar(&showValues, "values", false, "return the values instead of the keys")
-	app.StringVar(&delimiter, "d,delimiter", "", "set delimiter for range output")
-	app.IntVar(&limit, "limit", -1, "limit the number of items output")
+	flag.BoolVar(&showLength, "length", false, "return the number of keys or values")
+	flag.BoolVar(&showLast, "last", false, "return the index of the last element in list (e.g. length - 1)")
+	flag.BoolVar(&showValues, "values", false, "return the values instead of the keys")
+	flag.StringVar(&delimiter, "d", "", "set delimiter for range output")
+	flag.StringVar(&delimiter, "delimiter", "", "set delimiter for range output")
+	flag.IntVar(&limit, "limit", -1, "limit the number of items output")
 
 	// Parse options and environment
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
+	args := flag.Args()
 
 	// Setup IO
 	var err error
 
-	app.Eout = os.Stderr
+	in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
 
-	app.In, err = cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(inputFName, app.In)
+	if inputFName != "" {
+		in, err = os.Open(inputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer in.Close()
+	}
 
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(os.Stderr, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if outputFName != "" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
+	}
 
 	// Process options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 	if newLine {
@@ -324,11 +420,17 @@ func main() {
 	}
 
 	// Read in the complete JSON data structure
-	buf, err := ioutil.ReadAll(app.In)
-	cli.ExitOnError(app.Eout, err, quiet)
+	buf, err := ioutil.ReadAll(in)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
+	}
 
 	if len(buf) == 0 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("no data"), quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 	}
 
 	var (
@@ -347,33 +449,51 @@ func main() {
 		} else {
 			data, err = dotpath.EvalJSON(p, buf)
 		}
-		cli.ExitOnError(app.Eout, err, quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 
 		switch {
 		case showLength:
 			l, err := getLength(data)
-			cli.ExitOnError(app.Eout, err, quiet)
-			fmt.Fprintf(app.Out, "%d", l)
+			if err != nil {
+				fmt.Fprintln(eout, err)
+				os.Exit(1)
+			}
+			fmt.Fprintf(out, "%d", l)
 		case showLast:
 			l, err := getLength(data)
-			cli.ExitOnError(app.Eout, err, quiet)
+			if err != nil {
+				fmt.Fprintln(eout, err)
+				os.Exit(1)
+			}
 			if showValues {
 				elems, err := srcVals(data, limit)
-				cli.ExitOnError(app.Eout, err, quiet)
+				if err != nil {
+					fmt.Fprintln(eout, err)
+					os.Exit(1)
+				}
 				l := len(elems)
-				fmt.Fprintf(app.Out, "%s", elems[l-1])
+				fmt.Fprintf(out, "%s", elems[l-1])
 			} else {
-				fmt.Fprintf(app.Out, "%d", l-1)
+				fmt.Fprintf(out, "%d", l-1)
 			}
 		case showValues:
 			elems, err := srcVals(data, limit)
-			cli.ExitOnError(app.Eout, err, quiet)
-			fmt.Fprintln(app.Out, strings.Join(elems, delimiter))
+			if err != nil {
+				fmt.Fprintln(eout, err)
+				os.Exit(1)
+			}
+			fmt.Fprintln(out, strings.Join(elems, delimiter))
 		default:
 			elems, err := srcKeys(data, limit)
-			cli.ExitOnError(app.Eout, err, quiet)
-			fmt.Fprintln(app.Out, strings.Join(elems, delimiter))
+			if err != nil {
+				fmt.Fprintln(eout, err)
+				os.Exit(1)
+			}
+			fmt.Fprintln(out, strings.Join(elems, delimiter))
 		}
 	}
-	fmt.Fprintf(app.Out, "%s", eol)
+	fmt.Fprintf(out, "%s", eol)
 }

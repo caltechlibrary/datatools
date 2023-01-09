@@ -110,13 +110,13 @@ func main() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "version", false, "display version")
 
-	flag.StringVar(&inputFName, "i,input", "", "input filename (for root object)")
-	flag.StringVar(&inputFName, "i,input", "", "input filename (for root object)")
-	flag.StringVar(&outputFName, "o,output", "", "output filename")
-	flag.StringVar(&outputFName, "o,output", "", "output filename")
+	flag.StringVar(&inputFName, "i", "", "input filename (for root object)")
+	flag.StringVar(&inputFName, "input", "", "input filename (for root object)")
+	flag.StringVar(&outputFName, "o", "", "output filename")
+	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	flag.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
-	flag.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
 
 	// Application Specific Options
 	flag.BoolVar(&createRoot, "create", false, "create an empty root object, {}")
