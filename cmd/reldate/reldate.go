@@ -20,23 +20,39 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 	"time"
 
 	// Local package
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 	"github.com/caltechlibrary/datatools/reldate"
 )
 
 var (
-	description = `
-%s is a small command line utility which returns the relative date in
-YYYY-MM-DD format. This is helpful when scripting various time
+	helpText = `---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-09
+---
+
+# NAME
+
+{app_name}
+
+# SYNOPSIS
+
+{app_name} [OPTIONS] [TIME_DESCRPTION]
+
+# DESCRIPTION
+
+{app_name} is a small command line utility which returns the relative
+date in YYYY-MM-DD format. This is helpful when scripting various time
 relationships. The difference in time returned are determined by
 the time increments provided.
 
@@ -46,68 +62,110 @@ case insentive (e.g. Monday and monday). They can be abbreviated
 to the first three letters of the name, e.g. Sunday can be Sun, Monday
 can be Mon, Tuesday can be Tue, Wednesday can be Wed, Thursday can
 be Thu, Friday can be Fri or Saturday can be Sat.
-`
 
-	examples = `
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+-e, -end-of-month
+: Display the end of month day. E.g. 2012-02-29
+
+-f, -from
+: Date the relative time is calculated from.
+
+-nl, -newline
+: if true add a trailing newline
+
+-quiet
+: suppress error messages
+
+
+# EXAMPLES
+
 If today was 2014-08-03 and you wanted the date three days in the past try–
 
-    %s 3 days
+~~~
+    {app_name} 3 days
+~~~
 
 The output would be
 
+~~~
     2014-08-06
+~~~
 
 TIME UNITS
 
 Supported time units are
 
-+ day(s)
-+ week(s)
-+ year(s)
+- day(s)
+- week(s)
+- year(s)
 
 Specifying a date to calucate from
 
-%s handles dates in the YYYY-MM-DD format (e.g. March 1, 2014 would be
-2014-03-01). By default reldate uses today as the date to calculate relative
-time from. If you use the –from option you can it will calculate the
-relative date from that specific date.
+{app_name} handles dates in the YYYY-MM-DD format (e.g. March 1, 2014
+would be 2014-03-01). By default {app_name} uses today as the date to
+calculate relative time from. If you use the –from option you can it
+will calculate the relative date from that specific date.
 
-   %s --from=2014-08-03 3 days
+~~~
+   {app_name} --from=2014-08-03 3 days
+~~~
 
 Will yield
 
+~~~
     2014-08-06
+~~~
 
-NEGATIVE INCREMENTS
+## NEGATIVE INCREMENTS
 
-Command line arguments traditionally start with a dash which we also use to
-denote a nagative number. To tell the command line process that to not treat
-negative numbers as an “option” precede your time increment and time unit
-with a double dash.
+Command line arguments traditionally start with a dash which we also use
+to denote a nagative number. To tell the command line process that to
+not treat negative numbers as an “option” precede your time increment and
+time unit with a double dash.
 
-    %s --from=2014-08-03 -- -3 days
+~~~
+    {app_name} --from=2014-08-03 -- -3 days
+~~~
 
 Will yield
 
+~~~
     2014-07-31
+~~~
 
-RELATIVE WEEK DAYS
+## RELATIVE WEEK DAYS
 
-You can calculate a date from a weekday name (e.g. Saturday, Monday, Tuesday)
-knowning a day (e.g. 2015-02-10 or the current date of the week) occurring in
-a week. A common case would be wanting to figure out the Monday date of a week
-containing 2015-02-10. The week is presumed to start on Sunday (i.e. 0) and
-finish with Saturday (e.g. 6).
+You can calculate a date from a weekday name (e.g. Saturday, Monday,
+Tuesday) knowning a day (e.g. 2015-02-10 or the current date of the week)
+occurring in a week. A common case would be wanting to figure out the
+Monday date of a week containing 2015-02-10. The week is presumed to start
+on Sunday (i.e. 0) and finish with Saturday (e.g. 6).
 
-    %s --from=2015-02-10 Monday
+~~~
+    {app_name} --from=2015-02-10 Monday
+~~~
 
 will yield
 
+~~~
     2015-02-09
+~~~
 
-As that is the Monday of the week containing 2015-02-10. Weekday names case
-insensitive and can be the first three letters of the English names or full
-English names (e.g. Monday, monday, Mon, mon).
+As that is the Monday of the week containing 2015-02-10. Weekday names
+case insensitive and can be the first three letters of the English names
+or full English names (e.g. Monday, monday, Mon, mon).
+
+{app_name} {version}
 `
 
 	// Standard Options
@@ -128,6 +186,10 @@ English names (e.g. Monday, monday, Mon, mon).
 	relativeT     time.Time
 )
 
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
+
 func assertOk(eout io.Writer, e error, failMsg string) {
 	if e != nil {
 		fmt.Fprintf(eout, " %s, %s", failMsg, e)
@@ -140,113 +202,92 @@ func main() {
 		relativeToUsage = "Date the relative time is calculated from."
 		endOfMonthUsage = "Display the end of month day. E.g. 2012-02-29"
 	)
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
-
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName)))
-
-	// Document non-option Params
-	app.SetParams("[TIME_DESCRPTION]")
+	appName := path.Base(os.Args[0])
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&newLine, "nl,newline", true, "if true add a trailing newline")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "nl", true, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "newline", true, "if true add a trailing newline")
 
 	// App Specific Options
-	app.StringVar(&relativeTo, "f,from", relativeTo, relativeToUsage)
-	app.BoolVar(&endOfMonthFor, "e,end-of-month", endOfMonthFor, endOfMonthUsage)
+	flag.StringVar(&relativeTo, "f", relativeTo, relativeToUsage)
+	flag.StringVar(&relativeTo, "from", relativeTo, relativeToUsage)
+	flag.BoolVar(&endOfMonthFor, "e", endOfMonthFor, endOfMonthUsage)
+	flag.BoolVar(&endOfMonthFor, "end-of-month", endOfMonthFor, endOfMonthUsage)
 
 	// Parse env and options
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
+	args := flag.Args()
 
 	// Setup IO
 	var err error
 
-	app.Eout = os.Stderr
+	out := os.Stdout
+	eout := os.Stderr
 
-	/* NOTE: this command does not read from stdin
-	   app.In, err = cli.Open(inputFName, os.Stdin)
-	   cli.ExitOnError(app.Eout, err, quiet)
-	   defer cli.CloseFile(inputFName, app.In)
-	*/
-
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if outputFName != "" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
+	}
 
 	// Process Options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 	if newLine {
 		eol = "\n"
 	}
 
-	argc := app.NArg()
-	argv := app.Args()
+	argc := len(args)
 
 	var (
 		unitString string
 	)
 
 	if argc < 1 && endOfMonthFor == false {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Missing time increment and units (e.g. +2 days) or weekday name (e.g. Monday, Mon)."), quiet)
+		fmt.Fprintf(eout,"Missing time increment and units (e.g. +2 days) or weekday name (e.g. Monday, Mon).")
 	} else if argc > 2 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Too many command line arguments."), quiet)
+		fmt.Fprintf(eout,"Too many command line arguments.")
 	}
 
 	relativeT = time.Now()
 	if relativeTo != "" {
 		relativeT, err = time.Parse(reldate.YYYYMMDD, relativeTo)
-		assertOk(app.Eout, err, "Cannot parse the from date.\n")
+		assertOk(eout, err, "Cannot parse the from date.\n")
 	}
 
 	if endOfMonthFor == true {
-		fmt.Fprintf(app.Out, "%s%s", reldate.EndOfMonth(relativeT), eol)
+		fmt.Fprintf(out, "%s%s", reldate.EndOfMonth(relativeT), eol)
 		os.Exit(0)
 	}
 
 	timeInc := 0
 	if argc == 2 {
-		unitString = strings.ToLower(argv[1])
-		timeInc, err = strconv.Atoi(argv[0])
-		assertOk(app.Eout, err, "Time increment should be a positive or negative integer.\n")
+		unitString = strings.ToLower(args[1])
+		timeInc, err = strconv.Atoi(args[0])
+		assertOk(eout, err, "Time increment should be a positive or negative integer.\n")
 	} else {
 		// We may have a weekday string
-		unitString = strings.ToLower(argv[0])
+		unitString = strings.ToLower(args[0])
 	}
 	t, err := reldate.RelativeTime(relativeT, timeInc, unitString)
-	assertOk(app.Eout, err, "Did not understand command.")
-	fmt.Fprintf(app.Out, "%s%s", t.Format(reldate.YYYYMMDD), eol)
+	assertOk(eout, err, "Did not understand command.")
+	fmt.Fprintf(out, "%s%s", t.Format(reldate.YYYYMMDD), eol)
 }
