@@ -8,6 +8,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -15,112 +16,67 @@ import (
 	"strings"
 
 	// Caltech Library Packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 )
 
 var (
-	description = `
-%s is a command line tool that takes one (or more) JSON objects files
-and joins them to a root JSON object read from standard input (or
-file identified by -input option).  By default the resulting
-joined JSON object is written to standard out.
+	helpText = `---
+title: "json2toml (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2013-01-06
+---
 
-The default behavior for %s is to create key/value pairs
-based on the joined JSON document names and their contents.
-This can be thought of as a branching behavior. Each additional
-file becomes a branch and its key/value pairs become leafs.
-The root JSON object is assumed to come from standard input
-but can be designated by the -input option or created by the
--create option. Each additional file specified as a command line
-argument is then treated as a new branch.
+# NAME
 
-In addition to the branching behavior you can join JSON objects in a
-flat manner.  The flat joining process can be ether non-destructive
-adding new key/value pairs (-update option) or destructive
-overwriting key/value pairs (-overwrite option).
+json2toml 
 
-Note: %s doesn't support a JSON array as the root JSON object.
-`
+# SYNOPSIS
 
-	examples = `
-Consider two JSON objects one in person.json and another
-in profile.json.
+json2toml [OPTIONS] [JSON_FILENAME] [TOML_FILENAME]
 
-person.json contains
+# DESCRIPTION
 
-   { "name": "Doe, Jane", "email":"jd@example.org", "age": 42 }
+json2toml is a tool that converts JSON objects into TOML output.
 
-profile.json contains
+# OPTIONS
 
-   { "name": "Doe, Jane", "bio": "World renowned geophysist.",
-     "email": "jane.doe@example.edu" }
+-help
+: display help
 
-A simple join of person.json with profile.json (note the
--create option)
+-license
+: display license
 
-   %s -create person.json profile.json
+-version:
+display version
 
-would yield and object like
+-nl, -newline
+: if true add a trailing newline
 
-   {
-     "person":  { "name": "Doe, Jane", "email":"jd@example.org",
-	 			"age": 42},
-     "profile": { "name": "Doe, Jane", "bio": "World renowned geophysist.",
-                  "email": "jane.doe@example.edu" }
-   }
+-o, -output
+: output filename
 
-Likewise if you want to treat person.json as the root object and add
-profile.json as a branch try
+-p, -pretty
+: pretty print output
 
-   cat person.json | %s profile.json
+-quiet
+: suppress error messages
 
-or
 
-   %s -i person.json profile.json
+# EXAMPLES
 
-this yields an object like
+These would get the file named "my.json" and save it as my.toml
 
-   {
-     "name": "Doe, Jane", "email":"jd@example.org", "age": 42,
-     "profile": { "name": "Doe, Jane", "bio": "World renowned geophysist.",
-                  "email": "jane.doe@example.edu" }
-   }
+~~~
+    json2toml my.json > my.toml
 
-You can modify this behavor with -update or -overwrite. Both options are
-order dependant (i.e. not associative, A update B does
-not necessarily equal B update A).
+	json2toml my.json my.toml
 
-+ -update will add unique key/values from the second object to the first object
-+ -overwrite replace key/values in first object one with second objects'
+	cat my.json | json2toml -i - > my.toml
+~~~
 
-Running
+json2toml 1.2.1
 
-    %s -create -update person.json profile.json
 
-would yield
-
-   { "name": "Doe, Jane", "email":"jd@example.org", "age": 42,
-     "bio": "World renowned geophysist." }
-
-Running
-
-    %s -create -update profile.json person.json
-
-would yield
-
-   { "name": "Doe, Jane",  "age": 42,
-     "bio": "World renowned geophysist.",
-     "email": "jane.doe@example.edu" }
-
-Running
-
-    %s -create -overwrite person.json profile.json
-
-would yield
-
-   { "name": "Doe, Jane", "email":"jane.doe@example.edu", "age": 42,
-     "bio": "World renowned geophysist." }
 `
 
 	// Standard Options
@@ -142,75 +98,71 @@ would yield
 	createRoot bool
 )
 
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
+
 func main() {
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
-
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName, appName, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName)))
-
-	// Document non-option parameter
-	app.SetParams("JSON_FILE_1", "[JSON_FILE_2 ...]")
+	appName := path.Base(os.Args[0])
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.StringVar(&inputFName, "i,input", "", "input filename (for root object)")
-	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown docs")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
-	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.StringVar(&inputFName, "i,input", "", "input filename (for root object)")
+	flag.StringVar(&inputFName, "i,input", "", "input filename (for root object)")
+	flag.StringVar(&outputFName, "o,output", "", "output filename")
+	flag.StringVar(&outputFName, "o,output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// Application Specific Options
-	app.BoolVar(&createRoot, "create", false, "create an empty root object, {}")
-	app.BoolVar(&update, "update", false, "copy new key/values pairs into root object")
-	app.BoolVar(&overwrite, "overwrite", false, "copy all key/values into root object")
+	flag.BoolVar(&createRoot, "create", false, "create an empty root object, {}")
+	flag.BoolVar(&update, "update", false, "copy new key/values pairs into root object")
+	flag.BoolVar(&overwrite, "overwrite", false, "copy all key/values into root object")
 
 	// Parse env amd options
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
+	args := flag.Args()
 
 	// Setup IO
 	var err error
 
-	app.Eout = os.Stderr
+	in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
 
-	app.In, err = cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(inputFName, app.In)
+	if inputFName != "" {
+		in, err = os.Open(inputFName)
+		if err != nil {
+			fmt.Fprintln(eout,err)
+			os.Exit(1)
+		}
+		defer in.Close()
+	}
 
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if outputFName != "" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
+	}
 
 	// Process options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 	if newLine {
@@ -219,7 +171,10 @@ func main() {
 
 	// Make sure we have some JSON objects to join...
 	if len(args) < 1 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Missing JSON document(s) to join"), quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 	}
 
 	outObject := map[string]interface{}{}
@@ -227,17 +182,29 @@ func main() {
 
 	// READ in the JSON document if present on standard in or specified with -i.
 	if createRoot == false {
-		buf, err := ioutil.ReadAll(app.In)
-		cli.ExitOnError(app.Eout, err, quiet)
+		buf, err := ioutil.ReadAll(in)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 		err = json.Unmarshal(buf, &outObject)
-		cli.ExitOnError(app.Eout, err, quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 	}
 
 	for _, arg := range args {
 		src, err := ioutil.ReadFile(arg)
-		cli.ExitOnError(app.Eout, err, quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 		err = json.Unmarshal(src, &newObject)
-		cli.ExitOnError(app.Eout, err, quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 		switch {
 		case update == true:
 			for k, v := range newObject {
@@ -256,6 +223,9 @@ func main() {
 	}
 
 	src, err := json.Marshal(outObject)
-	cli.ExitOnError(app.Eout, err, quiet)
-	fmt.Fprintf(app.Out, "%s%s", src, eol)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
+	}
+	fmt.Fprintf(out, "%s%s", src, eol)
 }
