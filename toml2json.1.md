@@ -1,32 +1,56 @@
+---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-09
+---
 
-USAGE: toml2json [OPTIONS] [TOML_FILENAME] [JSON_NAME]
+# NAME
+ 
+{app_name}
 
-DESCRIPTION
+# SYNOPSIS
 
-toml2json is a tool that converts TOML into JSON output.
+{app_name} [OPTIONS] [TOML_FILENAME] [JSON_NAME]
 
-OPTIONS
+# DESCRIPTION
 
-    -examples            display example(s)
-    -generate-manpage    generate man page
-    -generate-markdown   generate markdown documentation
-    -h, -help            display help
-    -l, -license         display license
-    -nl, -newline        if true add a trailing newline
-    -o, -output          output filename
-    -p, -pretty          pretty print output
-    -quiet               suppress error messages
-    -v, -version         display version
+{app_name} is a tool that converts TOML into JSON. It operates
+on standard input and writes to standard output.
+
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+-nl, -newline
+: if true add a trailing newline
+
+-o, -output
+: output filename
+
+-p, -pretty
+: pretty print output
+
+-quiet
+: suppress error messages
 
 
-EXAMPLES
+# EXAMPLES
 
 These would get the file named "my.toml" and save it as my.json
 
-    toml2json my.toml > my.json
+~~~
+    {app_name} my.toml > my.json
 
-    toml2json my.toml my.json
+    {app_name} my.toml my.json
 
-	cat my.toml | toml2json -i - > my.json
+	cat my.toml | {app_name} -i - > my.json
+~~~
 
-toml2json 1.2.1
+{app_name} {version}
