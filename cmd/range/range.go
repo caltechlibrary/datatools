@@ -21,60 +21,119 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"io"
 	"math/rand"
 	"os"
+	"path"
 	"strconv"
+	"strings"
 	"time"
 
 	// CaltechLibrary Packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 )
 
 var (
-	description = `
-%s is a simple utility for shell scripts that emits a list of 
+	helpText = `---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-09
+---
+
+# NAME
+
+{app_name}
+
+# SYNOPSIS
+
+{app_name} [OPTIONS] START_INTEGER END_INTEGER [INCREMENT_INTEGER]
+
+# DESCRIPTION
+
+{app_name} is a simple utility for shell scripts that emits a list of 
 integers starting with the first command line argument and 
 ending with the last integer command line argument. It is a 
 subset of functionality found in the Unix seq command.
 
 If the first argument is greater than the last then it counts 
 down otherwise it counts up.
-`
 
-	examples = `
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+-e, -end
+: The ending integer.
+
+-inc, -increment
+: The non-zero integer increment value.
+
+-nl, -newline
+: if true add a trailing newline
+
+-quiet
+: suppress error messages
+
+-random
+: Pick a range value from range
+
+-s, -start
+: The starting integer.
+
+
+# EXAMPLES
+
 Create a range of integers one through five
 
-	%s 1 5
+~~~
+	{app_name} 1 5
+~~~
 
 Yields 1 2 3 4 5
 
 Create a range of integer negative two to six
 
-	%s -- -2 6
+~~~
+	{app_name} -- -2 6
+~~~
 
 Yields -2 -1 0 1 2 3 4 5 6
 
 Create a range of even integers two to ten
 
-	%s -increment=2 2 10
+~~~
+	{app_name} -increment=2 2 10
+~~~
 
 Yields 2 4 6 8 10
 
 Create a descending range of integers ten down to one
 
-	%s 10 1
+~~~
+	{app_name} 10 1
+~~~
 
 Yields 10 9 8 7 6 5 4 3 2 1
 
 
 Pick a random integer between zero and ten
 
-	%s -random 0 10
+~~~
+	{app_name} -random 0 10
+~~~
 
 Yields a random integer from 0 to 10
+
+{app_name} 1.2.1
 `
 
 	// Standard Options
@@ -95,6 +154,10 @@ Yields a random integer from 0 to 10
 	increment     int
 	randomElement bool
 )
+
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
 
 func assertOk(eout io.Writer, e error, failMsg string) {
 	if e != nil {
@@ -119,103 +182,88 @@ func main() {
 		endUsage   = "The ending integer."
 		incUsage   = "The non-zero integer increment value."
 	)
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
 
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName)))
-
-	// Document non-option parameters
-	app.SetParams("START_INTEGER", "END_INTEGER", "[INCREMENT_INTEGER]")
+	appName := path.Base(os.Args[0])
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
-	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
 
 	// App specific options
-	app.IntVar(&start, "s,start", 0, startUsage)
-	app.IntVar(&end, "e,end", 0, endUsage)
-	app.IntVar(&increment, "inc,increment", 1, incUsage)
-	app.BoolVar(&randomElement, "random", false, "Pick a range value from range")
+	flag.IntVar(&start, "s,start", 0, startUsage)
+	flag.IntVar(&start, "s,start", 0, startUsage)
+	flag.IntVar(&end, "e,end", 0, endUsage)
+	flag.IntVar(&end, "e,end", 0, endUsage)
+	flag.IntVar(&increment, "inc,increment", 1, incUsage)
+	flag.IntVar(&increment, "inc,increment", 1, incUsage)
+	flag.BoolVar(&randomElement, "random", false, "Pick a range value from range")
 
 	// Parse env and options
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
+	args := flag.Args()
 
 	// Setup IO
 	var err error
 
-	app.Eout = os.Stderr
+	out := os.Stdout
+	eout := os.Stderr
 
-	/* NOTE: we don't read from stdin as we need tp csv files
-	app.In, err = cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(inputFName, app.In)
-	*/
 
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if outputFName != "" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
+	}
+
 
 	// Process options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 	if newLine {
 		eol = "\n"
 	}
 
-	argc := app.NArg()
-	argv := app.Args()
+	argc := len(args)
 
 	if argc < 2 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Must include start and end integers."), quiet)
+		fmt.Fprintln(eout, "Must include start and end integers.")
+		os.Exit(1)
 	} else if argc > 3 {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Too many command line arguments."), quiet)
+		fmt.Fprintln(eout, "Too many command line arguments.")
+		os.Exit(1)
 	}
 
-	start, err := strconv.Atoi(argv[0])
-	assertOk(app.Eout, err, "Start value must be an integer.")
-	end, err := strconv.Atoi(argv[1])
-	assertOk(app.Eout, err, "End value must be an integer.")
+	start, err := strconv.Atoi(args[0])
+	assertOk(eout, err, "Start value must be an integer.")
+	end, err := strconv.Atoi(args[1])
+	assertOk(eout, err, "End value must be an integer.")
 	if argc == 3 {
-		increment, err = strconv.Atoi(argv[2])
+		increment, err = strconv.Atoi(args[2])
 	} else if increment == 0 {
 		err = errors.New("increment was zero")
 	}
-	assertOk(app.Eout, err, "Increment must be a non-zero integer.")
+	assertOk(eout, err, "Increment must be a non-zero integer.")
 
 	if start == end {
-		fmt.Fprintf(app.Out, "%d%s", start, eol)
+		fmt.Fprintf(out, "%d%s", start, eol)
 		os.Exit(0)
 	}
 
@@ -239,9 +287,9 @@ func main() {
 			ithArray = append(ithArray, i)
 		} else {
 			if i == start {
-				fmt.Fprintf(app.Out, "%d%s", i, eol)
+				fmt.Fprintf(out, "%d%s", i, eol)
 			} else {
-				fmt.Fprintf(app.Out, " %d%s", i, eol)
+				fmt.Fprintf(out, " %d%s", i, eol)
 			}
 		}
 	}
@@ -249,6 +297,6 @@ func main() {
 	if randomElement == true {
 		rand.Seed(time.Now().Unix())
 		ith = rand.Intn(len(ithArray))
-		fmt.Fprintf(app.Out, "%d%s", ithArray[ith], eol)
+		fmt.Fprintf(out, "%d%s", ithArray[ith], eol)
 	}
 }
