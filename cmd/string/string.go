@@ -25,6 +25,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 
@@ -92,49 +93,49 @@ pubDate: 2023-01-09
 ## VERBS
 
 contains
-: has substrings: SUBSTRING [STRING] `{app_name} contains SUBSTRING [STRING]`
+: has substrings: SUBSTRING [STRING] `+"`"+`{app_name} contains SUBSTRING [STRING]`+"`"+`
 
 count
-: count substrings: SUBSTRING [STRING] `{app_name} count SUBSTRING [STRING]`
+: count substrings: SUBSTRING [STRING] `+"`"+`{app_name} count SUBSTRING [STRING]`+"`"+`
 
 englishtitle
-: English style title case: [STRING] `{app_name} englishtitle [STRING]`
+: English style title case: [STRING] `+"`"+`{app_name} englishtitle [STRING]`+"`"+`
 
 hasprefix
-: true/false on prefix: PREFIX [STRING] `{app_name} hasprefix PREFIX [STRING]`
+: true/false on prefix: PREFIX [STRING] `+"`"+`{app_name} hasprefix PREFIX [STRING]`+"`"+`
 
 hassuffix
-: true/false on suffix: SUFFIX [STRING] `{app_name} hassuffix SUFFIX [STRING]`
+: true/false on suffix: SUFFIX [STRING] `+"`"+`{app_name} hassuffix SUFFIX [STRING]`+"`"+`
 
 join
-: join JSON array into string: DELIMITER [JSON_ARRAY] `{app_name} join DELIMITER [JSON_ARRAY]`
+: join JSON array into string: DELIMITER [JSON_ARRAY] `+"`"+`{app_name} join DELIMITER [JSON_ARRAY]`+"`"+`
 
 length
-: length of string: [STRING] `{app_name} length [STRING]`
+: length of string: [STRING] `+"`"+`{app_name} length [STRING]`+"`"+`
 
 padleft
-: left pad PADDING MAX_LENGTH [STRING] `{app_name} padleft PADDING MAX_LENGTH [STRING]`
+: left pad PADDING MAX_LENGTH [STRING] `+"`"+`{app_name} padleft PADDING MAX_LENGTH [STRING]`+"`"+`
 
 padright
-: right pad PADDING MAX_LENGTH [STRING] `{app_name} padright PADDING MAX_LENGTH [STRING]`
+: right pad PADDING MAX_LENGTH [STRING] `+"`"+`{app_name} padright PADDING MAX_LENGTH [STRING]`+"`"+`
 
 position
-: position of substring: SUBSTRING [STRING] `{app_name} position SUBSTRING [STRING]`
+: position of substring: SUBSTRING [STRING] `+"`"+`{app_name} position SUBSTRING [STRING]`+"`"+`
 
 replace
-: replace: OLD NEW [STRING] `{app_name} replace OLD NEW [STRING]`
+: replace: OLD NEW [STRING] `+"`"+`{app_name} replace OLD NEW [STRING]`+"`"+`
 
 replacen
-: replace n times: OLD NEW N [STRING] `{app_name} replacen OLD NEW N [STRING]`
+: replace n times: OLD NEW N [STRING] `+"`"+`{app_name} replacen OLD NEW N [STRING]`+"`"+`
 
 slice
-: copy a substring: START END [STRING] `{app_name} slice START END [STRING]`
+: copy a substring: START END [STRING] `+"`"+`{app_name} slice START END [STRING]`+"`"+`
 
 split
-: split into a JSON array: DELIMITER [STRING] `{app_name} split DELIMITER [STRING]`
+: split into a JSON array: DELIMITER [STRING] `+"`"+`{app_name} split DELIMITER [STRING]`+"`"+`
 
 splitn
-: split into an N length JSON array: DELIMITER N [STRING] `{app_name} splitn DELIMITER N [STRING]`
+: split into an N length JSON array: DELIMITER N [STRING] `+"`"+`{app_name} splitn DELIMITER N [STRING]`+"`"+`
 
 tolower
 : to lower case: [STRING] `+"`"+`{app_name} tolower [STRING]`+"`"+`
@@ -886,7 +887,7 @@ func fnSlice(in io.Reader, out io.Writer, eout io.Writer, args []string, flagSet
 func main() {
 	// Configuration and creation on or command line interface
 	app := cli.NewCli(datatools.Version)
-	appName := os.Base(os.Args[0])
+	appName := path.Base(os.Args[0])
 
 	// Standard Options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -990,7 +991,7 @@ func main() {
 
 	in := os.Stdin
 	out := os.Stdout
-	eout := os.Stder
+	eout := os.Stderr
 
 	app.Eout = eout
 
