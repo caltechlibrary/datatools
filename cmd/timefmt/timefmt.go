@@ -178,18 +178,18 @@ func main() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "version", false, "display version")
 
-	flag.StringVar(&outputFName, "o,output", "", "output filename")
-	flag.StringVar(&outputFName, "o,output", "", "output filename")
+	flag.StringVar(&outputFName, "o", "", "output filename")
+	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	flag.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
-	flag.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
 
 	// Application Options
 	flag.BoolVar(&useUTC, "utc", false, "timestamps in UTC")
-	flag.StringVar(&inputFormat, "if,input-format", inputFormat, "Set format for input")
-	flag.StringVar(&inputFormat, "if,input-format", inputFormat, "Set format for input")
-	flag.StringVar(&outputFormat, "of,output-format", outputFormat, "Set format for output")
-	flag.StringVar(&outputFormat, "of,output-format", outputFormat, "Set format for output")
+	flag.StringVar(&inputFormat, "if", inputFormat, "Set format for input")
+	flag.StringVar(&inputFormat, "input-format", inputFormat, "Set format for input")
+	flag.StringVar(&outputFormat, "of", outputFormat, "Set format for output")
+	flag.StringVar(&outputFormat, "output-format", outputFormat, "Set format for output")
 
 	// Parse env and options
 	flag.Parse()

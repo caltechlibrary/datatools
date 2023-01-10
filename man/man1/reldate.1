@@ -14,12 +14,15 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "reldate (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: reldate [OPTIONS] [TIME_DESCRPTION]
+reldate
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+reldate OPTIONS [TIME_DESCRPTION]
+.SH DESCRIPTION
 .PP
 reldate is a small command line utility which returns the relative date
 in YYYY-MM-DD format.
@@ -34,32 +37,38 @@ They can be abbreviated to the first three letters of the name,
 e.g.\ Sunday can be Sun, Monday can be Mon, Tuesday can be Tue,
 Wednesday can be Wed, Thursday can be Thu, Friday can be Fri or Saturday
 can be Sat.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--e, -end-of-month    Display the end of month day. E.g. 2012-02-29
--examples            display example(s)
--f, -from            Date the relative time is calculated from.
--generate-manpage    generate man page
--generate-markdown   generate markdown documentation
--h, -help            display help
--l, -license         display license
--nl, -newline        if true add a trailing newline
--quiet               suppress error messages
--v, -version         display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-e, -end-of-month
+Display the end of month day.
+E.g.
+2012-02-29
+.TP
+-f, -from
+Date the relative time is calculated from.
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-quiet
+suppress error messages
+.SH EXAMPLES
 .PP
 If today was 2014-08-03 and you wanted the date three days in the past
 try\[en]
 .IP
 .nf
 \f[C]
-reldate 3 days
+    reldate 3 days
 \f[R]
 .fi
 .PP
@@ -67,7 +76,7 @@ The output would be
 .IP
 .nf
 \f[C]
-2014-08-06
+    2014-08-06
 \f[R]
 .fi
 .PP
@@ -89,18 +98,21 @@ By default reldate uses today as the date to calculate relative time
 from.
 If you use the \[en]from option you can it will calculate the relative
 date from that specific date.
-.PP
-reldate \[en]from=2014-08-03 3 days
+.IP
+.nf
+\f[C]
+   reldate --from=2014-08-03 3 days
+\f[R]
+.fi
 .PP
 Will yield
 .IP
 .nf
 \f[C]
-2014-08-06
+    2014-08-06
 \f[R]
 .fi
-.PP
-NEGATIVE INCREMENTS
+.SS NEGATIVE INCREMENTS
 .PP
 Command line arguments traditionally start with a dash which we also use
 to denote a nagative number.
@@ -110,7 +122,7 @@ double dash.
 .IP
 .nf
 \f[C]
-reldate --from=2014-08-03 -- -3 days
+    reldate --from=2014-08-03 -- -3 days
 \f[R]
 .fi
 .PP
@@ -118,11 +130,10 @@ Will yield
 .IP
 .nf
 \f[C]
-2014-07-31
+    2014-07-31
 \f[R]
 .fi
-.PP
-RELATIVE WEEK DAYS
+.SS RELATIVE WEEK DAYS
 .PP
 You can calculate a date from a weekday name (e.g.\ Saturday, Monday,
 Tuesday) knowning a day (e.g.\ 2015-02-10 or the current date of the
@@ -134,7 +145,7 @@ Saturday (e.g.\ 6).
 .IP
 .nf
 \f[C]
-reldate --from=2015-02-10 Monday
+    reldate --from=2015-02-10 Monday
 \f[R]
 .fi
 .PP
@@ -142,7 +153,7 @@ will yield
 .IP
 .nf
 \f[C]
-2015-02-09
+    2015-02-09
 \f[R]
 .fi
 .PP
@@ -150,4 +161,6 @@ As that is the Monday of the week containing 2015-02-10.
 Weekday names case insensitive and can be the first three letters of the
 English names or full English names (e.g.\ Monday, monday, Mon, mon).
 .PP
-reldate 1.2.1
+reldate 1.2.2
+.SH AUTHORS
+R. S. Doiel.

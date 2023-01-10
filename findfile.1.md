@@ -66,6 +66,6 @@ Search the current directory and subdirectories for Markdown files with extensio
 	findfile -s .md
 ~~~
 
-findfile 1.2.1
+findfile 1.2.2
 
 

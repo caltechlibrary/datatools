@@ -107,6 +107,6 @@ merged-data.csv..
        -output=merged-data.csv
 ~~~
 
-csvjoin 1.2.1
+csvjoin 1.2.2
 
 

@@ -14,12 +14,15 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "jsonrange (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: jsonrange [OPTIONS] [DOT_PATH_EXPRESSION]
+jsonrange
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+jsonrange OPTIONS [DOT_PATH_EXPRESSION]
+.SH DESCRIPTION
 .PP
 jsonrange returns returns a range of values based on the JSON structure
 being read and options applied.
@@ -60,37 +63,51 @@ The path can be chained together
 .IP \[bu] 2
 \&.name.family would point to the value heald by the \[lq]name\[rq]
 attributes\[cq] \[lq]family\[rq] attribute.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--d, -delimiter       set delimiter for range output
--examples            display example(s)
--generate-manpage    generate man page
--generate-markdown   generate markdown docs
--h, -help            display help
--i, -input           read JSON from file
--l, -license         display license
--last                return the index of the last element in list (e.g. length - 1)
--length              return the number of keys or values
--limit               limit the number of items output
--nl, -newline        if true add a trailing newline
--o, -output          write to output file
--quiet               suppress error messages
--v, -version         display version
--values              return the values instead of the keys
-\f[R]
-.fi
-.PP
-EXAMPLES
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-d, -delimiter
+set delimiter for range output
+.TP
+-i, -input
+read JSON from file
+.TP
+-last
+return the index of the last element in list (e.g.\ length - 1)
+.TP
+-length
+return the number of keys or values
+.TP
+-limit
+limit the number of items output
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+write to output file
+.TP
+-quiet
+suppress error messages
+.TP
+-values
+return the values instead of the keys
+.SH EXAMPLES
 .PP
 Working with a map
 .IP
 .nf
 \f[C]
-echo \[aq]{\[dq]name\[dq]: \[dq]Doe, Jane\[dq], \[dq]email\[dq]:\[dq]jane.doe\[at]example.org\[dq], \[dq]age\[dq]: 42}\[aq] \[rs]
-   | jsonrange
+    echo \[aq]{\[dq]name\[dq]: \[dq]Doe, Jane\[dq], \[dq]email\[dq]:\[dq]jane.doe\[at]example.org\[dq], \[dq]age\[dq]: 42}\[aq] \[rs]
+       | jsonrange
 \f[R]
 .fi
 .PP
@@ -98,9 +115,9 @@ This would yield
 .IP
 .nf
 \f[C]
-name
-email
-age
+    name
+    email
+    age
 \f[R]
 .fi
 .PP
@@ -108,8 +125,8 @@ Using the -values option on a map
 .IP
 .nf
 \f[C]
-echo \[aq]{\[dq]name\[dq]: \[dq]Doe, Jane\[dq], \[dq]email\[dq]:\[dq]jane.doe\[at]example.org\[dq], \[dq]age\[dq]: 42}\[aq] \[rs]
-  | jsonrange -values
+    echo \[aq]{\[dq]name\[dq]: \[dq]Doe, Jane\[dq], \[dq]email\[dq]:\[dq]jane.doe\[at]example.org\[dq], \[dq]age\[dq]: 42}\[aq] \[rs]
+      | jsonrange -values
 \f[R]
 .fi
 .PP
@@ -117,9 +134,9 @@ This would yield
 .IP
 .nf
 \f[C]
-\[dq]Doe, Jane\[dq]
-\[dq]jane.doe\[at]example.org\[dq]
-42
+    \[dq]Doe, Jane\[dq]
+    \[dq]jane.doe\[at]example.org\[dq]
+    42
 \f[R]
 .fi
 .PP
@@ -127,7 +144,7 @@ Working with an array
 .IP
 .nf
 \f[C]
-echo \[aq][\[dq]one\[dq], 2, {\[dq]label\[dq]:\[dq]three\[dq],\[dq]value\[dq]:3}]\[aq] | jsonrange
+    echo \[aq][\[dq]one\[dq], 2, {\[dq]label\[dq]:\[dq]three\[dq],\[dq]value\[dq]:3}]\[aq] | jsonrange
 \f[R]
 .fi
 .PP
@@ -135,9 +152,9 @@ would yield
 .IP
 .nf
 \f[C]
-0
-1
-2
+    0
+    1
+    2
 \f[R]
 .fi
 .PP
@@ -145,7 +162,7 @@ Using the -values option on the same array
 .IP
 .nf
 \f[C]
-echo \[aq][\[dq]one\[dq], 2, {\[dq]label\[dq]:\[dq]three\[dq],\[dq]value\[dq]:3}]\[aq] | jsonrange -values
+    echo \[aq][\[dq]one\[dq], 2, {\[dq]label\[dq]:\[dq]three\[dq],\[dq]value\[dq]:3}]\[aq] | jsonrange -values
 \f[R]
 .fi
 .PP
@@ -153,9 +170,9 @@ would yield
 .IP
 .nf
 \f[C]
-one
-2
-{\[dq]label\[dq]:\[dq]three\[dq],\[dq]value\[dq]:3}
+    one
+    2
+    {\[dq]label\[dq]:\[dq]three\[dq],\[dq]value\[dq]:3}
 \f[R]
 .fi
 .PP
@@ -163,7 +180,7 @@ Checking the length of a map or array or number of keys in map
 .IP
 .nf
 \f[C]
-echo \[aq][\[dq]one\[dq],\[dq]two\[dq],\[dq]three\[dq]]\[aq] | jsonrange -length
+    echo \[aq][\[dq]one\[dq],\[dq]two\[dq],\[dq]three\[dq]]\[aq] | jsonrange -length
 \f[R]
 .fi
 .PP
@@ -171,7 +188,7 @@ would yield
 .IP
 .nf
 \f[C]
-3
+    3
 \f[R]
 .fi
 .PP
@@ -179,7 +196,7 @@ Check for the index of last element
 .IP
 .nf
 \f[C]
-echo \[aq][\[dq]one\[dq],\[dq]two\[dq],\[dq]three\[dq]]\[aq] | jsonrange -last
+    echo \[aq][\[dq]one\[dq],\[dq]two\[dq],\[dq]three\[dq]]\[aq] | jsonrange -last
 \f[R]
 .fi
 .PP
@@ -187,7 +204,7 @@ would yield
 .IP
 .nf
 \f[C]
-2
+    2
 \f[R]
 .fi
 .PP
@@ -195,7 +212,7 @@ Check for the index value of last element
 .IP
 .nf
 \f[C]
-echo \[aq][\[dq]one\[dq],\[dq]two\[dq],\[dq]three\[dq]]\[aq] | jsonrange -values -last
+    echo \[aq][\[dq]one\[dq],\[dq]two\[dq],\[dq]three\[dq]]\[aq] | jsonrange -values -last
 \f[R]
 .fi
 .PP
@@ -203,7 +220,7 @@ would yield
 .IP
 .nf
 \f[C]
-\[dq]three\[dq]
+    \[dq]three\[dq]
 \f[R]
 .fi
 .PP
@@ -211,7 +228,7 @@ Limitting the number of items returned
 .IP
 .nf
 \f[C]
-echo \[aq][10,20,30,40,50]\[aq] | %!s(MISSING) -limit 2
+    echo \[aq][10,20,30,40,50]\[aq] | %!s(MISSING) -limit 2
 \f[R]
 .fi
 .PP
@@ -219,8 +236,8 @@ would yield
 .IP
 .nf
 \f[C]
-1
-2
+    1
+    2
 \f[R]
 .fi
 .PP
@@ -228,7 +245,7 @@ Limitting the number of values returned
 .IP
 .nf
 \f[C]
-echo \[aq][10,20,30,40,50]\[aq] | %!s(MISSING) -values -limit 2
+    echo \[aq][10,20,30,40,50]\[aq] | %!s(MISSING) -values -limit 2
 \f[R]
 .fi
 .PP
@@ -236,9 +253,11 @@ would yield
 .IP
 .nf
 \f[C]
-10
-20
+    10
+    20
 \f[R]
 .fi
 .PP
-jsonrange 1.2.1
+jsonrange 1.2.2
+.SH AUTHORS
+R. S. Doiel.

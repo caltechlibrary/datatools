@@ -1,4 +1,3 @@
-//
 // csvcols - is a command line that takes each argument in order and outputs a line in CSV format.
 // It can also take a delimiter and line of text splitting it into a CSV formatted set of columns.
 //
@@ -16,7 +15,6 @@
 // 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
 package main
 
 import (
@@ -134,7 +132,6 @@ Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
 
 `
 
-
 	// Standard Options
 	showHelp         bool
 	showLicense      bool
@@ -204,7 +201,7 @@ func CSVColumns(in *os.File, out *os.File, eout *os.File, columnNos []int, prefi
 		if err == io.EOF {
 			break
 		}
-		if err != nil && ! quiet{
+		if err != nil && !quiet {
 			fmt.Fprintln(eout, err)
 
 		}
@@ -261,24 +258,23 @@ func main() {
 	out := os.Stdout
 	eout := os.Stderr
 
-
-if inputFName != "" {
-	in, err = os.Open(inputFName)
-	if err != nil {
-		fmt.Fprintln(eout, err)
-		os.Exit(1)
+	if inputFName != "" {
+		in, err = os.Open(inputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer in.Close()
 	}
-	defer in.Close()
-}
 
-if outputFName != "" {
-	out, err := os.Create(outputFName)
-	if err != nil {
-		fmt.Fprintln(eout, err)
-		os.Exit(1)
+	if outputFName != "" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
 	}
-	defer out.Close()
-}
 
 	// Process options
 	if showHelp {

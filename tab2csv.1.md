@@ -64,6 +64,6 @@ This would yield
 	"Doe, Jane","jane.doe@example.org",42
 ~~~
 
-tab2csv 1.2.1
+tab2csv 1.2.2
 
 

@@ -1,20 +1,20 @@
 ---
-title: "{app_name} (1) user manual"
+title: "xlsx2json (1) user manual"
 author: "R. S. Doiel"
 pubDate: 2023-01-09
 ---
 
 # NAME
 
-{app_name}
+xlsx2json
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
+xlsx2json [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
 
 # DESCRIPTION
 
-{app_name} is a tool that converts individual Excel Workbook Sheets into
+xlsx2json is a tool that converts individual Excel Workbook Sheets into
 JSON output.
 
 # OPTIONS
@@ -49,30 +49,31 @@ JSON output.
 This would get the sheet named "Sheet 1" from "MyWorkbook.xlsx" and save as sheet1.json
 
 ~~~
-    {app_name} MyWorkbook.xlsx "My worksheet 1" > sheet1.json
+    xlsx2json MyWorkbook.xlsx "My worksheet 1" > sheet1.json
 ~~~
 
 This would get the number of sheets in the workbook
 
 ~~~
-    {app_name} -count MyWorkbook.xlsx
+    xlsx2json -count MyWorkbook.xlsx
 ~~~
 
 This will output the title of the sheets in the workbook
 
 ~~~
-    {app_name} -sheets MyWorkbook.xlsx
+    xlsx2json -sheets MyWorkbook.xlsx
 ~~~
 
 Putting it all together in a shell script and convert all sheets to
 into JSON documents..
 
 ~~~
-	{app_name} -N MyWorkbook.xlsx | while read SHEET_NAME; do
+	xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
     	JSON_NAME="${SHEET_NAME// /-}.json"
-    	{app_name} -o "${JSON_NAME}" MyWorkbook.xlsx "$SHEET_NAME"
+    	xlsx2json -o "${JSON_NAME}" MyWorkbook.xlsx "$SHEET_NAME"
 	done
 ~~~
 
-{app_name} {version}
+xlsx2json 1.2.2
+
 

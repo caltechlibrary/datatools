@@ -14,12 +14,15 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "jsonmunge" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: jsonmunge [OPTIONS] TEMPLATE_FILENAME
+jsonmunge
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+jsonmunge OPTIONS TEMPLATE_FILENAME
+.SH DESCRIPTION
 .PP
 jsonmunge is a command line tool that takes a JSON document and one or
 more Go templates rendering the results.
@@ -28,41 +31,54 @@ filter for specific content.
 .IP \[bu] 2
 TEMPLATE_FILENAME is the name of a Go text tempate file used to render
 the outbound JSON document
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-E, -expression
+use template expression as template
+.TP
+-i, -input
+input filename
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+output filename
+.TP
+-quiet
+suppress error messages
+.SH EXAMPLES
 .PP
-OPTIONS
+If person.json contained
 .IP
 .nf
 \f[C]
--E, -expression     use template expression as template
--examples           display example(s)
--generate-manpage   generate man page
--generate-markdown  generate markdown documentation
--h, -help           display help
--i, -input          input filename
--l, -license        display license
--nl, -newline       if true add a trailing newline
--o, -output         output filename
--quiet              suppress error messages
--v, -version        display version
+   {\[dq]name\[dq]: \[dq]Doe, Jane\[dq], \[dq]email\[dq]:\[dq]jd\[at]example.org\[dq], \[dq]age\[dq]: 42}
 \f[R]
 .fi
 .PP
-EXAMPLES
-.PP
-If person.json contained
-.PP
-{\[lq]name\[rq]: \[lq]Doe, Jane\[rq],
-\[lq]email\[rq]:\[lq]jd\[at]example.org\[rq], \[lq]age\[rq]: 42}
-.PP
 and the template, name.tmpl, contained
-.PP
-{{- .name -}}
+.IP
+.nf
+\f[C]
+   {{- .name -}}
+\f[R]
+.fi
 .PP
 Getting just the name could be done with
 .IP
 .nf
 \f[C]
-cat person.json | jsonmunge name.tmpl
+    cat person.json | jsonmunge name.tmpl
 \f[R]
 .fi
 .PP
@@ -70,8 +86,10 @@ This would yield
 .IP
 .nf
 \f[C]
-\[dq]Doe, Jane\[dq]
+    \[dq]Doe, Jane\[dq]
 \f[R]
 .fi
 .PP
-jsonmunge 1.2.1
+jsonmunge 1.2.2
+.SH AUTHORS
+R. S. Doiel.

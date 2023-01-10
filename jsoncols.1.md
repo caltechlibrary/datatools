@@ -112,6 +112,6 @@ Would yield
    "Doe, Jane","jane.doe@xample.org",42
 ~~~
 
-jsoncols 1.2.1
+jsoncols 1.2.2
 
 

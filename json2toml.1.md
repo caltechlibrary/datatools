@@ -52,6 +52,6 @@ These would get the file named "my.json" and save it as my.toml
 	cat my.json | json2toml -i - > my.toml
 ~~~
 
-json2toml 1.2.1
+json2toml 1.2.2
 
 

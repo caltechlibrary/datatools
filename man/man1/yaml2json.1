@@ -14,44 +14,54 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "yaml2json (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: yaml2json [OPTIONS] [YAML_FILENAME] [JSON_NAME]
+yaml2json
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+yaml2json OPTIONS [YAML_FILENAME] [JSON_NAME]
+.SH DESCRIPTION
 .PP
-yaml2json is a tool that converts YAML into JSON output.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--examples           display example(s)
--generate-manpage   generate man page
--generate-markdown  generate markdown documentation
--h, -help           display help
--l, -license        display license
--nl, -newline       if true add a trailing newline
--o, -output         output filename
--p, -pretty         pretty print output
--quiet              suppress error messages
--v, -version        display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+yaml2json is a tool that converts YAML into JSON.
+The program reads from standard input and writes to standard out.
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+output filename
+.TP
+-p, -pretty
+pretty print output
+.TP
+-quiet
+suppress error messages
+.SH EXAMPLES
 .PP
 These would get the file named \[lq]my.yaml\[rq] and save it as my.json
 .IP
 .nf
 \f[C]
-yaml2json my.yaml > my.json
+    yaml2json my.yaml > my.json
 
-yaml2json my.yaml my.json
+    yaml2json my.yaml my.json
 
-cat my.yaml | yaml2json -i - > my.json
+    cat my.yaml | yaml2json -i - > my.json
 \f[R]
 .fi
 .PP
-yaml2json 1.2.1
+yaml2json 1.2.2
+.SH AUTHORS
+R. S. Doiel.

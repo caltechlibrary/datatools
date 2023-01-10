@@ -1,20 +1,20 @@
 ---
-title: "{app_name} (1) user manual"
+title: "jsonrange (1) user manual"
 author: "R. S. Doiel"
 pubDate: 2023-01-09
 ---
 
 # NAME
 
-{app_name} 
+jsonrange 
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] [DOT_PATH_EXPRESSION]
+jsonrange [OPTIONS] [DOT_PATH_EXPRESSION]
 
 # DESCRIPTION
 
-{app_name} returns returns a range of values based on the JSON structure
+jsonrange returns returns a range of values based on the JSON structure
 being read and options applied.  Without options the JSON structure is
 read from standard input and writes a list of keys to standard out. Keys
 are either attribute names or for arrays the index position (counting
@@ -87,7 +87,7 @@ Working with a map
 
 ~~~
     echo '{"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}' \
-       | {app_name}
+       | jsonrange
 ~~~
 
 This would yield
@@ -102,7 +102,7 @@ Using the -values option on a map
 
 ~~~
     echo '{"name": "Doe, Jane", "email":"jane.doe@example.org", "age": 42}' \
-      | {app_name} -values
+      | jsonrange -values
 ~~~
 
 This would yield
@@ -117,7 +117,7 @@ This would yield
 Working with an array
 
 ~~~
-    echo '["one", 2, {"label":"three","value":3}]' | {app_name}
+    echo '["one", 2, {"label":"three","value":3}]' | jsonrange
 ~~~
 
 would yield
@@ -131,7 +131,7 @@ would yield
 Using the -values option on the same array
 
 ~~~
-    echo '["one", 2, {"label":"three","value":3}]' | {app_name} -values
+    echo '["one", 2, {"label":"three","value":3}]' | jsonrange -values
 ~~~
 
 would yield
@@ -145,7 +145,7 @@ would yield
 Checking the length of a map or array or number of keys in map
 
 ~~~
-    echo '["one","two","three"]' | {app_name} -length
+    echo '["one","two","three"]' | jsonrange -length
 ~~~
 
 would yield
@@ -157,7 +157,7 @@ would yield
 Check for the index of last element
 
 ~~~
-    echo '["one","two","three"]' | {app_name} -last
+    echo '["one","two","three"]' | jsonrange -last
 ~~~
 
 would yield
@@ -169,7 +169,7 @@ would yield
 Check for the index value of last element
 
 ~~~
-    echo '["one","two","three"]' | {app_name} -values -last
+    echo '["one","two","three"]' | jsonrange -values -last
 ~~~
 
 would yield
@@ -204,4 +204,5 @@ would yield
     20
 ~~~
 
-{app_name} {version}
+jsonrange 1.2.2
+

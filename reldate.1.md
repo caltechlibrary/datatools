@@ -1,21 +1,21 @@
 ---
-title: "{app_name} (1) user manual"
+title: "reldate (1) user manual"
 author: "R. S. Doiel"
 pubDate: 2023-01-09
 ---
 
 # NAME
 
-{app_name}
+reldate
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] [TIME_DESCRPTION]
+reldate [OPTIONS] [TIME_DESCRPTION]
 
 # DESCRIPTION
 
-{app_name} is a small command line utility which returns the relative date in
-YYYY-MM-DD format. This is helpful when scripting various time
+reldate is a small command line utility which returns the relative
+date in YYYY-MM-DD format. This is helpful when scripting various time
 relationships. The difference in time returned are determined by
 the time increments provided.
 
@@ -55,7 +55,7 @@ be Thu, Friday can be Fri or Saturday can be Sat.
 If today was 2014-08-03 and you wanted the date three days in the past try–
 
 ~~~
-    {app_name} 3 days
+    reldate 3 days
 ~~~
 
 The output would be
@@ -74,13 +74,13 @@ Supported time units are
 
 Specifying a date to calucate from
 
-{app_name} handles dates in the YYYY-MM-DD format (e.g. March 1, 2014 would be
-2014-03-01). By default {app_name} uses today as the date to calculate relative
-time from. If you use the –from option you can it will calculate the
-relative date from that specific date.
+reldate handles dates in the YYYY-MM-DD format (e.g. March 1, 2014
+would be 2014-03-01). By default reldate uses today as the date to
+calculate relative time from. If you use the –from option you can it
+will calculate the relative date from that specific date.
 
 ~~~
-   {app_name} --from=2014-08-03 3 days
+   reldate --from=2014-08-03 3 days
 ~~~
 
 Will yield
@@ -91,13 +91,13 @@ Will yield
 
 ## NEGATIVE INCREMENTS
 
-Command line arguments traditionally start with a dash which we also use to
-denote a nagative number. To tell the command line process that to not treat
-negative numbers as an “option” precede your time increment and time unit
-with a double dash.
+Command line arguments traditionally start with a dash which we also use
+to denote a nagative number. To tell the command line process that to
+not treat negative numbers as an “option” precede your time increment and
+time unit with a double dash.
 
 ~~~
-    {app_name} --from=2014-08-03 -- -3 days
+    reldate --from=2014-08-03 -- -3 days
 ~~~
 
 Will yield
@@ -108,14 +108,14 @@ Will yield
 
 ## RELATIVE WEEK DAYS
 
-You can calculate a date from a weekday name (e.g. Saturday, Monday, Tuesday)
-knowning a day (e.g. 2015-02-10 or the current date of the week) occurring in
-a week. A common case would be wanting to figure out the Monday date of a week
-containing 2015-02-10. The week is presumed to start on Sunday (i.e. 0) and
-finish with Saturday (e.g. 6).
+You can calculate a date from a weekday name (e.g. Saturday, Monday,
+Tuesday) knowning a day (e.g. 2015-02-10 or the current date of the week)
+occurring in a week. A common case would be wanting to figure out the
+Monday date of a week containing 2015-02-10. The week is presumed to start
+on Sunday (i.e. 0) and finish with Saturday (e.g. 6).
 
 ~~~
-    {app_name} --from=2015-02-10 Monday
+    reldate --from=2015-02-10 Monday
 ~~~
 
 will yield
@@ -124,8 +124,9 @@ will yield
     2015-02-09
 ~~~
 
-As that is the Monday of the week containing 2015-02-10. Weekday names case
-insensitive and can be the first three letters of the English names or full
-English names (e.g. Monday, monday, Mon, mon).
+As that is the Monday of the week containing 2015-02-10. Weekday names
+case insensitive and can be the first three letters of the English names
+or full English names (e.g. Monday, monday, Mon, mon).
 
-{app_name} {version}
+reldate 1.2.2
+

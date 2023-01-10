@@ -1,20 +1,20 @@
 ---
-title: "{app_name} (1) user manual"
+title: "toml2json (1) user manual"
 author: "R. S. Doiel"
 pubDate: 2023-01-09
 ---
 
 # NAME
  
-{app_name}
+toml2json
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] [TOML_FILENAME] [JSON_NAME]
+toml2json [OPTIONS] [TOML_FILENAME] [JSON_NAME]
 
 # DESCRIPTION
 
-{app_name} is a tool that converts TOML into JSON. It operates
+toml2json is a tool that converts TOML into JSON. It operates
 on standard input and writes to standard output.
 
 # OPTIONS
@@ -46,11 +46,12 @@ on standard input and writes to standard output.
 These would get the file named "my.toml" and save it as my.json
 
 ~~~
-    {app_name} my.toml > my.json
+    toml2json my.toml > my.json
 
-    {app_name} my.toml my.json
+    toml2json my.toml my.json
 
-	cat my.toml | {app_name} -i - > my.json
+	cat my.toml | toml2json -i - > my.json
 ~~~
 
-{app_name} {version}
+toml2json 1.2.2
+

@@ -51,6 +51,6 @@ This would yield
 	Doe, Jane	jane.doe@example.org	42
 ~~~
 
-csv2tab 1.2.1
+csv2tab 1.2.2
 
 

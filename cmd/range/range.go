@@ -191,16 +191,16 @@ func main() {
 	flag.BoolVar(&showVersion, "version", false, "display version")
 
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	flag.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
-	flag.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
 
 	// App specific options
-	flag.IntVar(&start, "s,start", 0, startUsage)
-	flag.IntVar(&start, "s,start", 0, startUsage)
-	flag.IntVar(&end, "e,end", 0, endUsage)
-	flag.IntVar(&end, "e,end", 0, endUsage)
-	flag.IntVar(&increment, "inc,increment", 1, incUsage)
-	flag.IntVar(&increment, "inc,increment", 1, incUsage)
+	flag.IntVar(&start, "s", 0, startUsage)
+	flag.IntVar(&start, "start", 0, startUsage)
+	flag.IntVar(&end, "e", 0, endUsage)
+	flag.IntVar(&end, "end", 0, endUsage)
+	flag.IntVar(&increment, "inc", 1, incUsage)
+	flag.IntVar(&increment, "increment", 1, incUsage)
 	flag.BoolVar(&randomElement, "random", false, "Pick a range value from range")
 
 	// Parse env and options

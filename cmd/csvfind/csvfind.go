@@ -1,4 +1,3 @@
-//
 // csvfind - is a command line that takes CSV files in returns the rows that match a column value.
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
@@ -15,7 +14,6 @@
 // 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
 package main
 
 import (
@@ -156,7 +154,6 @@ You can also search for phrases in columns.
 {app_name} {version}
 `
 
-
 	// Standard Options
 	showHelp         bool
 	showLicense      bool
@@ -209,7 +206,6 @@ func main() {
 	flag.BoolVar(&newLine, "nl", true, "include trailing newline from output")
 	flag.BoolVar(&newLine, "newline", true, "include trailing newline from output")
 
-
 	// App Options
 	flag.IntVar(&col, "col", 0, "column to search for match in the CSV file")
 	flag.IntVar(&col, "cols", 0, "column to search for match in the CSV file")
@@ -226,7 +222,8 @@ func main() {
 	flag.StringVar(&stopWordsOption, "stop-words", "", "use the colon delimited list of stop words")
 	flag.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
 	flag.BoolVar(&allowDuplicates, "allow-duplicates", true, "allow duplicates when searching for matches")
-	flag.BoolVar(&trimSpaces, "trimspace,trimspaces", false, "trim spaces around cell values before comparing")
+	flag.BoolVar(&trimSpaces, "trimspace", false, "trim spaces around cell values before comparing")
+	flag.BoolVar(&trimSpaces, "trimspaces", false, "trim spaces around cell values before comparing")
 	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes on CSV input")
 	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leadings space in field(s) for CSV input")
 
@@ -241,25 +238,24 @@ func main() {
 	out := os.Stdout
 	eout := os.Stderr
 
-if inputFName != "" {
-	in, err := os.Open(inputFName)
-	if err != nil {
-		fmt.Fprintln(eout, err)
-		os.Exit(1)
+	if inputFName != "" {
+		in, err = os.Open(inputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer in.Close()
+
 	}
-	defer in.Close()
 
-}
-
-if outputFName != "" {
-	out, err := os.Create(outputFName)
-	if err != nil {
-		fmt.Fprintln(eout, err)
-		os.Exit(1)
+	if outputFName != "" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
 	}
-	defer out.Close()
-}
-
 
 	// Process options
 	if showHelp {
@@ -321,7 +317,7 @@ if outputFName != "" {
 			break
 		}
 		if err != nil {
-			if ! quiet {
+			if !quiet {
 				fmt.Fprintf(eout, "%d %s\n", lineNo, err)
 			}
 		} else {
@@ -347,7 +343,7 @@ if outputFName != "" {
 					if strings.Contains(src, target) {
 						err := csvOut.Write(record)
 						if err != nil {
-							if ! quiet {
+							if !quiet {
 								fmt.Fprintf(eout, "%d %s\n", lineNo, err)
 							}
 						}
@@ -360,7 +356,7 @@ if outputFName != "" {
 						}
 						err := csvOut.Write(record)
 						if err != nil {
-							if ! quiet {
+							if !quiet {
 								fmt.Fprintf(eout, "%d %s\n", lineNo, err)
 							}
 						}
@@ -369,7 +365,7 @@ if outputFName != "" {
 					if strings.Compare(src, target) == 0 {
 						err := csvOut.Write(record)
 						if err != nil {
-							if ! quiet {
+							if !quiet {
 								fmt.Fprintf(eout, "%d %s\n", lineNo, err)
 							}
 						}
@@ -379,7 +375,7 @@ if outputFName != "" {
 					break
 				}
 			} else {
-				if ! quiet {
+				if !quiet {
 					fmt.Fprintf(eout, "%d line skipped, missing column %d\n", lineNo, col)
 				}
 			}

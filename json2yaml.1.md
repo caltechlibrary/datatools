@@ -49,6 +49,6 @@ These would get the file named "my.json" and save it as my.yaml
 	cat my.json | json2yaml -i - > my.taml
 ~~~
 
-json2yaml 1.2.1
+json2yaml 1.2.2
 
 

@@ -1,26 +1,26 @@
 ---
-title: "{app_name} (1) user manual"
+title: "yaml2json (1) user manual"
 author: "R. S. Doiel"
 pubDate: 2023-01-09
 ---
 
 # NAME
 
-{app_name}
+yaml2json
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] [YAML_FILENAME] [JSON_NAME]
+yaml2json [OPTIONS] [YAML_FILENAME] [JSON_NAME]
 
 # DESCRIPTION
 
-{app_name} is a tool that converts YAML into JSON output.
+yaml2json is a tool that converts YAML into JSON. The
+program reads from standard input and writes to standard out.
 
 # OPTIONS
 
-
--help:
-display help
+-help
+: display help
 
 -license
 : display license
@@ -46,12 +46,12 @@ display help
 These would get the file named "my.yaml" and save it as my.json
 
 ~~~
-    {app_name} my.yaml > my.json
+    yaml2json my.yaml > my.json
 
-    {app_name} my.yaml my.json
+    yaml2json my.yaml my.json
 
-	cat my.yaml | {app_name} -i - > my.json
+	cat my.yaml | yaml2json -i - > my.json
 ~~~
 
-{app_name} {version}
+yaml2json 1.2.2
 

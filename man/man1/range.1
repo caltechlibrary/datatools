@@ -14,12 +14,15 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "range (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: range [OPTIONS] START_INTEGER END_INTEGER [INCREMENT_INTEGER]
+range
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+range OPTIONS START_INTEGER END_INTEGER [INCREMENT_INTEGER]
+.SH DESCRIPTION
 .PP
 range is a simple utility for shell scripts that emits a list of
 integers starting with the first command line argument and ending with
@@ -28,33 +31,41 @@ It is a subset of functionality found in the Unix seq command.
 .PP
 If the first argument is greater than the last then it counts down
 otherwise it counts up.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--e, -end             The ending integer.
--examples            display example(s)
--generate-manpage    generate man page
--generate-markdown   generate markdown documentation
--h, -help            display help
--inc, -increment     The non-zero integer increment value.
--l, -license         display license
--nl, -newline        if true add a trailing newline
--quiet               suppress error messages
--random              Pick a range value from range
--s, -start           The starting integer.
--v, -version         display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-e, -end
+The ending integer.
+.TP
+-inc, -increment
+The non-zero integer increment value.
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-quiet
+suppress error messages
+.TP
+-random
+Pick a range value from range
+.TP
+-s, -start
+The starting integer.
+.SH EXAMPLES
 .PP
 Create a range of integers one through five
 .IP
 .nf
 \f[C]
-range 1 5
+    range 1 5
 \f[R]
 .fi
 .PP
@@ -64,7 +75,7 @@ Create a range of integer negative two to six
 .IP
 .nf
 \f[C]
-range -- -2 6
+    range -- -2 6
 \f[R]
 .fi
 .PP
@@ -74,7 +85,7 @@ Create a range of even integers two to ten
 .IP
 .nf
 \f[C]
-range -increment=2 2 10
+    range -increment=2 2 10
 \f[R]
 .fi
 .PP
@@ -84,7 +95,7 @@ Create a descending range of integers ten down to one
 .IP
 .nf
 \f[C]
-range 10 1
+    range 10 1
 \f[R]
 .fi
 .PP
@@ -94,10 +105,12 @@ Pick a random integer between zero and ten
 .IP
 .nf
 \f[C]
-range -random 0 10
+    range -random 0 10
 \f[R]
 .fi
 .PP
 Yields a random integer from 0 to 10
 .PP
 range 1.2.1
+.SH AUTHORS
+R. S. Doiel.

@@ -14,12 +14,15 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "timefmt (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: timefmt [OPTIONS] TIME_STRING_TO_CONVERT
+timefmt
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+timefmt OPTIONS TIME_STRING_TO_CONVERT
+.SH DESCRIPTION
 .PP
 timefmt formats the current date or INPUT_DATE based on the output
 format provided in options.
@@ -32,33 +35,41 @@ For details see https://golang.org/pkg/time/#Time.Format.
 One additional time layout provided by timefmt
 .IP \[bu] 2
 mysql \[lq]2006-01-02 15:04:05 -0700\[rq]
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--examples             display example(s)
--generate-manpage     generate man page
--generate-markdown    generate markdown documentation
--h, -help             display help
--if, -input-format    Set format for input
--l, -license          display license
--nl, -newline         if true add a trailing newline
--o, -output           output filename
--of, -output-format   Set format for output
--quiet                suppress error messages
--utc                  timestamps in UTC
--v, -version          display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-if, -input-format
+Set format for input
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+output filename
+.TP
+-of, -output-format
+Set format for output
+.TP
+-quiet
+suppress error messages
+.TP
+-utc
+timestamps in UTC
+.SH EXAMPLES
 .PP
 Format the date July, 7, 2016 in YYYY-MM-DD format
 .IP
 .nf
 \f[C]
-timefmt -if \[dq]2006-01-02\[dq] -of \[dq]01/02/2006\[dq] \[dq]2017-12-02\[dq]
+    timefmt -if \[dq]2006-01-02\[dq] -of \[dq]01/02/2006\[dq] \[dq]2017-12-02\[dq]
 \f[R]
 .fi
 .PP
@@ -68,10 +79,12 @@ Format the MySQL date/time of 8:08am, July 2, 2016
 .IP
 .nf
 \f[C]
-timefmt -input-format mysql -output-format RFC822  \[dq]2017-12-02 08:08:08\[dq]
+    timefmt -input-format mysql -output-format RFC822  \[dq]2017-12-02 08:08:08\[dq]
 \f[R]
 .fi
 .PP
 Yields \[lq]02 Dec 17 08:08 UTC\[rq]
 .PP
-timefmt 1.2.1
+timefmt 1.2.2
+.SH AUTHORS
+R. S. Doiel.

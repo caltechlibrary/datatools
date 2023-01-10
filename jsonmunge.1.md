@@ -1,20 +1,20 @@
 ---
-title: "{app_name}"
+title: "jsonmunge"
 author: "R. S. Doiel"
 pubDate: 2023-01-09
 ---
 
 # NAME
 
-{app_name} 
+jsonmunge 
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] TEMPLATE_FILENAME
+jsonmunge [OPTIONS] TEMPLATE_FILENAME
 
 # DESCRIPTION
 
-{app_name} is a command line tool that takes a JSON document and
+jsonmunge is a command line tool that takes a JSON document and
 one or more Go templates rendering the results. Useful for
 reshaping a JSON document, transforming into a new format,
 or filter for specific content.
@@ -66,7 +66,7 @@ and the template, name.tmpl, contained
 Getting just the name could be done with
 
 ~~~
-    cat person.json | {app_name} name.tmpl
+    cat person.json | jsonmunge name.tmpl
 ~~~
 
 This would yield
@@ -75,4 +75,5 @@ This would yield
     "Doe, Jane"
 ~~~
 
-{app_name} {version}
+jsonmunge 1.2.2
+

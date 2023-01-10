@@ -109,5 +109,5 @@ Trim leading and trailing spaces from output.
     cat mysheet.csv | csvcleaner -trim-space
 ~~~
 
-csvcleaner 1.2.1
+csvcleaner 1.2.2
 

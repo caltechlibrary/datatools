@@ -1,20 +1,20 @@
 ---
-title: "{app_name} (1) user manual"
+title: "xlsx2csv (1) user manual"
 author: "R. S. Doiel"
 pubDate: 2023-01-09
 ---
 
 # NAME
 
-{app_name}
+xlsx2csv
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
+xlsx2csv [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
 
 # DESCRIPTION
 
-{app_name} is a tool that converts individual Excel Sheets to CSV output.
+xlsx2csv is a tool that converts individual Excel Sheets to CSV output.
 
 # OPTIONS
 
@@ -48,31 +48,32 @@ pubDate: 2023-01-09
 Extract a workbook sheet as a CSV file
 
 ~~~
-    {app_name} MyWorkbook.xlsx "My worksheet 1" > sheet1.csv
+    xlsx2csv MyWorkbook.xlsx "My worksheet 1" > sheet1.csv
 ~~~
 
 This would get the first sheet from the workbook and save it as a CSV file.
 
 ~~~
-    {app_name} -count MyWorkbook.xlsx
+    xlsx2csv -count MyWorkbook.xlsx
 ~~~
 
 
 This will output the number of sheets in the Workbook.
 
 ~~~
-    {app_name} -sheets MyWorkbook.xlsx
+    xlsx2csv -sheets MyWorkbook.xlsx
 ~~~
 
 This will display a list of sheet names, one per line.
 Putting it all together in a shell script.
 
 ~~~
-	{app_name} -N MyWorkbook.xlsx | while read SHEET_NAME; do
+	xlsx2csv -N MyWorkbook.xlsx | while read SHEET_NAME; do
     	CSV_NAME="${SHEET_NAME// /-}.csv"
-    	{app_name} -o "${CSV_NAME}" MyWorkbook.xlsx "${SHEET_NAME}" 
+    	xlsx2csv -o "${CSV_NAME}" MyWorkbook.xlsx "${SHEET_NAME}" 
 	done
 ~~~
 
-{app_name} {version}
+xlsx2csv 1.2.2
+
 

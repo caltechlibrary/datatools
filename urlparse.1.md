@@ -1,20 +1,20 @@
 ---
-title: "{app_name} (1) user manual"
+title: "urlparse (1) user manual"
 author: "R. S. Doiel"
 pubDate: 2023-01-09
 ---
 
 # NAME
 
-{app_name}
+urlparse
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] URL_TO_PARSE
+urlparse [OPTIONS] URL_TO_PARSE
 
 # DESCRIPTION
 
-{app_name} can parse a URL and return the specific elements
+urlparse can parse a URL and return the specific elements
 requested (e.g. protocol, hostname, path, query string)
 
 # OPTIONS
@@ -67,46 +67,47 @@ requested (e.g. protocol, hostname, path, query string)
 With no options returns "http\texample.com\t/my/page.html"
 
 ~~~
-    {app_name} http://example.com/my/page.html
+    urlparse http://example.com/my/page.html
 ~~~
 
 Get protocol. Returns "http".
 
 ~~~
-    {app_name} -protocol http://example.com/my/page.html
+    urlparse -protocol http://example.com/my/page.html
 ~~~
 
 Get host or domain name.  Returns "example.com".
 
 ~~~
-    {app_name} -host http://example.com/my/page.html
+    urlparse -host http://example.com/my/page.html
 ~~~
 
 Get path. Returns "/my/page.html".
 
 ~~~
-    {app_name} -path http://example.com/my/page.html
+    urlparse -path http://example.com/my/page.html
 ~~~
 
 Get dirname. Returns "my"
 
 ~~~
-    {app_name} -dirname http://example.com/my/page.html
+    urlparse -dirname http://example.com/my/page.html
 ~~~
 
 Get basename. Returns "page.html".
 
 ~~~
-    {app_name} -basename http://example.com/my/page.html
+    urlparse -basename http://example.com/my/page.html
 ~~~
 
 Get extension. Returns ".html".
 
 ~~~
-    {app_name} -extname http://example.com/my/page.html
+    urlparse -extname http://example.com/my/page.html
 ~~~
 
-Without options {app_name} returns protocol, host and path
+Without options urlparse returns protocol, host and path
 fields separated by a tab.
 
-{app_name} {version}
+urlparse 1.2.2
+

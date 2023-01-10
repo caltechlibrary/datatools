@@ -14,40 +14,49 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "xlsx2csv (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: xlsx2csv [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
+xlsx2csv
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+xlsx2csv OPTIONS EXCEL_WORKBOOK_NAME [SHEET_NAME]
+.SH DESCRIPTION
 .PP
 xlsx2csv is a tool that converts individual Excel Sheets to CSV output.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--N, -sheets          display the Workbook sheet names
--c, -count           display number of Workbook sheets
--examples            display example(s)
--generate-manpage    generate man page
--generate-markdown   generate markdown documentation
--h, -help            display help
--l, -license         display license
--nl, -newline        if true add a trailing newline
--o, -output          output filename
--quiet               suppress error messages
--v, -version         display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-N, -sheets
+display the Workbook sheet names
+.TP
+-c, -count
+display number of Workbook sheets
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+output filename
+.TP
+-quiet
+suppress error messages
+.SH EXAMPLES
 .PP
 Extract a workbook sheet as a CSV file
 .IP
 .nf
 \f[C]
-xlsx2csv MyWorkbook.xlsx \[dq]My worksheet 1\[dq] > sheet1.csv
+    xlsx2csv MyWorkbook.xlsx \[dq]My worksheet 1\[dq] > sheet1.csv
 \f[R]
 .fi
 .PP
@@ -56,7 +65,7 @@ file.
 .IP
 .nf
 \f[C]
-xlsx2csv -count MyWorkbook.xlsx
+    xlsx2csv -count MyWorkbook.xlsx
 \f[R]
 .fi
 .PP
@@ -64,7 +73,7 @@ This will output the number of sheets in the Workbook.
 .IP
 .nf
 \f[C]
-xlsx2csv -sheets MyWorkbook.xlsx
+    xlsx2csv -sheets MyWorkbook.xlsx
 \f[R]
 .fi
 .PP
@@ -73,11 +82,13 @@ Putting it all together in a shell script.
 .IP
 .nf
 \f[C]
-xlsx2csv -N MyWorkbook.xlsx | while read SHEET_NAME; do
-    CSV_NAME=\[dq]${SHEET_NAME// /-}.csv\[dq]
-    xlsx2csv -o \[dq]${CSV_NAME}\[dq] MyWorkbook.xlsx \[dq]${SHEET_NAME}\[dq] 
-done
+    xlsx2csv -N MyWorkbook.xlsx | while read SHEET_NAME; do
+        CSV_NAME=\[dq]${SHEET_NAME// /-}.csv\[dq]
+        xlsx2csv -o \[dq]${CSV_NAME}\[dq] MyWorkbook.xlsx \[dq]${SHEET_NAME}\[dq] 
+    done
 \f[R]
 .fi
 .PP
-xlsx2csv 1.2.1
+xlsx2csv 1.2.2
+.SH AUTHORS
+R. S. Doiel.

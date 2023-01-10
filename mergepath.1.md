@@ -1,20 +1,20 @@
 ---
-title: "{app_name} (1) user manual"
+title: "mergepath (1) user manual"
 author: "R. S. Doiel"
 pubDate: 2023-01-09
 ---
 
 # NAME
 
-{app_name}
+mergepath
 
 # SYNOPSIS
 
-{app_name} [OPTIONS] NEW_PATH_PARTS
+mergepath [OPTIONS] NEW_PATH_PARTS
 
 # DESCRIPTION
 
-{app_name} can merge the new path parts with the existing path with
+mergepath can merge the new path parts with the existing path with
 creating duplications.  It can also re-order existing path elements by
 prefixing or appending to the existing path and removing the resulting
 duplicate.
@@ -57,7 +57,8 @@ duplicate.
 This would put your home bin directory at the beginning of your path.
 
 ~~~
-	export PATH=$({app_name} -p $HOME/bin)
+	export PATH=$(mergepath -p $HOME/bin)
 ~~~
 
-{app_name} {version}
+mergepath 1.2.2
+

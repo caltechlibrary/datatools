@@ -14,44 +14,54 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "toml2json (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: toml2json [OPTIONS] [TOML_FILENAME] [JSON_NAME]
+toml2json
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+toml2json OPTIONS [TOML_FILENAME] [JSON_NAME]
+.SH DESCRIPTION
 .PP
-toml2json is a tool that converts TOML into JSON output.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--examples            display example(s)
--generate-manpage    generate man page
--generate-markdown   generate markdown documentation
--h, -help            display help
--l, -license         display license
--nl, -newline        if true add a trailing newline
--o, -output          output filename
--p, -pretty          pretty print output
--quiet               suppress error messages
--v, -version         display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+toml2json is a tool that converts TOML into JSON.
+It operates on standard input and writes to standard output.
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+output filename
+.TP
+-p, -pretty
+pretty print output
+.TP
+-quiet
+suppress error messages
+.SH EXAMPLES
 .PP
 These would get the file named \[lq]my.toml\[rq] and save it as my.json
 .IP
 .nf
 \f[C]
-toml2json my.toml > my.json
+    toml2json my.toml > my.json
 
-toml2json my.toml my.json
+    toml2json my.toml my.json
 
-cat my.toml | toml2json -i - > my.json
+    cat my.toml | toml2json -i - > my.json
 \f[R]
 .fi
 .PP
-toml2json 1.2.1
+toml2json 1.2.2
+.SH AUTHORS
+R. S. Doiel.

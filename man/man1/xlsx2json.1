@@ -14,42 +14,51 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "" "" "" "" ""
+.TH "xlsx2json (1) user manual" "" "" "" ""
 .hy
+.SH NAME
 .PP
-USAGE: xlsx2json [OPTIONS] EXCEL_WORKBOOK_NAME [SHEET_NAME]
+xlsx2json
+.SH SYNOPSIS
 .PP
-DESCRIPTION
+xlsx2json OPTIONS EXCEL_WORKBOOK_NAME [SHEET_NAME]
+.SH DESCRIPTION
 .PP
 xlsx2json is a tool that converts individual Excel Workbook Sheets into
 JSON output.
-.PP
-OPTIONS
-.IP
-.nf
-\f[C]
--N, -sheets          display sheet names in Excel Workbook
--c, -count           display number of sheets in Excel Workbook
--examples            display example(s)
--generate-manpage    generate man page
--generate-markdown   generate markdown documentation
--h, -help            display help
--l, -license         display license
--nl, -newline        if true add a trailing newline
--o, -output          output filename
--quiet               suppress error messages
--v, -version         display version
-\f[R]
-.fi
-.PP
-EXAMPLES
+.SH OPTIONS
+.TP
+-help
+display help
+.TP
+-license
+display license
+.TP
+-version
+display version
+.TP
+-N, -sheets
+display sheet names in Excel Workbook
+.TP
+-c, -count
+display number of sheets in Excel Workbook
+.TP
+-nl, -newline
+if true add a trailing newline
+.TP
+-o, -output
+output filename
+.TP
+-quiet
+suppress error messages
+.SH EXAMPLES
 .PP
 This would get the sheet named \[lq]Sheet 1\[rq] from
 \[lq]MyWorkbook.xlsx\[rq] and save as sheet1.json
 .IP
 .nf
 \f[C]
-xlsx2json MyWorkbook.xlsx \[dq]My worksheet 1\[dq] > sheet1.json
+    xlsx2json MyWorkbook.xlsx \[dq]My worksheet 1\[dq] > sheet1.json
 \f[R]
 .fi
 .PP
@@ -57,7 +66,7 @@ This would get the number of sheets in the workbook
 .IP
 .nf
 \f[C]
-xlsx2json -count MyWorkbook.xlsx
+    xlsx2json -count MyWorkbook.xlsx
 \f[R]
 .fi
 .PP
@@ -65,7 +74,7 @@ This will output the title of the sheets in the workbook
 .IP
 .nf
 \f[C]
-xlsx2json -sheets MyWorkbook.xlsx
+    xlsx2json -sheets MyWorkbook.xlsx
 \f[R]
 .fi
 .PP
@@ -74,11 +83,13 @@ JSON documents..
 .IP
 .nf
 \f[C]
-xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
-    JSON_NAME=\[dq]${SHEET_NAME// /-}.json\[dq]
-    xlsx2json -o \[dq]${JSON_NAME}\[dq] MyWorkbook.xlsx \[dq]$SHEET_NAME\[dq]
-done
+    xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
+        JSON_NAME=\[dq]${SHEET_NAME// /-}.json\[dq]
+        xlsx2json -o \[dq]${JSON_NAME}\[dq] MyWorkbook.xlsx \[dq]$SHEET_NAME\[dq]
+    done
 \f[R]
 .fi
 .PP
-xlsx2json 1.2.1
+xlsx2json 1.2.2
+.SH AUTHORS
+R. S. Doiel.
