@@ -295,8 +295,8 @@ func main() {
 	eout := os.Stderr
 
 
-	if outputFName != "" {
-		out, err := os.Create(outputFName)
+	if outputFName != "" && outputFName != "-" {
+		out, err = os.Create(outputFName)
 		if err != nil {
 			fmt.Fprintln(eout, err)
 			os.Exit(1)

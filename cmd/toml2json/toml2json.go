@@ -173,7 +173,7 @@ func main() {
 	eout := os.Stderr
 
 
-	if inputFName != "" {
+	if inputFName != "" && inputFName != "-" {
 		in, err = os.Open(inputFName)
 		if err != nil {
 			fmt.Fprintln(eout, err)
@@ -182,7 +182,7 @@ func main() {
 		defer in.Close()
 	}
 	
-	if outputFName != "" {
+	if outputFName != "" && outputFName != "-" {
 		out, err = os.Create(outputFName)
 		if err != nil {
 			fmt.Fprintln(eout, err)

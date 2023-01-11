@@ -207,18 +207,19 @@ func main() {
 	out := os.Stdout
 	eout := os.Stderr
 
-	if inputFName != "" {
+	if inputFName != "" && inputFName != "-" {
 		in, err = os.Open(inputFName)
 		if err != nil {
-			fmt.Fprintln(eout, err)
+			fmt.Fprintf(eout, "input error %q, %q\n", inputFName, err)
 			os.Exit(1)
 		}
 		defer in.Close()
 	}
 
-	if outputFName != "" {
+	if outputFName != "" && outputFName != "-" {
 		out, err = os.Create(outputFName)
 		if err != nil {
+			fmt.Fprintf(eout, "output error %q, %q\n", outputFName, err)
 			fmt.Fprintln(eout, err)
 			os.Exit(1)
 		}

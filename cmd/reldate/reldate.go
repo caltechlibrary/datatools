@@ -229,7 +229,7 @@ func main() {
 	out := os.Stdout
 	eout := os.Stderr
 
-	if outputFName != "" {
+	if outputFName != "" && outputFName != "-" {
 		out, err = os.Create(outputFName)
 		if err != nil {
 			fmt.Fprintln(eout, err)

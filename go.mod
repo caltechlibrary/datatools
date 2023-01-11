@@ -4,7 +4,6 @@ go 1.19
 
 require (
 	github.com/BurntSushi/toml v0.3.1
-	github.com/caltechlibrary/cli v0.0.16
 	github.com/caltechlibrary/doitools v0.0.1
 	github.com/caltechlibrary/dotpath v0.0.2
 	github.com/caltechlibrary/tmplfn v0.0.21

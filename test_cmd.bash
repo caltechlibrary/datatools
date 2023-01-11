@@ -471,8 +471,6 @@ function test_csvfind() {
     R=$(bin/csvfind -nl=false -i how-to/csvfind/trimspace.csv -col=1 -trimspaces "yellow")
     assert_equal "test_csvfind (trimspaces yellow)" "$E" "$R"
 
-
-    if [ -f temp.csv ]; then rm temp.csv; fi
     echo "test_csvfind OK";
 }
 
