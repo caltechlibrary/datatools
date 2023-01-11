@@ -10,34 +10,67 @@ import (
 	"io"
 	"os"
 	"path"
+	"strings"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/datatools"
 )
 
 var (
-	description = `
-USAGE
+	helpText = `---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-06
+---
 
-%s is a simple conversion utility to convert from CSV to tab separated values.
-%s reads from standard input and writes to standard out.
+# NAME
 
-`
+{app_name} 
 
-	examples = `
+# SYNOPSIS
+
+{app_name} [OPTIONS]
+
+# DESCRIPTION
+
+csv2tab is a simple conversion utility to convert from CSV to tab separated values.
+csv2tab reads from standard input and writes to standard out.
+
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+
+# EXAMPLES
+
 If my.tab contained
 
+~~~
     "name","email","age"
 	"Doe, Jane","jane.doe@example.org",42
+~~~
 
 Concert this to a tab separated values
 
-    %s < my.csv 
+~~~
+    csv2tab < my.csv 
+~~~
 
 This would yield
 
+~~~
     name	email	age
 	Doe, Jane	jane.doe@example.org	42
+~~~
+
+{app_name} {version}
 
 `
 
@@ -52,6 +85,10 @@ This would yield
 	reuseRecord      bool
 	fieldsPerRecord  int
 )
+
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
 
 func main() {
 	appName := path.Base(os.Args[0])
@@ -70,22 +107,25 @@ func main() {
 	// Parse Environment and Options
 	flag.Parse()
 
+	in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
+
 	if showHelp {
-		fmt.Fprintf(os.Stdout, description, appName, appName)
-		fmt.Fprintf(os.Stdout, examples, appName)
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(os.Stdout, datatools.LicenseText, appName, datatools.Version)
+		fmt.Fprintf(out, "%s\n", fmtTxt(datatools.LicenseText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(os.Stdout, datatools.Version)
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 
 	// Setup the CSV output
-	r := csv.NewReader(os.Stdin)
+	r := csv.NewReader(in)
 	r.Comma = ','
 	r.Comment = '#'
 	r.FieldsPerRecord = fieldsPerRecord
@@ -94,7 +134,7 @@ func main() {
 	r.ReuseRecord = reuseRecord
 
 	exitCode := 0
-	w := csv.NewWriter(os.Stdout)
+	w := csv.NewWriter(out)
 	w.Comma = '\t'
 	/*
 		if delimiter != "" {
@@ -105,20 +145,19 @@ func main() {
 		row, err := r.Read()
 		if err == io.EOF {
 			break
-		} else if err != nil {
-			fmt.Fprintln(os.Stderr, err)
+		} 
+		if err != nil {
+			fmt.Fprintln(eout, err)
 			exitCode = 1
-		} else {
-			if err := w.Write(row); err != nil {
-				fmt.Fprintln(os.Stderr, err)
-				exitCode = 1
-			}
-			w.Flush()
-			if err := w.Error(); err != nil {
-				fmt.Fprintln(os.Stderr, err)
-				exitCode = 1
-			}
+		}  else if err := w.Write(row); err != nil {
+			fmt.Fprintln(eout, err)
+			exitCode = 1
 		}
+	}
+	w.Flush()
+	if err := w.Error(); err != nil {
+			fmt.Fprintln(eout, err)
+			exitCode = 1
 	}
 	os.Exit(exitCode)
 }

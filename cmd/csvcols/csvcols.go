@@ -1,4 +1,3 @@
-//
 // csvcols - is a command line that takes each argument in order and outputs a line in CSV format.
 // It can also take a delimiter and line of text splitting it into a CSV formatted set of columns.
 //
@@ -16,18 +15,18 @@
 // 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
 package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"strings"
 
 	// Caltech Library packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 
 	// 3rd Party packages
@@ -35,32 +34,102 @@ import (
 )
 
 var (
-	description = `
-%s converts a set of command line args into columns output in CSV format.
+	helpText = `---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-06
+---
+
+# NAME
+
+{app_name}
+
+# SYNOPSIS
+
+{app_name} [OPTIONS] [ARGS_AS_COL_VALUES]
+
+# DESCRIPTION
+
+{app_name} converts a set of command line args into columns output in CSV format.
+
 It can also be used CSV input rows and rendering only the column numbers
 listed on the commandline (first column is 1 not 0).
-`
 
-	examples = `
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+-col, -cols
+: output specified columns (e.g. -col 1,12:14,2,4))
+
+-d, -delimiter
+: set the input delimiter character
+
+-i, -input
+: input filename
+
+-o, -output
+: output filename
+
+-od, -output-delimiter
+: set the output delimiter character
+
+-quiet
+: suppress error messages
+
+-skip-header-row
+: skip the header row
+
+-trim-leading-space
+: trim leading space in field(s) for CSV input
+
+-use-lazy-quotes
+: use lazy quotes on CSV input
+
+-uuid
+: add a prefix row with generated UUID cell
+
+
+# EXAMPLES
+
 Simple usage of building a CSV file one row at a time.
 
-    csvcols one two three > 3col.csv
-    csvcols 1 2 3 >> 3col.csv
+~~~
+    {app_name} one two three > 3col.csv
+    {app_name} 1 2 3 >> 3col.csv
     cat 3col.csv
+~~~
 
 Example parsing a pipe delimited string into a CSV line
 
-    csvcols -d "|" "one|two|three" > 3col.csv
-    csvcols -delimiter "|" "1|2|3" >> 3col.csv
+~~~
+    {app_name} -d "|" "one|two|three" > 3col.csv
+    {app_name} -delimiter "|" "1|2|3" >> 3col.csv
     cat 3col.csv
+~~~
 
 Using a pipe filter a 3 column CSV for columns 1 and 3 into 2col.csv
 
-    cat 3col.csv | csvcols -col 1,3 > 2col.csv
+~~~
+    cat 3col.csv | {app_name} -col 1,3 > 2col.csv
+~~~
+
 
 Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
 
-    csvcols -i 3col.csv -col 1,3 -o 2col.csv
+~~~
+    {app_name} -i 3col.csv -col 1,3 -o 2col.csv
+~~~
+
+{app_name} {version}
+
 `
 
 	// Standard Options
@@ -83,6 +152,10 @@ Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
 	lazyQuotes       bool
 	trimLeadingSpace bool
 )
+
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
 
 func selectedColumns(rowNo int, record []string, columnNos []int, prefixUUID bool, skipHeaderRow bool) []string {
 	var id string
@@ -109,7 +182,7 @@ func selectedColumns(rowNo int, record []string, columnNos []int, prefixUUID boo
 	return result
 }
 
-func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, skipHeaderRow bool, delimiterIn string, delimiterOut string, lazyQuotes, trimLeadingSpace bool) {
+func CSVColumns(in *os.File, out *os.File, eout *os.File, columnNos []int, prefixUUID bool, skipHeaderRow bool, delimiterIn string, delimiterOut string, lazyQuotes, trimLeadingSpace bool) {
 	var err error
 
 	r := csv.NewReader(in)
@@ -128,96 +201,101 @@ func CSVColumns(in *os.File, out *os.File, columnNos []int, prefixUUID bool, ski
 		if err == io.EOF {
 			break
 		}
-		cli.OnError(os.Stderr, err, quiet)
+		if err != nil && !quiet {
+			fmt.Fprintln(eout, err)
+
+		}
 
 		row := selectedColumns(i, rec, columnNos, prefixUUID, skipHeaderRow)
 		err = w.Write(row)
-		cli.ExitOnError(os.Stderr, err, quiet)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 	}
 	w.Flush()
 	err = w.Error()
-	cli.ExitOnError(os.Stderr, err, quiet)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
+	}
 }
 
 func main() {
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
-
-	// Document non-option parameters
-	app.SetParams(`[ARGS_AS_COL_VALUES]`)
-
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(examples))
+	appName := path.Base(os.Args[0])
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example")
-	app.StringVar(&inputFName, "i,input", "", "input filename")
-	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
-	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.StringVar(&inputFName, "i", "", "input filename")
+	flag.StringVar(&inputFName, "input", "", "input filename")
+	flag.StringVar(&outputFName, "o", "", "output filename")
+	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
 	// App Options
-	app.StringVar(&outputColumns, "col,cols", "", "output specified columns (e.g. -col 1,12:14,2,4))")
-	app.StringVar(&delimiter, "d,delimiter", "", "set the input delimiter character")
-	app.StringVar(&outputDelimiter, "od,output-delimiter", "", "set the output delimiter character")
-	app.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
-	app.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
-	app.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes on CSV input")
-	app.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
+	flag.StringVar(&outputColumns, "col", "", "output specified columns (e.g. -col 1,12:14,2,4))")
+	flag.StringVar(&outputColumns, "cols", "", "output specified columns (e.g. -col 1,12:14,2,4))")
+	flag.StringVar(&delimiter, "d", "", "set the input delimiter character")
+	flag.StringVar(&delimiter, "delimiter", "", "set the input delimiter character")
+	flag.StringVar(&outputDelimiter, "od", "", "set the output delimiter character")
+	flag.StringVar(&outputDelimiter, "output-delimiter", "", "set the output delimiter character")
+	flag.BoolVar(&skipHeaderRow, "skip-header-row", true, "skip the header row")
+	flag.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
+	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes on CSV input")
+	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
 
 	// Parse env and options
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
+	args := flag.Args()
 
 	// Setup IO
 	var err error
 
-	app.Eout = os.Stderr
+	in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
 
-	app.In, err = cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(inputFName, app.In)
+	if inputFName != "" && inputFName != "-" {
+		in, err = os.Open(inputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer in.Close()
+	}
 
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if outputFName != "" && outputFName != "-" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
+	}
 
 	// Process options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 
 	if outputColumns != "" {
 		columnNos, err := datatools.ParseRange(outputColumns)
-		cli.ExitOnError(app.Eout, err, quiet)
-
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
 		// NOTE: We need to adjust from humans counting from 1 to counting from zero
 		for i := 0; i < len(columnNos); i++ {
 			columnNos[i] = columnNos[i] - 1
@@ -225,7 +303,7 @@ func main() {
 				columnNos[i] = 0
 			}
 		}
-		CSVColumns(app.In, app.Out, columnNos, prefixUUID, skipHeaderRow, delimiter, outputDelimiter, lazyQuotes, trimLeadingSpace)
+		CSVColumns(in, out, eout, columnNos, prefixUUID, skipHeaderRow, delimiter, outputDelimiter, lazyQuotes, trimLeadingSpace)
 		os.Exit(0)
 	}
 
@@ -242,15 +320,16 @@ func main() {
 		cells = append(cells, strings.TrimSpace(val))
 	}
 
-	w := csv.NewWriter(app.Out)
+	w := csv.NewWriter(out)
 	if outputDelimiter != "" {
 		w.Comma = datatools.NormalizeDelimiterRune(outputDelimiter)
 	}
 	if err := w.Write(cells); err != nil {
-		cli.ExitOnError(app.Eout, fmt.Errorf("error writing args as csv, %s", err), quiet)
+		fmt.Fprint(eout, "error writing args as csv, %s\n", err)
+		os.Exit(1)
 	}
 	w.Flush()
 	if err := w.Error(); err != nil {
-		cli.ExitOnError(app.Eout, err, quiet)
+		fmt.Fprintln(eout, err)
 	}
 }

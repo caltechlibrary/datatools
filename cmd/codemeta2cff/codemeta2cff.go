@@ -87,33 +87,32 @@ Specifying the full paths.
 `
 )
 
-func usage(appName string, exitCode int) {
-	out := os.Stderr
-	if exitCode == 0 {
-		out = os.Stdout
-	}
-	fmt.Fprintf(out, "%s\n", strings.ReplaceAll(helpText, "{app_name}", appName))
-	os.Exit(exitCode)
+func fmtTxt(src string, appName string, version string) string { 
+	return strings.ReplaceAll(strings.ReplaceAll(helpText, "{app_name}", appName), "{version}", version) 
 }
 
 func main() {
 	// command line name and options support
 	appName := path.Base(os.Args[0])
-	help, version := false, false
-	args := []string{}
+	showHelp, showVersion, showLicense := false, false, false
 	// Setup to parse command line
-	flag.BoolVar(&help, "h", false, "display help")
-	flag.BoolVar(&help, "help", false, "display help")
-	flag.BoolVar(&version, "version", false, "display version")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
 	flag.Parse()
 
-	args = flag.Args()
+	args := flag.Args()
 
 	// Process options and run report
-	if help {
-		usage(appName, 0)
+	if showHelp {
+		fmt.Fprintf(os.Stdout, "%s\n", fmtTxt(helpText, appName, datatools.Version))
+		os.Exit(0)
 	}
-	if version {
+	if showLicense {
+		fmt.Fprintf(os.Stdout, "%s\n", fmtTxt(datatools.LicenseText, appName, datatools.Version))
+		os.Exit(0)
+	}
+	if showVersion {
 		fmt.Printf("datatools, %s v%s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
@@ -124,7 +123,7 @@ func main() {
 		codemeta = args[0]
 	} else if len(args) != 0 {
 		fmt.Fprintf(os.Stderr, "Unexpected parameters: %q\n", strings.Join(os.Args, " "))
-		usage(appName, 1)
+		os.Exit(1)
 	}
 	err := datatools.CodemetaToCitationCff(codemeta, citation)
 	if err != nil {

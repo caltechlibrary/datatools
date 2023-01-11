@@ -1,7 +1,5 @@
 github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/caltechlibrary/cli v0.0.16 h1:jgw6dZb3VDy9L5LrWWm1ieqHYAMKgcv+NF6osSj3YRM=
-github.com/caltechlibrary/cli v0.0.16/go.mod h1:BVT+6d/QqcN4UApWR3ufjkkKj2O6+48B4G6iUpP8m38=
 github.com/caltechlibrary/doitools v0.0.1 h1:c6lvI5l9juo019GGUvuwbzeyv1c6VtSi8mkUv1drgwY=
 github.com/caltechlibrary/doitools v0.0.1/go.mod h1:1K36p/UIkIFM0JVaIVtFStKsFu5xjjYWMWAUExmFnP0=
 github.com/caltechlibrary/dotpath v0.0.2 h1:E3KHd5gNDSaHsbw2jG3XeEZvE2oZ6kRNIe5/+RGnwE8=

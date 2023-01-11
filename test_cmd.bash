@@ -41,6 +41,13 @@ function assert_exists() {
     fi
 }
 
+function assert_non_zero_file() {
+    if [ ! -s "${2}" ]; then
+        echo "${1}: exists but is zero length ${2}"
+        exit 1
+    fi
+}
+
 #
 # These are some tests to check the datatools command
 # and show how they might be used.
@@ -377,8 +384,10 @@ function test_csvcols() {
     if [ -f temp.csv ]; then rm temp.csv; fi
     bin/csvcols -o temp.csv one two three
     assert_exists "test_csvcols (args row 1)" temp.csv
+    assert_non_zero_file "test_csvcols (args row 1)" temp.csv
     bin/csvcols 1 2 3 >> temp.csv
     assert_exists "test_csvcols (args row 2)" temp.csv
+    assert_non_zero_file "test_csvcols (args row 2)" temp.csv
     EXPECTED="2"
     RESULT=$(cat temp.csv | wc -l | sed -E 's/ //g')
     assert_equal "test_csvcols (args row count)" "$EXPECTED" "$RESULT"
@@ -412,7 +421,6 @@ function test_csvcols() {
     R=$(cmp how-to/csvcols/quoting-expected.csv temp.csv)
     assert_empty "test_csvcols (bug issue #1)" "$R"
 
-
     if [ -f temp.csv ]; then rm temp.csv; fi
     echo "test_csvcols OK";
 }
@@ -420,15 +428,16 @@ function test_csvcols() {
 function test_csvfind() {
     # Test for match
     if [ -f temp.csv ]; then rm temp.csv; fi
-    csvfind -i how-to/csvfind/books.csv -o temp.csv \
+    bin/csvfind -i how-to/csvfind/books.csv -o temp.csv \
         -col=2 "The Red Book of Westmarch"
     assert_exists "test_csvfind (exact match)" temp.csv
+    assert_non_zero_file "test_csvfind (exact match, non zero file)" temp.csv
     R=$(cmp how-to/csvfind/result1.csv temp.csv)
     assert_empty "test_csvfind (exact match)" "$R"
 
     # Test fuzzy
     if [ -f temp.csv ]; then rm temp.csv; fi
-    csvfind -i how-to/csvfind/books.csv -o temp.csv \
+    bin/csvfind -i how-to/csvfind/books.csv -o temp.csv \
         -col=2 -levenshtein \
         -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
         -max-edit-distance=50 -append-edit-distance \
@@ -439,7 +448,7 @@ function test_csvfind() {
 
     # Test contains
     if [ -f temp.csv ]; then rm temp.csv; fi
-    csvfind -i how-to/csvfind/books.csv -o temp.csv \
+    bin/csvfind -i how-to/csvfind/books.csv -o temp.csv \
         -col=2 -contains "Red Book"
     assert_exists "test_csvfind (contains)" temp.csv
     R=$(cmp how-to/csvfind/result3.csv temp.csv)
@@ -462,8 +471,6 @@ function test_csvfind() {
     R=$(bin/csvfind -nl=false -i how-to/csvfind/trimspace.csv -col=1 -trimspaces "yellow")
     assert_equal "test_csvfind (trimspaces yellow)" "$E" "$R"
 
-
-    if [ -f temp.csv ]; then rm temp.csv; fi
     echo "test_csvfind OK";
 }
 

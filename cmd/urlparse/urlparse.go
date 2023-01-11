@@ -19,6 +19,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/url"
 	"os"
@@ -26,47 +27,122 @@ import (
 	"strings"
 
 	// CaltechLibrary Packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 )
 
 var (
-	description = `
-%s can parse a URL and return the specific elements
-requested (e.g. protocol, hostname, path, query string)
-`
+	helpText = `---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-09
+---
 
-	examples = `
+# NAME
+
+{app_name}
+
+# SYNOPSIS
+
+{app_name} [OPTIONS] URL_TO_PARSE
+
+# DESCRIPTION
+
+{app_name} can parse a URL and return the specific elements
+requested (e.g. protocol, hostname, path, query string)
+
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+-H, -host
+: Display the hostname (and port if specified) found in URL.
+
+-P, -protocol
+: Display the protocol of URL (defaults to http)
+
+-base, -basename
+: Display the base filename at the end of the path.
+
+-d, -delimiter
+: Set the output delimited for parsed display. (defaults to tab)
+
+-dir, -dirname
+: Display all but the last element of the path
+
+-ext, -extname
+: Display the filename extension (e.g. .html).
+
+-i, -input
+: input filename
+
+-nl, -newline
+: if true add a trailing newline
+
+-o, -output
+: output filename
+
+-p, -path
+: Display the path after the hostname.
+
+-quiet
+: suppress error messages
+
+
+# EXAMPLES
+
 With no options returns "http\texample.com\t/my/page.html"
 
-    %s http://example.com/my/page.html
+~~~
+    {app_name} http://example.com/my/page.html
+~~~
 
 Get protocol. Returns "http".
 
-    %s -protocol http://example.com/my/page.html
+~~~
+    {app_name} -protocol http://example.com/my/page.html
+~~~
 
 Get host or domain name.  Returns "example.com".
 
-    %s -host http://example.com/my/page.html
+~~~
+    {app_name} -host http://example.com/my/page.html
+~~~
 
 Get path. Returns "/my/page.html".
 
-    %s -path http://example.com/my/page.html
+~~~
+    {app_name} -path http://example.com/my/page.html
+~~~
 
 Get dirname. Returns "my"
 
-    %s -dirname http://example.com/my/page.html
+~~~
+    {app_name} -dirname http://example.com/my/page.html
+~~~
 
 Get basename. Returns "page.html".
 
-    %s -basename http://example.com/my/page.html
+~~~
+    {app_name} -basename http://example.com/my/page.html
+~~~
 
 Get extension. Returns ".html".
 
-    %s -extname http://example.com/my/page.html
+~~~
+    {app_name} -extname http://example.com/my/page.html
+~~~
 
-Without options urlparse returns protocol, host and path
+Without options {app_name} returns protocol, host and path
 fields separated by a tab.
+
+{app_name} {version}
 `
 
 	// Standard Options
@@ -95,6 +171,10 @@ fields separated by a tab.
 	delimiter     = "\t"
 )
 
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
+
 func main() {
 	const (
 		delimiterUsage = "Set the output delimited for parsed display. (defaults to tab)"
@@ -106,90 +186,98 @@ func main() {
 		extnameUsage   = "Display the filename extension (e.g. .html)."
 	)
 
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
-
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName, appName, appName, appName, appName, appName)))
-
-	// Document non-option parameters
-	app.SetParams("URL_TO_PARSE")
+	appName := path.Base(os.Args[0])
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	app.StringVar(&inputFName, "i,input", "", "input filename")
-	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
-	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.StringVar(&inputFName, "i", "", "input filename")
+	flag.StringVar(&inputFName, "input", "", "input filename")
+	flag.StringVar(&outputFName, "o", "", "output filename")
+	flag.StringVar(&outputFName, "output", "", "output filename")
+	
+
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
 
 	// App Specific Options
-	app.StringVar(&delimiter, "d,delimiter", delimiter, delimiterUsage)
-	app.BoolVar(&showProtocol, "P,protocol", false, protocolUsage)
-	app.BoolVar(&showHost, "H,host", false, hostUsage)
-	app.BoolVar(&showPath, "p,path", false, pathUsage)
-	app.BoolVar(&showDir, "dir,dirname", false, dirnameUsage)
-	app.BoolVar(&showBase, "base,basename", false, basenameUsage)
-	app.BoolVar(&showExtension, "ext,extname", false, extnameUsage)
+	flag.StringVar(&delimiter, "d", delimiter, delimiterUsage)
+	flag.StringVar(&delimiter, "delimiter", delimiter, delimiterUsage)
+	flag.BoolVar(&showProtocol, "P", false, protocolUsage)
+	flag.BoolVar(&showProtocol, "protocol", false, protocolUsage)
+	flag.BoolVar(&showHost, "H", false, hostUsage)
+	flag.BoolVar(&showHost, "host", false, hostUsage)
+	flag.BoolVar(&showPath, "p", false, pathUsage)
+	flag.BoolVar(&showPath, "path", false, pathUsage)
+	flag.BoolVar(&showDir, "dir", false, dirnameUsage)
+	flag.BoolVar(&showDir, "dirname", false, dirnameUsage)
+	flag.BoolVar(&showBase, "base", false, basenameUsage)
+	flag.BoolVar(&showBase, "basename", false, basenameUsage)
+	flag.BoolVar(&showExtension, "ext", false, extnameUsage)
+	flag.BoolVar(&showExtension, "extname", false, extnameUsage)
+
+	// Parse env and options
+	flag.Parse()
+	args := flag.Args()
 
 	// Setup IO
 	var err error
-	app.Eout = os.Stderr
 
-	app.In, err = cli.Open(inputFName, os.Stdin)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(inputFName, app.In)
+	in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
 
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if inputFName != "" && inputFName != "-"  {
+		in, err = os.Open(inputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer in.Close()
+	}
 
-	// Parse env and options
-	app.Parse()
-	args := app.Args()
+	if outputFName != "" && outputFName != "-" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
+	}
+
 
 	// Process Options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 	if newLine {
 		eol = "\n"
 	}
 
+	argc := len(args)
 	results := []string{}
-	urlToParse := app.Arg(0)
-	if urlToParse == "" {
-		cli.ExitOnError(app.Eout, fmt.Errorf("Missing URL to parse"), quiet)
+	if argc == 0 {
+		fmt.Fprintln(eout, "Missing URL to parse")
+		os.Exit(1)
 	}
+	urlToParse := args[0]
 	u, err := url.Parse(urlToParse)
-	cli.ExitOnError(app.Eout, err, quiet)
+	if err != nil {
+		fmt.Fprintln(eout, err)
+		os.Exit(1)
+	}
 
 	useDelim := delimiter
 	if showProtocol == true {
@@ -212,9 +300,9 @@ func main() {
 	}
 
 	if len(results) == 0 {
-		fmt.Fprintf(app.Out, "%s%s%s%s%s%s",
+		fmt.Fprintf(out, "%s%s%s%s%s%s",
 			u.Scheme, useDelim, u.Host, useDelim, u.Path, eol)
 	} else {
-		fmt.Fprintf(app.Out, "%s%s", strings.Join(results, useDelim), eol)
+		fmt.Fprintf(out, "%s%s", strings.Join(results, useDelim), eol)
 	}
 }

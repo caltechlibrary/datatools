@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="index.html">README</a>
+</li>
+<li>
+<a href="license.html">LICENSE</a>
+</li>
+<li>
+<a href="install.html">INSTALL</a>
+</li>
+<li>
+<a href="docs/">Documentation</a>
+</li>
+<li>
+<a href="how-to/">How To</a>
+</li>
+<li>
+<a href="about.html">About</a>
+</li>
+<li>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
+</ul>
+</nav>
+
+<section>
+<h1 id="name">
+NAME
+</h1>
+<p>
+tab2csv
+</p>
+<h1 id="synopsis">
+SYNOPSIS
+</h1>
+<p>
+tab2csv <a href="#options">OPTIONS</a>
+</p>
+<h1 id="description">
+DESCRIPTION
+</h1>
+<p>
+tab2csv is a simple conversion utility to convert from tabs to quoted
+CSV.
+</p>
+<p>
+tab2csv reads from standard input and writes to standard out.
+</p>
+<h1 id="options">
+OPTIONS
+</h1>
+<dl>
+<dt>
+-help
+</dt>
+<dd>
+display help
+</dd>
+<dt>
+-license
+</dt>
+<dd>
+display license
+</dd>
+<dt>
+-version
+</dt>
+<dd>
+display version
+</dd>
+<dt>
+-fields-per-record
+</dt>
+<dd>
+(int) sets the number o fields expected in each row, -1 turns this off
+</dd>
+<dt>
+-reuse-record
+</dt>
+<dd>
+re-uses the backing array on reader
+</dd>
+<dt>
+-trim-leading-space
+</dt>
+<dd>
+trims leading space read
+</dd>
+<dt>
+-use-lazy-quotes
+</dt>
+<dd>
+use lazy quoting for reader
+</dd>
+</dl>
+<h1 id="examples">
+EXAMPLES
+</h1>
+<p>
+If my.tab contained
+</p>
+<pre><code>    name    email   age
+    Doe, Jane   jane.doe@example.org    42</code></pre>
+<p>
+Concert this to a CSV file format
+</p>
+<pre><code>    tab2csv &lt; my.tab </code></pre>
+<p>
+This would yield
+</p>
+<pre><code>    &quot;name&quot;,&quot;email&quot;,&quot;age&quot;
+    &quot;Doe, Jane&quot;,&quot;jane.doe@example.org&quot;,42</code></pre>
+<p>
+tab2csv 1.2.2
+</p>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

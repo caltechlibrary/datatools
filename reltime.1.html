@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="index.html">README</a>
+</li>
+<li>
+<a href="license.html">LICENSE</a>
+</li>
+<li>
+<a href="install.html">INSTALL</a>
+</li>
+<li>
+<a href="docs/">Documentation</a>
+</li>
+<li>
+<a href="how-to/">How To</a>
+</li>
+<li>
+<a href="about.html">About</a>
+</li>
+<li>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
+</ul>
+</nav>
+
+<section>
+<h1 id="name">
+NAME
+</h1>
+<p>
+reltime
+</p>
+<h1 id="synopsis">
+SYNOPSIS
+</h1>
+<p>
+reltime RELATIVE_TIME_STRING
+</p>
+<h1 id="description">
+DESCRIPTION
+</h1>
+<p>
+reltime provides a relative time string in the “HH:MM:SS” in 24 hour
+format.
+</p>
+<p>
+The notation for the relative time string is based on Go’s time duration
+string. From https://golang.google.cn/pkg/time/#ParseDuration,
+</p>
+<blockquote>
+<p>
+A duration string is a possibly signed sequence of decimal numbers, each
+with optional fraction and a unit suffix, such as “300ms”, “-1.5h” or
+“2h45m”. Valid time units are “ns”, “us” (or “µs”), “ms”, “s”, “m”, “h”.
+</p>
+</blockquote>
+<h1 id="examples">
+EXAMPLES
+</h1>
+<p>
+Get the dime ninety minutes in the past.
+</p>
+<pre class="shell"><code>    reltime -- -90m</code></pre>
+<p>
+Get the time 24 hours ago
+</p>
+<pre class="shell"><code>    reltime -- -24h</code></pre>
+<p>
+Get the time 16 hours, 23 minutes and 4 seconds in the future.
+</p>
+<pre class="shell"><code>    reltime 16h23m4s</code></pre>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

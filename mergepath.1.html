@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li>
+<a href="/">Home</a>
+</li>
+<li>
+<a href="index.html">README</a>
+</li>
+<li>
+<a href="license.html">LICENSE</a>
+</li>
+<li>
+<a href="install.html">INSTALL</a>
+</li>
+<li>
+<a href="docs/">Documentation</a>
+</li>
+<li>
+<a href="how-to/">How To</a>
+</li>
+<li>
+<a href="about.html">About</a>
+</li>
+<li>
+<a
+href="https://github.com/caltechlibrary/datatools">Github</a>
+</li>
+</ul>
+</nav>
+
+<section>
+<h1 id="name">
+NAME
+</h1>
+<p>
+mergepath
+</p>
+<h1 id="synopsis">
+SYNOPSIS
+</h1>
+<p>
+mergepath <a href="#options">OPTIONS</a> NEW_PATH_PARTS
+</p>
+<h1 id="description">
+DESCRIPTION
+</h1>
+<p>
+mergepath can merge the new path parts with the existing path with
+creating duplications. It can also re-order existing path elements by
+prefixing or appending to the existing path and removing the resulting
+duplicate.
+</p>
+<h1 id="options">
+OPTIONS
+</h1>
+<dl>
+<dt>
+-help
+</dt>
+<dd>
+display help
+</dd>
+<dt>
+-license
+</dt>
+<dd>
+display license
+</dd>
+<dt>
+-version
+</dt>
+<dd>
+display version
+</dd>
+<dt>
+-a, -append
+</dt>
+<dd>
+Append the directory to the path removing any duplication
+</dd>
+<dt>
+-c, -clip
+</dt>
+<dd>
+Remove a directory from the path
+</dd>
+<dt>
+-d, -directory
+</dt>
+<dd>
+The directory you want to add to the path.
+</dd>
+<dt>
+-e, -envpath
+</dt>
+<dd>
+The path you want to merge with.
+</dd>
+<dt>
+-nl, -newline
+</dt>
+<dd>
+if true add a trailing newline
+</dd>
+<dt>
+-p, -prepend
+</dt>
+<dd>
+Prepend the directory to the path removing any duplication
+</dd>
+<dt>
+-quiet
+</dt>
+<dd>
+suppress error messages
+</dd>
+</dl>
+<h1 id="examples">
+EXAMPLES
+</h1>
+<p>
+This would put your home bin directory at the beginning of your path.
+</p>
+<pre><code>    export PATH=$(mergepath -p $HOME/bin)</code></pre>
+<p>
+mergepath 1.2.2
+</p>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

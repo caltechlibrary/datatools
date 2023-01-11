@@ -31,7 +31,7 @@ func setupTestData(workDir string, fName string) (string, error) {
 id INTEGER PRIMARY KEY,
 val VARCHAR(256),
 created DATETIME DEFAULT CURRENT_TIMESTAMP)`
-	res, err := db.Exec(stmt)
+	_, err = db.Exec(stmt)
 	if err != nil {
 		return dsn, err
 	}

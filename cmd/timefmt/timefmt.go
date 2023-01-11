@@ -19,43 +19,95 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
+	"path"
 	"strings"
 	"time"
 
 	// CaltechLibrary Packages
-	"github.com/caltechlibrary/cli"
 	"github.com/caltechlibrary/datatools"
 	"github.com/caltechlibrary/datatools/timefmt"
 )
 
 var (
-	description = `
-%s formats the current date or INPUT_DATE based on the output format
-provided in options. The default input and  output format is RFC3339. 
-Formats are specified based on Golang's time package including the
-common constants (e.g. RFC822, RFC1123). 
+	helpText = `---
+title: "{app_name} (1) user manual"
+author: "R. S. Doiel"
+pubDate: 2023-01-09
+---
+
+# NAME
+
+{app_name}
+
+# SYNOPSIS
+
+{app_name} [OPTIONS] TIME_STRING_TO_CONVERT
+
+# DESCRIPTION
+
+{app_name} formats the current date or INPUT_DATE based on the output
+format provided in options. The default input and  output format is
+RFC3339.  Formats are specified based on Golang's time package including
+the common constants (e.g. RFC822, RFC1123). 
 
 For details see https://golang.org/pkg/time/#Time.Format.
 
-One additional time layout provided by %s 
+One additional time layout provided by {app_name} 
  
-+ mysql "2006-01-02 15:04:05 -0700"
-`
+- mysql "2006-01-02 15:04:05 -0700"
 
-	examples = `
+# OPTIONS
+
+-help
+: display help
+
+-license
+: display license
+
+-version
+: display version
+
+-if, -input-format
+: Set format for input
+
+-nl, -newline
+: if true add a trailing newline
+
+-o, -output
+: output filename
+
+-of, -output-format
+: Set format for output
+
+-quiet
+: suppress error messages
+
+-utc
+: timestamps in UTC
+
+
+# EXAMPLES
+
 Format the date July, 7, 2016 in YYYY-MM-DD format
 
-    %s -if "2006-01-02" -of "01/02/2006" "2017-12-02"
+~~~
+    {app_name} -if "2006-01-02" -of "01/02/2006" "2017-12-02"
+~~~
 
 Yields "12/02/2017"
 
 Format the MySQL date/time of 8:08am, July 2, 2016
 
-    %s -input-format mysql -output-format RFC822  "2017-12-02 08:08:08"
+~~~
+    {app_name} -input-format mysql -output-format RFC822  "2017-12-02 08:08:08"
+~~~
 
 Yields "02 Dec 17 08:08 UTC"
+
+{app_name} {version}
 `
 
 	// Standard Options
@@ -75,6 +127,10 @@ Yields "02 Dec 17 08:08 UTC"
 	inputFormat  = time.RFC3339
 	outputFormat = time.RFC3339
 )
+
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
+}
 
 func applyConstants(s string) string {
 	switch strings.ToLower(s) {
@@ -115,75 +171,56 @@ func applyConstants(s string) string {
 }
 
 func main() {
-	app := cli.NewCli(datatools.Version)
-	appName := app.AppName()
-
-	// Add Help Docs
-	app.AddHelp("license", []byte(fmt.Sprintf(datatools.LicenseText, appName, datatools.Version)))
-	app.AddHelp("description", []byte(fmt.Sprintf(description, appName, appName)))
-	app.AddHelp("examples", []byte(fmt.Sprintf(examples, appName, appName)))
-
-	// Document non-option parameters
-	app.SetParams("TIME_STRING_TO_CONVERT")
+	appName := path.Base(os.Args[0])
 
 	// Standard Options
-	app.BoolVar(&showHelp, "h,help", false, "display help")
-	app.BoolVar(&showLicense, "l,license", false, "display license")
-	app.BoolVar(&showVersion, "v,version", false, "display version")
-	app.BoolVar(&showExamples, "examples", false, "display example(s)")
-	//app.StringVar(&inputFName, "i,input", "", "input filename")
-	app.StringVar(&outputFName, "o,output", "", "output filename")
-	app.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	app.BoolVar(&generateMarkdown, "generate-markdown", false, "generate markdown documentation")
-	app.BoolVar(&generateManPage, "generate-manpage", false, "generate man page")
-	app.BoolVar(&newLine, "nl,newline", false, "if true add a trailing newline")
+	flag.BoolVar(&showHelp, "help", false, "display help")
+	flag.BoolVar(&showLicense, "license", false, "display license")
+	flag.BoolVar(&showVersion, "version", false, "display version")
+
+	flag.StringVar(&outputFName, "o", "", "output filename")
+	flag.StringVar(&outputFName, "output", "", "output filename")
+	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
+	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
 
 	// Application Options
-	app.BoolVar(&useUTC, "utc", false, "timestamps in UTC")
-	app.StringVar(&inputFormat, "if,input-format", inputFormat, "Set format for input")
-	app.StringVar(&outputFormat, "of,output-format", outputFormat, "Set format for output")
+	flag.BoolVar(&useUTC, "utc", false, "timestamps in UTC")
+	flag.StringVar(&inputFormat, "if", inputFormat, "Set format for input")
+	flag.StringVar(&inputFormat, "input-format", inputFormat, "Set format for input")
+	flag.StringVar(&outputFormat, "of", outputFormat, "Set format for output")
+	flag.StringVar(&outputFormat, "output-format", outputFormat, "Set format for output")
 
 	// Parse env and options
-	app.Parse()
-	args := app.Args()
+	flag.Parse()
+	args := flag.Args()
 
 	// Setup IO
 	var err error
-	app.Eout = os.Stderr
 
-	/* NOTE: this command does not read from stdin
-	   app.In, err = cli.Open(inputFName, os.Stdin)
-	   cli.ExitOnError(app.Eout, err, quiet)
-	   defer cli.CloseFile(inputFName, app.In)
-	*/
+	out := os.Stdout
+	eout := os.Stderr
 
-	app.Out, err = cli.Create(outputFName, os.Stdout)
-	cli.ExitOnError(app.Eout, err, quiet)
-	defer cli.CloseFile(outputFName, app.Out)
+	if outputFName != "" && outputFName != "-" {
+		out, err = os.Create(outputFName)
+		if err != nil {
+			fmt.Fprintln(eout, err)
+			os.Exit(1)
+		}
+		defer out.Close()
+	}
 
 	// Process options
-	if generateMarkdown {
-		app.GenerateMarkdown(app.Out)
-		os.Exit(0)
-	}
-	if generateManPage {
-		app.GenerateManPage(app.Out)
-		os.Exit(0)
-	}
-	if showHelp || showExamples {
-		if len(args) > 0 {
-			fmt.Fprintln(app.Out, app.Help(args...))
-		} else {
-			app.Usage(app.Out)
-		}
+	if showHelp {
+		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(app.Out, app.License())
+		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(app.Out, app.Version())
+		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
 	if newLine {
@@ -201,14 +238,17 @@ func main() {
 	if len(args) > 0 {
 		for i, dt := range args {
 			inputDate, err = time.Parse(inputFormat, dt)
-			cli.ExitOnError(app.Eout, err, quiet)
-			if i > 0 && newLine == false {
-				fmt.Fprint(app.Out, " ")
+			if err != nil {
+				fmt.Fprintln(eout, err)
+				os.Exit(1)
 			}
-			fmt.Fprintf(app.Out, "%s%s", inputDate.Format(outputFormat), eol)
+			if i > 0 && newLine == false {
+				fmt.Fprint(out, " ")
+			}
+			fmt.Fprintf(out, "%s%s", inputDate.Format(outputFormat), eol)
 		}
 		os.Exit(0)
 	}
 	inputDate = time.Now()
-	fmt.Fprintf(app.Out, "%s%s", inputDate.Format(outputFormat), eol)
+	fmt.Fprintf(out, "%s%s", inputDate.Format(outputFormat), eol)
 }
