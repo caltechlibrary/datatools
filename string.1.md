@@ -23,7 +23,13 @@ string is a command line tool for transforming strings in common ways.
 - position, counting and replacing substrings
 - splitting a string into a JSON array of strings, joining JSON a string arrays into a string
 
+VERB refers to the operation to performed on the supplied string(s).
+VER PARAMETERS are thsose additional terms need to complete the process
+provided by the VERB.
+
 # OPTIONS
+
+Options always come before the VERB.
 
 -help
 : display help
