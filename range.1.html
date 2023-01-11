@@ -44,20 +44,27 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+range
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+range <a href="#options">OPTIONS</a> START_INTEGER END_INTEGER
+[INCREMENT_INTEGER]
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+range is a simple utility for shell scripts that emits a list of
+integers starting with the first command line argument and ending with
+the last integer command line argument. It is a subset of functionality
+found in the Unix seq command.
+</p>
+<p>
+If the first argument is greater than the last then it counts down
+otherwise it counts up.
 </p>
 <h1 id="options">
 OPTIONS
@@ -82,61 +89,82 @@ display license
 display version
 </dd>
 <dt>
--d, -delimiter
+-e, -end
 </dt>
 <dd>
-set delimiter character
+The ending integer.
 </dd>
 <dt>
--i, -input
+-inc, -increment
 </dt>
 <dd>
-input filename
+The non-zero integer increment value.
 </dd>
 <dt>
 -nl, -newline
 </dt>
 <dd>
-if true include leading/trailing newline
-</dd>
-<dt>
--o, -output
-</dt>
-<dd>
-output filename
+if true add a trailing newline
 </dd>
 <dt>
 -quiet
 </dt>
 <dd>
-suppress error message
+suppress error messages
 </dd>
 <dt>
--trim-leading-space
+-random
 </dt>
 <dd>
-trim leading space in field(s) for CSV input
+Pick a range value from range
 </dd>
 <dt>
--use-lazy-quotes
+-s, -start
 </dt>
 <dd>
-using lazy quotes for CSV input
+The starting integer.
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+Create a range of integers one through five
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>    range 1 5</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
+Yields 1 2 3 4 5
 </p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
 <p>
-csv2mdtable 1.2.2
+Create a range of integer negative two to six
+</p>
+<pre><code>    range -- -2 6</code></pre>
+<p>
+Yields -2 -1 0 1 2 3 4 5 6
+</p>
+<p>
+Create a range of even integers two to ten
+</p>
+<pre><code>    range -increment=2 2 10</code></pre>
+<p>
+Yields 2 4 6 8 10
+</p>
+<p>
+Create a descending range of integers ten down to one
+</p>
+<pre><code>    range 10 1</code></pre>
+<p>
+Yields 10 9 8 7 6 5 4 3 2 1
+</p>
+<p>
+Pick a random integer between zero and ten
+</p>
+<pre><code>    range -random 0 10</code></pre>
+<p>
+Yields a random integer from 0 to 10
+</p>
+<p>
+range 1.2.1
 </p>
 </section>
 

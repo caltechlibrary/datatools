@@ -44,20 +44,20 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+finddir
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+finddir <a href="#options">OPTIONS</a> [TARGET] [DIRECTORIES_TO_SEARCH]
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+finddir finds directory based on matching prefix, suffix o contained
+text in base filename.
 </p>
 <h1 id="options">
 OPTIONS
@@ -67,37 +67,55 @@ OPTIONS
 -help
 </dt>
 <dd>
-display help
+display this help message
 </dd>
 <dt>
 -license
 </dt>
 <dd>
-display license
+display license information
 </dd>
 <dt>
 -version
 </dt>
 <dd>
-display version
+display version message
 </dd>
 <dt>
--d, -delimiter
+-c, -contains
 </dt>
 <dd>
-set delimiter character
+find file(s) based on basename containing text
 </dd>
 <dt>
--i, -input
+-d, -depth
 </dt>
 <dd>
-input filename
+Limit depth of directories walked
+</dd>
+<dt>
+-e, -error-stop
+</dt>
+<dd>
+Stop walk on file system errors (e.g. permissions)
+</dd>
+<dt>
+-f, -full-path
+</dt>
+<dd>
+list full path for files found
+</dd>
+<dt>
+-m, -mod-time
+</dt>
+<dd>
+display file modification time before the path
 </dd>
 <dt>
 -nl, -newline
 </dt>
 <dd>
-if true include leading/trailing newline
+if true add a trailing newline
 </dd>
 <dt>
 -o, -output
@@ -106,37 +124,33 @@ if true include leading/trailing newline
 output filename
 </dd>
 <dt>
+-p, -prefix
+</dt>
+<dd>
+find file(s) based on basename prefix
+</dd>
+<dt>
 -quiet
 </dt>
 <dd>
-suppress error message
+suppress error messages
 </dd>
 <dt>
--trim-leading-space
+-s, -suffix
 </dt>
 <dd>
-trim leading space in field(s) for CSV input
-</dd>
-<dt>
--use-lazy-quotes
-</dt>
-<dd>
-using lazy quotes for CSV input
+find file(s) based on basename suffix
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+Find all subdirectories starting with “img”.
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>    finddir -p img</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
-</p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
-<p>
-csv2mdtable 1.2.2
+finddir 1.2.2
 </p>
 </section>
 

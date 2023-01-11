@@ -44,20 +44,22 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+mergepath
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+mergepath <a href="#options">OPTIONS</a> NEW_PATH_PARTS
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+mergepath can merge the new path parts with the existing path with
+creating duplications. It can also re-order existing path elements by
+prefixing or appending to the existing path and removing the resulting
+duplicate.
 </p>
 <h1 id="options">
 OPTIONS
@@ -82,61 +84,57 @@ display license
 display version
 </dd>
 <dt>
--d, -delimiter
+-a, -append
 </dt>
 <dd>
-set delimiter character
+Append the directory to the path removing any duplication
 </dd>
 <dt>
--i, -input
+-c, -clip
 </dt>
 <dd>
-input filename
+Remove a directory from the path
+</dd>
+<dt>
+-d, -directory
+</dt>
+<dd>
+The directory you want to add to the path.
+</dd>
+<dt>
+-e, -envpath
+</dt>
+<dd>
+The path you want to merge with.
 </dd>
 <dt>
 -nl, -newline
 </dt>
 <dd>
-if true include leading/trailing newline
+if true add a trailing newline
 </dd>
 <dt>
--o, -output
+-p, -prepend
 </dt>
 <dd>
-output filename
+Prepend the directory to the path removing any duplication
 </dd>
 <dt>
 -quiet
 </dt>
 <dd>
-suppress error message
-</dd>
-<dt>
--trim-leading-space
-</dt>
-<dd>
-trim leading space in field(s) for CSV input
-</dd>
-<dt>
--use-lazy-quotes
-</dt>
-<dd>
-using lazy quotes for CSV input
+suppress error messages
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+This would put your home bin directory at the beginning of your path.
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>    export PATH=$(mergepath -p $HOME/bin)</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
-</p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
-<p>
-csv2mdtable 1.2.2
+mergepath 1.2.2
 </p>
 </section>
 

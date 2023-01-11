@@ -44,20 +44,21 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+xlsx2json
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+xlsx2json <a href="#options">OPTIONS</a> EXCEL_WORKBOOK_NAME
+[SHEET_NAME]
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+xlsx2json is a tool that converts individual Excel Workbook Sheets into
+JSON output.
 </p>
 <h1 id="options">
 OPTIONS
@@ -82,22 +83,22 @@ display license
 display version
 </dd>
 <dt>
--d, -delimiter
+-N, -sheets
 </dt>
 <dd>
-set delimiter character
+display sheet names in Excel Workbook
 </dd>
 <dt>
--i, -input
+-c, -count
 </dt>
 <dd>
-input filename
+display number of sheets in Excel Workbook
 </dd>
 <dt>
 -nl, -newline
 </dt>
 <dd>
-if true include leading/trailing newline
+if true add a trailing newline
 </dd>
 <dt>
 -o, -output
@@ -109,34 +110,35 @@ output filename
 -quiet
 </dt>
 <dd>
-suppress error message
-</dd>
-<dt>
--trim-leading-space
-</dt>
-<dd>
-trim leading space in field(s) for CSV input
-</dd>
-<dt>
--use-lazy-quotes
-</dt>
-<dd>
-using lazy quotes for CSV input
+suppress error messages
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+This would get the sheet named “Sheet 1” from “MyWorkbook.xlsx” and save
+as sheet1.json
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>    xlsx2json MyWorkbook.xlsx &quot;My worksheet 1&quot; &gt; sheet1.json</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
+This would get the number of sheets in the workbook
 </p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
+<pre><code>    xlsx2json -count MyWorkbook.xlsx</code></pre>
 <p>
-csv2mdtable 1.2.2
+This will output the title of the sheets in the workbook
+</p>
+<pre><code>    xlsx2json -sheets MyWorkbook.xlsx</code></pre>
+<p>
+Putting it all together in a shell script and convert all sheets to into
+JSON documents..
+</p>
+<pre><code>    xlsx2json -N MyWorkbook.xlsx | while read SHEET_NAME; do
+        JSON_NAME=&quot;${SHEET_NAME// /-}.json&quot;
+        xlsx2json -o &quot;${JSON_NAME}&quot; MyWorkbook.xlsx &quot;$SHEET_NAME&quot;
+    done</code></pre>
+<p>
+xlsx2json 1.2.2
 </p>
 </section>
 

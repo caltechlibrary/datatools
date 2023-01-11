@@ -44,20 +44,22 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+csvjoin
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+csvjoin <a href="#options">OPTIONS</a> CSV1 CSV2 COL1 COL2
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+csvjoin outputs CSV content based on two CSV files with matching column
+values. Each CSV input file has a designated column to match on. The
+values are compared as strings. Columns are counted from one rather than
+zero.
 </p>
 <h1 id="options">
 OPTIONS
@@ -82,22 +84,82 @@ display license
 display version
 </dd>
 <dt>
+-allow-duplicates
+</dt>
+<dd>
+allow duplicates when searching for matches
+</dd>
+<dt>
+-case-sensitive
+</dt>
+<dd>
+make a case sensitive match (default is case insensitive)
+</dd>
+<dt>
+-col1
+</dt>
+<dd>
+column to on join on in first CSV file
+</dd>
+<dt>
+-col2
+</dt>
+<dd>
+column to on join on in second CSV file
+</dd>
+<dt>
+-contains
+</dt>
+<dd>
+match columns based on csv1/col1 contained in csv2/col2
+</dd>
+<dt>
+-csv1
+</dt>
+<dd>
+first CSV filename
+</dd>
+<dt>
+-csv2
+</dt>
+<dd>
+second CSV filename
+</dd>
+<dt>
 -d, -delimiter
 </dt>
 <dd>
 set delimiter character
 </dd>
 <dt>
--i, -input
+-delete-cost
 </dt>
 <dd>
-input filename
+deletion cost to use when calculating Levenshtein edit distance
 </dd>
 <dt>
--nl, -newline
+-in-memory
 </dt>
 <dd>
-if true include leading/trailing newline
+if true read both CSV files
+</dd>
+<dt>
+-insert-cost
+</dt>
+<dd>
+insertion cost to use when calculating Levenshtein edit distance
+</dd>
+<dt>
+-levenshtein
+</dt>
+<dd>
+match columns using Levensthein edit distance
+</dd>
+<dt>
+-max-edit-distance
+</dt>
+<dd>
+maximum edit distance for match using Levenshtein distance
 </dd>
 <dt>
 -o, -output
@@ -109,7 +171,19 @@ output filename
 -quiet
 </dt>
 <dd>
-suppress error message
+supress error messages
+</dd>
+<dt>
+-stop-words
+</dt>
+<dd>
+a column delimited list of stop words to ingnore when matching
+</dd>
+<dt>
+-substitute-cost
+</dt>
+<dd>
+substitution cost to use when calculating Levenshtein edit distance
 </dd>
 <dt>
 -trim-leading-space
@@ -118,25 +192,37 @@ suppress error message
 trim leading space in field(s) for CSV input
 </dd>
 <dt>
+-trimspaces
+</dt>
+<dd>
+trim spaces around cell values before comparing
+</dd>
+<dt>
 -use-lazy-quotes
 </dt>
 <dd>
-using lazy quotes for CSV input
+use lazy quotes for CSV input
+</dd>
+<dt>
+-verbose
+</dt>
+<dd>
+output processing count to stderr
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+Simple usage of building a merged CSV file from data1.csv and data2.csv
+where column 1 in data1.csv matches the value in column 3 of data2.csv
+with the results being written to merged-data.csv..
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>    csvjoin -csv1=data1.csv -col1=2 \
+       -csv2=data2.csv -col2=4 \
+       -output=merged-data.csv</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
-</p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
-<p>
-csv2mdtable 1.2.2
+csvjoin 1.2.2
 </p>
 </section>
 

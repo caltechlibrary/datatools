@@ -44,20 +44,20 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+urlparse
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+urlparse <a href="#options">OPTIONS</a> URL_TO_PARSE
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+urlparse can parse a URL and return the specific elements requested
+(e.g. protocol, hostname, path, query string)
 </p>
 <h1 id="options">
 OPTIONS
@@ -82,10 +82,40 @@ display license
 display version
 </dd>
 <dt>
+-H, -host
+</dt>
+<dd>
+Display the hostname (and port if specified) found in URL.
+</dd>
+<dt>
+-P, -protocol
+</dt>
+<dd>
+Display the protocol of URL (defaults to http)
+</dd>
+<dt>
+-base, -basename
+</dt>
+<dd>
+Display the base filename at the end of the path.
+</dd>
+<dt>
 -d, -delimiter
 </dt>
 <dd>
-set delimiter character
+Set the output delimited for parsed display. (defaults to tab)
+</dd>
+<dt>
+-dir, -dirname
+</dt>
+<dd>
+Display all but the last element of the path
+</dd>
+<dt>
+-ext, -extname
+</dt>
+<dd>
+Display the filename extension (e.g. .html).
 </dd>
 <dt>
 -i, -input
@@ -97,7 +127,7 @@ input filename
 -nl, -newline
 </dt>
 <dd>
-if true include leading/trailing newline
+if true add a trailing newline
 </dd>
 <dt>
 -o, -output
@@ -106,37 +136,55 @@ if true include leading/trailing newline
 output filename
 </dd>
 <dt>
+-p, -path
+</dt>
+<dd>
+Display the path after the hostname.
+</dd>
+<dt>
 -quiet
 </dt>
 <dd>
-suppress error message
-</dd>
-<dt>
--trim-leading-space
-</dt>
-<dd>
-trim leading space in field(s) for CSV input
-</dd>
-<dt>
--use-lazy-quotes
-</dt>
-<dd>
-using lazy quotes for CSV input
+suppress error messages
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+With no options returns “http.commy/page.html”
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>    urlparse http://example.com/my/page.html</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
+Get protocol. Returns “http”.
 </p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
+<pre><code>    urlparse -protocol http://example.com/my/page.html</code></pre>
 <p>
-csv2mdtable 1.2.2
+Get host or domain name. Returns “example.com”.
+</p>
+<pre><code>    urlparse -host http://example.com/my/page.html</code></pre>
+<p>
+Get path. Returns “/my/page.html”.
+</p>
+<pre><code>    urlparse -path http://example.com/my/page.html</code></pre>
+<p>
+Get dirname. Returns “my”
+</p>
+<pre><code>    urlparse -dirname http://example.com/my/page.html</code></pre>
+<p>
+Get basename. Returns “page.html”.
+</p>
+<pre><code>    urlparse -basename http://example.com/my/page.html</code></pre>
+<p>
+Get extension. Returns “.html”.
+</p>
+<pre><code>    urlparse -extname http://example.com/my/page.html</code></pre>
+<p>
+Without options urlparse returns protocol, host and path fields
+separated by a tab.
+</p>
+<p>
+urlparse 1.2.2
 </p>
 </section>
 

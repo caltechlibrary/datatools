@@ -44,20 +44,23 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+tab2csv
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+tab2csv <a href="#options">OPTIONS</a>
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+tab2csv is a simple conversion utility to convert from tabs to quoted
+CSV.
+</p>
+<p>
+tab2csv reads from standard input and writes to standard out.
 </p>
 <h1 id="options">
 OPTIONS
@@ -82,61 +85,49 @@ display license
 display version
 </dd>
 <dt>
--d, -delimiter
+-fields-per-record
 </dt>
 <dd>
-set delimiter character
+(int) sets the number o fields expected in each row, -1 turns this off
 </dd>
 <dt>
--i, -input
+-reuse-record
 </dt>
 <dd>
-input filename
-</dd>
-<dt>
--nl, -newline
-</dt>
-<dd>
-if true include leading/trailing newline
-</dd>
-<dt>
--o, -output
-</dt>
-<dd>
-output filename
-</dd>
-<dt>
--quiet
-</dt>
-<dd>
-suppress error message
+re-uses the backing array on reader
 </dd>
 <dt>
 -trim-leading-space
 </dt>
 <dd>
-trim leading space in field(s) for CSV input
+trims leading space read
 </dd>
 <dt>
 -use-lazy-quotes
 </dt>
 <dd>
-using lazy quotes for CSV input
+use lazy quoting for reader
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+If my.tab contained
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>    name    email   age
+    Doe, Jane   jane.doe@example.org    42</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
+Concert this to a CSV file format
 </p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
+<pre><code>    tab2csv &lt; my.tab </code></pre>
 <p>
-csv2mdtable 1.2.2
+This would yield
+</p>
+<pre><code>    &quot;name&quot;,&quot;email&quot;,&quot;age&quot;
+    &quot;Doe, Jane&quot;,&quot;jane.doe@example.org&quot;,42</code></pre>
+<p>
+tab2csv 1.2.2
 </p>
 </section>
 

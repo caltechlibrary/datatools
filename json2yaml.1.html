@@ -44,20 +44,19 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+json2yaml
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+json2yaml <a href="#options">OPTIONS</a> [JSON_FILENAME] [YAML_FILENAME]
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+json2yaml is a tool that converts JSON objects into YAML output.
 </p>
 <h1 id="options">
 OPTIONS
@@ -82,22 +81,10 @@ display license
 display version
 </dd>
 <dt>
--d, -delimiter
-</dt>
-<dd>
-set delimiter character
-</dd>
-<dt>
--i, -input
-</dt>
-<dd>
-input filename
-</dd>
-<dt>
 -nl, -newline
 </dt>
 <dd>
-if true include leading/trailing newline
+if true add a trailing newline
 </dd>
 <dt>
 -o, -output
@@ -109,34 +96,22 @@ output filename
 -quiet
 </dt>
 <dd>
-suppress error message
-</dd>
-<dt>
--trim-leading-space
-</dt>
-<dd>
-trim leading space in field(s) for CSV input
-</dd>
-<dt>
--use-lazy-quotes
-</dt>
-<dd>
-using lazy quotes for CSV input
+suppress error messages
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+These would get the file named “my.json” and save it as my.yaml
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>    json2yaml my.json &gt; my.yaml
+
+    json2yaml my.json my.taml
+
+    cat my.json | json2yaml -i - &gt; my.taml</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
-</p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
-<p>
-csv2mdtable 1.2.2
+json2yaml 1.2.2
 </p>
 </section>
 

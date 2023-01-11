@@ -44,20 +44,22 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+csvrows
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+csvrows <a href="#options">OPTIONS</a> [ARGS_AS_ROW_VALUES]
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+csvrows converts a set of command line args into rows of CSV formated
+output. It can also be used to filter or list specific rows of CSV input
+The first row is 1 not 0. Often row 1 is the header row and csvrows
+makes it easy to output only the data rows.
 </p>
 <h1 id="options">
 OPTIONS
@@ -88,16 +90,16 @@ display version
 set delimiter character
 </dd>
 <dt>
+-header
+</dt>
+<dd>
+display the header row (alias for ‘-rows 1’)
+</dd>
+<dt>
 -i, -input
 </dt>
 <dd>
 input filename
-</dd>
-<dt>
--nl, -newline
-</dt>
-<dd>
-if true include leading/trailing newline
 </dd>
 <dt>
 -o, -output
@@ -109,7 +111,25 @@ output filename
 -quiet
 </dt>
 <dd>
-suppress error message
+suppress error messages
+</dd>
+<dt>
+-random
+</dt>
+<dd>
+return N randomly selected rows
+</dd>
+<dt>
+-row, -rows
+</dt>
+<dd>
+output specified rows in order (e.g. -row 1,5,2-4))
+</dd>
+<dt>
+-skip-header-row
+</dt>
+<dd>
+skip the header row (alias for -row 2-
 </dd>
 <dt>
 -trim-leading-space
@@ -121,22 +141,39 @@ trim leading space in field(s) for CSV input
 -use-lazy-quotes
 </dt>
 <dd>
-using lazy quotes for CSV input
+use lazy quotes for CSV input
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+Simple usage of building a CSV file one rows at a time.
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>    csvrows &quot;First,Second,Third&quot; &quot;one,two,three&quot; &gt; 4rows.csv
+    csvrows &quot;ein,zwei,drei&quot; &quot;1,2,3&quot; &gt;&gt; 4rows.csv
+    cat 4row.csv</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
+Example parsing a pipe delimited string into a CSV line
 </p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
+<pre><code>    csvrows -d &quot;|&quot; &quot;First,Second,Third|one,two,three&quot; &gt; 4rows.csv
+    csvrows -delimiter &quot;|&quot; &quot;ein,zwei,drei|1,2,3&quot; &gt;&gt; 4rows.csv
+    cat 4rows.csv</code></pre>
 <p>
-csv2mdtable 1.2.2
+Filter a 10 row CSV file for rows 1,4,6 (top most row is one)
+</p>
+<pre><code>    cat 10row.csv | csvrows -row 1,4,6 &gt; 3rows.csv</code></pre>
+<p>
+Filter a 10 row CSV file for rows 1,4,6 from file named “10row.csv”
+</p>
+<pre><code>    csvrows -i 10row.csv -row 1,4,6 &gt; 3rows.csv</code></pre>
+<p>
+Filter 3 randomly selected rows from 10row.csv rendering new CSV with a
+header row from 10row.csv.
+</p>
+<pre><code>    csvrows -i 10row.csv -header=true -random=3</code></pre>
+<p>
+csvrows 1.2.2
 </p>
 </section>
 

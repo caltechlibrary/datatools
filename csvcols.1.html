@@ -44,20 +44,24 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+csvcols
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+csvcols <a href="#options">OPTIONS</a> [ARGS_AS_COL_VALUES]
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+csvcols converts a set of command line args into columns output in CSV
+format.
+</p>
+<p>
+It can also be used CSV input rows and rendering only the column numbers
+listed on the commandline (first column is 1 not 0).
 </p>
 <h1 id="options">
 OPTIONS
@@ -82,10 +86,16 @@ display license
 display version
 </dd>
 <dt>
+-col, -cols
+</dt>
+<dd>
+output specified columns (e.g. -col 1,12:14,2,4))
+</dd>
+<dt>
 -d, -delimiter
 </dt>
 <dd>
-set delimiter character
+set the input delimiter character
 </dd>
 <dt>
 -i, -input
@@ -94,22 +104,28 @@ set delimiter character
 input filename
 </dd>
 <dt>
--nl, -newline
-</dt>
-<dd>
-if true include leading/trailing newline
-</dd>
-<dt>
 -o, -output
 </dt>
 <dd>
 output filename
 </dd>
 <dt>
+-od, -output-delimiter
+</dt>
+<dd>
+set the output delimiter character
+</dd>
+<dt>
 -quiet
 </dt>
 <dd>
-suppress error message
+suppress error messages
+</dd>
+<dt>
+-skip-header-row
+</dt>
+<dd>
+skip the header row
 </dd>
 <dt>
 -trim-leading-space
@@ -121,22 +137,40 @@ trim leading space in field(s) for CSV input
 -use-lazy-quotes
 </dt>
 <dd>
-using lazy quotes for CSV input
+use lazy quotes on CSV input
+</dd>
+<dt>
+-uuid
+</dt>
+<dd>
+add a prefix row with generated UUID cell
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+Simple usage of building a CSV file one row at a time.
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>    csvcols one two three &gt; 3col.csv
+    csvcols 1 2 3 &gt;&gt; 3col.csv
+    cat 3col.csv</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
+Example parsing a pipe delimited string into a CSV line
 </p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
+<pre><code>    csvcols -d &quot;|&quot; &quot;one|two|three&quot; &gt; 3col.csv
+    csvcols -delimiter &quot;|&quot; &quot;1|2|3&quot; &gt;&gt; 3col.csv
+    cat 3col.csv</code></pre>
 <p>
-csv2mdtable 1.2.2
+Using a pipe filter a 3 column CSV for columns 1 and 3 into 2col.csv
+</p>
+<pre><code>    cat 3col.csv | csvcols -col 1,3 &gt; 2col.csv</code></pre>
+<p>
+Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
+</p>
+<pre><code>    csvcols -i 3col.csv -col 1,3 -o 2col.csv</code></pre>
+<p>
+csvcols 1.2.2
 </p>
 </section>
 

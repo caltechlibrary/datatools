@@ -44,21 +44,29 @@ href="https://github.com/caltechlibrary/datatools">Github</a>
 NAME
 </h1>
 <p>
-csv2mdtable
+jsonmunge
 </p>
 <h1 id="synopsis">
 SYNOPSIS
 </h1>
 <p>
-csv2mdtable <a href="#options">OPTIONS</a>
+jsonmunge <a href="#options">OPTIONS</a> TEMPLATE_FILENAME
 </p>
 <h1 id="description">
 DESCRIPTION
 </h1>
 <p>
-csv2mdtable reads CSV from stdin and writes a Github Flavored Markdown
-table to stdout.
+jsonmunge is a command line tool that takes a JSON document and one or
+more Go templates rendering the results. Useful for reshaping a JSON
+document, transforming into a new format, or filter for specific
+content.
 </p>
+<ul>
+<li>
+TEMPLATE_FILENAME is the name of a Go text tempate file used to render
+the outbound JSON document
+</li>
+</ul>
 <h1 id="options">
 OPTIONS
 </h1>
@@ -82,10 +90,10 @@ display license
 display version
 </dd>
 <dt>
--d, -delimiter
+-E, -expression
 </dt>
 <dd>
-set delimiter character
+use template expression as template
 </dd>
 <dt>
 -i, -input
@@ -97,7 +105,7 @@ input filename
 -nl, -newline
 </dt>
 <dd>
-if true include leading/trailing newline
+if true add a trailing newline
 </dd>
 <dt>
 -o, -output
@@ -109,34 +117,30 @@ output filename
 -quiet
 </dt>
 <dd>
-suppress error message
-</dd>
-<dt>
--trim-leading-space
-</dt>
-<dd>
-trim leading space in field(s) for CSV input
-</dd>
-<dt>
--use-lazy-quotes
-</dt>
-<dd>
-using lazy quotes for CSV input
+suppress error messages
 </dd>
 </dl>
 <h1 id="examples">
 EXAMPLES
 </h1>
 <p>
-Convert data1.csv to data1.md using Unix pipes.
+If person.json contained
 </p>
-<pre><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<pre><code>   {&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42}</code></pre>
 <p>
-Convert data1.csv to data1.md using options.
+and the template, name.tmpl, contained
 </p>
-<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
+<pre><code>   {{- .name -}}</code></pre>
 <p>
-csv2mdtable 1.2.2
+Getting just the name could be done with
+</p>
+<pre><code>    cat person.json | jsonmunge name.tmpl</code></pre>
+<p>
+This would yield
+</p>
+<pre><code>    &quot;Doe, Jane&quot;</code></pre>
+<p>
+jsonmunge 1.2.2
 </p>
 </section>
 
