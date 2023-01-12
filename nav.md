@@ -4,5 +4,6 @@
 + [INSTALL](install.html)
 + [Documentation](docs/)
 + [How To](how-to/)
++ [User Manual](user-manual.html)
 + [About](about.html)
 + [Github](https://github.com/caltechlibrary/datatools)
