@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="../">README</a></li>
+	<li><a href="../LICENSE">LICENSE</a></li>
+	<li><a href="../INSTALL.html">INSTALL</a></li>
+	<li><a href="../user-manual.html">User Manual</a></li>
+	<li><a href="./">Tutorials</a></li>
+	<li><a href="../about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+</ul>
+</nav>
+
+<section>
+<h1 id="using-csvcleaner">Using csvcleaner</h1>
+<p>Normalizing the a spread sheet’s column count to 2 per row.</p>
+<pre class="shell"><code>    cat mysheet.csv | csvcleaner -field-per-row=2 &gt; 2cols.csv</code></pre>
+<p>Normalizing a spread sheet’s column count to 3 (add a padding column
+as needed per row).</p>
+<pre class="shell"><code>    cat mysheet.csv | csvcleaner -field-per-row=3 &gt; 3cols.csv</code></pre>
+<p>Trim leading spaces.</p>
+<pre class="shell"><code>    cat mysheet.csv | csvcleaner -left-trim-spaces &gt; ltrim.csv</code></pre>
+<p>Trim trailing spaces.</p>
+<pre class="shell"><code>    cat mysheet.csv | csvcleaner -right-trim-spaces &gt; rtrim.csv</code></pre>
+<p>Trim leading and trailing spaces</p>
+<pre class="shell"><code>    cat mysheet.csv | csvcleaner -trim-spaces &gt; trim.csv</code></pre>
+<h2 id="example-files">example files</h2>
+<ul>
+<li><a href="mysheet.csv">mysheet.csv</a></li>
+<li><a href="2cols.csv">2cols.csv</a></li>
+<li><a href="3cols.csv">3cols.csv</a></li>
+<li><a href="ltrim.csv">ltrim.csv</a></li>
+<li><a href="rtrim.csv">rtrim.csv</a></li>
+<li><a href="trim.csv">trim.csv</a></li>
+<li><a href="csvcleaner-demo.bash">csvcleaner-demo.bash</a></li>
+</ul>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

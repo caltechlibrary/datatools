@@ -11,159 +11,69 @@
 </header>
 <nav>
 <ul>
-<li>
-<a href="/">Home</a>
-</li>
-<li>
-<a href="index.html">README</a>
-</li>
-<li>
-<a href="license.html">LICENSE</a>
-</li>
-<li>
-<a href="install.html">INSTALL</a>
-</li>
-<li>
-<a href="docs/">Documentation</a>
-</li>
-<li>
-<a href="how-to/">How To</a>
-</li>
-<li>
-<a href="user-manual.html">User Manual</a>
-</li>
-<li>
-<a href="about.html">About</a>
-</li>
-<li>
-<a
-href="https://github.com/caltechlibrary/datatools">Github</a>
-</li>
+	<li><a href="/">Home</a></li>
+	<li><a href="./">README</a></li>
+	<li><a href="LICENSE">LICENSE</a></li>
+	<li><a href="INSTALL.html">INSTALL</a></li>
+	<li><a href="user-manual.html">User Manual</a></li>
+	<li><a href="how-to/">Tutorials</a></li>
+	<li><a href="about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
 </ul>
 </nav>
 
 <section>
-<h1 id="datatools">
-datatools
-</h1>
-<p>
-<em>datatools</em> provides a variety of command line programs for
-working with data in different formats as well as to ease Posix shell
-scripting (e.g. writing scripts that run under Bash). The tools are
-group as data, strings and scripting.
-</p>
-<h2 id="for-data">
-For data
-</h2>
-<p>
-Command line utilities for simplifying work with CSV, JSON, TOML, YAML,
-Excel Workbooks and plain text files or content.
-</p>
+<h1 id="datatools">datatools</h1>
+<p><em>datatools</em> is a rich collection of command line programs
+targetting data conversion, cleanup and analysis directly from your
+favorite POSIX shell. It has proven useful for data collaberations where
+individual members of a project may prefer different toolsets in their
+analysis (e.g. Julia, R, Python) but want to work from a common
+baseline. It also has been used intensively for internal reporting from
+various Caltech Library metadata sources.</p>
+<p>The tools fall into three broad categories</p>
 <ul>
-<li>
-<a href="docs/csv2json/">csv2json</a> - a tool to take a CSV file and
-convert it into a JSON array or a list of JSON blobs one per line
-</li>
-<li>
-<a href="docs/csv2mdtable/">csv2mdtable</a> - a tool to render CSV as a
-Github Flavored Markdown table
-</li>
-<li>
-<a href="docs/csv2tab/">csv2tab</a> - a tool to take a CSV file and
-convert to tab separated values
-</li>
-<li>
-<a href="docs/csv2xlsx/">csv2xlsx</a> - a tool to take a CSV file and
-add it as a sheet to a Excel Workbook
-</li>
-<li>
-<a href="docs/csvcleaner/">csvcleaner</a> - normalize a CSV file by
-column and row including trimming spaces and removing comments
-</li>
-<li>
-<a href="docs/csvcols/">csvcols</a> - a tool for formatting command line
-arguments into CSV row of columns or filtering CSV rows for specific
-columns
-</li>
-<li>
-<a href="docs/csvfind/">csvfind</a> - a tool for filtering a CSV file
-rows by column
-</li>
-<li>
-<a href="docs/csvjoin/">csvjoin</a> - a tool to join two CSV files on
-common values in designated columns, writes combined CSV rows
-</li>
-<li>
-<a href="docs/csvrows/">csvrows</a> - a tool for formatting command line
-arguments into CSV columns of rows or filtering CSV for specific rows
-</li>
-<li>
-<a href="docs/json2toml/">json2toml</a> - a tool for converting JSON to
-TOML
-</li>
-<li>
-<a href="docs/json2yaml/">json2yaml</a> - a tool for converting JSON to
-YAML
-</li>
-<li>
-<a href="docs/jsoncols/">jsoncols</a> - a tool for exploring and
-extracting JSON values into columns
-</li>
-<li>
-<a href="docs/jsonjoin/">jsonjoin</a> - a tool for joining JSON object
-documents
-</li>
-<li>
-<a href="docs/jsonmunge/">jsonmunge</a> - a tool to transform JSON
-documents into something else
-</li>
-<li>
-<a href="docs/jsonrange/">jsonrange</a> - a tool for iterating over JSON
-objects and arrays (return keys or values)
-</li>
-<li>
-<a href="docs/tab2csv/">tab2csv</a> - a tool to convert from tab
-separated values to comma separated values
-</li>
-<li>
-<a href="docs/toml2json/">toml2json</a> - a tool for converting TOML to
-JSON
-</li>
-<li>
-<a href="docs/xlsx2csv/">xlsx2csv</a> - a tool for converting Excel
-Workbooks sheets to CSV files
-</li>
-<li>
-<a href="docs/xlsx2json/">xlsx2json</a> - a tool for converting Excel
-Workbooks to JSON files
-</li>
-<li>
-<a href="docs/yaml2json/">yaml2json</a> - a tool for converting YAML
-files to JSON
-</li>
-<li>
-<a href="codemeta2cff.1.html">codemeta2cff</a> - a tool to convert a
-codemeta.json file into a CITATION.cff file.
-</li>
-<li>
-<a href="sql2csv.1.html">sql2csv</a> - a tool to execute a SQL query in
-MySQL or SQLIte3 and render the results in CSV encoding
-</li>
+<li>data transformation and conversion</li>
+<li>shell scripting helpers</li>
+<li>“string”, a tool providing the common string operations missing from
+shell</li>
 </ul>
-<p>
-Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
-Windows 10 (amd64) and Raspbian (ARM7). See
-https://github.com/caltechlibrary/datatools/releases.
-</p>
-<p>
-Use “-help” option for a full list of options for each utility
-(e.g. <code>csv2json -help</code>).
-</p>
-<h2 id="for-strings">
-For strings
-</h2>
-<p>
-<em>datatools</em> provides the <a href="docs/string/">string</a>
+<p>See <a href="user-manual.md">user manual</a> for a complete list of
+the command line programs. The data transformation tools include support
+for formats such as Excel XML, csv, tab delimited files, json, yaml and
+toml.</p>
+<p>Compiled versions of the datatools collection are provided for Linux
+(amd64), Mac OS X (amd64), Windows 10 (amd64) and Raspbian (ARM7). See
+https://github.com/caltechlibrary/datatools/releases.</p>
+<p>Use “-help” option for a full list of options for each utility
+(e.g. <code>csv2json -help</code>).</p>
+<h2 id="data-transformation">Data transformation</h2>
+<p>The tooling around transformation includes data conversion. These
+include tools that work with CSV, tab delimited, JSON, TOML, YAML and
+Excel XML.</p>
+<p>There is also tooling to change data shapes using JSON as the
+intermediate data format.</p>
+<h2 id="for-the-shell">For the shell</h2>
+<p>Various utilities for simplifying work on the command line.</p>
+<ul>
+<li><a href="docs/findfile/">findfile</a> - find files based on prefix,
+suffix or contained string</li>
+<li><a href="docs/finddir/">finddir</a> - find directories based on
+prefix, suffix or contained string</li>
+<li><a href="docs/mergepath/">mergepath</a> - prefix, append, clip path
+variables</li>
+<li><a href="docs/range/">range</a> - emit a range of integers (useful
+for numbered loops in Bash)</li>
+<li><a href="docs/reldate/">reldate</a> - display a relative date in
+YYYY-MM-DD format</li>
+<li><a href="docs/reltime/">reltime</a> - display a relative time in 24
+hour notation, HH:MM:SS format</li>
+<li><a href="docs/timefmt/">timefmt</a> - format a time value based on
+Golang’s time format language</li>
+<li><a href="docs/urlparse/">urlparse</a> - split a URL into parts</li>
+</ul>
+<h2 id="for-strings">For strings</h2>
+<p><em>datatools</em> provides the <a href="docs/string/">string</a>
 command for working with text strings (limited to memory available).
 This is commonly needed when cleanup data for analysis. The
 <em>string</em> command was created for when the old Unix standbys-
@@ -172,94 +82,27 @@ operations are common in most language like, trimming, spliting, and
 transforming letter case. The <em>string</em> command also makes it easy
 to join JSON string arrays into single a string using a delimiter or
 split a string into a JSON array based on a delimiter. The form of the
-command is <code>string [OPTIONS] [ACTION] [ARCTION_PARAMETERS…]</code>
-</p>
+command is
+<code>string [OPTIONS] [ACTION] [ARCTION_PARAMETERS...]</code></p>
 <pre class="shell"><code>    string toupper &quot;one two three&quot;</code></pre>
-<p>
-Would yield “ONE TWO THREE”.
-</p>
-<p>
-Some of the features included
-</p>
+<p>Would yield “ONE TWO THREE”.</p>
+<p>Some of the features included</p>
 <ul>
-<li>
-change case (upper, lower, title, English title)
-</li>
-<li>
-length, position and count of substrings
-</li>
-<li>
-has prefix, suffix or contains
-</li>
-<li>
-trim prefix, suffix and cutsets
-</li>
-<li>
-split and join to/from JSON string arrays
-</li>
+<li>change case (upper, lower, title, English title)</li>
+<li>length, position and count of substrings</li>
+<li>has prefix, suffix or contains</li>
+<li>trim prefix, suffix and cutsets</li>
+<li>split and join to/from JSON string arrays</li>
 </ul>
-<p>
-See <a href="docs/string/">string</a> for full details
-</p>
-<h2 id="for-scripting">
-For scripting
-</h2>
-<p>
-Various utilities for simplifying work on the command line.
-</p>
-<ul>
-<li>
-<a href="docs/findfile/">findfile</a> - find files based on prefix,
-suffix or contained string
-</li>
-<li>
-<a href="docs/finddir/">finddir</a> - find directories based on prefix,
-suffix or contained string
-</li>
-<li>
-<a href="docs/mergepath/">mergepath</a> - prefix, append, clip path
-variables
-</li>
-<li>
-<a href="docs/range/">range</a> - emit a range of integers (useful for
-numbered loops in Bash)
-</li>
-<li>
-<a href="docs/reldate/">reldate</a> - display a relative date in
-YYYY-MM-DD format
-</li>
-<li>
-<a href="docs/reltime/">reltime</a> - display a relative time in 24 hour
-notation, HH:MM:SS format
-</li>
-<li>
-<a href="docs/timefmt/">timefmt</a> - format a time value based on
-Golang’s time format language
-</li>
-<li>
-<a href="docs/urlparse/">urlparse</a> - split a URL into parts
-</li>
-</ul>
-<p>
-Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
-Windows 10 (amd64) and Raspbian (ARM7). See
-https://github.com/caltechlibrary/datatools/releases.
-</p>
-<p>
-Use the utilities try “-help” option for a full list of options.
-</p>
-<h2 id="installation">
-Installation
-</h2>
-<p>
-See <a href="install.html">INSTALL.md</a> for details for installing
-pre-compiled versions of the programs.
-</p>
+<p>See <a href="docs/string/">string</a> for full details</p>
+<h2 id="installation">Installation</h2>
+<p>See <a href="install.html">INSTALL.md</a> for details for installing
+pre-compiled versions of the programs.</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

@@ -11,77 +11,42 @@
 </header>
 <nav>
 <ul>
-<li>
-<a href="/">Home</a>
-</li>
-<li>
-<a href="../index.html">README</a>
-</li>
-<li>
-<a href="../license.html">LICENSE</a>
-</li>
-<li>
-<a href="../install.html">INSTALL</a>
-</li>
-<li>
-<a href="../docs/">Documentation</a>
-</li>
-<li>
-<a href="./">How To</a>
-</li>
-<li>
-<a href="user-manual.html">User Manual</a>
-</li>
-<li>
-<a href="../about.html">About</a>
-</li>
-<li>
-<a
-href="https://github.com/caltechlibrary/datatools">Github</a>
-</li>
+	<li><a href="/">Home</a></li>
+	<li><a href="../">README</a></li>
+	<li><a href="../LICENSE">LICENSE</a></li>
+	<li><a href="../INSTALL.html">INSTALL</a></li>
+	<li><a href="../user-manual.html">User Manual</a></li>
+	<li><a href="./">Tutorials</a></li>
+	<li><a href="../about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
 </ul>
 </nav>
 
 <section>
-<h1 id="how-to-trim-a-trailing-newline-from-a-text-file.">
-How to trim a trailing newline from a text file.
-</h1>
-<p>
-Given the following text in a file name <em>t.txt</em> where the last
-line contains a trailing newline.
-</p>
+<h1 id="how-to-trim-a-trailing-newline-from-a-text-file.">How to trim a
+trailing newline from a text file.</h1>
+<p>Given the following text in a file name <em>t.txt</em> where the last
+line contains a trailing newline.</p>
 <pre><code>    one
     two
     three</code></pre>
-<p>
-Running <em>split</em> to create an JSON array yields an extra empty
-string.
-</p>
+<p>Running <em>split</em> to create an JSON array yields an extra empty
+string.</p>
 <pre class="shell"><code>    string -i t.txt split &#39;\n&#39;</code></pre>
-<p>
-Yields
-</p>
-<div id="cb3" class="sourceCode">
-<pre
-class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    <span class="ot">[</span><span class="st">&quot;one&quot;</span><span class="ot">,</span><span class="st">&quot;two&quot;</span><span class="ot">,</span><span class="st">&quot;three&quot;</span><span class="ot">,</span><span class="st">&quot;&quot;</span><span class="ot">]</span></span></code></pre>
-</div>
-<p>
-To avoid the trailing empty string in the array you can
-<em>trimspace</em> first then do your <em>split</em> on newlines.
-</p>
+<p>Yields</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    <span class="ot">[</span><span class="st">&quot;one&quot;</span><span class="ot">,</span><span class="st">&quot;two&quot;</span><span class="ot">,</span><span class="st">&quot;three&quot;</span><span class="ot">,</span><span class="st">&quot;&quot;</span><span class="ot">]</span></span></code></pre></div>
+<p>To avoid the trailing empty string in the array you can
+<em>trimspace</em> first then do your <em>split</em> on newlines.</p>
 <pre class="shell"><code>    string -i t.txt trimspace | split -i - &#39;\n&#39;</code></pre>
-<p>
-Yields
-</p>
-<div id="cb5" class="sourceCode">
-<pre
-class="sourceCode json"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>    <span class="ot">[</span><span class="st">&quot;one&quot;</span><span class="ot">,</span><span class="st">&quot;two&quot;</span><span class="ot">,</span><span class="st">&quot;three&quot;</span><span class="ot">]</span></span></code></pre>
-</div>
+<p>Yields</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>    <span class="ot">[</span><span class="st">&quot;one&quot;</span><span class="ot">,</span><span class="st">&quot;two&quot;</span><span class="ot">,</span><span class="st">&quot;three&quot;</span><span class="ot">]</span></span></code></pre></div>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

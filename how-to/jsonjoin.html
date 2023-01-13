@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="../">README</a></li>
+	<li><a href="../LICENSE">LICENSE</a></li>
+	<li><a href="../INSTALL.html">INSTALL</a></li>
+	<li><a href="../user-manual.html">User Manual</a></li>
+	<li><a href="./">Tutorials</a></li>
+	<li><a href="../about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+</ul>
+</nav>
+
+<section>
+<h1 id="using-jsonjoin">Using jsonjoin</h1>
+<p>Consider two JSON objects one in person.json and another in
+profile.json.</p>
+<p>person.json contains</p>
+<pre class="shell"><code>   { &quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jd@example.org&quot;, &quot;age&quot;: 42 }</code></pre>
+<p>profile.json contains</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>   <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Doe, Jane&quot;</span><span class="fu">,</span> <span class="dt">&quot;bio&quot;</span><span class="fu">:</span> <span class="st">&quot;World renowned geophysist.&quot;</span><span class="fu">,</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;email&quot;</span><span class="fu">:</span> <span class="st">&quot;jane.doe@example.edu&quot;</span> <span class="fu">}</span></span></code></pre></div>
+<p>A simple join of person.json with profile.json (note the -create
+option)</p>
+<pre class="shell"><code>   jsonjoin -create person.json profile.json</code></pre>
+<p>would yield and object like</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>   <span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;person&quot;</span><span class="fu">:</span>  <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Doe, Jane&quot;</span><span class="fu">,</span> <span class="dt">&quot;email&quot;</span><span class="fu">:</span><span class="st">&quot;jd@example.org&quot;</span><span class="fu">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;age&quot;</span><span class="fu">:</span> <span class="dv">42</span><span class="fu">},</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;profile&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Doe, Jane&quot;</span><span class="fu">,</span> <span class="dt">&quot;bio&quot;</span><span class="fu">:</span> <span class="st">&quot;World renowned geophysist.&quot;</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                  <span class="dt">&quot;email&quot;</span><span class="fu">:</span> <span class="st">&quot;jane.doe@example.edu&quot;</span> <span class="fu">}</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span></span></code></pre></div>
+<p>Likewise if you want to treat person.json as the root object and add
+profile.json as a branch try</p>
+<pre class="shell"><code>   cat person.json | jsonjoin profile.json</code></pre>
+<p>or</p>
+<pre class="shell"><code>   jsonjoin -i person.json profile.json</code></pre>
+<p>this yields an object like</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>   <span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Doe, Jane&quot;</span><span class="fu">,</span> <span class="dt">&quot;email&quot;</span><span class="fu">:</span><span class="st">&quot;jd@example.org&quot;</span><span class="fu">,</span> <span class="dt">&quot;age&quot;</span><span class="fu">:</span> <span class="dv">42</span><span class="fu">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;profile&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Doe, Jane&quot;</span><span class="fu">,</span> <span class="dt">&quot;bio&quot;</span><span class="fu">:</span> <span class="st">&quot;World renowned geophysist.&quot;</span><span class="fu">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                  <span class="dt">&quot;email&quot;</span><span class="fu">:</span> <span class="st">&quot;jane.doe@example.edu&quot;</span> <span class="fu">}</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span></span></code></pre></div>
+<p>You can modify this behavor with -update or -overwrite. Both options
+are order dependant (i.e. not associative, A update B does not
+necessarily equal B update A).</p>
+<ul>
+<li>-update will add unique key/values from the second object to the
+first object</li>
+<li>-overwrite replace key/values in first object one with second
+objects’</li>
+</ul>
+<p>Running</p>
+<pre class="shell"><code>    jsonjoin -create -update person.json profile.json</code></pre>
+<p>would yield</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>   <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Doe, Jane&quot;</span><span class="fu">,</span> <span class="dt">&quot;email&quot;</span><span class="fu">:</span><span class="st">&quot;jd@example.org&quot;</span><span class="fu">,</span> <span class="dt">&quot;age&quot;</span><span class="fu">:</span> <span class="dv">42</span><span class="fu">,</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;bio&quot;</span><span class="fu">:</span> <span class="st">&quot;World renowned geophysist.&quot;</span> <span class="fu">}</span></span></code></pre></div>
+<p>Running</p>
+<pre class="shell"><code>    jsonjoin -create -update profile.json person.json</code></pre>
+<p>would yield</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>   <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Doe, Jane&quot;</span><span class="fu">,</span>  <span class="dt">&quot;age&quot;</span><span class="fu">:</span> <span class="dv">42</span><span class="fu">,</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;bio&quot;</span><span class="fu">:</span> <span class="st">&quot;World renowned geophysist.&quot;</span><span class="fu">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;email&quot;</span><span class="fu">:</span> <span class="st">&quot;jane.doe@example.edu&quot;</span> <span class="fu">}</span></span></code></pre></div>
+<p>Running</p>
+<pre class="shell"><code>    jsonjoin -create -overwrite person.json profile.json</code></pre>
+<p>would yield</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>   <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Doe, Jane&quot;</span><span class="fu">,</span> <span class="dt">&quot;email&quot;</span><span class="fu">:</span><span class="st">&quot;jane.doe@example.edu&quot;</span><span class="fu">,</span> <span class="dt">&quot;age&quot;</span><span class="fu">:</span> <span class="dv">42</span><span class="fu">,</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;bio&quot;</span><span class="fu">:</span> <span class="st">&quot;World renowned geophysist.&quot;</span> <span class="fu">}</span></span></code></pre></div>
+<h2 id="example-files">example files</h2>
+<ul>
+<li><a href="person.json">person.json</a></li>
+<li><a href="profile.json">profile.json</a></li>
+<li><a href="jsonjoin-demo.bash">jsonjoin-demo.bash</a></li>
+</ul>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

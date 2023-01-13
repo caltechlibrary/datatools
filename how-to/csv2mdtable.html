@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="../">README</a></li>
+	<li><a href="../LICENSE">LICENSE</a></li>
+	<li><a href="../INSTALL.html">INSTALL</a></li>
+	<li><a href="../user-manual.html">User Manual</a></li>
+	<li><a href="./">Tutorials</a></li>
+	<li><a href="../about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+</ul>
+</nav>
+
+<section>
+<h1 id="using-csv2mdtables">Using csv2mdtables</h1>
+<p>Convert data1.csv to data1.md using Unix pipes.</p>
+<pre class="shell"><code>    cat data1.csv | csv2mdtable &gt; data1.md</code></pre>
+<p>Convert data1.csv to data1.md using options.</p>
+<pre><code>    csv2mdtable -i data1.csv -o data1.md</code></pre>
+<h2 id="example-files">example files</h2>
+<ul>
+<li><a href="data1.csv">data1.csv</a></li>
+<li><a href="data1.md">data1.md</a></li>
+<li><a href="csv2mdtable-demo.bash">csv2mdtable-demo.bash</a></li>
+</ul>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

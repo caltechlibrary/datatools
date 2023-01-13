@@ -11,86 +11,45 @@
 </header>
 <nav>
 <ul>
-<li>
-<a href="/">Home</a>
-</li>
-<li>
-<a href="index.html">README</a>
-</li>
-<li>
-<a href="license.html">LICENSE</a>
-</li>
-<li>
-<a href="install.html">INSTALL</a>
-</li>
-<li>
-<a href="docs/">Documentation</a>
-</li>
-<li>
-<a href="how-to/">How To</a>
-</li>
-<li>
-<a href="user-manual.html">User Manual</a>
-</li>
-<li>
-<a href="about.html">About</a>
-</li>
-<li>
-<a
-href="https://github.com/caltechlibrary/datatools">Github</a>
-</li>
+	<li><a href="/">Home</a></li>
+	<li><a href="./">README</a></li>
+	<li><a href="LICENSE">LICENSE</a></li>
+	<li><a href="INSTALL.html">INSTALL</a></li>
+	<li><a href="user-manual.html">User Manual</a></li>
+	<li><a href="how-to/">Tutorials</a></li>
+	<li><a href="about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
 </ul>
 </nav>
 
 <section>
-<h1 id="name">
-NAME
-</h1>
-<p>
-codemeta2cff
-</p>
-<h1 id="sysnopsis">
-SYSNOPSIS
-</h1>
-<p>
-codemeta2cff <a href="#options">OPTIONS</a> [CODEMETA_JSON CITATION_CFF]
-</p>
-<h1 id="description">
-DESCRIPTION
-</h1>
-<p>
-Reads codemeta.json file and writes CITATION.cff. By default it assume
-both are in the current directory. You can also provide the name and
-path to both files.
-</p>
-<h1 id="options">
-OPTIONS
-</h1>
+<h1 id="name">NAME</h1>
+<p>codemeta2cff</p>
+<h1 id="sysnopsis">SYSNOPSIS</h1>
+<p>codemeta2cff <a href="#options">OPTIONS</a> [CODEMETA_JSON
+CITATION_CFF]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>Reads codemeta.json file and writes CITATION.cff. By default it
+assume both are in the current directory. You can also provide the name
+and path to both files.</p>
+<h1 id="options">OPTIONS</h1>
 <dl>
-<dt>
--help
-</dt>
+<dt>-help</dt>
 <dd>
 display help
 </dd>
 </dl>
-<h1 id="example">
-EXAMPLE
-</h1>
-<p>
-Generating the CITATION.cff from the codemeta.json file the current
-working directory.
-</p>
+<h1 id="example">EXAMPLE</h1>
+<p>Generating the CITATION.cff from the codemeta.json file the current
+working directory.</p>
 <pre><code>codemeta2cff</code></pre>
-<p>
-Specifying the full paths.
-</p>
+<p>Specifying the full paths.</p>
 <pre><code>codemeta2cff /opt/local/myproject/codemeta.json /opt/local/myproject/CITATION.cff</code></pre>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

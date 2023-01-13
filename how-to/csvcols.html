@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="../">README</a></li>
+	<li><a href="../LICENSE">LICENSE</a></li>
+	<li><a href="../INSTALL.html">INSTALL</a></li>
+	<li><a href="../user-manual.html">User Manual</a></li>
+	<li><a href="./">Tutorials</a></li>
+	<li><a href="../about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+</ul>
+</nav>
+
+<section>
+<h1 id="using-csvcols">Using csvcols</h1>
+<p>Simple usage of building a CSV file one row at a time.</p>
+<pre class="shell"><code>    csvcols one two three &gt; 3col-2.csv
+    csvcols 1 2 3 &gt;&gt; 3col-2.csv
+    cat 3col-2.csv</code></pre>
+<p>Example parsing a pipe delimited string into a CSV line.</p>
+<pre class="shell"><code>    csvcols -d &quot;|&quot; &quot;one|two|three&quot; &gt; 3col-2.csv
+    csvcols -delimiter &quot;|&quot; &quot;1|2|3&quot; &gt;&gt; 3col-2.csv
+    cat 3col-2.csv</code></pre>
+<p>Using a pipe filter a 3 column CSV for columns 1 and 3 into
+2col-2.csv.</p>
+<pre class="shell"><code>    cat 3col-2.csv | csvcols -col 1,3 &gt; 2col-2.csv</code></pre>
+<p>Using options filter a 3 column CSV file for columns 1,3 into
+2col-2.csv.</p>
+<pre class="shell"><code>    csvcols -i 3col-2.csv -col 1,3 -o 2col-2.csv</code></pre>
+<h2 id="quoting-issues">Quoting issues</h2>
+<p>Sometimes CSV files have sloppy or problematic quoting. Two options
+are provided (-use-lazy-quotes, -trim-leading-space). In the example
+below the CSV has trailing white space in the second row. By using
+<code>-use-lazy-quotes</code> option we can get the first two columns
+without running into CSV parsing errors.</p>
+<pre class="shell"><code>    csvcols -i quoting-example.csv -use-lazy-quotes -col 1,2</code></pre>
+<p>Input (with trailing whitespace in row 2)</p>
+<pre class="csv"><code>    &quot;A&quot;,&quot;B&quot;,&quot;C@caltech.edu&quot;,&quot;2017-03-27 14:38:57&quot;,&quot;Yes&quot;,&quot;CCE&quot;,&quot;refund of my deposit&quot;
+    &quot;C&quot;,&quot;D&quot;,&quot;E@caltech.edu&quot;,&quot;2017-04-05 10:50:42&quot;,&quot;Yes&quot;,&quot;EAS&quot;,&quot;receive a refund of my deposit&quot;  </code></pre>
+<p>Output</p>
+<pre><code>    A,B
+    C,D</code></pre>
+<h2 id="example-files">example files</h2>
+<ul>
+<li><a href="3col-2.csv">3col-2.csv</a></li>
+<li><a href="2col-2.csv">2col-2.csv</a></li>
+<li><a href="quoting-example.csv">quoting-example.csv</a></li>
+<li><a href="quoting-expected.csv">quoting-expected.csv</a></li>
+<li><a href="csvcols-demo.bash">csvcols-demo.bash</a></li>
+</ul>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

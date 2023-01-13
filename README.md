@@ -2,45 +2,53 @@
 datatools
 =========
 
-_datatools_ provides a variety of command line programs for working with 
-data in different formats as well as to ease Posix shell scripting 
-(e.g. writing scripts that run under Bash). The tools are group as data, 
-strings and scripting.
+_datatools_ is a rich collection of command line programs targetting
+data conversion, cleanup and analysis directly from your favorite
+POSIX shell. It has proven useful for data collaberations where
+individual members of a project may prefer different toolsets in their
+analysis (e.g. Julia, R, Python) but want to work from a common baseline.
+It also has been used intensively for internal reporting from various
+Caltech Library metadata sources.
 
-For data
---------
+The tools fall into three broad categories 
 
-Command line utilities for simplifying work with CSV, JSON, TOML, YAML, 
-Excel Workbooks and plain text files or content.
+- data transformation and conversion
+- shell scripting helpers
+- "string", a tool providing the common string operations missing from shell
 
-+ [csv2json](docs/csv2json/) - a tool to take a CSV file and convert it into a JSON array or a list of JSON blobs one per line
-+ [csv2mdtable](docs/csv2mdtable/) - a tool to render CSV as a Github Flavored Markdown table
-+ [csv2tab](docs/csv2tab/) - a tool to take a CSV file and convert to tab separated values
-+ [csv2xlsx](docs/csv2xlsx/) - a tool to take a CSV file and add it as a sheet to a Excel Workbook
-+ [csvcleaner](docs/csvcleaner/) - normalize a CSV file by column and row including trimming spaces and removing comments
-+ [csvcols](docs/csvcols/) - a tool for formatting command line arguments into CSV row of columns or filtering CSV rows for specific columns
-+ [csvfind](docs/csvfind/) - a tool for filtering a CSV file rows by column
-+ [csvjoin](docs/csvjoin/) - a tool to join two CSV files on common values in designated columns, writes combined CSV rows
-+ [csvrows](docs/csvrows/) - a tool for formatting command line arguments into CSV columns of rows or filtering CSV for specific rows
-+ [json2toml](docs/json2toml/) - a tool for converting JSON to TOML
-+ [json2yaml](docs/json2yaml/) - a tool for converting JSON to YAML
-+ [jsoncols](docs/jsoncols/) - a tool for exploring and extracting JSON values into columns
-+ [jsonjoin](docs/jsonjoin/) - a tool for joining JSON object documents
-+ [jsonmunge](docs/jsonmunge/) - a tool to transform JSON documents into something else
-+ [jsonrange](docs/jsonrange/) - a tool for iterating over JSON objects and arrays (return keys or values)
-+ [tab2csv](docs/tab2csv/) - a tool to convert from tab separated values to comma separated values
-+ [toml2json](docs/toml2json/) - a tool for converting TOML to JSON
-+ [xlsx2csv](docs/xlsx2csv/) - a tool for converting Excel Workbooks sheets to CSV files
-+ [xlsx2json](docs/xlsx2json/) - a tool for converting Excel Workbooks to JSON files
-+ [yaml2json](docs/yaml2json/) - a tool for converting YAML files to JSON
-+ [codemeta2cff](codemeta2cff.1.html) - a tool to convert a codemeta.json file into a CITATION.cff file.
-+ [sql2csv](sql2csv.1.html) - a tool to execute a SQL query in MySQL or SQLIte3 and render the results in CSV encoding
+See [user manual](user-manual.md) for a complete list of the command line
+programs. The data transformation tools include support for formats such as
+Excel XML, csv, tab delimited files, json, yaml and toml.
 
-
-Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
-Windows 10 (amd64) and Raspbian (ARM7). See https://github.com/caltechlibrary/datatools/releases.
+Compiled versions of the datatools collection are provided for Linux
+(amd64), Mac OS X (amd64), Windows 10 (amd64) and Raspbian (ARM7).
+See https://github.com/caltechlibrary/datatools/releases.
 
 Use "-help" option for a full list of options for each utility (e.g. `csv2json -help`).
+
+Data transformation
+-------------------
+
+The tooling around transformation includes data conversion. These
+include tools that work with CSV, tab delimited, JSON, TOML, YAML
+and Excel XML.
+
+There is also tooling to change data shapes using JSON as the
+intermediate data format.
+
+For the shell
+-------------
+
+Various utilities for simplifying work on the command line. 
+
++ [findfile](docs/findfile/) - find files based on prefix, suffix or contained string
++ [finddir](docs/finddir/) - find directories based on prefix, suffix or contained string
++ [mergepath](docs/mergepath/) - prefix, append, clip path variables
++ [range](docs/range/) - emit a range of integers (useful for numbered loops in Bash)
++ [reldate](docs/reldate/) - display a relative date in YYYY-MM-DD format
++ [reltime](docs/reltime/) - display a relative time in 24 hour notation, HH:MM:SS format
++ [timefmt](docs/timefmt/) - format a time value based on Golang's time format language
++ [urlparse](docs/urlparse/) - split a URL into parts
 
 For strings
 -----------
@@ -70,26 +78,6 @@ Some of the features included
 + split and join to/from JSON string arrays
 
 See [string](docs/string/) for full details
-
-For scripting
--------------
-
-Various utilities for simplifying work on the command line. 
-
-+ [findfile](docs/findfile/) - find files based on prefix, suffix or contained string
-+ [finddir](docs/finddir/) - find directories based on prefix, suffix or contained string
-+ [mergepath](docs/mergepath/) - prefix, append, clip path variables
-+ [range](docs/range/) - emit a range of integers (useful for numbered loops in Bash)
-+ [reldate](docs/reldate/) - display a relative date in YYYY-MM-DD format
-+ [reltime](docs/reltime/) - display a relative time in 24 hour notation, HH:MM:SS format
-+ [timefmt](docs/timefmt/) - format a time value based on Golang's time format language
-+ [urlparse](docs/urlparse/) - split a URL into parts
-
-Compiled versions are provided for Linux (amd64), Mac OS X (amd64),
-Windows 10 (amd64) and Raspbian (ARM7). See https://github.com/caltechlibrary/datatools/releases.
-
-Use the utilities try "-help" option for a full list of options.
-
 
 Installation
 ------------

@@ -9,6 +9,7 @@ pubDate: 2023-01-12
 Below is a collection man manual pages for each of the command line tools
 that comes with the datatools project.
 
+## Data transformation and conversion
 
 - [codemeta2cff](codemeta2cff.1.html), generate a CITATION.cff file from a codemeta.json file
 - [csv2json](csv2json.1.html), convert CSV into a JSON
@@ -28,18 +29,25 @@ that comes with the datatools project.
 - [jsonjoin](jsonjoin.1.html), join JSON documents
 - [jsonmunge](jsonmunge.1.html), process JSON through a go template
 - [jsonrange](jsonrange.1.html), iterate a JSON expression of a list
+- [sql2csv](sql2csv.1.html), convert a SQL query into a CSV output
+- [tab2csv](tab2csv.1.html), tab delimited file to CSV
+- [toml2json](toml2json.1.html), TAML to JSON
+- [xlsx2csv](xlsx2csv.1.html), convert an Excel XML file's "sheet" to csv
+- [xlsx2json](xlsx2json.1.html), convert an Excel XML file's "sheet" into JSON
+- [yaml2json](yaml2json.1.html), convert YAML into JSON
+
+## Shell helpers
+
 - [mergepath](mergepath.1.html), manage the PATH environment variable (e.g. remove duplication paths, append, insert and cut from PATH list)
 - [range](range.1.html), emit a range of numbers (can be ascending, descending, odd/even, etc)
 - [reldate](reldate.1.html), compute a relative date in YYYY-MM-DD format
 - [reltime](reltime.1.html), compute a relative time in HH:MM:SS format
-- [sql2csv](sql2csv.1.html), convert a SQL query into a CSV output
-- [string](string.1.html), various string manipulation actions, append, cut, pad, trim, etc.
-- [tab2csv](tab2csv.1.html), tab delimited file to CSV
 - [timefmt](timefmt.1.html), format a time string
-- [toml2json](toml2json.1.html), TAML to JSON
 - [urlparse](urlparse.1.html), parse a URL into its components (e.g. protocol, hostname, path)
-- [xlsx2csv](xlsx2csv.1.html), convert an Excel XML file's "sheet" to csv
-- [xlsx2json](xlsx2json.1.html), convert an Excel XML file's "sheet" into JSON
-- [yaml2json](yaml2json.1.html), convert YAML into JSON
+
+
+## String manipution
+
+- [string](string.1.html), various string manipulation actions, append, cut, pad, trim, etc.
 
 

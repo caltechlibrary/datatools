@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="../">README</a></li>
+	<li><a href="../LICENSE">LICENSE</a></li>
+	<li><a href="../INSTALL.html">INSTALL</a></li>
+	<li><a href="../user-manual.html">User Manual</a></li>
+	<li><a href="./">Tutorials</a></li>
+	<li><a href="../about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+</ul>
+</nav>
+
+<section>
+<h1 id="using-urlparse">Using urlparse</h1>
+<p>With no options returns “http.commy/page.html”</p>
+<pre class="shell"><code>    urlparse http://example.com/my/page.html</code></pre>
+<p>Get protocol. Returns “http”.</p>
+<pre class="shell"><code>    urlparse -protocol http://example.com/my/page.html</code></pre>
+<p>Get host or domain name. Returns “example.com”.</p>
+<pre class="shell"><code>    urlparse -host http://example.com/my/page.html</code></pre>
+<p>Get path. Returns “/my/page.html”.</p>
+<pre class="shell"><code>    urlparse -path http://example.com/my/page.html</code></pre>
+<p>Get dirname. Returns “my”</p>
+<pre class="shell"><code>    urlparse -dirname http://example.com/my/page.html</code></pre>
+<p>Get basename. Returns “page.html”.</p>
+<pre class="shell"><code>    urlparse -basename http://example.com/my/page.html</code></pre>
+<p>Get extension. Returns “.html”.</p>
+<pre class="shell"><code>    urlparse -extname http://example.com/my/page.html</code></pre>
+<p>Without options urlparse returns protocol, host and path fields
+separated by a tab.</p>
+<h2 id="example-files">example files</h2>
+<ul>
+<li><a href="urlparse-demo.bash">urlparse-demo.bash</a></li>
+</ul>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>
