@@ -7,7 +7,7 @@ MD_PAGES = $(shell ls -1 *.md)
 
 HTML_PAGES = $(shell ls -1 *.md | sed -E 's/\.md/.html/g') 
 
-build: $(MD_PAGES) $(HTML_PAGES)
+build: $(MD_PAGES) $(HTML_PAGES) .FORCE
 
 $(HTML_PAGES): $(MD_PAGES) .FORCE
 	pandoc --metadata title=$(basename $@) -s --to html5 $(basename $@).md -o $(basename $@).html \

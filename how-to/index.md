@@ -1,3 +1,6 @@
+---
+title: "Tutorials"
+---
 
 # How To ...
 

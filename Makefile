@@ -72,6 +72,7 @@ man: $(MAN_PAGES)
 
 website: .FORCE
 	make -f website.mak
+	cd how-to && make -f website.mak
 
 status:
 	git status
@@ -84,9 +85,7 @@ refresh:
 	git fetch origin
 	git pull origin $(BRANCH)
 
-publish:
-	bash gen-nav.bash
-	bash mk-website.bash
+publish: website
 	bash publish.bash
 
 clean:
