@@ -11,274 +11,160 @@
 </header>
 <nav>
 <ul>
-<li>
-<a href="/">Home</a>
-</li>
-<li>
-<a href="index.html">README</a>
-</li>
-<li>
-<a href="license.html">LICENSE</a>
-</li>
-<li>
-<a href="install.html">INSTALL</a>
-</li>
-<li>
-<a href="docs/">Documentation</a>
-</li>
-<li>
-<a href="how-to/">How To</a>
-</li>
-<li>
-<a href="user-manual.html">User Manual</a>
-</li>
-<li>
-<a href="about.html">About</a>
-</li>
-<li>
-<a
-href="https://github.com/caltechlibrary/datatools">Github</a>
-</li>
+	<li><a href="/">Home</a></li>
+	<li><a href="./">README</a></li>
+	<li><a href="LICENSE">LICENSE</a></li>
+	<li><a href="INSTALL.html">INSTALL</a></li>
+	<li><a href="user-manual.html">User Manual</a></li>
+	<li><a href="how-to/">Tutorials</a></li>
+	<li><a href="about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
 </ul>
 </nav>
 
 <section>
-<h1 id="name">
-NAME
-</h1>
-<p>
-jsonrange
-</p>
-<h1 id="synopsis">
-SYNOPSIS
-</h1>
-<p>
-jsonrange <a href="#options">OPTIONS</a> [DOT_PATH_EXPRESSION]
-</p>
-<h1 id="description">
-DESCRIPTION
-</h1>
-<p>
-jsonrange returns returns a range of values based on the JSON structure
-being read and options applied. Without options the JSON structure is
-read from standard input and writes a list of keys to standard out. Keys
-are either attribute names or for arrays the index position (counting
-form zero). If a DOT_PATH_EXPRESSION is included on the command line
-then that is used to generate the results. Using options to can choose
-to read the JSON data structure from a file, write the output to a file
-as well as display values instead of keys. a list of “keys” of an index
-or map in JSON.
-</p>
-<p>
-Using options it can also return a list of values. The JSON object is
+<h1 id="name">NAME</h1>
+<p>jsonrange</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>jsonrange <a href="#options">OPTIONS</a> [DOT_PATH_EXPRESSION]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>jsonrange returns returns a range of values based on the JSON
+structure being read and options applied. Without options the JSON
+structure is read from standard input and writes a list of keys to
+standard out. Keys are either attribute names or for arrays the index
+position (counting form zero). If a DOT_PATH_EXPRESSION is included on
+the command line then that is used to generate the results. Using
+options to can choose to read the JSON data structure from a file, write
+the output to a file as well as display values instead of keys. a list
+of “keys” of an index or map in JSON.</p>
+<p>Using options it can also return a list of values. The JSON object is
 read from standard in and the resulting list is normally written to
 standard out. There are options to read or write to files. Additional
 parameters are assumed to be a dot path notation select the parts of the
-JSON data structure you want from the range.
-</p>
-<p>
-DOT_PATH_EXPRESSION is a dot path stale expression indicating what you
-want range over. E.g.
-</p>
+JSON data structure you want from the range.</p>
+<p>DOT_PATH_EXPRESSION is a dot path stale expression indicating what
+you want range over. E.g.</p>
 <ul>
-<li>
-. would indicate the whole JSON data structure read is used to range
-over
-</li>
-<li>
-.name would indicate to range over the value pointed at by the “name”
-attribute
-</li>
-<li>
-[“name”] would indicate to range over the value pointed at by the “name”
-attribute
-</li>
-<li>
-[0] would indicate to range over the value held in the zero-th element
-of the array
-</li>
+<li>. would indicate the whole JSON data structure read is used to range
+over</li>
+<li>.name would indicate to range over the value pointed at by the
+“name” attribute</li>
+<li>[“name”] would indicate to range over the value pointed at by the
+“name” attribute</li>
+<li>[0] would indicate to range over the value held in the zero-th
+element of the array</li>
 </ul>
-<p>
-The path can be chained together
-</p>
+<p>The path can be chained together</p>
 <ul>
-<li>
-.name.family would point to the value heald by the “name” attributes’
-“family” attribute.
-</li>
+<li>.name.family would point to the value heald by the “name”
+attributes’ “family” attribute.</li>
 </ul>
-<h1 id="options">
-OPTIONS
-</h1>
+<h1 id="options">OPTIONS</h1>
 <dl>
-<dt>
--help
-</dt>
+<dt>-help</dt>
 <dd>
 display help
 </dd>
-<dt>
--license
-</dt>
+<dt>-license</dt>
 <dd>
 display license
 </dd>
-<dt>
--version
-</dt>
+<dt>-version</dt>
 <dd>
 display version
 </dd>
-<dt>
--d, -delimiter
-</dt>
+<dt>-d, -delimiter</dt>
 <dd>
 set delimiter for range output
 </dd>
-<dt>
--i, -input
-</dt>
+<dt>-i, -input</dt>
 <dd>
 read JSON from file
 </dd>
-<dt>
--last
-</dt>
+<dt>-last</dt>
 <dd>
 return the index of the last element in list (e.g. length - 1)
 </dd>
-<dt>
--length
-</dt>
+<dt>-length</dt>
 <dd>
 return the number of keys or values
 </dd>
-<dt>
--limit
-</dt>
+<dt>-limit</dt>
 <dd>
 limit the number of items output
 </dd>
-<dt>
--nl, -newline
-</dt>
+<dt>-nl, -newline</dt>
 <dd>
 if true add a trailing newline
 </dd>
-<dt>
--o, -output
-</dt>
+<dt>-o, -output</dt>
 <dd>
 write to output file
 </dd>
-<dt>
--quiet
-</dt>
+<dt>-quiet</dt>
 <dd>
 suppress error messages
 </dd>
-<dt>
--values
-</dt>
+<dt>-values</dt>
 <dd>
 return the values instead of the keys
 </dd>
 </dl>
-<h1 id="examples">
-EXAMPLES
-</h1>
-<p>
-Working with a map
-</p>
+<h1 id="examples">EXAMPLES</h1>
+<p>Working with a map</p>
 <pre><code>    echo &#39;{&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jane.doe@example.org&quot;, &quot;age&quot;: 42}&#39; \
        | jsonrange</code></pre>
-<p>
-This would yield
-</p>
+<p>This would yield</p>
 <pre><code>    name
     email
     age</code></pre>
-<p>
-Using the -values option on a map
-</p>
+<p>Using the -values option on a map</p>
 <pre><code>    echo &#39;{&quot;name&quot;: &quot;Doe, Jane&quot;, &quot;email&quot;:&quot;jane.doe@example.org&quot;, &quot;age&quot;: 42}&#39; \
       | jsonrange -values</code></pre>
-<p>
-This would yield
-</p>
+<p>This would yield</p>
 <pre><code>    &quot;Doe, Jane&quot;
     &quot;jane.doe@example.org&quot;
     42</code></pre>
-<p>
-Working with an array
-</p>
+<p>Working with an array</p>
 <pre><code>    echo &#39;[&quot;one&quot;, 2, {&quot;label&quot;:&quot;three&quot;,&quot;value&quot;:3}]&#39; | jsonrange</code></pre>
-<p>
-would yield
-</p>
+<p>would yield</p>
 <pre><code>    0
     1
     2</code></pre>
-<p>
-Using the -values option on the same array
-</p>
+<p>Using the -values option on the same array</p>
 <pre><code>    echo &#39;[&quot;one&quot;, 2, {&quot;label&quot;:&quot;three&quot;,&quot;value&quot;:3}]&#39; | jsonrange -values</code></pre>
-<p>
-would yield
-</p>
+<p>would yield</p>
 <pre><code>    one
     2
     {&quot;label&quot;:&quot;three&quot;,&quot;value&quot;:3}</code></pre>
-<p>
-Checking the length of a map or array or number of keys in map
-</p>
+<p>Checking the length of a map or array or number of keys in map</p>
 <pre><code>    echo &#39;[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]&#39; | jsonrange -length</code></pre>
-<p>
-would yield
-</p>
+<p>would yield</p>
 <pre><code>    3</code></pre>
-<p>
-Check for the index of last element
-</p>
+<p>Check for the index of last element</p>
 <pre><code>    echo &#39;[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]&#39; | jsonrange -last</code></pre>
-<p>
-would yield
-</p>
+<p>would yield</p>
 <pre><code>    2</code></pre>
-<p>
-Check for the index value of last element
-</p>
+<p>Check for the index value of last element</p>
 <pre><code>    echo &#39;[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;]&#39; | jsonrange -values -last</code></pre>
-<p>
-would yield
-</p>
+<p>would yield</p>
 <pre><code>    &quot;three&quot;</code></pre>
-<p>
-Limitting the number of items returned
-</p>
+<p>Limitting the number of items returned</p>
 <pre><code>    echo &#39;[10,20,30,40,50]&#39; | %!s(MISSING) -limit 2</code></pre>
-<p>
-would yield
-</p>
+<p>would yield</p>
 <pre><code>    1
     2</code></pre>
-<p>
-Limitting the number of values returned
-</p>
+<p>Limitting the number of values returned</p>
 <pre><code>    echo &#39;[10,20,30,40,50]&#39; | %!s(MISSING) -values -limit 2</code></pre>
-<p>
-would yield
-</p>
+<p>would yield</p>
 <pre><code>    10
     20</code></pre>
-<p>
-jsonrange 1.2.2
-</p>
+<p>jsonrange 1.2.2</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

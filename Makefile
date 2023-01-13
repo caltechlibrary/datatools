@@ -70,9 +70,8 @@ $(MAN_PAGES): .FORCE
 
 man: $(MAN_PAGES)
 
-website:
-	bash gen-nav.bash
-	bash mk-website.bash
+website: .FORCE
+	make -f website.mak
 
 status:
 	git status

@@ -11,156 +11,91 @@
 </header>
 <nav>
 <ul>
-<li>
-<a href="/">Home</a>
-</li>
-<li>
-<a href="index.html">README</a>
-</li>
-<li>
-<a href="license.html">LICENSE</a>
-</li>
-<li>
-<a href="install.html">INSTALL</a>
-</li>
-<li>
-<a href="docs/">Documentation</a>
-</li>
-<li>
-<a href="how-to/">How To</a>
-</li>
-<li>
-<a href="user-manual.html">User Manual</a>
-</li>
-<li>
-<a href="about.html">About</a>
-</li>
-<li>
-<a
-href="https://github.com/caltechlibrary/datatools">Github</a>
-</li>
+	<li><a href="/">Home</a></li>
+	<li><a href="./">README</a></li>
+	<li><a href="LICENSE">LICENSE</a></li>
+	<li><a href="INSTALL.html">INSTALL</a></li>
+	<li><a href="user-manual.html">User Manual</a></li>
+	<li><a href="how-to/">Tutorials</a></li>
+	<li><a href="about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
 </ul>
 </nav>
 
 <section>
-<h1 id="name">
-NAME
-</h1>
-<p>
-findfile
-</p>
-<h1 id="synopsis">
-SYNOPSIS
-</h1>
-<p>
-findfile <a href="#options">OPTIONS</a> [TARGET] [DIRECTORIES_TO_SEARCH]
-</p>
-<h1 id="description">
-DESCRIPTION
-</h1>
-<p>
-findfile finds files based on matching prefix, suffix or contained text
-in base filename.
-</p>
-<h1 id="options">
-OPTIONS
-</h1>
+<h1 id="name">NAME</h1>
+<p>findfile</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>findfile <a href="#options">OPTIONS</a> [TARGET]
+[DIRECTORIES_TO_SEARCH]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>findfile finds files based on matching prefix, suffix or contained
+text in base filename.</p>
+<h1 id="options">OPTIONS</h1>
 <dl>
-<dt>
--help
-</dt>
+<dt>-help</dt>
 <dd>
 display this help message
 </dd>
-<dt>
--license
-</dt>
+<dt>-license</dt>
 <dd>
 display license information
 </dd>
-<dt>
--version
-</dt>
+<dt>-version</dt>
 <dd>
 display version message
 </dd>
-<dt>
--c, -contains
-</dt>
+<dt>-c, -contains</dt>
 <dd>
 find file(s) based on basename containing text
 </dd>
-<dt>
--d, -depth
-</dt>
+<dt>-d, -depth</dt>
 <dd>
 Limit depth of directories walked
 </dd>
-<dt>
--error, -stop-on-error
-</dt>
+<dt>-error, -stop-on-error</dt>
 <dd>
 Stop walk on file system errors (e.g. permissions)
 </dd>
-<dt>
--f, -full-path
-</dt>
+<dt>-f, -full-path</dt>
 <dd>
 list full path for files found
 </dd>
-<dt>
--m, -mod-time
-</dt>
+<dt>-m, -mod-time</dt>
 <dd>
 display file modification time before the path
 </dd>
-<dt>
--nl, -newline
-</dt>
+<dt>-nl, -newline</dt>
 <dd>
 if true add a trailing newline
 </dd>
-<dt>
--o, -output
-</dt>
+<dt>-o, -output</dt>
 <dd>
 output filename
 </dd>
-<dt>
--p, -prefix
-</dt>
+<dt>-p, -prefix</dt>
 <dd>
 find file(s) based on basename prefix
 </dd>
-<dt>
--quiet
-</dt>
+<dt>-quiet</dt>
 <dd>
 suppress error messages
 </dd>
-<dt>
--s, -suffix
-</dt>
+<dt>-s, -suffix</dt>
 <dd>
 find file(s) based on basename suffix
 </dd>
 </dl>
-<h1 id="examples">
-EXAMPLES
-</h1>
-<p>
-Search the current directory and subdirectories for Markdown files with
-extension of “.md”.
-</p>
+<h1 id="examples">EXAMPLES</h1>
+<p>Search the current directory and subdirectories for Markdown files
+with extension of “.md”.</p>
 <pre><code>    findfile -s .md</code></pre>
-<p>
-findfile 1.2.2
-</p>
+<p>findfile 1.2.2</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="../">README</a></li>
+	<li><a href="../LICENSE">LICENSE</a></li>
+	<li><a href="../INSTALL.html">INSTALL</a></li>
+	<li><a href="../user-manual.html">User Manual</a></li>
+	<li><a href="./">How to</a></li>
+	<li><a href="../about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+</ul>
+</nav>
+
+<section>
+<h1 id="using-xlsx2json">Using xlsx2json</h1>
+<p>This would get the sheet named “Sheet 1” from “my-workbook.xlsx” and
+save as sheet1.json</p>
+<pre class="shell"><code>    xlsx2json my-workbook.xlsx &quot;Sheet 1&quot; &gt; sheet1.json</code></pre>
+<p>This would get the number of sheets in the workbook</p>
+<pre class="shell"><code>    xlsx2json -count my-workbook.xlsx</code></pre>
+<p>This will output the title of the sheets in the workbook</p>
+<pre class="shell"><code>    xlsx2json -sheets my-workbook.xlsx</code></pre>
+<p>Putting it all together in a shell script and convert all sheets to
+into JSON documents..</p>
+<pre class="shell"><code>     xlsx2json -n my-workbook.xlsx | while read SHEET_NAME; do
+       xlsx2json my-workbook.xlsx &quot;$SHEET_NAME&quot; &gt; \
+           &quot;${SHEET_NAME// /-}.json&quot;
+    done</code></pre>
+<h2 id="example-files">example files</h2>
+<ul>
+<li><a href="sheet1.csv">sheet1.csv</a></li>
+<li><a href="my-workbook.xlsx">my-workbook.xlsx</a></li>
+<li><a href="xlsx2json-demo.bash">xlsx2json-demo.bash</a></li>
+</ul>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

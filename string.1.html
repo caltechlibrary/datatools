@@ -11,341 +11,211 @@
 </header>
 <nav>
 <ul>
-<li>
-<a href="/">Home</a>
-</li>
-<li>
-<a href="index.html">README</a>
-</li>
-<li>
-<a href="license.html">LICENSE</a>
-</li>
-<li>
-<a href="install.html">INSTALL</a>
-</li>
-<li>
-<a href="docs/">Documentation</a>
-</li>
-<li>
-<a href="how-to/">How To</a>
-</li>
-<li>
-<a href="user-manual.html">User Manual</a>
-</li>
-<li>
-<a href="about.html">About</a>
-</li>
-<li>
-<a
-href="https://github.com/caltechlibrary/datatools">Github</a>
-</li>
+	<li><a href="/">Home</a></li>
+	<li><a href="./">README</a></li>
+	<li><a href="LICENSE">LICENSE</a></li>
+	<li><a href="INSTALL.html">INSTALL</a></li>
+	<li><a href="user-manual.html">User Manual</a></li>
+	<li><a href="how-to/">Tutorials</a></li>
+	<li><a href="about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
 </ul>
 </nav>
 
 <section>
-<h1 id="name">
-NAME
-</h1>
-<p>
-string
-</p>
-<h1 id="synopsis">
-SYNOPSIS
-</h1>
-<p>
-string <a href="#options">OPTIONS</a> [VERB] [VERB PARAMETERS…]
-</p>
-<h1 id="description">
-DESCRIPTION
-</h1>
-<p>
-string is a command line tool for transforming strings in common ways.
-</p>
+<h1 id="name">NAME</h1>
+<p>string</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>string <a href="#options">OPTIONS</a> [VERB] [VERB PARAMETERS…]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>string is a command line tool for transforming strings in common
+ways.</p>
 <ul>
-<li>
-string length
-</li>
-<li>
-changing cases
-</li>
-<li>
-checking for prefixes, suffixes
-</li>
-<li>
-trimming prefixes, suffixes and cutsets (i.e. list of characters to cut)
-</li>
-<li>
-position, counting and replacing substrings
-</li>
-<li>
-splitting a string into a JSON array of strings, joining JSON a string
-arrays into a string
-</li>
+<li>string length</li>
+<li>changing cases</li>
+<li>checking for prefixes, suffixes</li>
+<li>trimming prefixes, suffixes and cutsets (i.e. list of characters to
+cut)</li>
+<li>position, counting and replacing substrings</li>
+<li>splitting a string into a JSON array of strings, joining JSON a
+string arrays into a string</li>
 </ul>
-<p>
-VERB refers to the operation to performed on the supplied string(s). VER
-PARAMETERS are thsose additional terms need to complete the process
-provided by the VERB.
-</p>
-<h1 id="options">
-OPTIONS
-</h1>
-<p>
-Options always come before the VERB.
-</p>
+<p>VERB refers to the operation to performed on the supplied string(s).
+VER PARAMETERS are thsose additional terms need to complete the process
+provided by the VERB.</p>
+<h1 id="options">OPTIONS</h1>
+<p>Options always come before the VERB.</p>
 <dl>
-<dt>
--help
-</dt>
+<dt>-help</dt>
 <dd>
 display help
 </dd>
 </dl>
-<p>
--license :display license
-</p>
+<p>-license :display license</p>
 <dl>
-<dt>
--version
-</dt>
+<dt>-version</dt>
 <dd>
 display version
 </dd>
-<dt>
--d, -delimiter
-</dt>
+<dt>-d, -delimiter</dt>
 <dd>
 set the delimiter
 </dd>
-<dt>
--do, -output-delimiter
-</dt>
+<dt>-do, -output-delimiter</dt>
 <dd>
 set the output delimiter
 </dd>
-<dt>
--i, -input
-</dt>
+<dt>-i, -input</dt>
 <dd>
 input file name
 </dd>
-<dt>
--nl, -newline
-</dt>
+<dt>-nl, -newline</dt>
 <dd>
 if true add a trailing newline
 </dd>
-<dt>
--o, -output
-</dt>
+<dt>-o, -output</dt>
 <dd>
 output file name
 </dd>
-<dt>
--quiet
-</dt>
+<dt>-quiet</dt>
 <dd>
 suppress error messages
 </dd>
 </dl>
-<h2 id="verbs">
-VERBS
-</h2>
+<h2 id="verbs">VERBS</h2>
 <dl>
-<dt>
-contains
-</dt>
+<dt>contains</dt>
 <dd>
-has substrings: SUBSTRING [STRING] <code>string contains SUBSTRING
-[STRING]</code>
+has substrings: SUBSTRING [STRING]
+<code>string contains SUBSTRING [STRING]</code>
 </dd>
-<dt>
-count
-</dt>
+<dt>count</dt>
 <dd>
-count substrings: SUBSTRING [STRING] <code>string count SUBSTRING
-[STRING]</code>
+count substrings: SUBSTRING [STRING]
+<code>string count SUBSTRING [STRING]</code>
 </dd>
-<dt>
-englishtitle
-</dt>
+<dt>englishtitle</dt>
 <dd>
-English style title case: [STRING] <code>string englishtitle
-[STRING]</code>
+English style title case: [STRING]
+<code>string englishtitle [STRING]</code>
 </dd>
-<dt>
-hasprefix
-</dt>
+<dt>hasprefix</dt>
 <dd>
-true/false on prefix: PREFIX [STRING] <code>string hasprefix PREFIX
-[STRING]</code>
+true/false on prefix: PREFIX [STRING]
+<code>string hasprefix PREFIX [STRING]</code>
 </dd>
-<dt>
-hassuffix
-</dt>
+<dt>hassuffix</dt>
 <dd>
-true/false on suffix: SUFFIX [STRING] <code>string hassuffix SUFFIX
-[STRING]</code>
+true/false on suffix: SUFFIX [STRING]
+<code>string hassuffix SUFFIX [STRING]</code>
 </dd>
-<dt>
-join
-</dt>
+<dt>join</dt>
 <dd>
-join JSON array into string: DELIMITER [JSON_ARRAY] <code>string join
-DELIMITER [JSON_ARRAY]</code>
+join JSON array into string: DELIMITER [JSON_ARRAY]
+<code>string join DELIMITER [JSON_ARRAY]</code>
 </dd>
-<dt>
-length
-</dt>
+<dt>length</dt>
 <dd>
 length of string: [STRING] <code>string length [STRING]</code>
 </dd>
-<dt>
-padleft
-</dt>
+<dt>padleft</dt>
 <dd>
-left pad PADDING MAX_LENGTH [STRING] <code>string padleft PADDING
-MAX_LENGTH [STRING]</code>
+left pad PADDING MAX_LENGTH [STRING]
+<code>string padleft PADDING MAX_LENGTH [STRING]</code>
 </dd>
-<dt>
-padright
-</dt>
+<dt>padright</dt>
 <dd>
-right pad PADDING MAX_LENGTH [STRING] <code>string padright PADDING
-MAX_LENGTH [STRING]</code>
+right pad PADDING MAX_LENGTH [STRING]
+<code>string padright PADDING MAX_LENGTH [STRING]</code>
 </dd>
-<dt>
-position
-</dt>
+<dt>position</dt>
 <dd>
-position of substring: SUBSTRING [STRING] <code>string position
-SUBSTRING [STRING]</code>
+position of substring: SUBSTRING [STRING]
+<code>string position SUBSTRING [STRING]</code>
 </dd>
-<dt>
-replace
-</dt>
+<dt>replace</dt>
 <dd>
 replace: OLD NEW [STRING] <code>string replace OLD NEW [STRING]</code>
 </dd>
-<dt>
-replacen
-</dt>
+<dt>replacen</dt>
 <dd>
-replace n times: OLD NEW N [STRING] <code>string replacen OLD NEW N
-[STRING]</code>
+replace n times: OLD NEW N [STRING]
+<code>string replacen OLD NEW N [STRING]</code>
 </dd>
-<dt>
-slice
-</dt>
+<dt>slice</dt>
 <dd>
-copy a substring: START END [STRING] <code>string slice START END
-[STRING]</code>
+copy a substring: START END [STRING]
+<code>string slice START END [STRING]</code>
 </dd>
-<dt>
-split
-</dt>
+<dt>split</dt>
 <dd>
-split into a JSON array: DELIMITER [STRING] <code>string split DELIMITER
-[STRING]</code>
+split into a JSON array: DELIMITER [STRING]
+<code>string split DELIMITER [STRING]</code>
 </dd>
-<dt>
-splitn
-</dt>
+<dt>splitn</dt>
 <dd>
-split into an N length JSON array: DELIMITER N [STRING] <code>string
-splitn DELIMITER N [STRING]</code>
+split into an N length JSON array: DELIMITER N [STRING]
+<code>string splitn DELIMITER N [STRING]</code>
 </dd>
-<dt>
-tolower
-</dt>
+<dt>tolower</dt>
 <dd>
 to lower case: [STRING] <code>string tolower [STRING]</code>
 </dd>
-<dt>
-totitle
-</dt>
+<dt>totitle</dt>
 <dd>
 to title case: [STRING] <code>string totitle [STRING]</code>
 </dd>
-<dt>
-toupper
-</dt>
+<dt>toupper</dt>
 <dd>
 to upper case: [STRING] <code>string toupper [STRING]</code>
 </dd>
-<dt>
-trim
-</dt>
+<dt>trim</dt>
 <dd>
-trim (beginning and end), CUTSET [STRING] <code>string trim CURSET
-[STRING]</code>
+trim (beginning and end), CUTSET [STRING]
+<code>string trim CURSET [STRING]</code>
 </dd>
-<dt>
-trimleft
-</dt>
+<dt>trimleft</dt>
 <dd>
 left trim CUTSET [STRING] <code>string trimleft CUTSET [STRING]</code>
 </dd>
-<dt>
-trimprefix
-</dt>
+<dt>trimprefix</dt>
 <dd>
-trims prefix: PREFIX [STRING] <code>string trimprefix PREFIX
-[STRING]</code>
+trims prefix: PREFIX [STRING]
+<code>string trimprefix PREFIX [STRING]</code>
 </dd>
-<dt>
-trimright
-</dt>
+<dt>trimright</dt>
 <dd>
-right trim: CUTSET [STRING] <code>string trimright CUTSET
-[STRING]</code>
+right trim: CUTSET [STRING]
+<code>string trimright CUTSET [STRING]</code>
 </dd>
-<dt>
-trimspace
-</dt>
+<dt>trimspace</dt>
 <dd>
-trim leading and trailing spaces: [STRING] <code>string trimspace
-[STRING]</code>
+trim leading and trailing spaces: [STRING]
+<code>string trimspace [STRING]</code>
 </dd>
-<dt>
-trimsuffix
-</dt>
+<dt>trimsuffix</dt>
 <dd>
-trim suffix: SUFFIX [STRING] <code>string trimsuffix SUFFIX
-[STRING]</code>
+trim suffix: SUFFIX [STRING]
+<code>string trimsuffix SUFFIX [STRING]</code>
 </dd>
 </dl>
-<h1 id="examples">
-EXAMPLES
-</h1>
-<p>
-Convert text to upper case
-</p>
+<h1 id="examples">EXAMPLES</h1>
+<p>Convert text to upper case</p>
 <pre><code>    string toupper &quot;one&quot;</code></pre>
-<p>
-Convert text to lower case
-</p>
+<p>Convert text to lower case</p>
 <pre><code>    string tolower &quot;ONE&quot;</code></pre>
-<p>
-Captialize an English phrase
-</p>
+<p>Captialize an English phrase</p>
 <pre><code>    string englishtitle &quot;one more thing to know&quot;</code></pre>
-<p>
-Split a space newline delimited list of words into a JSON array
-</p>
+<p>Split a space newline delimited list of words into a JSON array</p>
 <pre><code>    string -i wordlist.txt split &quot;\n&quot;</code></pre>
-<p>
-Join a JSON array of strings into a newline delimited list
-</p>
+<p>Join a JSON array of strings into a newline delimited list</p>
 <pre><code>    string join &#39;\n&#39; &#39;[&quot;one&quot;,&quot;two&quot;,&quot;three&quot;,&quot;four&quot;,&quot;five&quot;]&#39;</code></pre>
-<p>
-string 1.2.2
-</p>
+<p>string 1.2.2</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

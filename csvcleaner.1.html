@@ -11,213 +11,127 @@
 </header>
 <nav>
 <ul>
-<li>
-<a href="/">Home</a>
-</li>
-<li>
-<a href="index.html">README</a>
-</li>
-<li>
-<a href="license.html">LICENSE</a>
-</li>
-<li>
-<a href="install.html">INSTALL</a>
-</li>
-<li>
-<a href="docs/">Documentation</a>
-</li>
-<li>
-<a href="how-to/">How To</a>
-</li>
-<li>
-<a href="user-manual.html">User Manual</a>
-</li>
-<li>
-<a href="about.html">About</a>
-</li>
-<li>
-<a
-href="https://github.com/caltechlibrary/datatools">Github</a>
-</li>
+	<li><a href="/">Home</a></li>
+	<li><a href="./">README</a></li>
+	<li><a href="LICENSE">LICENSE</a></li>
+	<li><a href="INSTALL.html">INSTALL</a></li>
+	<li><a href="user-manual.html">User Manual</a></li>
+	<li><a href="how-to/">Tutorials</a></li>
+	<li><a href="about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
 </ul>
 </nav>
 
 <section>
-<h1 id="name">
-NAME
-</h1>
-<p>
-csvcleaner
-</p>
-<h1 id="synopsis">
-SYNOPSIS
-</h1>
-<p>
-csvcleaner <a href="#options">OPTIONS</a>
-</p>
-<h1 id="description">
-DESCRIPTION
-</h1>
-<p>
-csvcleaner normalizes a CSV file based on the options selected. It helps
-to address issues like variable number of columns, leading/trailing
-spaces in columns, and non-UTF-8 encoding issues.
-</p>
-<p>
-By default input is expected from standard in and output is sent to
+<h1 id="name">NAME</h1>
+<p>csvcleaner</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>csvcleaner <a href="#options">OPTIONS</a></p>
+<h1 id="description">DESCRIPTION</h1>
+<p>csvcleaner normalizes a CSV file based on the options selected. It
+helps to address issues like variable number of columns,
+leading/trailing spaces in columns, and non-UTF-8 encoding issues.</p>
+<p>By default input is expected from standard in and output is sent to
 standard out (errors to standard error). These can be modified by
 appropriate options. The csv file is processed as a stream of rows so
-minimal memory is used to operate on the file.
-</p>
-<h1 id="options">
-OPTIONS
-</h1>
+minimal memory is used to operate on the file.</p>
+<h1 id="options">OPTIONS</h1>
 <dl>
-<dt>
--help
-</dt>
+<dt>-help</dt>
 <dd>
 display help
 </dd>
-<dt>
--license
-</dt>
+<dt>-license</dt>
 <dd>
 display license
 </dd>
-<dt>
--version
-</dt>
+<dt>-version</dt>
 <dd>
 display version
 </dd>
-<dt>
--verbose
-</dt>
+<dt>-verbose</dt>
 <dd>
 write verbose output to standard error
 </dd>
-<dt>
--comma
-</dt>
+<dt>-comma</dt>
 <dd>
 if set use this character in place of a comma for delimiting cells
 </dd>
-<dt>
--comment-char
-</dt>
+<dt>-comment-char</dt>
 <dd>
 if set, rows starting with this character will be ignored as comments
 </dd>
-<dt>
--fields-per-row
-</dt>
+<dt>-fields-per-row</dt>
 <dd>
 set the number of columns to output right padding empty cells as needed
 </dd>
-<dt>
--i, -input
-</dt>
+<dt>-i, -input</dt>
 <dd>
 input filename
 </dd>
-<dt>
--left-trim
-</dt>
+<dt>-left-trim</dt>
 <dd>
 left trim spaces on CSV out
 </dd>
-<dt>
--o, -output
-</dt>
+<dt>-o, -output</dt>
 <dd>
 output filename
 </dd>
-<dt>
--output-comma
-</dt>
+<dt>-output-comma</dt>
 <dd>
 if set use this character in place of a comma for delimiting output
 cells
 </dd>
-<dt>
--quiet
-</dt>
+<dt>-quiet</dt>
 <dd>
 suppress error messages
 </dd>
-<dt>
--reuse
-</dt>
+<dt>-reuse</dt>
 <dd>
 if false then a new array is allocated for each row processed, if true
 the array gets reused
 </dd>
-<dt>
--right-trim
-</dt>
+<dt>-right-trim</dt>
 <dd>
 right trim spaces on CSV out
 </dd>
-<dt>
--stop-on-error
-</dt>
+<dt>-stop-on-error</dt>
 <dd>
 exit on error, useful if you’re trying to debug a problematic CSV file
 </dd>
-<dt>
--trim, -trim-spaces
-</dt>
+<dt>-trim, -trim-spaces</dt>
 <dd>
 trim spaces on CSV out
 </dd>
-<dt>
--trim-leading-space
-</dt>
+<dt>-trim-leading-space</dt>
 <dd>
 trim leading space from field(s) for CSV input
 </dd>
-<dt>
--use-crlf
-</dt>
+<dt>-use-crlf</dt>
 <dd>
 if set use a charage return and line feed in output
 </dd>
-<dt>
--use-lazy-quotes
-</dt>
+<dt>-use-lazy-quotes</dt>
 <dd>
 use lazy quotes for CSV input
 </dd>
 </dl>
-<h1 id="examples">
-EXAMPLES
-</h1>
-<p>
-Normalizing a spread sheet’s column count to 5 padding columns as needed
-per row.
-</p>
+<h1 id="examples">EXAMPLES</h1>
+<p>Normalizing a spread sheet’s column count to 5 padding columns as
+needed per row.</p>
 <pre><code>    cat mysheet.csv | csvcleaner -field-per-row=5</code></pre>
-<p>
-Trim leading spaces from output.
-</p>
+<p>Trim leading spaces from output.</p>
 <pre><code>    cat mysheet.csv | csvcleaner -left-trim</code></pre>
-<p>
-Trim trailing spaces from output.
-</p>
+<p>Trim trailing spaces from output.</p>
 <pre><code>    cat mysheet.csv | csvcleaner -right-trim</code></pre>
-<p>
-Trim leading and trailing spaces from output.
-</p>
+<p>Trim leading and trailing spaces from output.</p>
 <pre><code>    cat mysheet.csv | csvcleaner -trim-space</code></pre>
-<p>
-csvcleaner 1.2.2
-</p>
+<p>csvcleaner 1.2.2</p>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

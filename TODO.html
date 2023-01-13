@@ -11,365 +11,195 @@
 </header>
 <nav>
 <ul>
-<li>
-<a href="/">Home</a>
-</li>
-<li>
-<a href="index.html">README</a>
-</li>
-<li>
-<a href="license.html">LICENSE</a>
-</li>
-<li>
-<a href="install.html">INSTALL</a>
-</li>
-<li>
-<a href="docs/">Documentation</a>
-</li>
-<li>
-<a href="how-to/">How To</a>
-</li>
-<li>
-<a href="user-manual.html">User Manual</a>
-</li>
-<li>
-<a href="about.html">About</a>
-</li>
-<li>
-<a
-href="https://github.com/caltechlibrary/datatools">Github</a>
-</li>
+	<li><a href="/">Home</a></li>
+	<li><a href="./">README</a></li>
+	<li><a href="LICENSE">LICENSE</a></li>
+	<li><a href="INSTALL.html">INSTALL</a></li>
+	<li><a href="user-manual.html">User Manual</a></li>
+	<li><a href="how-to/">Tutorials</a></li>
+	<li><a href="about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
 </ul>
 </nav>
 
 <section>
-<h2 id="action-items">
-Action Items
-</h2>
-<h2 id="bug">
-Bug
-</h2>
+<h2 id="action-items">Action Items</h2>
+<h2 id="bug">Bug</h2>
 <ul class="task-list">
-<li>
-<input type="checkbox" disabled="" />Some man pages use the old “USAGE”
-format, needs to be updated to use Pandoc structure
-</li>
-<li>
-<input type="checkbox" disabled="" />Need to finish depreciating the cli
-package in favor of the standard flag package
-</li>
-<li>
-<input type="checkbox" disabled="" />findfile v0.0.23-pre option -f,
--full-path doesn’t return full paths
-</li>
-<li>
-<input type="checkbox" disabled="" /><a
+<li><input type="checkbox" disabled="" />Some man pages use the old
+“USAGE” format, needs to be updated to use Pandoc structure</li>
+<li><input type="checkbox" disabled="" />Need to finish depreciating the
+cli package in favor of the standard flag package</li>
+<li><input type="checkbox" disabled="" />findfile v0.0.23-pre option -f,
+-full-path doesn’t return full paths</li>
+<li><input type="checkbox" disabled="" /><a
 href="https://github.com/caltechlibrary/datatools/issues/12">Issue
-#12</a>
-<ul>
-<li>
-do we support non-string representation of context?
-</li>
-<li>
-do we support string representation in person/organisation?
-</li>
-<li>
-is this added complexity worth it?
-</li>
+#12</a><ul>
+<li>do we support non-string representation of context?</li>
+<li>do we support string representation in person/organisation?</li>
+<li>is this added complexity worth it?</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h2 id="next">
-Next
-</h2>
+<h2 id="next">Next</h2>
 <ul class="task-list">
-<li>
-<input type="checkbox" disabled="" />Reorganize documentation into man
-pages and how tos
-</li>
-<li>
-<input type="checkbox" disabled="" />documentation, simplify site
+<li><input type="checkbox" disabled="" />Reorganize documentation into
+man pages and how tos</li>
+<li><input type="checkbox" disabled="" />documentation, simplify site
 navigation by flattening to two levels with second level linked by user
-manual page and “how to” page.
-</li>
-<li>
-<input type="checkbox" disabled="" />Update the build process to match
-my current practices
-</li>
-<li>
-<input type="checkbox" disabled="" />ioutil is depreciated, need to
-update the code that uses it.
-</li>
-<li>
-<input type="checkbox" disabled="" />Update how docs are generated, see
-about dropped cli package, there are better simpler ways to move forward
-</li>
-<li>
-<input type="checkbox" disabled="" />Review <a
+manual page and “how to” page.</li>
+<li><input type="checkbox" disabled="" />Update the build process to
+match my current practices</li>
+<li><input type="checkbox" disabled="" />ioutil is depreciated, need to
+update the code that uses it.</li>
+<li><input type="checkbox" disabled="" />Update how docs are generated,
+see about dropped cli package, there are better simpler ways to move
+forward</li>
+<li><input type="checkbox" disabled="" />Review <a
 href="https://go-app.dev">Go-app.dev</a> and see if I can make a useful
-format converted GUI based on the code for all the cli in the project.
-</li>
-<li>
-<input type="checkbox" disabled="" />Create man pages for all cli, adopt
-man page structure for usage.
-</li>
-<li>
-<input type="checkbox" disabled="" />Possible needed tooling
-<ul class="task-list">
-<li>
-<input type="checkbox" disabled="" checked="" />A codemeta generator
-(e.g. read a CITATION.cff and write a codemeta file)
-</li>
-</ul>
-</li>
-<li>
-<input type="checkbox" disabled="" />Drop cli package, update Makefile,
-switch from mk_website.py to website.mak, add Man pages
-</li>
-<li>
-<input type="checkbox" disabled="" />Review
+format converted GUI based on the code for all the cli in the
+project.</li>
+<li><input type="checkbox" disabled="" />Create man pages for all cli,
+adopt man page structure for usage.</li>
+<li><input type="checkbox" disabled="" />Possible needed tooling<ul
+class="task-list">
+<li><input type="checkbox" disabled="" checked="" />A codemeta generator
+(e.g. read a CITATION.cff and write a codemeta file)</li>
+</ul></li>
+<li><input type="checkbox" disabled="" />Drop cli package, update
+Makefile, switch from mk_website.py to website.mak, add Man pages</li>
+<li><input type="checkbox" disabled="" />Review
 https://csvkit.readthedocs.io/en/latest/ and implement the features in
-datatools that make sense, e.g. csvsql, a csv2sql, sql2csv, etc.
-</li>
-<li>
-<input type="checkbox" disabled="" />upgrade to use the new cli
-v0.0.5-dev
-</li>
-<li>
-<input type="checkbox" disabled="" />csvrows would output a range of
-rows (e.g. [2:] would be all rows but the first row)
-</li>
-<li>
-<input type="checkbox" disabled="" />csv utilities should support
+datatools that make sense, e.g. csvsql, a csv2sql, sql2csv, etc.</li>
+<li><input type="checkbox" disabled="" />upgrade to use the new cli
+v0.0.5-dev</li>
+<li><input type="checkbox" disabled="" />csvrows would output a range of
+rows (e.g. [2:] would be all rows but the first row)</li>
+<li><input type="checkbox" disabled="" />csv utilities should support
 integer ranges notation for columns and rows references, E.g.
-“1,3:4,7,10:” or all
-</li>
+“1,3:4,7,10:” or all</li>
 </ul>
-<h2 id="someday-maybe">
-Someday, Maybe
-</h2>
+<h2 id="someday-maybe">Someday, Maybe</h2>
 <ul class="task-list">
-<li>
-<input type="checkbox" disabled="" />finddir should have an option to
-exclude directories (e.g. exclude .git directories from a listing)
-</li>
-<li>
-<input type="checkbox" disabled="" />textscraper - a tool for select out
-text and storing it as a JSON field value, sort grep plus sed cleanup
-and semi-structured text (e.g. webpage)
-<ul>
-<li>
-look at how cut, sed, grep are commonly used in my scripts and merge
-that functionality into a single tool
-</li>
-</ul>
-</li>
-<li>
-<input type="checkbox" disabled="" />csvcols, csvrows should have a
-length option to give you a number of columns or rows respectively
-</li>
-<li>
-<input type="checkbox" disabled="" />csvcols, csvrows should have a
-filter option to filter to support filting output conditionally
-</li>
-<li>
-<input type="checkbox" disabled="" />csvsort should allow a multi-column
-sort respecting column headings
-<ul>
-<li>
-plus column number would be ascending by that column
-</li>
-<li>
-minos column number would be descending by that column
-</li>
-<li>
-sort would be read from left to right
-</li>
-<li>
-it would be good to include support for column names and not just column
-numbers to describe the sort
-</li>
-</ul>
-</li>
-<li>
-<input type="checkbox" disabled="" />jsonmodify takes a JSON document, a
-dotpath and value then creates/updates the dotpath in the JSON document
-with the new value
-<ul>
-<li>
-“(delete DOTPATH)” would remove the property described by the dotpath
-</li>
-<li>
-“(update DOTPATH NEW_VALUE)” would replace the property described by the
-dotpath with a new value (value can be a string, number, or JSON)
-</li>
-<li>
-“(create” DOTPATH NEW_VALUE)” would add a new property at the described
-dotpath with a new value (value can be a string, number, or JSON)
-</li>
-<li>
-“(join DOTH_PATH SEP)” combines JSON array elements into a string
-version using separator
-</li>
-<li>
-“(concat DOTPATH1 DOTPATH2… SEP)” combines values into a concatenated
-string, it takes one or more dotpath values (must be string or number)
-and return them as a concatenated value (concat .last_name .first_name
-“,”) would return a last name comma first name string.
-</li>
-<li>
-“(split DOTH_PATH SEP)” turns a string into an array of strings using
-separator
-</li>
-</ul>
-</li>
-<li>
-<input type="checkbox" disabled="" />csvcols, csvrows should have a
-filter mechanism should provide a mechanism to filter by column or row
-<ul>
-<li>
-using a prefix notation (e.g. ‘(and (eq (join (cols (colNo “Last Name”)
-(colNo “First Name”)) “,”) “Doiel, R. S.”) (gt (cols 4) “2017-06-12”))’)
-</li>
-</ul>
-</li>
-<li>
-<input type="checkbox" disabled="" />csvfind, csvjoin should have an
-inverted match operation
-</li>
-<li>
-<input type="checkbox" disabled="" />a range should accept the word
-“all” as well as comma delimited list of rows and ranges
-</li>
-<li>
-<input type="checkbox" disabled="" />Add -uuid and -skip-header-row
-options constistantly to all csv tools
-<ul class="task-list">
-<li>
-<input type="checkbox" disabled="" />csvcols
-</li>
-</ul>
-</li>
-<li>
-<input type="checkbox" disabled="" />unify the options vocabulary to
-work the same between each cli
-<ul>
-<li>
-Need a common approach to column ranges in csvcols, csvfind, csvjoin
-</li>
-<li>
-csv2json, csv2mdtable, csv2xlsx should accept a column and row range
-option for output
-</li>
-</ul>
-</li>
-<li>
-<input type="checkbox" disabled="" />csvfind add filter by row number
-(helpful when combined with csvcols for snapshotting the middle of a
-table)
-</li>
-<li>
-<input type="checkbox" disabled="" />csv2json should have an option that
-will include a row number in JSON blob output
-</li>
-<li>
-<input type="checkbox" disabled="" />csv2json should have the options to
-normalize property names in JSON objects
-<ul>
-<li>
-camel case
-</li>
-<li>
-snake case
-</li>
-<li>
-lower case/upper case
-</li>
-<li>
-space to underscores
-</li>
-<li>
-strip punctuation
-</li>
-<li>
-rename keys
-</li>
-</ul>
-</li>
-<li>
-<input type="checkbox" disabled="" />csvrotate would take a CSV file as
-import and output columns as rows
-</li>
-<li>
-<input type="checkbox" disabled="" />smartcat would function like cat
-but with support for ranges of lines (e.g. show me last 20 lines:
+<li><input type="checkbox" disabled="" />finddir should have an option
+to exclude directories (e.g. exclude .git directories from a
+listing)</li>
+<li><input type="checkbox" disabled="" />textscraper - a tool for select
+out text and storing it as a JSON field value, sort grep plus sed
+cleanup and semi-structured text (e.g. webpage)<ul>
+<li>look at how cut, sed, grep are commonly used in my scripts and merge
+that functionality into a single tool</li>
+</ul></li>
+<li><input type="checkbox" disabled="" />csvcols, csvrows should have a
+length option to give you a number of columns or rows respectively</li>
+<li><input type="checkbox" disabled="" />csvcols, csvrows should have a
+filter option to filter to support filting output conditionally</li>
+<li><input type="checkbox" disabled="" />csvsort should allow a
+multi-column sort respecting column headings<ul>
+<li>plus column number would be ascending by that column</li>
+<li>minos column number would be descending by that column</li>
+<li>sort would be read from left to right</li>
+<li>it would be good to include support for column names and not just
+column numbers to describe the sort</li>
+</ul></li>
+<li><input type="checkbox" disabled="" />jsonmodify takes a JSON
+document, a dotpath and value then creates/updates the dotpath in the
+JSON document with the new value<ul>
+<li>“(delete DOTPATH)” would remove the property described by the
+dotpath</li>
+<li>“(update DOTPATH NEW_VALUE)” would replace the property described by
+the dotpath with a new value (value can be a string, number, or
+JSON)</li>
+<li>“(create” DOTPATH NEW_VALUE)” would add a new property at the
+described dotpath with a new value (value can be a string, number, or
+JSON)</li>
+<li>“(join DOTH_PATH SEP)” combines JSON array elements into a string
+version using separator</li>
+<li>“(concat DOTPATH1 DOTPATH2… SEP)” combines values into a
+concatenated string, it takes one or more dotpath values (must be string
+or number) and return them as a concatenated value (concat .last_name
+.first_name “,”) would return a last name comma first name string.</li>
+<li>“(split DOTH_PATH SEP)” turns a string into an array of strings
+using separator</li>
+</ul></li>
+<li><input type="checkbox" disabled="" />csvcols, csvrows should have a
+filter mechanism should provide a mechanism to filter by column or
+row<ul>
+<li>using a prefix notation (e.g. ‘(and (eq (join (cols (colNo “Last
+Name”) (colNo “First Name”)) “,”) “Doiel, R. S.”) (gt (cols 4)
+“2017-06-12”))’)</li>
+</ul></li>
+<li><input type="checkbox" disabled="" />csvfind, csvjoin should have an
+inverted match operation</li>
+<li><input type="checkbox" disabled="" />a range should accept the word
+“all” as well as comma delimited list of rows and ranges</li>
+<li><input type="checkbox" disabled="" />Add -uuid and -skip-header-row
+options constistantly to all csv tools<ul class="task-list">
+<li><input type="checkbox" disabled="" />csvcols</li>
+</ul></li>
+<li><input type="checkbox" disabled="" />unify the options vocabulary to
+work the same between each cli<ul>
+<li>Need a common approach to column ranges in csvcols, csvfind,
+csvjoin</li>
+<li>csv2json, csv2mdtable, csv2xlsx should accept a column and row range
+option for output</li>
+</ul></li>
+<li><input type="checkbox" disabled="" />csvfind add filter by row
+number (helpful when combined with csvcols for snapshotting the middle
+of a table)</li>
+<li><input type="checkbox" disabled="" />csv2json should have an option
+that will include a row number in JSON blob output</li>
+<li><input type="checkbox" disabled="" />csv2json should have the
+options to normalize property names in JSON objects<ul>
+<li>camel case</li>
+<li>snake case</li>
+<li>lower case/upper case</li>
+<li>space to underscores</li>
+<li>strip punctuation</li>
+<li>rename keys</li>
+</ul></li>
+<li><input type="checkbox" disabled="" />csvrotate would take a CSV file
+as import and output columns as rows</li>
+<li><input type="checkbox" disabled="" />smartcat would function like
+cat but with support for ranges of lines (e.g. show me last 20 lines:
 smartcat -start=0 -end=“-20” file.txt; cat starting with 10th line:
-smartcat -start=10 file.txt)
-<ul class="task-list">
-<li>
-<input type="checkbox" disabled="" />allow prefix line number with a
+smartcat -start=10 file.txt)<ul class="task-list">
+<li><input type="checkbox" disabled="" />allow prefix line number with a
 specific delimiter (E.g. comma would let you cat a CSV file adding row
-numbers as first column)
-</li>
-<li>
-<input type="checkbox" disabled="" />show lines with prefix, suffix,
-containing or regxp
-</li>
-<li>
-<input type="checkbox" disabled="" />show lines without prefix, suffix,
-containing or regexp
-</li>
+numbers as first column)</li>
+<li><input type="checkbox" disabled="" />show lines with prefix, suffix,
+containing or regxp</li>
+<li><input type="checkbox" disabled="" />show lines without prefix,
+suffix, containing or regexp</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h2 id="completed">
-Completed
-</h2>
+<h2 id="completed">Completed</h2>
 <ul class="task-list">
-<li>
-<input type="checkbox" disabled="" checked="" />consolidate string
-utilities (e.g. toupper, tolower, totitle) into string cli
-</li>
-<li>
-<input type="checkbox" disabled="" checked="" />csvcols -col option
-should not be a boolean, it should take a range like other csv cli
-</li>
-<li>
-<input type="checkbox" disabled="" checked="" />utilities should use
+<li><input type="checkbox" disabled="" checked="" />consolidate string
+utilities (e.g. toupper, tolower, totitle) into string cli</li>
+<li><input type="checkbox" disabled="" checked="" />csvcols -col option
+should not be a boolean, it should take a range like other csv cli</li>
+<li><input type="checkbox" disabled="" checked="" />utilities should use
 starting index of 1 instead of zero as humans refer to column 1 when
-intending to work on the first column
-</li>
-<li>
-<input type="checkbox" disabled="" checked="" />for all cli the
--delimiter option should support special characters like ,
-</li>
-<li>
-<input type="checkbox" disabled="" checked="" />csvfind would accept CSV
-input from stdin and output rows with matching column values
-<ul>
-<li>
-E.g. <code>cat file1.csv | csvfind -levenshtein -stop-words=“the:a:of”
--col=1 “This Red Book of West March”</code>
-</li>
-<li>
-E.g. <code>cat file1.csv | csvfind -inverted -levenstein
--stop-words=“the:a:of” -col=1 “This Red Book of West March”</code>
-</li>
-<li>
-E.g. <code>cat file1.csv | csvfind -contains -col=1 “Red Book”</code>
-</li>
-</ul>
-</li>
-<li>
-<input type="checkbox" disabled="" checked="" />csvjoin should have
-option for fuzzy match on columns (e.g. comparing titles)
-</li>
+intending to work on the first column</li>
+<li><input type="checkbox" disabled="" checked="" />for all cli the
+-delimiter option should support special characters like , </li>
+<li><input type="checkbox" disabled="" checked="" />csvfind would accept
+CSV input from stdin and output rows with matching column values<ul>
+<li>E.g.
+<code>cat file1.csv | csvfind -levenshtein -stop-words="the:a:of" -col=1 "This Red Book of West March"</code></li>
+<li>E.g.
+<code>cat file1.csv | csvfind -inverted -levenstein -stop-words="the:a:of" -col=1 "This Red Book of West March"</code></li>
+<li>E.g.
+<code>cat file1.csv | csvfind -contains -col=1 "Red Book"</code></li>
+</ul></li>
+<li><input type="checkbox" disabled="" checked="" />csvjoin should have
+option for fuzzy match on columns (e.g. comparing titles)</li>
 </ul>
 </section>
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>

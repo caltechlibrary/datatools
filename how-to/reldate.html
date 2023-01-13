@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="../">README</a></li>
+	<li><a href="../LICENSE">LICENSE</a></li>
+	<li><a href="../INSTALL.html">INSTALL</a></li>
+	<li><a href="../user-manual.html">User Manual</a></li>
+	<li><a href="./">How to</a></li>
+	<li><a href="../about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+</ul>
+</nav>
+
+<section>
+<h1 id="using-reldate">Using reldate</h1>
+<p>If today was 2014-08-03 and you wanted the date three days in the
+past try–</p>
+<pre class="shell"><code>    reldate 3 days</code></pre>
+<p>The output would be</p>
+<pre><code>    2014-08-06</code></pre>
+<h2 id="time-units">TIME UNITS</h2>
+<p>Supported time units are</p>
+<ul>
+<li>day(s)</li>
+<li>week(s)</li>
+<li>year(s)</li>
+</ul>
+<p>Specifying a date to calucate from</p>
+<p>reldate handles dates in the YYYY-MM-DD format (e.g. March 1, 2014
+would be 2014-03-01). By default reldate uses today as the date to
+calculate relative time from. If you use the –from option you can it
+will calculate the relative date from that specific date.</p>
+<pre class="shell"><code>   reldate --from=2014-08-03 3 days</code></pre>
+<p>Will yield</p>
+<pre class="shell"><code>    2014-08-06</code></pre>
+<h2 id="negative-increments">NEGATIVE INCREMENTS</h2>
+<p>Command line arguments traditionally start with a dash which we also
+use to denote a nagative number. To tell the command line process that
+to not treat negative numbers as an “option” precede your time increment
+and time unit with a double dash.</p>
+<pre class="shell"><code>    reldate --from=2014-08-03 -- -3 days</code></pre>
+<p>Will yield</p>
+<pre><code>    2014-07-31</code></pre>
+<h2 id="relative-week-days">RELATIVE WEEK DAYS</h2>
+<p>You can calculate a date from a weekday name (e.g. Saturday, Monday,
+Tuesday) knowning a day (e.g. 2015-02-10 or the current date of the
+week) occurring in a week. A common case would be wanting to figure out
+the Monday date of a week containing 2015-02-10. The week is presumed to
+start on Sunday (i.e. 0) and finish with Saturday (e.g. 6).</p>
+<pre class="shell"><code>    reldate --from=2015-02-10 Monday</code></pre>
+<p>will yield</p>
+<pre><code>    2015-02-09</code></pre>
+<p>As that is the Monday of the week containing 2015-02-10. Weekday
+names case insensitive and can be the first three letters of the English
+names or full English names (e.g. Monday, monday, Mon, mon).</p>
+<h2 id="example-files">example files</h2>
+<ul>
+<li><a href="reldate-demo.bash">reldate-demo.bash</a></li>
+</ul>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>

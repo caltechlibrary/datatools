@@ -11,340 +11,188 @@
 </header>
 <nav>
 <ul>
-<li>
-<a href="/">Home</a>
-</li>
-<li>
-<a href="index.html">README</a>
-</li>
-<li>
-<a href="license.html">LICENSE</a>
-</li>
-<li>
-<a href="install.html">INSTALL</a>
-</li>
-<li>
-<a href="docs/">Documentation</a>
-</li>
-<li>
-<a href="how-to/">How To</a>
-</li>
-<li>
-<a href="user-manual.html">User Manual</a>
-</li>
-<li>
-<a href="about.html">About</a>
-</li>
-<li>
-<a
-href="https://github.com/caltechlibrary/datatools">Github</a>
-</li>
+	<li><a href="/">Home</a></li>
+	<li><a href="./">README</a></li>
+	<li><a href="LICENSE">LICENSE</a></li>
+	<li><a href="INSTALL.html">INSTALL</a></li>
+	<li><a href="user-manual.html">User Manual</a></li>
+	<li><a href="how-to/">Tutorials</a></li>
+	<li><a href="about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
 </ul>
 </nav>
 
 <section>
-<h1 id="installation">
-Installation
-</h1>
-<p>
-<em>datatools</em> is a collection of command line programs run from a
-shell like Bash.
-</p>
-<h2 id="compiled-version">
-Compiled version
-</h2>
-<p>
-This is generalized instructions for a release.
-</p>
-<p>
-Compiled versions are available for Mac OS X (amd64 and M1 processor,
+<h1 id="installation">Installation</h1>
+<p><em>datatools</em> is a collection of command line programs run from
+a shell like Bash.</p>
+<h2 id="compiled-version">Compiled version</h2>
+<p>This is generalized instructions for a release.</p>
+<p>Compiled versions are available for Mac OS X (amd64 and M1 processor,
 macos-amd64 and macos-arm64), Linux (amd64 process, linux-amd64),
 Windows (amd64 and arm64 processor, windows-amd64 and windows-arm64) and
-Rapsberry Pi (arm7 processor, raspbian-arm7)
-</p>
-<p>
-VERSION_NUMBER is a <a href="http://semver.org/">symantic version
-number</a> (e.g. v0.1.2)
-</p>
-<p>
-For all the released version go to the project page on Github and click
-latest release
-</p>
+Rapsberry Pi (arm7 processor, raspbian-arm7)</p>
+<p>VERSION_NUMBER is a <a href="http://semver.org/">symantic version
+number</a> (e.g. v0.1.2)</p>
+<p>For all the released version go to the project page on Github and
+click latest release</p>
 <blockquote>
-<p>
-https://github.com/caltechlibrary/datatools/releases/latest
-</p>
+<p>https://github.com/caltechlibrary/datatools/releases/latest</p>
 </blockquote>
 <table>
 <thead>
 <tr class="header">
-<th>
-Platform
-</th>
-<th>
-Zip Filename
-</th>
+<th>Platform</th>
+<th>Zip Filename</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>
-Windows
-</td>
-<td>
-datatools-VERSION_NUMBER-windows-amd64.zip
-</td>
+<td>Windows</td>
+<td>datatools-VERSION_NUMBER-windows-amd64.zip</td>
 </tr>
 <tr class="even">
-<td>
-Windows
-</td>
-<td>
-datatools-VERSION_NUMBER-windows-arm64.zip
-</td>
+<td>Windows</td>
+<td>datatools-VERSION_NUMBER-windows-arm64.zip</td>
 </tr>
 <tr class="odd">
-<td>
-Mac OS X
-</td>
-<td>
-datatools-VERSION_NUMBER-macos-amd64.zip
-</td>
+<td>Mac OS X</td>
+<td>datatools-VERSION_NUMBER-macos-amd64.zip</td>
 </tr>
 <tr class="even">
-<td>
-Mac OS X
-</td>
-<td>
-datatools-VERSION_NUMBER-macos-arm64.zip
-</td>
+<td>Mac OS X</td>
+<td>datatools-VERSION_NUMBER-macos-arm64.zip</td>
 </tr>
 <tr class="odd">
-<td>
-Linux/Intel
-</td>
-<td>
-datatools-VERSION_NUMBER-linux-amd64.zip
-</td>
+<td>Linux/Intel</td>
+<td>datatools-VERSION_NUMBER-linux-amd64.zip</td>
 </tr>
 <tr class="even">
-<td>
-Raspbery Pi OS
-</td>
-<td>
-datatools-VERSION_NUMBER-raspberry_pi_os-arm7.zip
-</td>
+<td>Raspbery Pi OS</td>
+<td>datatools-VERSION_NUMBER-raspberry_pi_os-arm7.zip</td>
 </tr>
 </tbody>
 </table>
-<h2 id="the-basic-recipe">
-The basic recipe
-</h2>
+<h2 id="the-basic-recipe">The basic recipe</h2>
 <ul>
-<li>
-Find the Zip file listed matching the architecture you’re running and
-download it
+<li>Find the Zip file listed matching the architecture you’re running
+and download it
 <ul>
-<li>
-(e.g. if you’re on a Windows 10 laptop/Surface with a amd64 style CPU
-you’d choose the Zip file with “windows-amd64” in the name).
+<li>(e.g. if you’re on a Windows 10 laptop/Surface with a amd64 style
+CPU you’d choose the Zip file with “windows-amd64” in the name).</li>
+</ul></li>
+<li>Download the zip file and unzip the file.<br />
 </li>
-</ul>
-</li>
-<li>
-Download the zip file and unzip the file.<br />
-</li>
-<li>
-Copy the contents of the folder named “bin” to a folder that is in your
-path
+<li>Copy the contents of the folder named “bin” to a folder that is in
+your path
 <ul>
-<li>
-(e.g. “$HOME/bin” is common).
-</li>
-</ul>
-</li>
-<li>
-Adjust your PATH if needed
+<li>(e.g. “$HOME/bin” is common).</li>
+</ul></li>
+<li>Adjust your PATH if needed
 <ul>
-<li>
-(e.g. export PATH=“<span
-class="math inline"><em>H</em><em>O</em><em>M</em><em>E</em>/<em>b</em><em>i</em><em>n</em>:</span>PATH”)
-</li>
+<li>(e.g. export PATH=“<span
+class="math inline"><em>H</em><em>O</em><em>M</em><em>E</em>/<em>b</em><em>i</em><em>n</em>:</span>PATH”)</li>
+</ul></li>
+<li>Test</li>
 </ul>
-</li>
-<li>
-Test
-</li>
-</ul>
-<h3 id="mac-os">
-Mac OS
-</h3>
+<h3 id="mac-os">Mac OS</h3>
 <ol type="1">
-<li>
-Download the zip file
-</li>
-<li>
-Unzip the zip file
-</li>
-<li>
-Copy the executables to $HOME/bin (or a folder in your path)
-</li>
-<li>
-Make sure the new location in in our path
-</li>
-<li>
-Test
-</li>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Make sure the new location in in our path</li>
+<li>Test</li>
 </ol>
-<p>
-Here’s an example of the commands run in the Terminal App after
-downloading the zip file.
-</p>
-<h4 id="intel-amd64-hardware">
-Intel (amd64) Hardware
-</h4>
+<p>Here’s an example of the commands run in the Terminal App after
+downloading the zip file.</p>
+<h4 id="intel-amd64-hardware">Intel (amd64) Hardware</h4>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-macos-amd64.zip
     mkdir -p $HOME/bin
     mv -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
-<h4 id="arm64-arm64-hardware">
-ARM64 (arm64) Hardware
-</h4>
+<h4 id="arm64-arm64-hardware">ARM64 (arm64) Hardware</h4>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-macos-arm64.zip
     mkdir -p $HOME/bin
     mv -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
-<h3 id="windows">
-Windows
-</h3>
-<p>
-(Assumes you’re working from Bash as provided by Linux Subsystem for
-Windows)
-</p>
+<h3 id="windows">Windows</h3>
+<p>(Assumes you’re working from Bash as provided by Linux Subsystem for
+Windows)</p>
 <ol type="1">
-<li>
-Download the zip file
-</li>
-<li>
-Unzip the zip file
-</li>
-<li>
-Copy the executables to $HOME/bin (or a folder in your path)
-</li>
-<li>
-Test
-</li>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Test</li>
 </ol>
-<p>
-Here’s an example of the commands run in from the Bash shell on Windows
-10 after downloading the zip file.
-</p>
-<h4 id="intel-amd64-hardware-1">
-Intel (amd64) Hardware
-</h4>
+<p>Here’s an example of the commands run in from the Bash shell on
+Windows 10 after downloading the zip file.</p>
+<h4 id="intel-amd64-hardware-1">Intel (amd64) Hardware</h4>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-windows-amd64.zip
     mkdir -p $HOME/bin
     mv -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
-<h4 id="arm64-arm64-hardware-1">
-ARM64 (arm64) Hardware
-</h4>
+<h4 id="arm64-arm64-hardware-1">ARM64 (arm64) Hardware</h4>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-windows-arm64.zip
     mkdir -p $HOME/bin
     mv -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
-<h3 id="linux">
-Linux
-</h3>
+<h3 id="linux">Linux</h3>
 <ol type="1">
-<li>
-Download the zip file
-</li>
-<li>
-Unzip the zip file
-</li>
-<li>
-Copy the executables to $HOME/bin (or a folder in your path)
-</li>
-<li>
-Test
-</li>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Test</li>
 </ol>
-<p>
-Here’s an example of the commands run in from the Bash shell after
-downloading the zip file.
-</p>
+<p>Here’s an example of the commands run in from the Bash shell after
+downloading the zip file.</p>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-linux-amd64.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
-<h3 id="raspberry-pi">
-Raspberry Pi
-</h3>
-<p>
-Released version is for a Raspberry Pi 2 or later use (i.e. requires ARM
-7 support).
-</p>
+<h3 id="raspberry-pi">Raspberry Pi</h3>
+<p>Released version is for a Raspberry Pi 2 or later use (i.e. requires
+ARM 7 support).</p>
 <ol type="1">
-<li>
-Download the zip file
-</li>
-<li>
-Unzip the zip file
-</li>
-<li>
-Copy the executables to $HOME/bin (or a folder in your path)
-</li>
-<li>
-Test
-</li>
+<li>Download the zip file</li>
+<li>Unzip the zip file</li>
+<li>Copy the executables to $HOME/bin (or a folder in your path)</li>
+<li>Test</li>
 </ol>
-<p>
-Here’s an example of the commands run in from the Bash shell after
-downloading the zip file.
-</p>
+<p>Here’s an example of the commands run in from the Bash shell after
+downloading the zip file.</p>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-raspberry_pi_os-arm7.zip
     mkdir -p $HOME/bin
     cp -v bin/* $HOME/bin/
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
-<h2 id="compiling-from-source">
-Compiling from source
-</h2>
-<p>
-<em>datatools</em> is “go gettable” if you have previously gotten xlsx
-v1.0.5 package from <a
+<h2 id="compiling-from-source">Compiling from source</h2>
+<p><em>datatools</em> is “go gettable” if you have previously gotten
+xlsx v1.0.5 package from <a
 href="https://github.com/tealeg/xlsx">github.com/tealeg/xlsx</a>. The
 datatools package does not support versions v2.x and greater of xlsx.
 Below are the steps I use today with “go get” command to download the
-dependant packages as well as <em>datatools</em>’s source code.
-</p>
-<p>
-Setting up the right version of xlsx for datatools
-</p>
+dependant packages as well as <em>datatools</em>’s source code.</p>
+<p>Setting up the right version of xlsx for datatools</p>
 <pre class="shell"><code>    cd
     go get github.com/tealeg/xlsx
     cd src/github.com/tealeg
     git checkout v1.0.5
     cd</code></pre>
-<p>
-Using <code>go get</code> to install datatools using v1.0.5 of xlsx.
-</p>
+<p>Using <code>go get</code> to install datatools using v1.0.5 of
+xlsx.</p>
 <pre><code>    go get github.com/caltechlibrary/datatools/...</code></pre>
-<p>
-Or clone the repository and then compile
-</p>
+<p>Or clone the repository and then compile</p>
 <pre class="shell"><code>    cd
     git clone https://github.com/caltechlibrary/datatools src/github.com/caltechlibrary/datatools
     cd src/github.com/caltechlibrary/datatools
@@ -355,7 +203,7 @@ Or clone the repository and then compile
 
 <footer>
 <span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
-<span>&copy; 2021 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
 <address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
 <span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
 <span><a href="mailto:library@caltech.edu">Email Us</a></span>
