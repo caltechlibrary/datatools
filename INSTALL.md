@@ -4,6 +4,20 @@ Installation
 
 *datatools* is a collection of command line programs run from a shell like Bash. 
 
+
+Quick install using curl
+------------------------
+
+The following experimental installer should work for macOS and Linux
+(e.g. Debian, Ubuntu, Raspberry Pi OS)
+
+Copy and run the following command in your shell (e.g. Terminal)
+
+~~~
+curl https://caltechlibrary.github.io/datatools/installer.sh | sh
+~~~
+
+
 Compiled version
 ----------------
 
