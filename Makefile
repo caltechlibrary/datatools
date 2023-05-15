@@ -29,7 +29,7 @@ ifeq ($(OS), Windows)
         EXT = .exe
 endif
 
-build: version.go $(PROGRAMS) CITATION.cff about.md
+build: version.go $(PROGRAMS) CITATION.cff about.md installer.sh
 
 version.go: .FORCE
 	@echo 'package $(PROJECT)' >version.go
@@ -52,6 +52,12 @@ about.md: codemeta.json .FORCE
 CITATION.cff: codemeta.json .FORCE
 	cat codemeta.json | sed -E   's/"@context"/"at__context"/g;s/"@type"/"at__type"/g;s/"@id"/"at__id"/g' >_codemeta.json
 	if [ -f $(PANDOC) ]; then echo "" | $(PANDOC) --metadata title="Cite $(PROJECT)" --metadata-file=_codemeta.json --template=codemeta-cff.tmpl >CITATION.cff; fi
+
+installer.sh: .FORCE
+	echo '' | pandoc --metadata title="$(PACKAGE)" --metadata-file codemeta.json --template codemeta-installer.tmpl >installer.sh
+	chmod 775 installer.sh
+	git add -f installer.sh
+
 
 $(PROGRAMS): $(PACKAGE)
 	@mkdir -p bin
