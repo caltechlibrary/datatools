@@ -3,6 +3,13 @@
 #
 PROJECT = datatools
 
+GIT_GROUP = caltechlibrary
+
+RELEASE_DATE=$(shell date +'%Y-%m-%d')
+
+RELEASE_HASH=$(shell git log --pretty=format:'%h' -n 1)
+
+
 PROGRAMS = codemeta2cff csv2json csv2mdtable csv2tab csv2xlsx csvcleaner csvcols csvfind csvjoin csvrows finddir findfile json2toml json2yaml jsoncols jsonjoin jsonmunge jsonrange mergepath range reldate reltime sql2csv string tab2csv timefmt toml2json urlparse xlsx2csv xlsx2json yaml2json
 
 MAN_PAGES = codemeta2cff.1 csv2json.1 csv2mdtable.1 csv2tab.1 csv2xlsx.1 csvcleaner.1 csvcols.1 csvfind.1 csvjoin.1 csvrows.1 finddir.1 findfile.1 json2toml.1 json2yaml.1 jsoncols.1 jsonjoin.1 jsonmunge.1 jsonrange.1 mergepath.1 range.1 reldate.1 reltime.1 sql2csv.1 string.1 tab2csv.1 timefmt.1 toml2json.1 urlparse.1 xlsx2csv.1 xlsx2json.1 yaml2json.1
@@ -54,10 +61,9 @@ CITATION.cff: codemeta.json .FORCE
 	if [ -f $(PANDOC) ]; then echo "" | $(PANDOC) --metadata title="Cite $(PROJECT)" --metadata-file=_codemeta.json --template=codemeta-cff.tmpl >CITATION.cff; fi
 
 installer.sh: .FORCE
-	echo '' | pandoc --metadata title="$(PACKAGE)" --metadata-file codemeta.json --template codemeta-installer.tmpl >installer.sh
-	chmod 775 installer.sh
-	git add -f installer.sh
-
+	@echo '' | pandoc --metadata title="Installer" --metadata git_org_or_person="$(GIT_GROUP)" --metadata-file codemeta.json --template codemeta-installer.tmpl >installer.sh
+	@chmod 775 installer.sh
+	@git add -f installer.sh
 
 $(PROGRAMS): $(PACKAGE)
 	@mkdir -p bin
@@ -119,44 +125,57 @@ uninstall: .FORCE
 
 
 
-dist/linux-amd64: $(PROGRAMS)
+dist/Linux-x86_64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env  GOOS=linux GOARCH=amd64 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-linux-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 
-dist/macos-amd64: $(PROGRAMS)
+dist/macOS-x86_64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=amd64 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macos-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macOS-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 
-dist/macos-arm64: $(PROGRAMS)
+dist/macOS-arm64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=arm64 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macos-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-macOS-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 
-dist/windows-amd64: $(PROGRAMS)
+dist/Windows-x86_64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=windows GOARCH=amd64 go build -o dist/bin/$$FNAME.exe cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-windows-amd64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-x86_64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
-dist/windows-arm64: $(PROGRAMS)
+dist/Windows-arm64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=windows GOARCH=arm64 go build -o dist/bin/$$FNAME.exe cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
-
-dist/raspbian-arm7: $(PROGRAMS)
+# Raspberry Pi OS (32bit) as reported on Raspberry Pi 3B+
+dist/Linux-armv7l: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-raspberry_pi_os-arm7.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-RaspberryPiOS-arm7.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
+	@rm -fR dist/bin
+
+# Raspberry Pi running Ubuntu 64-bit, as reported on Raspberry Pi 4B
+dist/Linux-aarch64: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-aarch64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
+	@rm -fR dist/bin
+
+dist/RaspberryPiOS-arm7: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-RaspberryPiOS-arm7.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 #dist/datatools_$(VERSION)_amd64.snap:
@@ -199,7 +218,7 @@ gen_batfiles: .FORCE
 
 snap: dist/datatools_$(VERSION)_amd64.snap
 
-release: clean build man gen_batfiles distribute_docs dist/linux-amd64 dist/macos-amd64 dist/macos-arm64 dist/windows-amd64 dist/windows-arm64 dist/raspbian-arm7
+release: .FORCE installer.sh clean build man gen_batfiles distribute_docs dist/Linux-x86_64 dist/macOS-x86_64 dist/macOS-arm64 dist/Windows-x86_64 dist/Windows-arm64 dist/RaspberryPiOS-arm7 dist/Linux-armv7l dist/Linux-aarch64
 
 
 .FORCE:
