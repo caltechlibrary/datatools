@@ -28,97 +28,70 @@
 <h1 id="synopsis">SYNOPSIS</h1>
 <p>csvcleaner <a href="#options">OPTIONS</a></p>
 <h1 id="description">DESCRIPTION</h1>
-<p>csvcleaner normalizes a CSV file based on the options selected. It
-helps to address issues like variable number of columns,
-leading/trailing spaces in columns, and non-UTF-8 encoding issues.</p>
-<p>By default input is expected from standard in and output is sent to
-standard out (errors to standard error). These can be modified by
-appropriate options. The csv file is processed as a stream of rows so
-minimal memory is used to operate on the file.</p>
+<p>csvcleaner normalizes a CSV file based on the options selected. It helps to address issues like variable number of columns, leading/trailing spaces in columns, and non-UTF-8 encoding issues.</p>
+<p>By default input is expected from standard in and output is sent to standard out (errors to standard error). These can be modified by appropriate options. The csv file is processed as a stream of rows so minimal memory is used to operate on the file.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>
-display help
+<dd>display help
 </dd>
 <dt>-license</dt>
-<dd>
-display license
+<dd>display license
 </dd>
 <dt>-version</dt>
-<dd>
-display version
+<dd>display version
 </dd>
 <dt>-verbose</dt>
-<dd>
-write verbose output to standard error
+<dd>write verbose output to standard error
 </dd>
 <dt>-comma</dt>
-<dd>
-if set use this character in place of a comma for delimiting cells
+<dd>if set use this character in place of a comma for delimiting cells
 </dd>
 <dt>-comment-char</dt>
-<dd>
-if set, rows starting with this character will be ignored as comments
+<dd>if set, rows starting with this character will be ignored as comments
 </dd>
 <dt>-fields-per-row</dt>
-<dd>
-set the number of columns to output right padding empty cells as needed
+<dd>set the number of columns to output right padding empty cells as needed
 </dd>
 <dt>-i, -input</dt>
-<dd>
-input filename
+<dd>input filename
 </dd>
 <dt>-left-trim</dt>
-<dd>
-left trim spaces on CSV out
+<dd>left trim spaces on CSV out
 </dd>
 <dt>-o, -output</dt>
-<dd>
-output filename
+<dd>output filename
 </dd>
 <dt>-output-comma</dt>
-<dd>
-if set use this character in place of a comma for delimiting output
-cells
+<dd>if set use this character in place of a comma for delimiting output cells
 </dd>
 <dt>-quiet</dt>
-<dd>
-suppress error messages
+<dd>suppress error messages
 </dd>
 <dt>-reuse</dt>
-<dd>
-if false then a new array is allocated for each row processed, if true
-the array gets reused
+<dd>if false then a new array is allocated for each row processed, if true the array gets reused
 </dd>
 <dt>-right-trim</dt>
-<dd>
-right trim spaces on CSV out
+<dd>right trim spaces on CSV out
 </dd>
 <dt>-stop-on-error</dt>
-<dd>
-exit on error, useful if you’re trying to debug a problematic CSV file
+<dd>exit on error, useful if you’re trying to debug a problematic CSV file
 </dd>
 <dt>-trim, -trim-spaces</dt>
-<dd>
-trim spaces on CSV out
+<dd>trim spaces on CSV out
 </dd>
 <dt>-trim-leading-space</dt>
-<dd>
-trim leading space from field(s) for CSV input
+<dd>trim leading space from field(s) for CSV input
 </dd>
 <dt>-use-crlf</dt>
-<dd>
-if set use a charage return and line feed in output
+<dd>if set use a charage return and line feed in output
 </dd>
 <dt>-use-lazy-quotes</dt>
-<dd>
-use lazy quotes for CSV input
+<dd>use lazy quotes for CSV input
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>Normalizing a spread sheet’s column count to 5 padding columns as
-needed per row.</p>
+<p>Normalizing a spread sheet’s column count to 5 padding columns as needed per row.</p>
 <pre><code>    cat mysheet.csv | csvcleaner -field-per-row=5</code></pre>
 <p>Trim leading spaces from output.</p>
 <pre><code>    cat mysheet.csv | csvcleaner -left-trim</code></pre>

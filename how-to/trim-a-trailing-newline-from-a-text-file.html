@@ -23,25 +23,19 @@
 </nav>
 
 <section>
-<h1 id="how-to-trim-a-trailing-newline-from-a-text-file.">How to trim a
-trailing newline from a text file.</h1>
-<p>Given the following text in a file name <em>t.txt</em> where the last
-line contains a trailing newline.</p>
+<h1 id="how-to-trim-a-trailing-newline-from-a-text-file.">How to trim a trailing newline from a text file.</h1>
+<p>Given the following text in a file name <em>t.txt</em> where the last line contains a trailing newline.</p>
 <pre><code>    one
     two
     three</code></pre>
-<p>Running <em>split</em> to create an JSON array yields an extra empty
-string.</p>
+<p>Running <em>split</em> to create an JSON array yields an extra empty string.</p>
 <pre class="shell"><code>    string -i t.txt split &#39;\n&#39;</code></pre>
 <p>Yields</p>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    <span class="ot">[</span><span class="st">&quot;one&quot;</span><span class="ot">,</span><span class="st">&quot;two&quot;</span><span class="ot">,</span><span class="st">&quot;three&quot;</span><span class="ot">,</span><span class="st">&quot;&quot;</span><span class="ot">]</span></span></code></pre></div>
-<p>To avoid the trailing empty string in the array you can
-<em>trimspace</em> first then do your <em>split</em> on newlines.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>    <span class="ot">[</span><span class="st">&quot;one&quot;</span><span class="ot">,</span><span class="st">&quot;two&quot;</span><span class="ot">,</span><span class="st">&quot;three&quot;</span><span class="ot">,</span><span class="st">&quot;&quot;</span><span class="ot">]</span></span></code></pre></div>
+<p>To avoid the trailing empty string in the array you can <em>trimspace</em> first then do your <em>split</em> on newlines.</p>
 <pre class="shell"><code>    string -i t.txt trimspace | split -i - &#39;\n&#39;</code></pre>
 <p>Yields</p>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode json"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>    <span class="ot">[</span><span class="st">&quot;one&quot;</span><span class="ot">,</span><span class="st">&quot;two&quot;</span><span class="ot">,</span><span class="st">&quot;three&quot;</span><span class="ot">]</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>    <span class="ot">[</span><span class="st">&quot;one&quot;</span><span class="ot">,</span><span class="st">&quot;two&quot;</span><span class="ot">,</span><span class="st">&quot;three&quot;</span><span class="ot">]</span></span></code></pre></div>
 </section>
 
 <footer>

@@ -26,69 +26,53 @@
 <h1 id="name">NAME</h1>
 <p>findfile</p>
 <h1 id="synopsis">SYNOPSIS</h1>
-<p>findfile <a href="#options">OPTIONS</a> [TARGET]
-[DIRECTORIES_TO_SEARCH]</p>
+<p>findfile <a href="#options">OPTIONS</a> [TARGET] [DIRECTORIES_TO_SEARCH]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>findfile finds files based on matching prefix, suffix or contained
-text in base filename.</p>
+<p>findfile finds files based on matching prefix, suffix or contained text in base filename.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>
-display this help message
+<dd>display this help message
 </dd>
 <dt>-license</dt>
-<dd>
-display license information
+<dd>display license information
 </dd>
 <dt>-version</dt>
-<dd>
-display version message
+<dd>display version message
 </dd>
 <dt>-c, -contains</dt>
-<dd>
-find file(s) based on basename containing text
+<dd>find file(s) based on basename containing text
 </dd>
 <dt>-d, -depth</dt>
-<dd>
-Limit depth of directories walked
+<dd>Limit depth of directories walked
 </dd>
 <dt>-error, -stop-on-error</dt>
-<dd>
-Stop walk on file system errors (e.g. permissions)
+<dd>Stop walk on file system errors (e.g. permissions)
 </dd>
 <dt>-f, -full-path</dt>
-<dd>
-list full path for files found
+<dd>list full path for files found
 </dd>
 <dt>-m, -mod-time</dt>
-<dd>
-display file modification time before the path
+<dd>display file modification time before the path
 </dd>
 <dt>-nl, -newline</dt>
-<dd>
-if true add a trailing newline
+<dd>if true add a trailing newline
 </dd>
 <dt>-o, -output</dt>
-<dd>
-output filename
+<dd>output filename
 </dd>
 <dt>-p, -prefix</dt>
-<dd>
-find file(s) based on basename prefix
+<dd>find file(s) based on basename prefix
 </dd>
 <dt>-quiet</dt>
-<dd>
-suppress error messages
+<dd>suppress error messages
 </dd>
 <dt>-s, -suffix</dt>
-<dd>
-find file(s) based on basename suffix
+<dd>find file(s) based on basename suffix
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>Search the current directory and subdirectories for Markdown files
-with extension of “.md”.</p>
+<p>Search the current directory and subdirectories for Markdown files with extension of “.md”.</p>
 <pre><code>    findfile -s .md</code></pre>
 <p>findfile 1.2.2</p>
 </section>
