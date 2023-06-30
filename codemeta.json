@@ -4,19 +4,20 @@
     "license": "https://data.caltech.edu/license",
     "codeRepository": "https://github.com/caltechlibrary/datatools",
     "dateCreated": "2017-02-06",
-    "dateModified": "2023-01-05",
-    "datePublished": "2022-01-05",
+    "dateModified": "2023-06-30",
+    "datePublished": "2022-06-30",
     "downloadUrl": "https://github.com/caltechlibrary/datatools/releases/",
     "issueTracker": "https://github.com/caltechlibrary/datatools/issues",
     "name": "datatools",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "A set of command line tools for working with CSV, Excel Workbooks, JSON and structured text documents.",
     "applicationCategory": "computer programming",
     "developmentStatus": "active",
-    "funder": [{
+    "funder": {
+        "@id": "https://ror.org/5dxps055",
         "@type": "Organization",
         "name": "Caltech Library"
-    }],
+    },
     "keywords": [
         "csv",
 		"excel",
@@ -27,7 +28,7 @@
         "bash"
     ],
     "programmingLanguage": [
-        "Go 1.19.4"
+        "Go 1.20"
     ],
     "operatingSystem": [
         "Linux",
@@ -35,7 +36,7 @@
         "macOS"
     ],
     "softwareRequirements": [
-        "Golang 1.19 or better",
+        "Golang 1.20 or better",
         "Pandoc 2.19 or better"
     ],
     "author": [

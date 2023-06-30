@@ -42,7 +42,8 @@ type Codemeta struct {
 	DownloadURL       string                  `json:"downloadUrl"`
 	Keywords          []string                `json:"keywords"`
 	//Maintainer        string                  `json:"maintainer,omitempty"`
-	Funder            []*PersonOrOrganization `json:"funder,omitempty"`
+	//Funder            []*PersonOrOrganization `json:"funder,omitempty"`
+	Funder            *PersonOrOrganization `json:"funder,omitempty"`
 	CopyrightHolder   []*PersonOrOrganization `json:"copyrightHolder,omitempty"`
 	CopyrightYear     string                  `json:"copyrightYear,omitempty"`
 	Created           string                  `json:"dateCreated,omitempty"`

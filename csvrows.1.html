@@ -28,63 +28,47 @@
 <h1 id="synopsis">SYNOPSIS</h1>
 <p>csvrows <a href="#options">OPTIONS</a> [ARGS_AS_ROW_VALUES]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>csvrows converts a set of command line args into rows of CSV formated
-output. It can also be used to filter or list specific rows of CSV input
-The first row is 1 not 0. Often row 1 is the header row and csvrows
-makes it easy to output only the data rows.</p>
+<p>csvrows converts a set of command line args into rows of CSV formated output. It can also be used to filter or list specific rows of CSV input The first row is 1 not 0. Often row 1 is the header row and csvrows makes it easy to output only the data rows.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>
-display help
+<dd>display help
 </dd>
 <dt>-license</dt>
-<dd>
-display license
+<dd>display license
 </dd>
 <dt>-version</dt>
-<dd>
-display version
+<dd>display version
 </dd>
 <dt>-d, -delimiter</dt>
-<dd>
-set delimiter character
+<dd>set delimiter character
 </dd>
 <dt>-header</dt>
-<dd>
-display the header row (alias for ‘-rows 1’)
+<dd>display the header row (alias for ‘-rows 1’)
 </dd>
 <dt>-i, -input</dt>
-<dd>
-input filename
+<dd>input filename
 </dd>
 <dt>-o, -output</dt>
-<dd>
-output filename
+<dd>output filename
 </dd>
 <dt>-quiet</dt>
-<dd>
-suppress error messages
+<dd>suppress error messages
 </dd>
 <dt>-random</dt>
-<dd>
-return N randomly selected rows
+<dd>return N randomly selected rows
 </dd>
 <dt>-row, -rows</dt>
-<dd>
-output specified rows in order (e.g. -row 1,5,2-4))
+<dd>output specified rows in order (e.g. -row 1,5,2-4))
 </dd>
 <dt>-skip-header-row</dt>
-<dd>
-skip the header row (alias for -row 2-
+<dd>skip the header row (alias for -row 2-
 </dd>
 <dt>-trim-leading-space</dt>
-<dd>
-trim leading space in field(s) for CSV input
+<dd>trim leading space in field(s) for CSV input
 </dd>
 <dt>-use-lazy-quotes</dt>
-<dd>
-use lazy quotes for CSV input
+<dd>use lazy quotes for CSV input
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
@@ -98,11 +82,9 @@ use lazy quotes for CSV input
     cat 4rows.csv</code></pre>
 <p>Filter a 10 row CSV file for rows 1,4,6 (top most row is one)</p>
 <pre><code>    cat 10row.csv | csvrows -row 1,4,6 &gt; 3rows.csv</code></pre>
-<p>Filter a 10 row CSV file for rows 1,4,6 from file named
-“10row.csv”</p>
+<p>Filter a 10 row CSV file for rows 1,4,6 from file named “10row.csv”</p>
 <pre><code>    csvrows -i 10row.csv -row 1,4,6 &gt; 3rows.csv</code></pre>
-<p>Filter 3 randomly selected rows from 10row.csv rendering new CSV with
-a header row from 10row.csv.</p>
+<p>Filter 3 randomly selected rows from 10row.csv rendering new CSV with a header row from 10row.csv.</p>
 <pre><code>    csvrows -i 10row.csv -header=true -random=3</code></pre>
 <p>csvrows 1.2.2</p>
 </section>

@@ -26,23 +26,16 @@
 <h1 id="name">NAME</h1>
 <p>jsoncols</p>
 <h1 id="synopsis">SYNOPSIS</h1>
-<p>jsoncols <a href="#options">OPTIONS</a> [EXPRESSION] [INPUT_FILENAME]
-[OUTPUT_FILENAME]</p>
+<p>jsoncols <a href="#options">OPTIONS</a> [EXPRESSION] [INPUT_FILENAME] [OUTPUT_FILENAME]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>jsoncols provides scripting flexibility for data extraction from JSON
-data returning the results in columns. This is helpful in flattening
-content extracted from JSON blobs. The default delimiter for each value
-extracted is a comma. This can be overridden with an option.</p>
+<p>jsoncols provides scripting flexibility for data extraction from JSON data returning the results in columns. This is helpful in flattening content extracted from JSON blobs. The default delimiter for each value extracted is a comma. This can be overridden with an option.</p>
 <ul>
-<li>EXPRESSION can be an empty string or dot notation for an object’s
-path</li>
-<li>INPUT_FILENAME is the filename to read or a dash “-” if you want to
-explicitly read from stdin
+<li>EXPRESSION can be an empty string or dot notation for an object’s path</li>
+<li>INPUT_FILENAME is the filename to read or a dash “-” if you want to explicitly read from stdin
 <ul>
 <li>if not provided then jsoncols reads from stdin</li>
 </ul></li>
-<li>OUTPUT_FILENAME is the filename to write or a dash “-” if you want
-to explicitly write to stdout
+<li>OUTPUT_FILENAME is the filename to write or a dash “-” if you want to explicitly write to stdout
 <ul>
 <li>if not provided then jsoncols write to stdout</li>
 </ul></li>
@@ -50,52 +43,40 @@ to explicitly write to stdout
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>
-display help
+<dd>display help
 </dd>
 <dt>-license</dt>
-<dd>
-display license
+<dd>display license
 </dd>
 <dt>-version</dt>
-<dd>
-display version
+<dd>display version
 </dd>
 <dt>-csv</dt>
-<dd>
-output as CSV or other flat delimiter row
+<dd>output as CSV or other flat delimiter row
 </dd>
 <dt>-d, -delimiter</dt>
-<dd>
-set the delimiter for multi-field csv output
+<dd>set the delimiter for multi-field csv output
 </dd>
 <dt>-i, -input</dt>
-<dd>
-input filename
+<dd>input filename
 </dd>
 <dt>-nl, -newline</dt>
-<dd>
-if true add a trailing newline
+<dd>if true add a trailing newline
 </dd>
 <dt>-o, -output</dt>
-<dd>
-output filename
+<dd>output filename
 </dd>
 <dt>-p, -pretty</dt>
-<dd>
-pretty print JSON output
+<dd>pretty print JSON output
 </dd>
 <dt>-quiet</dt>
-<dd>
-suppress error messages
+<dd>suppress error messages
 </dd>
 <dt>-quote</dt>
-<dd>
-quote strings and JSON notation
+<dd>quote strings and JSON notation
 </dd>
 <dt>-r, -repl</dt>
-<dd>
-run interactively
+<dd>run interactively
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
@@ -105,9 +86,7 @@ run interactively
 <pre><code>    jsoncols -i myblob.json .name</code></pre>
 <p>This would yield</p>
 <pre><code>    &quot;Doe, Jane&quot;</code></pre>
-<p>Flipping .name and .age into pipe delimited columns is as easy as
-listing each field in the expression inside a space delimited
-string.</p>
+<p>Flipping .name and .age into pipe delimited columns is as easy as listing each field in the expression inside a space delimited string.</p>
 <pre><code>    jsoncols -i myblob.json -d\|  .name .age</code></pre>
 <p>This would yield</p>
 <pre><code>    Doe, Jane|42</code></pre>

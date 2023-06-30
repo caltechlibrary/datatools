@@ -26,13 +26,11 @@
 <h1 id="using-xlsx2csv">Using xlsx2csv</h1>
 <p>Extract a workbook sheet as a CSV file</p>
 <pre class="shell"><code>    xlsx2csv my-workbook.xlsx &quot;Sheet 1&quot; &gt; sheet1.csv</code></pre>
-<p>This would get the first sheet from the workbook and save it as a CSV
-file.</p>
+<p>This would get the first sheet from the workbook and save it as a CSV file.</p>
 <pre class="shell"><code>    xlsx2csv -count my-workbook.xlsx</code></pre>
 <p>This will output the number of sheets in the Workbook.</p>
 <pre class="shell"><code>    xlsx2csv -sheets my-workbook.xlsx</code></pre>
-<p>This will display a list of sheet names, one per line. Putting it all
-together in a shell script.</p>
+<p>This will display a list of sheet names, one per line. Putting it all together in a shell script.</p>
 <pre class="shell"><code>    for SHEET_NAME in $(xlsx2csv -n my-workbook.xlsx); do
        xlsx2csv my-workbook.xlsx &quot;$SHEET_NAME&quot; &gt; \
            &quot;${SHEET_NAME// /-}.csv&quot;
