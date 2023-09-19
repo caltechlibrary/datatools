@@ -1,7 +1,7 @@
 #
 # Makefile for running pandoc on all Markdown docs ending in .md
 #
-PROJECT = irdmtools
+PROJECT = datatools
 
 PANDOC = $(shell which pandoc)
 
