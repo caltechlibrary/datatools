@@ -1,55 +1,39 @@
----
-cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
-type: software
-title: "datatools"
-abstract: "A set of command line tools for working with CSV, Excel
-Workbooks, JSON and structured text documents."
-authors:
-  - family-names: Doiel
-    given-names: R. S.
-    orcid: "https://orcid.org/0000-0003-0900-6903"
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="./">README</a></li>
+	<li><a href="LICENSE">LICENSE</a></li>
+	<li><a href="INSTALL.html">INSTALL</a></li>
+	<li><a href="user-manual.html">User Manual</a></li>
+	<li><a href="how-to/">Tutorials</a></li>
+    <li><a href="search.html">Search Docs</a></li>
+	<li><a href="about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+</ul>
+</nav>
 
-repository-code: "https://github.com/caltechlibrary/datatools"
-version: 1.2.4
-license-url: "https://data.caltech.edu/license"
-keywords: [ "csv", "excel", "sql", "json", "xlsx", "golang", "bash" ]
+<section>
 
----
+</section>
 
-About this software
-===================
-
-## datatools 1.2.4
-
-### Authors
-
-- R. S. Doiel
-
-
-### Maintainers
-
-- R. S. Doiel
-
-A set of command line tools for working with CSV, Excel Workbooks, JSON
-and structured text documents.
-
-- License: https://data.caltech.edu/license
-- GitHub: https://github.com/caltechlibrary/datatools
-- Issues: https://github.com/caltechlibrary/datatools/issues
-
-
-### Programming languages
-
-- Go 1.20
-
-### Operating Systems
-
-- Linux
-- Windows
-- macOS
-
-### Software Requiremets
-
-- Golang 1.20 or better
-- Pandoc 2.19 or better
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>
