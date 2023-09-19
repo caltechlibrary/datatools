@@ -5,6 +5,8 @@ Action Items
 Bug
 ---
 
+- [ ] HTML entities are getting translated to Unicode code points, this is a result of using the default Marshal() in json package. Solution is to replace with custom encoder/coders with sane (an configurable) defaults, see updates to crossrefapi for example code.
+- [ ] One of the tools does a JSON decode/encode to do indentation, this isn't necessary, just using json.Ident instead (or json.Compact to go the otherway)
 - [ ] Some man pages use the old "USAGE" format, needs to be updated to use Pandoc structure
 - [ ] Need to finish depreciating the cli package in favor of the standard flag package
 + [ ] findfile v0.0.23-pre option -f, -full-path doesn't return full paths

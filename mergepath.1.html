@@ -28,42 +28,56 @@
 <h1 id="synopsis">SYNOPSIS</h1>
 <p>mergepath <a href="#options">OPTIONS</a> NEW_PATH_PARTS</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>mergepath can merge the new path parts with the existing path with creating duplications. It can also re-order existing path elements by prefixing or appending to the existing path and removing the resulting duplicate.</p>
+<p>mergepath can merge the new path parts with the existing path with
+creating duplications. It can also re-order existing path elements by
+prefixing or appending to the existing path and removing the resulting
+duplicate.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>display help
+<dd>
+display help
 </dd>
 <dt>-license</dt>
-<dd>display license
+<dd>
+display license
 </dd>
 <dt>-version</dt>
-<dd>display version
+<dd>
+display version
 </dd>
 <dt>-a, -append</dt>
-<dd>Append the directory to the path removing any duplication
+<dd>
+Append the directory to the path removing any duplication
 </dd>
 <dt>-c, -clip</dt>
-<dd>Remove a directory from the path
+<dd>
+Remove a directory from the path
 </dd>
 <dt>-d, -directory</dt>
-<dd>The directory you want to add to the path.
+<dd>
+The directory you want to add to the path.
 </dd>
 <dt>-e, -envpath</dt>
-<dd>The path you want to merge with.
+<dd>
+The path you want to merge with.
 </dd>
 <dt>-nl, -newline</dt>
-<dd>if true add a trailing newline
+<dd>
+if true add a trailing newline
 </dd>
 <dt>-p, -prepend</dt>
-<dd>Prepend the directory to the path removing any duplication
+<dd>
+Prepend the directory to the path removing any duplication
 </dd>
 <dt>-quiet</dt>
-<dd>suppress error messages
+<dd>
+suppress error messages
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>This would put your home bin directory at the beginning of your path.</p>
+<p>This would put your home bin directory at the beginning of your
+path.</p>
 <pre><code>    export PATH=$(mergepath -p $HOME/bin)</code></pre>
 <p>mergepath 1.2.2</p>
 </section>

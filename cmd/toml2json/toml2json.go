@@ -20,7 +20,6 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -126,9 +125,9 @@ func toml2JSON(in io.Reader, out io.Writer, printPrint bool) error {
 		return err
 	}
 	if prettyPrint == true {
-		src, err = json.MarshalIndent(m, "", "    ")
+		src, err = datatools.JSONMarshalIndent(m, "", "    ")
 	} else {
-		src, err = json.Marshal(m)
+		src, err = datatools.JSONMarshal(m)
 	}
 	fmt.Fprintf(out, "%s", src)
 	return nil

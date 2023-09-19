@@ -139,7 +139,7 @@ func yaml2JSON(in io.Reader, out io.Writer, printPrint bool) error {
 		if err != nil {
 			return err
 		}
-		src, err = json.MarshalIndent(m, "", "    ")
+		src, err = datatools.JSONMarshalIndent(m, "", "    ")
 		if err != nil {
 			return err
 		}

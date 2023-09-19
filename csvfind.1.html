@@ -28,88 +28,116 @@
 <h1 id="synopsis">SYNOPSIS</h1>
 <p>csvfind <a href="#options">OPTIONS</a> TEXT_TO_MATCH</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>csvfind processes a CSV file as input returning rows that contain the column with matched text. Columns are counted from one instead of zero. Supports exact match as well as some Levenshtein matching.</p>
+<p>csvfind processes a CSV file as input returning rows that contain the
+column with matched text. Columns are counted from one instead of zero.
+Supports exact match as well as some Levenshtein matching.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>display help
+<dd>
+display help
 </dd>
 <dt>-license</dt>
-<dd>display license
+<dd>
+display license
 </dd>
 <dt>-version</dt>
-<dd>display version
+<dd>
+display version
 </dd>
 <dt>-allow-duplicates</dt>
-<dd>allow duplicates when searching for matches
+<dd>
+allow duplicates when searching for matches
 </dd>
 <dt>-append-edit-distance</dt>
-<dd>append column with edit distance found (useful for tuning levenshtein)
+<dd>
+append column with edit distance found (useful for tuning levenshtein)
 </dd>
 <dt>-case-sensitive</dt>
-<dd>perform a case sensitive match (default is false)
+<dd>
+perform a case sensitive match (default is false)
 </dd>
 <dt>-col, -cols</dt>
-<dd>column to search for match in the CSV file
+<dd>
+column to search for match in the CSV file
 </dd>
 <dt>-contains</dt>
-<dd>use contains phrase for matching
+<dd>
+use contains phrase for matching
 </dd>
 <dt>-d, -delimiter</dt>
-<dd>set delimiter character
+<dd>
+set delimiter character
 </dd>
 <dt>-delete-cost</dt>
-<dd>set the delete cost to use for levenshtein matching
+<dd>
+set the delete cost to use for levenshtein matching
 </dd>
 <dt>-i, -input</dt>
-<dd>input filename
+<dd>
+input filename
 </dd>
 <dt>-insert-cost</dt>
-<dd>set the insert cost to use for levenshtein matching
+<dd>
+set the insert cost to use for levenshtein matching
 </dd>
 <dt>-levenshtein</dt>
-<dd>use levenshtein matching
+<dd>
+use levenshtein matching
 </dd>
 <dt>-max-edit-distance</dt>
-<dd>set the edit distance thresh hold for match, default 0
+<dd>
+set the edit distance thresh hold for match, default 0
 </dd>
 <dt>-nl, -newline</dt>
-<dd>include trailing newline from output
+<dd>
+include trailing newline from output
 </dd>
 <dt>-o, -output</dt>
-<dd>output filename
+<dd>
+output filename
 </dd>
 <dt>-quiet</dt>
-<dd>suppress error messages
+<dd>
+suppress error messages
 </dd>
 <dt>-skip-header-row</dt>
-<dd>skip the header row
+<dd>
+skip the header row
 </dd>
 <dt>-stop-words</dt>
-<dd>use the colon delimited list of stop words
+<dd>
+use the colon delimited list of stop words
 </dd>
 <dt>-substitute-cost</dt>
-<dd>set the substitution cost to use for levenshtein matching
+<dd>
+set the substitution cost to use for levenshtein matching
 </dd>
 <dt>-trim-leading-space</dt>
-<dd>trim leadings space in field(s) for CSV input
+<dd>
+trim leadings space in field(s) for CSV input
 </dd>
 <dt>-trimspace, -trimspaces</dt>
-<dd>trim spaces around cell values before comparing
+<dd>
+trim spaces around cell values before comparing
 </dd>
 <dt>-use-lazy-quotes</dt>
-<dd>use lazy quotes on CSV input
+<dd>
+use lazy quotes on CSV input
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>Find the rows where the third column matches “The Red Book of Westmarch” exactly</p>
+<p>Find the rows where the third column matches “The Red Book of
+Westmarch” exactly</p>
 <pre><code>    csvfind -i books.csv -col=2 &quot;The Red Book of Westmarch&quot;</code></pre>
-<p>Find the rows where the third column (colums numbered 1,2,3) matches approximately “The Red Book of Westmarch”</p>
+<p>Find the rows where the third column (colums numbered 1,2,3) matches
+approximately “The Red Book of Westmarch”</p>
 <pre><code>    csvfind -i books.csv -col=2 -levenshtein \
        -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
        -max-edit-distance=50 -append-edit-distance \
        &quot;The Red Book of Westmarch&quot;</code></pre>
-<p>In this example we’ve appended the edit distance to see how close the matches are.</p>
+<p>In this example we’ve appended the edit distance to see how close the
+matches are.</p>
 <p>You can also search for phrases in columns.</p>
 <pre><code>    csvfind -i books.csv -col=2 -contains &quot;Red Book&quot;</code></pre>
 <p>csvfind 1.2.2</p>

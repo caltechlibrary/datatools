@@ -331,7 +331,7 @@ func fnSplit(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 	for _, arg := range args {
 		parts := strings.Split(arg, delimiter)
 		// Now assemble our JSON array and display it
-		src, err := json.Marshal(parts)
+		src, err := datatools.JSONMarshal(parts)
 		exitOnError(eout, err, quiet)
 		fmt.Fprintf(out, "%s%s", src, eol)
 	}
@@ -362,7 +362,7 @@ func fnSplitN(in io.Reader, out io.Writer, eout io.Writer, args []string) int {
 		parts := strings.SplitN(arg, delimiter, cnt)
 
 		// Now assemble our JSON array and display it
-		src, err := json.Marshal(parts)
+		src, err := datatools.JSONMarshal(parts)
 		exitOnError(eout, err, quiet)
 		fmt.Fprintf(out, "%s%s", src, eol)
 	}

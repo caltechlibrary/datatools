@@ -26,7 +26,8 @@
 <h1 id="using-csvcleaner">Using csvcleaner</h1>
 <p>Normalizing the a spread sheet’s column count to 2 per row.</p>
 <pre class="shell"><code>    cat mysheet.csv | csvcleaner -field-per-row=2 &gt; 2cols.csv</code></pre>
-<p>Normalizing a spread sheet’s column count to 3 (add a padding column as needed per row).</p>
+<p>Normalizing a spread sheet’s column count to 3 (add a padding column
+as needed per row).</p>
 <pre class="shell"><code>    cat mysheet.csv | csvcleaner -field-per-row=3 &gt; 3cols.csv</code></pre>
 <p>Trim leading spaces.</p>
 <pre class="shell"><code>    cat mysheet.csv | csvcleaner -left-trim-spaces &gt; ltrim.csv</code></pre>

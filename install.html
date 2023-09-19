@@ -24,16 +24,23 @@
 
 <section>
 <h1 id="installation">Installation</h1>
-<p><em>datatools</em> is a collection of command line programs run from a shell like Bash.</p>
+<p><em>datatools</em> is a collection of command line programs run from
+a shell like Bash.</p>
 <h2 id="quick-install-using-curl">Quick install using curl</h2>
-<p>The following experimental installer should work for macOS and Linux (e.g. Debian, Ubuntu, Raspberry Pi OS)</p>
+<p>The following experimental installer should work for macOS and Linux
+(e.g. Debian, Ubuntu, Raspberry Pi OS)</p>
 <p>Copy and run the following command in your shell (e.g. Terminal)</p>
 <pre><code>curl https://caltechlibrary.github.io/datatools/installer.sh | sh</code></pre>
 <h2 id="compiled-version">Compiled version</h2>
 <p>This is generalized instructions for a release.</p>
-<p>Compiled versions are available for Mac OS X (Intel and M1 processor, macos-x86_64 and macOS-arm64), Linux (Intel process, Linux-x86_64), Windows (Intel and arm64 processor, windows-x86_64 and Windows-arm64) and Rapsberry Pi (arm7 processor, RaspberryPiOS-arm7)</p>
-<p>VERSION_NUMBER is a <a href="http://semver.org/">symantic version number</a> (e.g. v0.1.2)</p>
-<p>For all the released version go to the project page on Github and click latest release</p>
+<p>Compiled versions are available for Mac OS X (Intel and M1 processor,
+macos-x86_64 and macOS-arm64), Linux (Intel process, Linux-x86_64),
+Windows (Intel and arm64 processor, windows-x86_64 and Windows-arm64)
+and Rapsberry Pi (arm7 processor, RaspberryPiOS-arm7)</p>
+<p>VERSION_NUMBER is a <a href="http://semver.org/">symantic version
+number</a> (e.g. v0.1.2)</p>
+<p>For all the released version go to the project page on Github and
+click latest release</p>
 <blockquote>
 <p>https://github.com/caltechlibrary/datatools/releases/latest</p>
 </blockquote>
@@ -77,19 +84,23 @@
 </table>
 <h2 id="the-basic-recipe">The basic recipe</h2>
 <ul>
-<li>Find the Zip file listed matching the architecture you’re running and download it
+<li>Find the Zip file listed matching the architecture you’re running
+and download it
 <ul>
-<li>(e.g. if you’re on a Windows 10 laptop/Surface with a Intel style CPU you’d choose the Zip file with “windows-x86_64” in the name).</li>
+<li>(e.g. if you’re on a Windows 10 laptop/Surface with a Intel style
+CPU you’d choose the Zip file with “windows-x86_64” in the name).</li>
 </ul></li>
 <li>Download the zip file and unzip the file.<br />
 </li>
-<li>Copy the contents of the folder named “bin” to a folder that is in your path
+<li>Copy the contents of the folder named “bin” to a folder that is in
+your path
 <ul>
 <li>(e.g. “$HOME/bin” is common).</li>
 </ul></li>
 <li>Adjust your PATH if needed
 <ul>
-<li>(e.g. export PATH=“<span class="math inline"><em>H</em><em>O</em><em>M</em><em>E</em>/<em>b</em><em>i</em><em>n</em>:</span>PATH”)</li>
+<li>(e.g. export PATH=“<span
+class="math inline"><em>H</em><em>O</em><em>M</em><em>E</em>/<em>b</em><em>i</em><em>n</em>:</span>PATH”)</li>
 </ul></li>
 <li>Test</li>
 </ul>
@@ -101,7 +112,8 @@
 <li>Make sure the new location in in our path</li>
 <li>Test</li>
 </ol>
-<p>Here’s an example of the commands run in the Terminal App after downloading the zip file.</p>
+<p>Here’s an example of the commands run in the Terminal App after
+downloading the zip file.</p>
 <h4 id="intel-x86_64-hardware">Intel (x86_64) Hardware</h4>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-macos-x86_64.zip
@@ -117,14 +129,16 @@
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
 <h3 id="windows">Windows</h3>
-<p>(Assumes you’re working from Bash as provided by Linux Subsystem for Windows)</p>
+<p>(Assumes you’re working from Bash as provided by Linux Subsystem for
+Windows)</p>
 <ol type="1">
 <li>Download the zip file</li>
 <li>Unzip the zip file</li>
 <li>Copy the executables to $HOME/bin (or a folder in your path)</li>
 <li>Test</li>
 </ol>
-<p>Here’s an example of the commands run in from the Bash shell on Windows 10 after downloading the zip file.</p>
+<p>Here’s an example of the commands run in from the Bash shell on
+Windows 10 after downloading the zip file.</p>
 <h4 id="intel-x86_64-hardware-1">Intel (x86_64) Hardware</h4>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-windows-x86_64.zip
@@ -146,7 +160,8 @@
 <li>Copy the executables to $HOME/bin (or a folder in your path)</li>
 <li>Test</li>
 </ol>
-<p>Here’s an example of the commands run in from the Bash shell after downloading the zip file.</p>
+<p>Here’s an example of the commands run in from the Bash shell after
+downloading the zip file.</p>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-linux-x86_64.zip
     mkdir -p $HOME/bin
@@ -154,14 +169,16 @@
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
 <h3 id="raspberry-pi">Raspberry Pi</h3>
-<p>Released version is for a Raspberry Pi 2 or later use (i.e. requires ARM 7 support).</p>
+<p>Released version is for a Raspberry Pi 2 or later use (i.e. requires
+ARM 7 support).</p>
 <ol type="1">
 <li>Download the zip file</li>
 <li>Unzip the zip file</li>
 <li>Copy the executables to $HOME/bin (or a folder in your path)</li>
 <li>Test</li>
 </ol>
-<p>Here’s an example of the commands run in from the Bash shell after downloading the zip file.</p>
+<p>Here’s an example of the commands run in from the Bash shell after
+downloading the zip file.</p>
 <pre class="shell"><code>    cd Downloads/
     unzip datatools-*-raspberry_pi_os-arm7.zip
     mkdir -p $HOME/bin
@@ -169,14 +186,20 @@
     export PATH=$HOME/bin:$PATH
     csvfind -version</code></pre>
 <h2 id="compiling-from-source">Compiling from source</h2>
-<p><em>datatools</em> is “go gettable” if you have previously gotten xlsx v1.0.5 package from <a href="https://github.com/tealeg/xlsx">github.com/tealeg/xlsx</a>. The datatools package does not support versions v2.x and greater of xlsx. Below are the steps I use today with “go get” command to download the dependant packages as well as <em>datatools</em>’s source code.</p>
+<p><em>datatools</em> is “go gettable” if you have previously gotten
+xlsx v1.0.5 package from <a
+href="https://github.com/tealeg/xlsx">github.com/tealeg/xlsx</a>. The
+datatools package does not support versions v2.x and greater of xlsx.
+Below are the steps I use today with “go get” command to download the
+dependant packages as well as <em>datatools</em>’s source code.</p>
 <p>Setting up the right version of xlsx for datatools</p>
 <pre class="shell"><code>    cd
     go get github.com/tealeg/xlsx
     cd src/github.com/tealeg
     git checkout v1.0.5
     cd</code></pre>
-<p>Using <code>go get</code> to install datatools using v1.0.5 of xlsx.</p>
+<p>Using <code>go get</code> to install datatools using v1.0.5 of
+xlsx.</p>
 <pre><code>    go get github.com/caltechlibrary/datatools/...</code></pre>
 <p>Or clone the repository and then compile</p>
 <pre class="shell"><code>    cd

@@ -37,3 +37,5 @@ bin/*
 # Project ignores
 *.json
 testout
+temp.*
+temp?.*

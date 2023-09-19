@@ -28,84 +28,113 @@
 <h1 id="synopsis">SYNOPSIS</h1>
 <p>csvjoin <a href="#options">OPTIONS</a> CSV1 CSV2 COL1 COL2</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>csvjoin outputs CSV content based on two CSV files with matching column values. Each CSV input file has a designated column to match on. The values are compared as strings. Columns are counted from one rather than zero.</p>
+<p>csvjoin outputs CSV content based on two CSV files with matching
+column values. Each CSV input file has a designated column to match on.
+The values are compared as strings. Columns are counted from one rather
+than zero.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>display help
+<dd>
+display help
 </dd>
 <dt>-license</dt>
-<dd>display license
+<dd>
+display license
 </dd>
 <dt>-version</dt>
-<dd>display version
+<dd>
+display version
 </dd>
 <dt>-allow-duplicates</dt>
-<dd>allow duplicates when searching for matches
+<dd>
+allow duplicates when searching for matches
 </dd>
 <dt>-case-sensitive</dt>
-<dd>make a case sensitive match (default is case insensitive)
+<dd>
+make a case sensitive match (default is case insensitive)
 </dd>
 <dt>-col1</dt>
-<dd>column to on join on in first CSV file
+<dd>
+column to on join on in first CSV file
 </dd>
 <dt>-col2</dt>
-<dd>column to on join on in second CSV file
+<dd>
+column to on join on in second CSV file
 </dd>
 <dt>-contains</dt>
-<dd>match columns based on csv1/col1 contained in csv2/col2
+<dd>
+match columns based on csv1/col1 contained in csv2/col2
 </dd>
 <dt>-csv1</dt>
-<dd>first CSV filename
+<dd>
+first CSV filename
 </dd>
 <dt>-csv2</dt>
-<dd>second CSV filename
+<dd>
+second CSV filename
 </dd>
 <dt>-d, -delimiter</dt>
-<dd>set delimiter character
+<dd>
+set delimiter character
 </dd>
 <dt>-delete-cost</dt>
-<dd>deletion cost to use when calculating Levenshtein edit distance
+<dd>
+deletion cost to use when calculating Levenshtein edit distance
 </dd>
 <dt>-in-memory</dt>
-<dd>if true read both CSV files
+<dd>
+if true read both CSV files
 </dd>
 <dt>-insert-cost</dt>
-<dd>insertion cost to use when calculating Levenshtein edit distance
+<dd>
+insertion cost to use when calculating Levenshtein edit distance
 </dd>
 <dt>-levenshtein</dt>
-<dd>match columns using Levensthein edit distance
+<dd>
+match columns using Levensthein edit distance
 </dd>
 <dt>-max-edit-distance</dt>
-<dd>maximum edit distance for match using Levenshtein distance
+<dd>
+maximum edit distance for match using Levenshtein distance
 </dd>
 <dt>-o, -output</dt>
-<dd>output filename
+<dd>
+output filename
 </dd>
 <dt>-quiet</dt>
-<dd>supress error messages
+<dd>
+supress error messages
 </dd>
 <dt>-stop-words</dt>
-<dd>a column delimited list of stop words to ingnore when matching
+<dd>
+a column delimited list of stop words to ingnore when matching
 </dd>
 <dt>-substitute-cost</dt>
-<dd>substitution cost to use when calculating Levenshtein edit distance
+<dd>
+substitution cost to use when calculating Levenshtein edit distance
 </dd>
 <dt>-trim-leading-space</dt>
-<dd>trim leading space in field(s) for CSV input
+<dd>
+trim leading space in field(s) for CSV input
 </dd>
 <dt>-trimspaces</dt>
-<dd>trim spaces around cell values before comparing
+<dd>
+trim spaces around cell values before comparing
 </dd>
 <dt>-use-lazy-quotes</dt>
-<dd>use lazy quotes for CSV input
+<dd>
+use lazy quotes for CSV input
 </dd>
 <dt>-verbose</dt>
-<dd>output processing count to stderr
+<dd>
+output processing count to stderr
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>Simple usage of building a merged CSV file from data1.csv and data2.csv where column 1 in data1.csv matches the value in column 3 of data2.csv with the results being written to merged-data.csv..</p>
+<p>Simple usage of building a merged CSV file from data1.csv and
+data2.csv where column 1 in data1.csv matches the value in column 3 of
+data2.csv with the results being written to merged-data.csv..</p>
 <pre><code>    csvjoin -csv1=data1.csv -col1=2 \
        -csv2=data2.csv -col2=4 \
        -output=merged-data.csv</code></pre>

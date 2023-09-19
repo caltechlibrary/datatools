@@ -282,9 +282,9 @@ func main() {
 				row = append(row, result.(json.Number).String())
 			default:
 				if prettyPrint {
-					src, err = json.MarshalIndent(result, "", "    ")
+					src, err = datatools.JSONMarshalIndent(result, "", "    ")
 				} else {
-					src, err = json.Marshal(result)
+					src, err = datatools.JSONMarshal(result)
 				}
 				if err != nil {
 					fmt.Fprintln(eout, err)
@@ -338,9 +338,9 @@ func main() {
 				fmt.Fprintf(out, "%s", result.(json.Number).String())
 			default:
 				if prettyPrint {
-					src, err = json.MarshalIndent(result, "", "    ")
+					src, err = datatools.JSONMarshalIndent(result, "", "    ")
 				} else {
-					src, err = json.Marshal(result)
+					src, err = datatools.JSONMarshal(result)
 				}
 				if err != nil {
 					fmt.Fprintln(eout, err)

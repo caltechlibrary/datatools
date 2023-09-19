@@ -7,7 +7,6 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -287,7 +286,7 @@ func mapVals(data map[string]interface{}, limit int) ([]string, error) {
 		if i == limit {
 			return result, nil
 		}
-		outSrc, err := json.Marshal(val)
+		outSrc, err := datatools.JSONMarshal(val)
 		if err != nil {
 			return nil, err
 		}
@@ -303,7 +302,7 @@ func arrayVals(data []interface{}, limit int) ([]string, error) {
 		if i == limit {
 			return result, nil
 		}
-		outSrc, err := json.Marshal(val)
+		outSrc, err := datatools.JSONMarshal(val)
 		if err != nil {
 			return nil, err
 		}
