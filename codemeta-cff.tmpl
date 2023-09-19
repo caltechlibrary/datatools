@@ -9,12 +9,6 @@ ${for(author)}
     given-names: ${it.givenName}
     orcid: "${it.at__id}"
 ${endfor}${endif}
-${if(contributor)}contributors:
-${for(contributor)}
-  - family-names: ${it.familyName}
-    given-names: ${it.givenName}
-    orcid: "${it.at__id}"
-${endfor}${endif}
 ${if(maintainer)}maintainers:
 ${for(maintainer)}
   - family-names: ${it.familyName}

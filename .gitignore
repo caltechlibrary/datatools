@@ -35,6 +35,7 @@ bin/*
 *.snap
 
 # Project ignores
+.DS_Store
 *.json
 testout
 temp.*
