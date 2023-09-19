@@ -26,6 +26,7 @@ _testmain.go
 #
 # Project specific files
 #
+.DS_Store
 ~*
 *~
 *.swp
@@ -33,9 +34,6 @@ _testmain.go
 dist/*
 bin/*
 *.snap
-
-# Project ignores
-.DS_Store
 _codemeta.json
 authors_db_cfg.json
 eprints.json
