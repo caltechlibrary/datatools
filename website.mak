@@ -10,7 +10,7 @@ HTML_PAGES = $(shell ls -1 *.md | sed -E 's/\.md/.html/g')
 build: about.md $(MD_PAGES) $(HTML_PAGES) how-to pagefind
 
 about.md: codemeta.json
-	echo "" | pandoc -metadata title="About $(PROJECT)" -metadata-file=codemeta.json -s --from markdown --to markdown --template=page.tmpl -o about.md
+	echo "" | pandoc --metadata title="About $(PROJECT)" --metadata-file=codemeta.json -s --from markdown --to markdown --template=page.tmpl -o about.md
 	git add about.md
 
 $(HTML_PAGES): $(MD_PAGES) .FORCE
