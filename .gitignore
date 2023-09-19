@@ -36,7 +36,9 @@ bin/*
 
 # Project ignores
 .DS_Store
-*.json
+_codemeta.json
+authors_db_cfg.json
+eprints.json
 testout
 temp.*
 temp?.*
