@@ -211,12 +211,9 @@ gen_batfiles: .FORCE
 	@echo '""' >>make.bat
 	@git add make.bat
 
-clean_dist: .FORCE
-	if [ -d dist ]; then rm -fR dist; fi
-
 snap: dist/datatools_$(VERSION)_amd64.snap
 
-release: .FORCE installer.sh clean build man gen_batfiles distribute_docs clean_dist dist/Linux-x86_64 dist/macOS-x86_64 dist/macOS-arm64 dist/Windows-x86_64 dist/Windows-arm64 dist/Linux-armv7l dist/Linux-aarch64
+release: .FORCE installer.sh clean build man gen_batfiles distribute_docs dist/Linux-x86_64 dist/macOS-x86_64 dist/macOS-arm64 dist/Windows-x86_64 dist/Windows-arm64 dist/Linux-armv7l dist/Linux-aarch64
 
 
 .FORCE:
