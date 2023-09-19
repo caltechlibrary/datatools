@@ -34,9 +34,9 @@ About this software
 A set of command line tools for working with CSV, Excel Workbooks, JSON
 and structured text documents.
 
-- License: https://data.caltech.edu/license
-- GitHub: https://github.com/caltechlibrary/datatools
-- Issues: https://github.com/caltechlibrary/datatools/issues
+- License: <https://data.caltech.edu/license>
+- GitHub: <https://github.com/caltechlibrary/datatools>
+- Issues: <https://github.com/caltechlibrary/datatools/issues>
 
 
 ### Programming languages

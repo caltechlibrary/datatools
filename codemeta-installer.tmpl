@@ -16,7 +16,7 @@ INSTALLER="$$(basename "$$0")"
 #
 # Figure out what the zip file is named
 #
-OS_NAME="$$(uname -o)"
+OS_NAME="$$(uname)"
 MACHINE="$$(uname -m)"
 case "$$OS_NAME" in
    Darwin)

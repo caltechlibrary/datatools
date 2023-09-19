@@ -39,17 +39,16 @@ endif
 build: version.go $(PROGRAMS) CITATION.cff about.md installer.sh
 
 version.go: .FORCE
-	@echo 'package $(PROJECT)' >version.go
-	@echo '' >>version.go
-	@echo 'const (' >>version.go
-	@echo '    Version = "$(VERSION)"' >>version.go
-	@echo '' >>version.go
-	@echo 'LicenseText = `' >>version.go
-	@cat LICENSE >>version.go
-	@echo '`' >>version.go
-	@echo ')' >>version.go
-	@echo '' >>version.go
-	-git add version.go
+	@echo '' | pandoc --from t2t --to plain \
+                --metadata-file codemeta.json \
+                --metadata package=$(PROJECT) \
+                --metadata version=$(VERSION) \
+                --metadata release_date=$(RELEASE_DATE) \
+                --metadata release_hash=$(RELEASE_HASH) \
+                --template codemeta-version-go.tmpl \
+                LICENSE >version.go
+
+
 
 
 about.md: codemeta.json .FORCE
