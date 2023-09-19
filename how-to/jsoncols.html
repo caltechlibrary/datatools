@@ -25,12 +25,15 @@
 <section>
 <h1 id="using-jsoncols">Using jsoncols</h1>
 <p>If myblob.json contained</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>    <span class="fu">{</span><span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Doe, Jane&quot;</span><span class="fu">,</span> <span class="dt">&quot;email&quot;</span><span class="fu">:</span><span class="st">&quot;jane.doe@example.org&quot;</span><span class="fu">,</span> <span class="dt">&quot;age&quot;</span><span class="fu">:</span> <span class="dv">42</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Doe, Jane&quot;</span><span class="fu">,</span> <span class="dt">&quot;email&quot;</span><span class="fu">:</span><span class="st">&quot;jane.doe@example.org&quot;</span><span class="fu">,</span> <span class="dt">&quot;age&quot;</span><span class="fu">:</span> <span class="dv">42</span><span class="fu">}</span></span></code></pre></div>
 <p>Getting just the name could be done with</p>
 <pre class="shell"><code>    jsoncols -i myblob.json .name</code></pre>
 <p>This would yield</p>
 <pre><code>    &quot;Doe, Jane&quot;</code></pre>
-<p>Flipping .name and .age into pipe delimited columns is as easy as listing each field in the expression inside a space delimited string.</p>
+<p>Flipping .name and .age into pipe delimited columns is as easy as
+listing each field in the expression inside a space delimited
+string.</p>
 <pre class="shell"><code>    jsoncols -i myblob.json -d\|  .name .age</code></pre>
 <p>This would yield</p>
 <pre><code>    &quot;Doe, Jane&quot;|42</code></pre>

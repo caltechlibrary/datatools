@@ -26,44 +26,56 @@
 <h1 id="name">NAME</h1>
 <p>xlsx2csv</p>
 <h1 id="synopsis">SYNOPSIS</h1>
-<p>xlsx2csv <a href="#options">OPTIONS</a> EXCEL_WORKBOOK_NAME [SHEET_NAME]</p>
+<p>xlsx2csv <a href="#options">OPTIONS</a> EXCEL_WORKBOOK_NAME
+[SHEET_NAME]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>xlsx2csv is a tool that converts individual Excel Sheets to CSV output.</p>
+<p>xlsx2csv is a tool that converts individual Excel Sheets to CSV
+output.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>display help
+<dd>
+display help
 </dd>
 <dt>-license</dt>
-<dd>display license
+<dd>
+display license
 </dd>
 <dt>-version</dt>
-<dd>display version
+<dd>
+display version
 </dd>
 <dt>-N, -sheets</dt>
-<dd>display the Workbook sheet names
+<dd>
+display the Workbook sheet names
 </dd>
 <dt>-c, -count</dt>
-<dd>display number of Workbook sheets
+<dd>
+display number of Workbook sheets
 </dd>
 <dt>-nl, -newline</dt>
-<dd>if true add a trailing newline
+<dd>
+if true add a trailing newline
 </dd>
 <dt>-o, -output</dt>
-<dd>output filename
+<dd>
+output filename
 </dd>
 <dt>-quiet</dt>
-<dd>suppress error messages
+<dd>
+suppress error messages
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
 <p>Extract a workbook sheet as a CSV file</p>
 <pre><code>    xlsx2csv MyWorkbook.xlsx &quot;My worksheet 1&quot; &gt; sheet1.csv</code></pre>
-<p>This would get the first sheet from the workbook and save it as a CSV file.</p>
+<p>This would get the first sheet from the workbook and save it as a CSV
+file.</p>
 <pre><code>    xlsx2csv -count MyWorkbook.xlsx</code></pre>
 <p>This will output the number of sheets in the Workbook.</p>
 <pre><code>    xlsx2csv -sheets MyWorkbook.xlsx</code></pre>
-<p>This will display a list of sheet names, one per line. Putting it all together in a shell script.</p>
+<p>This will display a list of sheet names, one per line. Putting it all
+together in a shell script.</p>
 <pre><code>    xlsx2csv -N MyWorkbook.xlsx | while read SHEET_NAME; do
         CSV_NAME=&quot;${SHEET_NAME// /-}.csv&quot;
         xlsx2csv -o &quot;${CSV_NAME}&quot; MyWorkbook.xlsx &quot;${SHEET_NAME}&quot; 

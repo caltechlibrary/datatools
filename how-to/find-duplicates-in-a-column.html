@@ -23,17 +23,23 @@
 </nav>
 
 <section>
-<h1 id="how-to-find-duplicates-in-a-column">How to find duplicates in a column</h1>
-<p>Searching for duplicate values in a column can be done using <em>cat</em>, <em>csvcols</em>, <em>sort</em> and <em>csvfind</em>. Here’s the basic algorithm from the command line or Bash script.</p>
+<h1 id="how-to-find-duplicates-in-a-column">How to find duplicates in a
+column</h1>
+<p>Searching for duplicate values in a column can be done using
+<em>cat</em>, <em>csvcols</em>, <em>sort</em> and <em>csvfind</em>.
+Here’s the basic algorithm from the command line or Bash script.</p>
 <ul>
 <li>for each line of your CSV file
 <ul>
 <li>extract the value in the colum</li>
 <li>sort for unique values</li>
-<li>for each unique value use <em>csvfind</em> to output matching rows</li>
+<li>for each unique value use <em>csvfind</em> to output matching
+rows</li>
 </ul></li>
 </ul>
-<p>Here’s an example Bash script looking for duplicates in <em>dups.csv</em> in column 2, second column (columns are counted from 1 rather than zero)</p>
+<p>Here’s an example Bash script looking for duplicates in
+<em>dups.csv</em> in column 2, second column (columns are counted from 1
+rather than zero)</p>
 <pre class="shell"><code>    CSV_FILE=&quot;dups.csv&quot;
     CSV_COL_NO=&quot;2&quot;
 
@@ -42,7 +48,8 @@
             csvfind -i &quot;$CSV_FILE&quot; -trim-spaces -col &quot;$CSV_COL_NO&quot;  &quot;${CELL}&quot;
         fi
     done</code></pre>
-<p>This would result a new CSV file with duplicates grouped together.</p>
+<p>This would result a new CSV file with duplicates grouped
+together.</p>
 </section>
 
 <footer>

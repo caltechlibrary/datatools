@@ -24,14 +24,17 @@
 
 <section>
 <h1 id="using-csvfind">Using csvfind</h1>
-<p>Find the rows where the third column matches “The Red Book of Westmarch” exactly</p>
+<p>Find the rows where the third column matches “The Red Book of
+Westmarch” exactly</p>
 <pre class="shell"><code>    csvfind -i books.csv -o result1.csv -col=2 &quot;The Red Book of Westmarch&quot;</code></pre>
-<p>Find the rows where the third column (colums numbered 0,1,2) matches approximately “The Red Book of Westmarch”</p>
+<p>Find the rows where the third column (colums numbered 0,1,2) matches
+approximately “The Red Book of Westmarch”</p>
 <pre class="shell"><code>    csvfind -i books.csv -o result2.csv -col=2 -levenshtein \
        -insert-cost=1 -delete-cost=1 -substitute-cost=3 \
        -max-edit-distance=50 -append-edit-distance \
        &quot;The Red Book of Westmarch&quot;</code></pre>
-<p>In this example we’ve appended the edit distance to see how close the matches are.</p>
+<p>In this example we’ve appended the edit distance to see how close the
+matches are.</p>
 <p>You can also search for phrases in columns.</p>
 <pre class="shell"><code>    csvfind -i books.csv -o result3.csv -col=2 -contains &quot;Red Book&quot;</code></pre>
 <h2 id="example-files">example files</h2>

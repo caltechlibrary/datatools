@@ -28,120 +28,175 @@
 <h1 id="synopsis">SYNOPSIS</h1>
 <p>string <a href="#options">OPTIONS</a> [VERB] [VERB PARAMETERS…]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>string is a command line tool for transforming strings in common ways.</p>
+<p>string is a command line tool for transforming strings in common
+ways.</p>
 <ul>
 <li>string length</li>
 <li>changing cases</li>
 <li>checking for prefixes, suffixes</li>
-<li>trimming prefixes, suffixes and cutsets (i.e. list of characters to cut)</li>
+<li>trimming prefixes, suffixes and cutsets (i.e. list of characters to
+cut)</li>
 <li>position, counting and replacing substrings</li>
-<li>splitting a string into a JSON array of strings, joining JSON a string arrays into a string</li>
+<li>splitting a string into a JSON array of strings, joining JSON a
+string arrays into a string</li>
 </ul>
-<p>VERB refers to the operation to performed on the supplied string(s). VER PARAMETERS are thsose additional terms need to complete the process provided by the VERB.</p>
+<p>VERB refers to the operation to performed on the supplied string(s).
+VER PARAMETERS are thsose additional terms need to complete the process
+provided by the VERB.</p>
 <h1 id="options">OPTIONS</h1>
 <p>Options always come before the VERB.</p>
 <dl>
 <dt>-help</dt>
-<dd>display help
+<dd>
+display help
 </dd>
 </dl>
 <p>-license :display license</p>
 <dl>
 <dt>-version</dt>
-<dd>display version
+<dd>
+display version
 </dd>
 <dt>-d, -delimiter</dt>
-<dd>set the delimiter
+<dd>
+set the delimiter
 </dd>
 <dt>-do, -output-delimiter</dt>
-<dd>set the output delimiter
+<dd>
+set the output delimiter
 </dd>
 <dt>-i, -input</dt>
-<dd>input file name
+<dd>
+input file name
 </dd>
 <dt>-nl, -newline</dt>
-<dd>if true add a trailing newline
+<dd>
+if true add a trailing newline
 </dd>
 <dt>-o, -output</dt>
-<dd>output file name
+<dd>
+output file name
 </dd>
 <dt>-quiet</dt>
-<dd>suppress error messages
+<dd>
+suppress error messages
 </dd>
 </dl>
 <h2 id="verbs">VERBS</h2>
 <dl>
 <dt>contains</dt>
-<dd>has substrings: SUBSTRING [STRING] <code>string contains SUBSTRING [STRING]</code>
+<dd>
+has substrings: SUBSTRING [STRING]
+<code>string contains SUBSTRING [STRING]</code>
 </dd>
 <dt>count</dt>
-<dd>count substrings: SUBSTRING [STRING] <code>string count SUBSTRING [STRING]</code>
+<dd>
+count substrings: SUBSTRING [STRING]
+<code>string count SUBSTRING [STRING]</code>
 </dd>
 <dt>englishtitle</dt>
-<dd>English style title case: [STRING] <code>string englishtitle [STRING]</code>
+<dd>
+English style title case: [STRING]
+<code>string englishtitle [STRING]</code>
 </dd>
 <dt>hasprefix</dt>
-<dd>true/false on prefix: PREFIX [STRING] <code>string hasprefix PREFIX [STRING]</code>
+<dd>
+true/false on prefix: PREFIX [STRING]
+<code>string hasprefix PREFIX [STRING]</code>
 </dd>
 <dt>hassuffix</dt>
-<dd>true/false on suffix: SUFFIX [STRING] <code>string hassuffix SUFFIX [STRING]</code>
+<dd>
+true/false on suffix: SUFFIX [STRING]
+<code>string hassuffix SUFFIX [STRING]</code>
 </dd>
 <dt>join</dt>
-<dd>join JSON array into string: DELIMITER [JSON_ARRAY] <code>string join DELIMITER [JSON_ARRAY]</code>
+<dd>
+join JSON array into string: DELIMITER [JSON_ARRAY]
+<code>string join DELIMITER [JSON_ARRAY]</code>
 </dd>
 <dt>length</dt>
-<dd>length of string: [STRING] <code>string length [STRING]</code>
+<dd>
+length of string: [STRING] <code>string length [STRING]</code>
 </dd>
 <dt>padleft</dt>
-<dd>left pad PADDING MAX_LENGTH [STRING] <code>string padleft PADDING MAX_LENGTH [STRING]</code>
+<dd>
+left pad PADDING MAX_LENGTH [STRING]
+<code>string padleft PADDING MAX_LENGTH [STRING]</code>
 </dd>
 <dt>padright</dt>
-<dd>right pad PADDING MAX_LENGTH [STRING] <code>string padright PADDING MAX_LENGTH [STRING]</code>
+<dd>
+right pad PADDING MAX_LENGTH [STRING]
+<code>string padright PADDING MAX_LENGTH [STRING]</code>
 </dd>
 <dt>position</dt>
-<dd>position of substring: SUBSTRING [STRING] <code>string position SUBSTRING [STRING]</code>
+<dd>
+position of substring: SUBSTRING [STRING]
+<code>string position SUBSTRING [STRING]</code>
 </dd>
 <dt>replace</dt>
-<dd>replace: OLD NEW [STRING] <code>string replace OLD NEW [STRING]</code>
+<dd>
+replace: OLD NEW [STRING] <code>string replace OLD NEW [STRING]</code>
 </dd>
 <dt>replacen</dt>
-<dd>replace n times: OLD NEW N [STRING] <code>string replacen OLD NEW N [STRING]</code>
+<dd>
+replace n times: OLD NEW N [STRING]
+<code>string replacen OLD NEW N [STRING]</code>
 </dd>
 <dt>slice</dt>
-<dd>copy a substring: START END [STRING] <code>string slice START END [STRING]</code>
+<dd>
+copy a substring: START END [STRING]
+<code>string slice START END [STRING]</code>
 </dd>
 <dt>split</dt>
-<dd>split into a JSON array: DELIMITER [STRING] <code>string split DELIMITER [STRING]</code>
+<dd>
+split into a JSON array: DELIMITER [STRING]
+<code>string split DELIMITER [STRING]</code>
 </dd>
 <dt>splitn</dt>
-<dd>split into an N length JSON array: DELIMITER N [STRING] <code>string splitn DELIMITER N [STRING]</code>
+<dd>
+split into an N length JSON array: DELIMITER N [STRING]
+<code>string splitn DELIMITER N [STRING]</code>
 </dd>
 <dt>tolower</dt>
-<dd>to lower case: [STRING] <code>string tolower [STRING]</code>
+<dd>
+to lower case: [STRING] <code>string tolower [STRING]</code>
 </dd>
 <dt>totitle</dt>
-<dd>to title case: [STRING] <code>string totitle [STRING]</code>
+<dd>
+to title case: [STRING] <code>string totitle [STRING]</code>
 </dd>
 <dt>toupper</dt>
-<dd>to upper case: [STRING] <code>string toupper [STRING]</code>
+<dd>
+to upper case: [STRING] <code>string toupper [STRING]</code>
 </dd>
 <dt>trim</dt>
-<dd>trim (beginning and end), CUTSET [STRING] <code>string trim CURSET [STRING]</code>
+<dd>
+trim (beginning and end), CUTSET [STRING]
+<code>string trim CURSET [STRING]</code>
 </dd>
 <dt>trimleft</dt>
-<dd>left trim CUTSET [STRING] <code>string trimleft CUTSET [STRING]</code>
+<dd>
+left trim CUTSET [STRING] <code>string trimleft CUTSET [STRING]</code>
 </dd>
 <dt>trimprefix</dt>
-<dd>trims prefix: PREFIX [STRING] <code>string trimprefix PREFIX [STRING]</code>
+<dd>
+trims prefix: PREFIX [STRING]
+<code>string trimprefix PREFIX [STRING]</code>
 </dd>
 <dt>trimright</dt>
-<dd>right trim: CUTSET [STRING] <code>string trimright CUTSET [STRING]</code>
+<dd>
+right trim: CUTSET [STRING]
+<code>string trimright CUTSET [STRING]</code>
 </dd>
 <dt>trimspace</dt>
-<dd>trim leading and trailing spaces: [STRING] <code>string trimspace [STRING]</code>
+<dd>
+trim leading and trailing spaces: [STRING]
+<code>string trimspace [STRING]</code>
 </dd>
 <dt>trimsuffix</dt>
-<dd>trim suffix: SUFFIX [STRING] <code>string trimsuffix SUFFIX [STRING]</code>
+<dd>
+trim suffix: SUFFIX [STRING]
+<code>string trimsuffix SUFFIX [STRING]</code>
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>

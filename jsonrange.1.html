@@ -28,56 +28,86 @@
 <h1 id="synopsis">SYNOPSIS</h1>
 <p>jsonrange <a href="#options">OPTIONS</a> [DOT_PATH_EXPRESSION]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>jsonrange returns returns a range of values based on the JSON structure being read and options applied. Without options the JSON structure is read from standard input and writes a list of keys to standard out. Keys are either attribute names or for arrays the index position (counting form zero). If a DOT_PATH_EXPRESSION is included on the command line then that is used to generate the results. Using options to can choose to read the JSON data structure from a file, write the output to a file as well as display values instead of keys. a list of “keys” of an index or map in JSON.</p>
-<p>Using options it can also return a list of values. The JSON object is read from standard in and the resulting list is normally written to standard out. There are options to read or write to files. Additional parameters are assumed to be a dot path notation select the parts of the JSON data structure you want from the range.</p>
-<p>DOT_PATH_EXPRESSION is a dot path stale expression indicating what you want range over. E.g.</p>
+<p>jsonrange returns returns a range of values based on the JSON
+structure being read and options applied. Without options the JSON
+structure is read from standard input and writes a list of keys to
+standard out. Keys are either attribute names or for arrays the index
+position (counting form zero). If a DOT_PATH_EXPRESSION is included on
+the command line then that is used to generate the results. Using
+options to can choose to read the JSON data structure from a file, write
+the output to a file as well as display values instead of keys. a list
+of “keys” of an index or map in JSON.</p>
+<p>Using options it can also return a list of values. The JSON object is
+read from standard in and the resulting list is normally written to
+standard out. There are options to read or write to files. Additional
+parameters are assumed to be a dot path notation select the parts of the
+JSON data structure you want from the range.</p>
+<p>DOT_PATH_EXPRESSION is a dot path stale expression indicating what
+you want range over. E.g.</p>
 <ul>
-<li>. would indicate the whole JSON data structure read is used to range over</li>
-<li>.name would indicate to range over the value pointed at by the “name” attribute</li>
-<li>[“name”] would indicate to range over the value pointed at by the “name” attribute</li>
-<li>[0] would indicate to range over the value held in the zero-th element of the array</li>
+<li>. would indicate the whole JSON data structure read is used to range
+over</li>
+<li>.name would indicate to range over the value pointed at by the
+“name” attribute</li>
+<li>[“name”] would indicate to range over the value pointed at by the
+“name” attribute</li>
+<li>[0] would indicate to range over the value held in the zero-th
+element of the array</li>
 </ul>
 <p>The path can be chained together</p>
 <ul>
-<li>.name.family would point to the value heald by the “name” attributes’ “family” attribute.</li>
+<li>.name.family would point to the value heald by the “name”
+attributes’ “family” attribute.</li>
 </ul>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
-<dd>display help
+<dd>
+display help
 </dd>
 <dt>-license</dt>
-<dd>display license
+<dd>
+display license
 </dd>
 <dt>-version</dt>
-<dd>display version
+<dd>
+display version
 </dd>
 <dt>-d, -delimiter</dt>
-<dd>set delimiter for range output
+<dd>
+set delimiter for range output
 </dd>
 <dt>-i, -input</dt>
-<dd>read JSON from file
+<dd>
+read JSON from file
 </dd>
 <dt>-last</dt>
-<dd>return the index of the last element in list (e.g. length - 1)
+<dd>
+return the index of the last element in list (e.g. length - 1)
 </dd>
 <dt>-length</dt>
-<dd>return the number of keys or values
+<dd>
+return the number of keys or values
 </dd>
 <dt>-limit</dt>
-<dd>limit the number of items output
+<dd>
+limit the number of items output
 </dd>
 <dt>-nl, -newline</dt>
-<dd>if true add a trailing newline
+<dd>
+if true add a trailing newline
 </dd>
 <dt>-o, -output</dt>
-<dd>write to output file
+<dd>
+write to output file
 </dd>
 <dt>-quiet</dt>
-<dd>suppress error messages
+<dd>
+suppress error messages
 </dd>
 <dt>-values</dt>
-<dd>return the values instead of the keys
+<dd>
+return the values instead of the keys
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
