@@ -20,7 +20,6 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -174,7 +173,7 @@ func xlsx2JSON(out io.Writer, workBookName, sheetName string) error {
 			}
 			results = append(results, cells)
 		}
-		src, err := json.Marshal(results)
+		src, err := datatools.JSONMarshal(results)
 		if err != nil {
 			return err
 		}

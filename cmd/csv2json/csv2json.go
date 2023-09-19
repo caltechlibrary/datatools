@@ -22,7 +22,6 @@ package main
 
 import (
 	"encoding/csv"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -137,6 +136,7 @@ Convert data1.csv to JSON blobs, one line per blob
 	trimLeadingSpace bool
 	fieldsPerRecord  int
 	reuseRecord      bool
+	pretty           bool
 )
 
 func fmtTxt(src string, appName string, version string) string {
@@ -167,6 +167,7 @@ func main() {
 	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in fields for CSV input")
 	flag.BoolVar(&reuseRecord, "reuse-record", false, "reuse the backing array")
 	flag.IntVar(&fieldsPerRecord, "fields-per-record", 0, "Set the number of fields expected in the CSV read, -1 to turn off")
+	flag.BoolVar(&pretty, "pretty", false, "pretty print the JSON output")
 
 	// Parse environment and options
 	flag.Parse()
@@ -260,7 +261,12 @@ func main() {
 				object[fmt.Sprintf("col_%d", col)] = val
 			}
 		}
-		src, err := json.Marshal(object)
+		var src []byte
+		if pretty {
+			src, err = datatools.JSONMarshalIndent(object, "", "    ")
+		} else {
+			src, err = datatools.JSONMarshal(object)
+		}
 		if err != nil {
 			if !quiet {
 				fmt.Fprintf(eout, "error row %d, %s\n", rowNo, err)

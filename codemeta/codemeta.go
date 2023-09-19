@@ -1,7 +1,6 @@
 package codemeta
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -55,11 +54,11 @@ type Codemeta struct {
 }
 
 func (person *PersonOrOrganization) ToJSON() ([]byte, error) {
-	return json.MarshalIndent(person, "", "\t")
+	return JSONMarshalIndent(person, "", "\t")
 }
 
 func (cm *Codemeta) ToJSON() ([]byte, error) {
-	return json.MarshalIndent(cm, "", "\t")
+	return JSONMarshalIndent(cm, "", "\t")
 }
 
 func (person *PersonOrOrganization) ToCFF() ([]byte, error) {

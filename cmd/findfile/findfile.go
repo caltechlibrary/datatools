@@ -116,8 +116,6 @@ Search the current directory and subdirectories for Markdown files with extensio
 	generateMarkdown bool
 	generateManPage  bool
 	quiet            bool
-	newLine          bool
-	eol              string
 
 	// App Specific Options
 	showModificationTime bool
@@ -197,8 +195,6 @@ func main() {
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
-	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
-	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
 
 	// App Specific Options
 	flag.BoolVar(&showModificationTime, "m", false, "display file modification time before the path")
@@ -249,9 +245,6 @@ func main() {
 		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
 		os.Exit(0)
 	}
-	if newLine {
-		eol = "\n"
-	}
 
 	if findPrefix == false && findSuffix == false && findContains == false {
 		findAll = true
@@ -282,5 +275,4 @@ func main() {
 			os.Exit(1)
 		}
 	}
-	fmt.Fprintf(out, "%s", eol)
 }

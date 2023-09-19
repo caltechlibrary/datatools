@@ -23,7 +23,6 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/csv"
-	"encoding/json"
 	"fmt"
 	"io"
 	"strings"
@@ -168,7 +167,7 @@ func Text2Fields(r *bufio.Reader, options *Options) ([]byte, error) {
 	case AsCSV:
 		return CSVMarshal(words)
 	case AsJSON:
-		return json.Marshal(words)
+		return JSONMarshal(words)
 	default:
 		return []byte(strings.Join(words, options.Delimiter)), nil
 	}
