@@ -1,13 +1,10 @@
-//
 // jsonjoin is a command line tool that takes two JSON documents and combined
 // them into one depending on the options
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
-//
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -20,23 +17,28 @@ import (
 )
 
 var (
-	helpText = `---
-title: "json2toml (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2013-01-06
----
+	helpText = `%{app_name}(1) irdmtools user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
-json2toml 
+{app_name} 
 
 # SYNOPSIS
 
-json2toml [OPTIONS] [JSON_FILENAME] [TOML_FILENAME]
+{app_name} [OPTIONS] JSON_FILENAME [JSON_FILENAME ...]
 
 # DESCRIPTION
 
-json2toml is a tool that converts JSON objects into TOML output.
+{app_name} joins one or more JSON objects. By default the
+objects are each assigned to an attribute corresponding with their
+filenames minus the ".json" extension. If the object is read from
+standard input then "_" is used as it's attribute name.
+
+If you use the update or overwrite options you will create a merged
+object. The update option keeps the attribute value first encountered
+and overwrite takes the last attribute value encountered.
 
 # OPTIONS
 
@@ -61,20 +63,44 @@ display version
 -quiet
 : suppress error messages
 
+-create
+: Create a root object placing each joined objects under their own attribute
+
+-update
+: update first object with the second object, ignore existing attributes
+
+-overwrite
+: update first object with the second object, overwriting existing attributes
 
 # EXAMPLES
 
-These would get the file named "my.json" and save it as my.toml
+This is an example of take "my1.json" and "my2.json"
+render "my.json"
 
 ~~~
-    json2toml my.json > my.toml
-
-	json2toml my.json my.toml
-
-	cat my.json | json2toml -i - > my.toml
+    jsonjoin my1.json my2.json >my.json
 ~~~
 
-json2toml 1.2.1
+my.json would have two attributes, "my1" and "my2" each
+with their complete attributes.
+
+Using the update option you can merge my1.json with any additional attribute
+values found in m2.json.
+
+~~~
+    jsonjoin -update my1.json my2.json >my.json
+~~~
+
+Using the overwrite option you can merge my1.json with my2.json accepted
+as replacement values.
+
+~~~
+    jsonjoin -overwrite my1.json my2.json >my.json
+~~~
+
+
+
+
 
 
 `
@@ -84,7 +110,7 @@ json2toml 1.2.1
 	showLicense      bool
 	showVersion      bool
 	showExamples     bool
-	inputFName       string
+	pretty           bool
 	outputFName      string
 	generateMarkdown bool
 	generateManPage  bool
@@ -98,10 +124,6 @@ json2toml 1.2.1
 	createRoot bool
 )
 
-func fmtTxt(src string, appName string, version string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
-}
-
 func main() {
 	appName := path.Base(os.Args[0])
 
@@ -110,16 +132,16 @@ func main() {
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "version", false, "display version")
 
-	flag.StringVar(&inputFName, "i", "", "input filename (for root object)")
-	flag.StringVar(&inputFName, "input", "", "input filename (for root object)")
 	flag.StringVar(&outputFName, "o", "", "output filename")
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
 	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
+	flag.BoolVar(&pretty, "p", false, "pretty print json")
+	flag.BoolVar(&pretty, "pretty", false, "pretty print json")
 
 	// Application Specific Options
-	flag.BoolVar(&createRoot, "create", false, "create an empty root object, {}")
+	flag.BoolVar(&createRoot, "create", false, "for each object joined each under their own attribute.")
 	flag.BoolVar(&update, "update", false, "copy new key/values pairs into root object")
 	flag.BoolVar(&overwrite, "overwrite", false, "copy all key/values into root object")
 
@@ -134,27 +156,9 @@ func main() {
 	out := os.Stdout
 	eout := os.Stderr
 
-	if inputFName != "" && inputFName != "-" {
-		in, err = os.Open(inputFName)
-		if err != nil {
-			fmt.Fprintln(eout,err)
-			os.Exit(1)
-		}
-		defer in.Close()
-	}
-
-	if outputFName != "" && outputFName != "-" {
-		out, err = os.Create(outputFName)
-		if err != nil {
-			fmt.Fprintln(eout, err)
-			os.Exit(1)
-		}
-		defer out.Close()
-	}
-
 	// Process options
 	if showHelp {
-		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
+		fmt.Fprintf(out, "%s\n", datatools.FmtHelp(helpText, appName, datatools.Version, datatools.ReleaseDate, datatools.ReleaseHash))
 		os.Exit(0)
 	}
 	if showLicense {
@@ -162,7 +166,7 @@ func main() {
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
+		fmt.Fprintf(out, "%s %s %s\n", appName, datatools.Version, datatools.ReleaseHash)
 		os.Exit(0)
 	}
 	if newLine {
@@ -180,27 +184,18 @@ func main() {
 	outObject := map[string]interface{}{}
 	newObject := map[string]interface{}{}
 
-	// READ in the JSON document if present on standard in or specified with -i.
-	if createRoot == false {
-		buf, err := ioutil.ReadAll(in)
-		if err != nil {
-			fmt.Fprintln(eout, err)
-			os.Exit(1)
-		}
-		err = json.Unmarshal(buf, &outObject)
-		if err != nil {
-			fmt.Fprintln(eout, err)
-			os.Exit(1)
-		}
-	}
-
 	for _, arg := range args {
-		src, err := ioutil.ReadFile(arg)
-		if err != nil {
-			fmt.Fprintln(eout, err)
-			os.Exit(1)
+		var src []byte
+		if arg != "" && arg != "-" {
+			src, err = ioutil.ReadFile(arg)
+			if err != nil {
+				fmt.Fprintln(eout, err)
+				os.Exit(1)
+			}
+		} else {
+			src, err = ioutil.ReadAll(in)
 		}
-		err = json.Unmarshal(src, &newObject)
+		err = datatools.JSONUnmarshal(src, &newObject)
 		if err != nil {
 			fmt.Fprintln(eout, err)
 			os.Exit(1)
@@ -218,11 +213,22 @@ func main() {
 			}
 		default:
 			key := strings.TrimSuffix(path.Base(arg), ".json")
+			if key == "" {
+				key = "_"
+			}
 			outObject[key] = newObject
 		}
 	}
 
-	src, err := json.Marshal(outObject)
+	var (
+		src []byte
+	)
+
+	if pretty {
+		src, err = datatools.JSONMarshalIndent(outObject, "", "    ")
+	} else {
+		src, err = datatools.JSONMarshal(outObject)
+	}
 	if err != nil {
 		fmt.Fprintln(eout, err)
 		os.Exit(1)
