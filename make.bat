@@ -6,7 +6,9 @@ REM It requires: go version 1.16.6 or better and the cli for git installed
 REM
 go version
 mkdir bin
-echo "Getting ready to build the datatools in bin"
+echo off
+echo Getting ready to build the datatools in bin
+echo on
 go build -o bin\codemeta2cff.exe cmd\codemeta2cff\codemeta2cff.go
 go build -o bin\csv2json.exe cmd\csv2json\csv2json.go
 go build -o bin\csv2mdtable.exe cmd\csv2mdtable\csv2mdtable.go
@@ -22,7 +24,7 @@ go build -o bin\findfile.exe cmd\findfile\findfile.go
 go build -o bin\json2toml.exe cmd\json2toml\json2toml.go
 go build -o bin\json2yaml.exe cmd\json2yaml\json2yaml.go
 go build -o bin\jsoncols.exe cmd\jsoncols\jsoncols.go
-go build -o bin\jsonjoin.exe cmd\jsonjoin\jsonjoin.gp
+go build -o bin\jsonjoin.exe cmd\jsonjoin\jsonjoin.go
 go build -o bin\jsonmunge.exe cmd\jsonmunge\jsonmunge.go
 go build -o bin\jsonrange.exe cmd\jsonrange\jsonrange.go
 go build -o bin\mergepath.exe cmd\mergepath\mergepath.go
@@ -38,7 +40,9 @@ go build -o bin\urlparse.exe cmd\urlparse\urlparse.go
 go build -o bin\xlsx2csv.exe cmd\xlsx2csv\xlsx2csv.go
 go build -o bin\xlsx2json.exe cmd\xlsx2json\xlsx2json.go
 go build -o bin\yaml2json.exe cmd\yaml2json\yaml2json.go
-echo "Checking compile should see version number of dataset"
+echo  off
+echo Checking compile should see version number of dataset
+echo on
 bin\codemeta2cff.exe -version
 bin\csv2json.exe -version
 bin\csv2mdtable.exe -version
@@ -70,9 +74,12 @@ bin\urlparse.exe -version
 bin\xlsx2csv.exe -version
 bin\xlsx2json.exe -version
 bin\yaml2json.exe -version
-echo "If OK, you can now copy the dataset.exe to %USERPROFILE%\goin"
-echo ""
-echo "      copy bin\* %USERPROFILE%\AppData\go\bin"
-""
-echo "or someplace else in your %PATH%"
-""
+echo off
+echo If OK, you can now copy the dataset.exe to %USERPROFILE%\go\bin in
+echo off   
+echo       copy bin\* %USERPROFILE%\AppData\go\bin
+echo off
+echo or someplace else in your PATH
+echo off   
+echo      %PATH%
+echo on
