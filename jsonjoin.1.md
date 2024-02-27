@@ -1,4 +1,4 @@
-%jsonjoin(1) user manual | version 1.2.6 37d64be
+%jsonjoin(1) user manual | version 1.2.6 72e3344
 % R. S. Doiel
 % 2024-02-26
 
