@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
-	"strings"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/datatools"
@@ -159,9 +158,6 @@ Would yield
 	quote          bool
 )
 
-func fmtTxt(src string, appName string, version string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
-}
 
 func main() {
 	var (
@@ -170,6 +166,10 @@ func main() {
 	)
 
 	appName := path.Base(os.Args[0])
+	version := datatools.Version
+	license := datatools.LicenseText
+	releaseDate := datatools.ReleaseDate
+	releaseHash := datatools.ReleaseHash
 
 	// Basic Options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -224,15 +224,15 @@ func main() {
 
 	// Process Options
 	if showHelp {
-		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
+		fmt.Fprintf(out, "%s\n", datatools.FmtHelp(helpText, appName, version, releaseDate, releaseHash))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
+		fmt.Fprintf(out, "%s\n", license)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
+		fmt.Fprintf(out, "datatools, %s %s %s\n", appName, version, releaseHash)
 		os.Exit(0)
 	}
 

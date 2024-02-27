@@ -130,9 +130,6 @@ Putting it all together in a shell script.
 	showSheetNames bool
 )
 
-func fmtTxt(src string, appName string, version string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
-}
 
 func sheetCount(workBookName string) (int, error) {
 	xlFile, err := xlsx.OpenFile(workBookName)
@@ -187,6 +184,10 @@ func xlsx2CSV(out io.Writer, workBookName, sheetName string) error {
 
 func main() {
 	appName := path.Base(os.Args[0])
+	version := datatools.Version
+	license := datatools.LicenseText
+	releaseDate := datatools.ReleaseDate
+	releaseHash := datatools.ReleaseHash
 
 	// Standard Options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -228,15 +229,15 @@ func main() {
 
 	// Process options
 	if showHelp {
-		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
+		fmt.Fprintf(out, "%s\n", datatools.FmtHelp(helpText, appName, version, releaseDate, releaseHash))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
+		fmt.Fprintf(out, "%s\n", license)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
+		fmt.Fprintf(out, "datatools, %s %s %s\n", appName, version, releaseHash)
 		os.Exit(0)
 	}
 	if newLine {

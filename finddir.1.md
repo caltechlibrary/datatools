@@ -1,6 +1,6 @@
-%finddir(1) user manual | version 1.2.6 {release_hash}
+%finddir(1) user manual | version 1.2.6 14d3709
 % R. S. Doiel
-% {release_date}
+% 2024-02-27
 
 # NAME
 

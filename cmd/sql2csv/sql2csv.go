@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"os"
 	"path"
-	"strings"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/datatools"
@@ -130,9 +129,6 @@ a file if desired.
 `
 )
 
-func fmtTxt(src string, name string, version string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(src, `{app_name}`, name), `{version}`, version)
-}
 
 func main() {
 	// Program configuration defaults
@@ -143,6 +139,11 @@ func main() {
 
 	// Running details
 	appName := path.Base(os.Args[0])
+	version := datatools.Version
+	license := datatools.LicenseText
+	releaseDate := datatools.ReleaseDate
+	releaseHash := datatools.ReleaseHash
+
 	showHelp, showLicense, showVersion := false, false, false
 	writeHeaderRow, useCRLF := sqlCfg.WriteHeaderRow, sqlCfg.UseCRLF
 	dsn, delimiter := "", ""
@@ -159,17 +160,20 @@ func main() {
 	flag.Parse()
 	args := flag.Args()
 
+	out := os.Stdout
+	eout := os.Stderr
+
 	// Handle help and information options
 	if showHelp {
-		fmt.Fprintf(os.Stdout, "%s", fmtTxt(helpText, appName, datatools.Version))
-		os.Exit(0)
-	}
-	if showVersion {
-		fmt.Fprintf(os.Stdout, "%s %s\n", appName, datatools.Version)
+		fmt.Fprintf(out, "%s\n", datatools.FmtHelp(helpText, appName, version, releaseDate, releaseHash))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintf(os.Stdout, "%s %s\n%s\n", appName, datatools.Version, fmtTxt(datatools.LicenseText, appName, datatools.Version))
+		fmt.Fprintf(os.Stdout, "%s\n", license)
+		os.Exit(0)
+	}
+	if showVersion {
+		fmt.Fprintf(out, "datatools, %s %s %s\n", appName, version, releaseHash)
 		os.Exit(0)
 	}
 
@@ -180,7 +184,7 @@ func main() {
 	case 2:
 		fName, stmt = args[0], args[1]
 	default:
-		fmt.Fprintf(os.Stderr, "missing configuration and SQL query statement")
+		fmt.Fprintf(eout, "missing configuration and SQL query statement")
 		os.Exit(1)
 	}
 
@@ -188,11 +192,11 @@ func main() {
 	if fName != "" {
 		src, err := os.ReadFile(fName)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
+			fmt.Fprintf(eout, "%s\n", err)
 			os.Exit(1)
 		}
 		if err := json.Unmarshal(src, &sqlCfg); err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err)
+			fmt.Fprintf(eout, "%s\n", err)
 		}
 	}
 
@@ -220,7 +224,7 @@ func main() {
 	// Open the SQL store
 	store, err := datatools.OpenSQLStore(sqlCfg.DSN)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
+		fmt.Fprintf(eout, "%s\n", err)
 		os.Exit(1)
 	}
 	defer store.Close()
@@ -228,12 +232,12 @@ func main() {
 	store.WriteHeaderRow = sqlCfg.WriteHeaderRow
 	if err := store.QueryToCSV(w, stmt); err != nil {
 		w.Flush()
-		fmt.Fprintf(os.Stderr, "%s\n", err)
+		fmt.Fprintf(eout, "%s\n", err)
 		os.Exit(1)
 	}
 	w.Flush()
 	if err := w.Error(); err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
+		fmt.Fprintf(eout, "%s\n", err)
 		os.Exit(1)
 	}
 }

@@ -127,6 +127,10 @@ func main() {
 	)
 
 	appName := path.Base(os.Args[0])
+	version := datatools.Version
+	license := datatools.LicenseText
+	releaseDate := datatools.ReleaseDate
+	releaseHash := datatools.ReleaseHash
 
 	// Standard Options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -146,15 +150,15 @@ func main() {
 
 	// Process Options
 	if showHelp {
-		fmt.Fprintln(out, fmtText(helpText, appName, datatools.Version))
+		fmt.Fprintf(out, "%s\n", datatools.FmtHelp(helpText, appName, version, releaseDate, releaseHash))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintln(out, fmtText(licenseText, appName, datatools.Version))
+		fmt.Fprintf(out, "%s\n", license)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintln(out, datatools.Version)
+		fmt.Fprintf(out, "datatools, %s %s %s\n", appName, version, releaseHash)
 		os.Exit(0)
 	}
 	if newLine {

@@ -137,12 +137,12 @@ Convert data1.csv to JSON blobs, one line per blob
 	pretty           bool
 )
 
-func fmtTxt(src string, appName string, version string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
-}
-
 func main() {
 	appName := path.Base(os.Args[0])
+	version := datatools.Version
+	license := datatools.LicenseText
+	releaseDate := datatools.ReleaseDate
+	releaseHash := datatools.ReleaseHash
 
 	// Standard Options
 	flag.BoolVar(&showHelp, "help", showHelp, "display help")
@@ -196,15 +196,15 @@ func main() {
 
 	// Process options
 	if showHelp {
-		fmt.Fprintf(os.Stdout, "%s\n", fmtTxt(helpText, appName, datatools.Version))
+		fmt.Fprintf(out, "%s\n", datatools.FmtHelp(helpText, appName, version, releaseDate, releaseHash))
 		os.Exit(0)
 	}
 	if showLicense == true {
-		fmt.Fprintf(os.Stdout, "%s\n", fmtTxt(datatools.LicenseText, appName, datatools.Version))
+		fmt.Fprintf(out, "%s\n", license)
 		os.Exit(0)
 	}
 	if showVersion == true {
-		fmt.Fprintf(os.Stdout, "%s %s\n", appName, datatools.Version)
+		fmt.Fprintf(out, "datatools, %s %s %s\n", appName, version, releaseHash)
 		os.Exit(0)
 	}
 	if newLine {

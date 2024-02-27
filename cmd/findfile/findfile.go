@@ -125,9 +125,6 @@ Search the current directory and subdirectories for Markdown files with extensio
 	pathSep              string
 )
 
-func fmtTxt(src string, appName string, version string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
-}
 
 func display(w io.Writer, docroot, p string, m time.Time) {
 	var s string
@@ -181,6 +178,10 @@ func walkPath(out io.Writer, docroot string, target string) error {
 
 func main() {
 	appName := path.Base(os.Args[0])
+	version := datatools.Version
+	license := datatools.LicenseText
+	releaseDate := datatools.ReleaseDate
+	releaseHash := datatools.ReleaseHash
 
 	// Standard Options
 	flag.BoolVar(&showHelp, "help", false, "display this help message")
@@ -229,15 +230,15 @@ func main() {
 
 	// Process options
 	if showHelp {
-		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
+		fmt.Fprintf(out, "%s\n", datatools.FmtHelp(helpText, appName, version, releaseDate, releaseHash))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintf(out, "%s\n", datatools.LicenseText)
+		fmt.Fprintf(out, "%s\n", license)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintf(out, "%s %s\n", appName, datatools.Version)
+		fmt.Fprintf(out, "datatools, %s %s %s\n", appName, version, releaseHash)
 		os.Exit(0)
 	}
 
@@ -246,7 +247,7 @@ func main() {
 	}
 
 	if findAll == false && len(args) == 0 {
-		fmt.Fprintf(eout, "%s\n", fmtTxt(helpText, appName, datatools.Version))
+		fmt.Fprintf(eout, "%s\n", datatools.FmtHelp(helpText, appName, version, releaseDate, releaseHash))
 		fmt.Fprintln(eout, "Missing required parameters")
 		os.Exit(1)
 	}
