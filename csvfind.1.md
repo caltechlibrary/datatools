@@ -1,8 +1,6 @@
----
-title: "csvfind (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%csvfind(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -119,5 +117,5 @@ You can also search for phrases in columns.
     csvfind -i books.csv -col=2 -contains "Red Book"
 ~~~
 
-csvfind 1.2.2
+csvfind 1.2.6
 

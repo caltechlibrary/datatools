@@ -1,13 +1,12 @@
-//
 // jsoncols is a command line tool for filter JSON data from standard in or specified files.
 // It was inspired by [jq](https://github.com/stedolan/jq) and [jid](https://github.com/simeji/jid).
 // It facilitates extract one or more columns of data from a JSON document.
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
-//
 package main
 
 import (
+	"bytes"
 	"encoding/csv"
 	"encoding/json"
 	"flag"
@@ -23,11 +22,9 @@ import (
 )
 
 var (
-	helpText = `---
-title: "{app_name} (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -186,7 +183,6 @@ func main() {
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
 	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
-	
 
 	// Application Specific Options
 	flag.BoolVar(&runInteractive, "r", false, "run interactively")
@@ -260,8 +256,10 @@ func main() {
 	}
 
 	// JSON Decode our document
-	data, err := dotpath.JSONDecode(buf)
-	if err != nil {
+	decoder := json.NewDecoder(bytes.NewBuffer(buf))
+	decoder.UseNumber()
+	var data interface{}
+	if err := decoder.Decode(&data); err != nil {
 		fmt.Fprintln(eout, err)
 		os.Exit(1)
 	}

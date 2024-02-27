@@ -44,11 +44,9 @@ import (
 )
 
 var (
-	helpText = `---
-title: "{app_name}(1) user manual"
-author: "R. S. Doiel"
-pubDate: 2022-10-28
----
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -87,8 +85,8 @@ Specifying the full paths.
 `
 )
 
-func fmtTxt(src string, appName string, version string) string { 
-	return strings.ReplaceAll(strings.ReplaceAll(helpText, "{app_name}", appName), "{version}", version) 
+func fmtTxt(src string, appName string, version string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(helpText, "{app_name}", appName), "{version}", version)
 }
 
 func main() {

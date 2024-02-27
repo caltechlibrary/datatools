@@ -1,14 +1,14 @@
-//
 // jsonmunge is a command line tool that takes a JSON document and
 // a Go text/template rendering the result. Useful for
 // reshaping a JSON document or transforming into a new format,
 // or filter for specific content.
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
-//
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -19,16 +19,13 @@ import (
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/datatools"
-	"github.com/caltechlibrary/dotpath"
 	"github.com/caltechlibrary/tmplfn"
 )
 
 var (
-	helpText = `---
-title: "{app_name}"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -174,7 +171,6 @@ func main() {
 		defer out.Close()
 	}
 
-
 	// Process Options
 	if showHelp {
 		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, datatools.Version))
@@ -223,8 +219,10 @@ func main() {
 	}
 
 	// JSON Decode our document
-	data, err := dotpath.JSONDecode(buf)
-	if err != nil {
+	var data interface{}
+	decoder := json.NewDecoder(bytes.NewBuffer(buf))
+	decoder.UseNumber()
+	if err := decoder.Decode(&data); err != nil {
 		fmt.Fprintln(eout, err)
 		os.Exit(1)
 	}

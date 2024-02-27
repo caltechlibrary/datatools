@@ -1,8 +1,6 @@
----
-title: "csv2mdtable (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%csv2mdtable(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -64,6 +62,6 @@ Convert data1.csv to data1.md using options.
     csv2mdtable -i data1.csv -o data1.md
 ~~~
 
-csv2mdtable 1.2.2
+csv2mdtable 1.2.6
 
 

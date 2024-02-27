@@ -36,9 +36,9 @@ const (
 )
 
 var (
-	helpText = `%{app_name}(1) {app_name} user manual
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
 % R. S. Doiel
-% August 12, 2022
+% {release_date}
 
 # NAME
 

@@ -1,20 +1,25 @@
----
-title: "json2toml (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2013-01-06
----
+%jsonjoin(1) user manual | version 1.2.6 37d64be
+% R. S. Doiel
+% 2024-02-26
 
 # NAME
 
-json2toml 
+jsonjoin 
 
 # SYNOPSIS
 
-json2toml [OPTIONS] [JSON_FILENAME] [TOML_FILENAME]
+jsonjoin [OPTIONS] JSON_FILENAME [JSON_FILENAME ...]
 
 # DESCRIPTION
 
-json2toml is a tool that converts JSON objects into TOML output.
+jsonjoin joins one or more JSON objects. By default the
+objects are each assigned to an attribute corresponding with their
+filenames minus the ".json" extension. If the object is read from
+standard input then "_" is used as it's attribute name.
+
+If you use the update or overwrite options you will create a merged
+object. The update option keeps the attribute value first encountered
+and overwrite takes the last attribute value encountered.
 
 # OPTIONS
 
@@ -39,20 +44,44 @@ display version
 -quiet
 : suppress error messages
 
+-create
+: Create a root object placing each joined objects under their own attribute
+
+-update
+: update first object with the second object, ignore existing attributes
+
+-overwrite
+: update first object with the second object, overwriting existing attributes
 
 # EXAMPLES
 
-These would get the file named "my.json" and save it as my.toml
+This is an example of take "my1.json" and "my2.json"
+render "my.json"
 
 ~~~
-    json2toml my.json > my.toml
-
-	json2toml my.json my.toml
-
-	cat my.json | json2toml -i - > my.toml
+    jsonjoin my1.json my2.json >my.json
 ~~~
 
-json2toml 1.2.1
+my.json would have two attributes, "my1" and "my2" each
+with their complete attributes.
+
+Using the update option you can merge my1.json with any additional attribute
+values found in m2.json.
+
+~~~
+    jsonjoin -update my1.json my2.json >my.json
+~~~
+
+Using the overwrite option you can merge my1.json with my2.json accepted
+as replacement values.
+
+~~~
+    jsonjoin -overwrite my1.json my2.json >my.json
+~~~
+
+
+
+
 
 
 

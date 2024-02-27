@@ -1,8 +1,6 @@
----
-title: "csvjoin (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%csvjoin(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -107,6 +105,6 @@ merged-data.csv..
        -output=merged-data.csv
 ~~~
 
-csvjoin 1.2.2
+csvjoin 1.2.6
 
 

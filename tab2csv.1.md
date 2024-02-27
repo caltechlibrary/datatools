@@ -1,8 +1,6 @@
----
-title: "tab2csv (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%tab2csv(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -64,6 +62,6 @@ This would yield
 	"Doe, Jane","jane.doe@example.org",42
 ~~~
 
-tab2csv 1.2.2
+tab2csv 1.2.6
 
 

@@ -1,12 +1,12 @@
-//
 // jsonrange iterates over an array or map returning either a JSON expression
 // or map keep to stdout
 //
 // @Author R. S. Doiel, <rsdoiel@caltech.edu>
-//
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -20,11 +20,9 @@ import (
 )
 
 var (
-	helpText =`---
-title: "{app_name} (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -229,7 +227,6 @@ would yield
 {app_name} {version}
 `
 
-
 	// Standard Options
 	showHelp         bool
 	showLicense      bool
@@ -353,7 +350,6 @@ func main() {
 	flag.StringVar(&inputFName, "input", "", "read JSON from file")
 	flag.StringVar(&outputFName, "o", "", "write to output file")
 	flag.StringVar(&outputFName, "output", "", "write to output file")
-	
 
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
@@ -444,7 +440,9 @@ func main() {
 
 	for _, p := range args {
 		if p == "." {
-			data, err = dotpath.JSONDecode(buf)
+			decoder := json.NewDecoder(bytes.NewBuffer(buf))
+			decoder.UseNumber()
+			err = decoder.Decode(&data)
 		} else {
 			data, err = dotpath.EvalJSON(p, buf)
 		}

@@ -1,8 +1,6 @@
-//
 // tabs2csv converts a tab delimited file to a CSV formatted file.
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
-//
 package main
 
 import (
@@ -19,11 +17,9 @@ import (
 )
 
 var (
-	helpText = `---
-title: "{app_name} (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -158,13 +154,13 @@ func main() {
 		row, err := r.Read()
 		if err == io.EOF {
 			break
-		} 
+		}
 		if err != nil {
 			fmt.Fprintln(eout, err)
 			exitCode = 1
 		} else if err := w.Write(row); err != nil {
-				fmt.Fprintln(eout, err)
-				exitCode = 1
+			fmt.Fprintln(eout, err)
+			exitCode = 1
 		}
 	}
 	w.Flush()

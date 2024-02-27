@@ -1,8 +1,6 @@
----
-title: "csv2xlsx (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%csv2xlsx(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -71,6 +69,6 @@ called 'MyWorkbook.xlsx' with the contents of data.csv.
 This does the same but the contents of data.csv are piped into
 the workbook's 'My worksheet 2' sheet.
 
-csv2xlsx 1.2.2
+csv2xlsx 1.2.6
 
 

@@ -1,6 +1,6 @@
-%reltime(1) reltime user manual
+%reltime(1) user manual | version 1.2.6 {release_hash}
 % R. S. Doiel
-% August 12, 2022
+% {release_date}
 
 # NAME
 

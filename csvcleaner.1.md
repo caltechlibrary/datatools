@@ -1,8 +1,6 @@
----
-title: "csvcleaner (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%csvcleaner(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -109,5 +107,5 @@ Trim leading and trailing spaces from output.
     cat mysheet.csv | csvcleaner -trim-space
 ~~~
 
-csvcleaner 1.2.2
+csvcleaner 1.2.6
 

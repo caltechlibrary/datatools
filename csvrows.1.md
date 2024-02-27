@@ -1,8 +1,6 @@
----
-title: "csvrows"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%csvrows(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -98,6 +96,6 @@ a header row from 10row.csv.
 	csvrows -i 10row.csv -header=true -random=3
 ~~~
 
-csvrows 1.2.2
+csvrows 1.2.6
 
 

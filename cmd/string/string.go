@@ -32,11 +32,9 @@ import (
 )
 
 var (
-	helpText = `---
-title: "{app_name} (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -203,15 +201,15 @@ Join a JSON array of strings into a newline delimited list
 `
 
 	// Standard Options
-	showHelp         bool
-	showLicense      bool
-	showVersion      bool
-	showExamples     bool
-	inputFName       string
-	outputFName      string
-	newLine          bool
-	quiet            bool
-	eol              string
+	showHelp     bool
+	showLicense  bool
+	showVersion  bool
+	showExamples bool
+	inputFName   string
+	outputFName  string
+	newLine      bool
+	quiet        bool
+	eol          string
 
 	// App Options
 	delimiter       string
@@ -811,7 +809,7 @@ func main() {
 	out := os.Stdout
 	eout := os.Stderr
 
-	if inputFName != ""  && inputFName != "-" {
+	if inputFName != "" && inputFName != "-" {
 		in, err = os.Open(inputFName)
 		if err != nil {
 			fmt.Fprintln(eout, err)

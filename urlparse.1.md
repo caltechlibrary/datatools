@@ -1,8 +1,6 @@
----
-title: "urlparse (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+%urlparse(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -109,5 +107,5 @@ Get extension. Returns ".html".
 Without options urlparse returns protocol, host and path
 fields separated by a tab.
 
-urlparse 1.2.2
+urlparse 1.2.6
 

@@ -25,12 +25,18 @@
 
 <section>
 <h1 id="name">NAME</h1>
-<p>json2toml</p>
+<p>jsonjoin</p>
 <h1 id="synopsis">SYNOPSIS</h1>
-<p>json2toml <a href="#options">OPTIONS</a> [JSON_FILENAME]
-[TOML_FILENAME]</p>
+<p>jsonjoin <a href="#options">OPTIONS</a> JSON_FILENAME [JSON_FILENAME
+…]</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>json2toml is a tool that converts JSON objects into TOML output.</p>
+<p>jsonjoin joins one or more JSON objects. By default the objects are
+each assigned to an attribute corresponding with their filenames minus
+the “.json” extension. If the object is read from standard input then
+“_” is used as it’s attribute name.</p>
+<p>If you use the update or overwrite options you will create a merged
+object. The update option keeps the attribute value first encountered
+and overwrite takes the last attribute value encountered.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
@@ -60,15 +66,33 @@ pretty print output
 <dd>
 suppress error messages
 </dd>
+<dt>-create</dt>
+<dd>
+Create a root object placing each joined objects under their own
+attribute
+</dd>
+<dt>-update</dt>
+<dd>
+update first object with the second object, ignore existing attributes
+</dd>
+<dt>-overwrite</dt>
+<dd>
+update first object with the second object, overwriting existing
+attributes
+</dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
-<p>These would get the file named “my.json” and save it as my.toml</p>
-<pre><code>    json2toml my.json &gt; my.toml
-
-    json2toml my.json my.toml
-
-    cat my.json | json2toml -i - &gt; my.toml</code></pre>
-<p>json2toml 1.2.1</p>
+<p>This is an example of take “my1.json” and “my2.json” render
+“my.json”</p>
+<pre><code>    jsonjoin my1.json my2.json &gt;my.json</code></pre>
+<p>my.json would have two attributes, “my1” and “my2” each with their
+complete attributes.</p>
+<p>Using the update option you can merge my1.json with any additional
+attribute values found in m2.json.</p>
+<pre><code>    jsonjoin -update my1.json my2.json &gt;my.json</code></pre>
+<p>Using the overwrite option you can merge my1.json with my2.json
+accepted as replacement values.</p>
+<pre><code>    jsonjoin -overwrite my1.json my2.json &gt;my.json</code></pre>
 </section>
 
 <footer>

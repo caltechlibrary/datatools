@@ -34,11 +34,9 @@ import (
 )
 
 var (
-	helpText = `---
-title: "csv2json (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
