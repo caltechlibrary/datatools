@@ -1,6 +1,6 @@
-%sql2csv(1) user manual | version 1.2.6 {release_hash}
+%sql2csv(1) user manual | version 1.2.6 14d3709
 % R. S. Doiel
-% {release_date}
+% 2024-02-27
 
 # NAME
 
@@ -111,3 +111,4 @@ a file if desired.
       >ten-rows.csv
 
 sql2csv 1.2.6
+

@@ -85,13 +85,15 @@ Specifying the full paths.
 `
 )
 
-func fmtTxt(src string, appName string, version string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(helpText, "{app_name}", appName), "{version}", version)
-}
-
 func main() {
+
 	// command line name and options support
 	appName := path.Base(os.Args[0])
+	version := datatools.Version
+	license := datatools.LicenseText
+	releaseDate := datatools.ReleaseDate
+	releaseHash := datatools.ReleaseHash
+
 	showHelp, showVersion, showLicense := false, false, false
 	// Setup to parse command line
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -101,17 +103,21 @@ func main() {
 
 	args := flag.Args()
 
+	//in := os.Stdin
+	out := os.Stdout
+	eout := os.Stderr
+
 	// Process options and run report
 	if showHelp {
-		fmt.Fprintf(os.Stdout, "%s\n", fmtTxt(helpText, appName, datatools.Version))
+		fmt.Fprintf(out, "%s\n", datatools.FmtHelp(helpText, appName, version, releaseDate, releaseHash))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintf(os.Stdout, "%s\n", fmtTxt(datatools.LicenseText, appName, datatools.Version))
+		fmt.Fprintf(out, "%s\n", license)
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Printf("datatools, %s v%s\n", appName, datatools.Version)
+		fmt.Fprintf(out, "datatools, %s %s %s\n", appName, version, releaseHash)
 		os.Exit(0)
 	}
 	codemeta, citation := "codemeta.json", "CITATION.cff"
@@ -120,12 +126,12 @@ func main() {
 	} else if len(args) == 1 {
 		codemeta = args[0]
 	} else if len(args) != 0 {
-		fmt.Fprintf(os.Stderr, "Unexpected parameters: %q\n", strings.Join(os.Args, " "))
+		fmt.Fprintf(eout, "Unexpected parameters: %q\n", strings.Join(os.Args, " "))
 		os.Exit(1)
 	}
 	err := datatools.CodemetaToCitationCff(codemeta, citation)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
+		fmt.Fprintf(eout, "ERROR: %s\n", err)
 		os.Exit(1)
 	}
 }
