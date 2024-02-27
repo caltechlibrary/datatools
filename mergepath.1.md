@@ -1,4 +1,4 @@
-%mergepath(1) user manual | version 1.2.6 14d3709
+%mergepath(1) user manual | version 1.2.7 ede8965
 % R. S. Doiel
 % 2024-02-27
 
@@ -58,5 +58,5 @@ This would put your home bin directory at the beginning of your path.
 	export PATH=$(mergepath -p $HOME/bin)
 ~~~
 
-mergepath 1.2.6
+mergepath 1.2.7
 

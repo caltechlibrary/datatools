@@ -1,4 +1,4 @@
-%xlsx2csv(1) user manual | version 1.2.6 14d3709
+%xlsx2csv(1) user manual | version 1.2.7 ede8965
 % R. S. Doiel
 % 2024-02-27
 
@@ -72,6 +72,6 @@ Putting it all together in a shell script.
 	done
 ~~~
 
-xlsx2csv 1.2.6
+xlsx2csv 1.2.7
 
 

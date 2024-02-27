@@ -1,4 +1,4 @@
-%csv2mdtable(1) user manual | version 1.2.6 14d3709
+%csv2mdtable(1) user manual | version 1.2.7 ede8965
 % R. S. Doiel
 % 2024-02-27
 
@@ -62,6 +62,6 @@ Convert data1.csv to data1.md using options.
     csv2mdtable -i data1.csv -o data1.md
 ~~~
 
-csv2mdtable 1.2.6
+csv2mdtable 1.2.7
 
 

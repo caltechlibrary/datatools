@@ -1,4 +1,4 @@
-%yaml2json(1) user manual | version 1.2.6 14d3709
+%yaml2json(1) user manual | version 1.2.7 ede8965
 % R. S. Doiel
 % 2024-02-27
 
@@ -51,5 +51,5 @@ These would get the file named "my.yaml" and save it as my.json
 	cat my.yaml | yaml2json -i - > my.json
 ~~~
 
-yaml2json 1.2.6
+yaml2json 1.2.7
 

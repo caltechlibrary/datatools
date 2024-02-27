@@ -1,4 +1,4 @@
-%sql2csv(1) user manual | version 1.2.6 14d3709
+%sql2csv(1) user manual | version 1.2.7 ede8965
 % R. S. Doiel
 % 2024-02-27
 
@@ -110,5 +110,5 @@ a file if desired.
   sql2csv dbcfg.json 'SELECT * FROM mytable LIMIT 10' \
       >ten-rows.csv
 
-sql2csv 1.2.6
+sql2csv 1.2.7
 
