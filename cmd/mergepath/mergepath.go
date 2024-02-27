@@ -1,4 +1,3 @@
-//
 // mergepath.go - merge the path variable to avoid duplicates
 //
 // @Author R. S. Doiel, <rsdoiel@caltech.edu>
@@ -15,7 +14,6 @@
 // 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
 package main
 
 import (
@@ -30,11 +28,9 @@ import (
 )
 
 const (
-	helpText = `---
-title: "{app_name} (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -96,13 +92,12 @@ This would put your home bin directory at the beginning of your path.
 `
 
 	pathUsage    = "The path you want to merge with."
-    dirUsage     = "The directory you want to add to the path."
-    appendUsage  = "Append the directory to the path removing any duplication"
-    prependUsage = "Prepend the directory to the path removing any duplication"
-    clipUsage    = "Remove a directory from the path"
-    helpUsage    = "This help document."
+	dirUsage     = "The directory you want to add to the path."
+	appendUsage  = "Append the directory to the path removing any duplication"
+	prependUsage = "Prepend the directory to the path removing any duplication"
+	clipUsage    = "Remove a directory from the path"
+	helpUsage    = "This help document."
 )
-
 
 var (
 	// Standard Options

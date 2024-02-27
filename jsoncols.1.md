@@ -1,8 +1,6 @@
----
-title: "jsoncols (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%jsoncols(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -112,6 +110,6 @@ Would yield
    "Doe, Jane","jane.doe@xample.org",42
 ~~~
 
-jsoncols 1.2.2
+jsoncols 1.2.6
 
 

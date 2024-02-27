@@ -1,8 +1,6 @@
----
-title: "finddir (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%finddir(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -67,5 +65,5 @@ Find all subdirectories starting with "img".
 	finddir -p img
 ~~~
 
-finddir 1.2.2
+finddir 1.2.6
 

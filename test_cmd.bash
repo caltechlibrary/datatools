@@ -616,31 +616,31 @@ function test_jsonjoin(){
 
 
     if [ -f temp.json ]; then rm temp.json; fi
-    cat how-to/person.json | jsonjoin -i -  how-to/profile.json > temp.json
+    cat how-to/person.json | bin/jsonjoin -- - how-to/profile.json > temp.json
     assert_exists "test_jsonjson (profile)" temp.json
     R=$(cmp how-to/result2.json temp.json)
     assert_empty "test_jsonjoin (result2)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/jsonjoin -i how-to/person.json how-to/profile.json > temp.json
+    bin/jsonjoin how-to/person.json how-to/profile.json > temp.json
     assert_exists "test_jsonjson (result3)" temp.json
     R=$(cmp how-to/result3.json temp.json)
     assert_empty "test_jsonjoin (result3)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/jsonjoin -create -update how-to/person.json how-to/profile.json > temp.json
+    bin/jsonjoin -update how-to/person.json how-to/profile.json > temp.json
     assert_exists "test_jsonjson (result4)" temp.json
     R=$(cmp how-to/result4.json temp.json)
     assert_empty "test_jsonjoin (result4)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/jsonjoin -create -update how-to/profile.json how-to/person.json > temp.json
+    bin/jsonjoin -update how-to/profile.json how-to/person.json > temp.json
     assert_exists "test_jsonjson (result5)" temp.json
     R=$(cmp how-to/result5.json temp.json)
     assert_empty "test_jsonjoin (result5)" "$R"
 
     if [ -f temp.json ]; then rm temp.json; fi
-    bin/jsonjoin -create -overwrite how-to/person.json how-to/profile.json > temp.json
+    bin/jsonjoin -overwrite how-to/person.json how-to/profile.json > temp.json
     assert_exists "test_jsonjson (result6)" temp.json
     R=$(cmp how-to/result6.json temp.json)
     assert_empty "test_jsonjoin (result6)" "$R"

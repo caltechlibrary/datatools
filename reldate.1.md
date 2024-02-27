@@ -1,8 +1,6 @@
----
-title: "reldate (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+%reldate(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -128,5 +126,5 @@ As that is the Monday of the week containing 2015-02-10. Weekday names
 case insensitive and can be the first three letters of the English names
 or full English names (e.g. Monday, monday, Mon, mon).
 
-reldate 1.2.2
+reldate 1.2.6
 

@@ -18,7 +18,7 @@ $(HTML_PAGES): $(MD_PAGES) .FORCE
 	@if [ $@ = "README.html" ]; then mv README.html index.html; fi
 
 pagefind: .FORCE
-	pagefind --verbose --exclude-selectors="nav,header,footer" --bundle-dir ./pagefind --source .
+	pagefind --verbose --exclude-selectors="nav,header,footer" --site .
 	git add pagefind
 
 clean:

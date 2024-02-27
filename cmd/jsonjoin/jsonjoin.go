@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	helpText = `%{app_name}(1) irdmtools user manual | version {version} {release_hash}
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
 % R. S. Doiel
 % {release_date}
 
@@ -201,6 +201,23 @@ func main() {
 			os.Exit(1)
 		}
 		switch {
+		case createRoot == true:
+			// Take the filename, use as a property name and add it to the out object.
+			key := strings.TrimSuffix(path.Base(arg), ".json")
+			if key == "" || key == "-" {
+				key = "_"
+			}
+			if _, conflict := outObject[key]; ! conflict || overwrite {
+				outObject[key] = newObject
+			} else {
+				m, _ := outObject[key].(map[string]interface{})
+				for k, v := range newObject {
+					if _, conflict := m[k]; ! conflict {
+						m[k] = v
+					}
+				}
+				outObject[key] = m
+			}
 		case update == true:
 			for k, v := range newObject {
 				if _, ok := outObject[k]; ok != true {
@@ -212,11 +229,27 @@ func main() {
 				outObject[k] = v
 			}
 		default:
-			key := strings.TrimSuffix(path.Base(arg), ".json")
-			if key == "" {
-				key = "_"
+			if len(outObject) == 0 {
+				// If empty out object is same a new object
+				for k, v := range newObject {
+					outObject[k] = v
+				}
+			} else if arg == "-" {
+				// If reading from standard in we have no filename to use a sub-property,
+				// so read into the root object if not collision (we have an overwrite optins if the other behavior is desired)
+				for k, v := range newObject {
+					if _, conflict := outObject[k]; ! conflict {
+						outObject[k] = v
+					}
+				}
+			} else {
+				// Take the filename, use as a property name and add it to the out object.
+				key := strings.TrimSuffix(path.Base(arg), ".json")
+				if key == "" {
+					key = "_"
+				}
+				outObject[key] = newObject
 			}
-			outObject[key] = newObject
 		}
 	}
 

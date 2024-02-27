@@ -1,8 +1,6 @@
----
-title: "mergepath (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+%mergepath(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -60,5 +58,5 @@ This would put your home bin directory at the beginning of your path.
 	export PATH=$(mergepath -p $HOME/bin)
 ~~~
 
-mergepath 1.2.2
+mergepath 1.2.6
 

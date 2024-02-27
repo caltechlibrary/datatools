@@ -1,8 +1,6 @@
----
-title: "timefmt (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+%timefmt(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -73,5 +71,5 @@ Format the MySQL date/time of 8:08am, July 2, 2016
 
 Yields "02 Dec 17 08:08 UTC"
 
-timefmt 1.2.2
+timefmt 1.2.6
 

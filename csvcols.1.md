@@ -1,8 +1,6 @@
----
-title: "csvcols (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%csvcols(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -92,6 +90,6 @@ Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
     csvcols -i 3col.csv -col 1,3 -o 2col.csv
 ~~~
 
-csvcols 1.2.2
+csvcols 1.2.6
 
 

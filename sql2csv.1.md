@@ -1,8 +1,6 @@
----
-title: "sql2csv (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-05
----
+%sql2csv(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -112,4 +110,4 @@ a file if desired.
   sql2csv dbcfg.json 'SELECT * FROM mytable LIMIT 10' \
       >ten-rows.csv
 
-sql2csv 1.2.2
+sql2csv 1.2.6

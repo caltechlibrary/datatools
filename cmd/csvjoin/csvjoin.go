@@ -1,4 +1,3 @@
-//
 // csvjoin - is a command line that takes two CSV files and joins them by match a designated column in each.
 //
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
@@ -15,7 +14,6 @@
 // 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
 package main
 
 import (
@@ -32,11 +30,9 @@ import (
 )
 
 var (
-	helpText = `---
-title: "{app_name} (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -253,7 +249,6 @@ func scanTable(eout io.Writer, w *csv.Writer, rowA []string, col1 int, table [][
 func main() {
 	appName := path.Base(os.Args[0])
 
-
 	// Standard Options
 	flag.BoolVar(&showHelp, "help", false, "display help")
 	flag.BoolVar(&showLicense, "license", false, "display license")
@@ -294,7 +289,6 @@ func main() {
 	out := os.Stdout
 	eout := os.Stderr
 
-
 	if outputFName != "" && outputFName != "-" {
 		out, err = os.Create(outputFName)
 		if err != nil {
@@ -303,7 +297,6 @@ func main() {
 		}
 		defer out.Close()
 	}
-
 
 	// Process Options
 	if showHelp {
@@ -390,10 +383,10 @@ func main() {
 			break
 		}
 		if err != nil {
-			if ! quiet {
+			if !quiet {
 				fmt.Fprintf(eout, "%s, %s (%T %+v)\n", csv2FName, err, record, record)
 			}
-		} 
+		}
 		csv2Table = append(csv2Table, record)
 	}
 
@@ -406,21 +399,21 @@ func main() {
 				break
 			}
 			if err != nil {
-				if ! quiet {
+				if !quiet {
 					fmt.Fprintf(eout, "%d %s\n", lineNo, err)
 				}
 			} else {
 				if col1 < len(rowA) && rowA[col1] != "" {
 					// We are relying on the side effect of writing the CSV output in scanTable
 					if err := scanTable(eout, w, rowA, col1, csv2Table, col2, stopWords); err != nil {
-						if ! quiet {
+						if !quiet {
 							fmt.Fprintf(eout, "Can't write CSV at line %d of csv table 1, %s\n", lineNo, err)
 						}
 					}
 				}
 				if verbose == true {
 					if (lineNo%100) == 0 && lineNo > 0 {
-						if ! quiet {
+						if !quiet {
 							fmt.Fprintf(eout, "\n%d rows of %s processed\n", lineNo, csv1FName)
 						}
 					}
@@ -438,7 +431,7 @@ func main() {
 				break
 			}
 			if err != nil {
-				if ! quiet {
+				if !quiet {
 					fmt.Fprintf(eout, "%s, %s (%T %+v)\n", csv1FName, err, record, record)
 				}
 			}
@@ -449,14 +442,14 @@ func main() {
 			if col1 < len(rowA) && rowA[col1] != "" {
 				// We are relying on the side effect of writing the CSV output in scanTable
 				if err := scanTable(eout, w, rowA, col1, csv2Table, col2, stopWords); err != nil {
-					if ! quiet {
+					if !quiet {
 						fmt.Fprintf(eout, "Can't write CSV at line %d of csv table 1, %s\n", lineNo, err)
 					}
 				}
 			}
 			if verbose == true {
 				if (lineNo%100) == 0 && lineNo > 0 {
-					if ! quiet {
+					if !quiet {
 						fmt.Fprintf(eout, "%d rows of %s processed\n", lineNo, csv1FName)
 					}
 				}

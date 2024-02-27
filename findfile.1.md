@@ -1,8 +1,6 @@
----
-title: "findfile (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-06
----
+%findfile(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -66,6 +64,6 @@ Search the current directory and subdirectories for Markdown files with extensio
 	findfile -s .md
 ~~~
 
-findfile 1.2.2
+findfile 1.2.6
 
 

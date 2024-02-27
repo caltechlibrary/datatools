@@ -1,8 +1,6 @@
----
-title: "jsonmunge"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+%jsonmunge(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -75,5 +73,5 @@ This would yield
     "Doe, Jane"
 ~~~
 
-jsonmunge 1.2.2
+jsonmunge 1.2.6
 

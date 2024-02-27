@@ -67,7 +67,8 @@ installer.sh: .FORCE
 $(PROGRAMS): $(PACKAGE)
 	@mkdir -p bin
 	go build -o bin/$@$(EXT) cmd/$@/*.go
-
+	@./bin/$@ -help >$@.1.md
+ 
 test: $(PACKAGE)
 	go test
 	bash test_cmd.bash
@@ -82,8 +83,8 @@ $(MAN_PAGES): .FORCE
 man: $(MAN_PAGES)
 
 website: .FORCE
-	make -f website.mak
 	cd how-to && make -f website.mak
+	make -f website.mak
 
 status:
 	git status

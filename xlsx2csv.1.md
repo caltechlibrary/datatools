@@ -1,8 +1,6 @@
----
-title: "xlsx2csv (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+%xlsx2csv(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -74,6 +72,6 @@ Putting it all together in a shell script.
 	done
 ~~~
 
-xlsx2csv 1.2.2
+xlsx2csv 1.2.6
 
 

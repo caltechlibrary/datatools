@@ -1,4 +1,3 @@
-//
 // Generates a date in YYYY-MM-DD format based on a relative time
 // description (e.g. -1 week, +3 years)
 //
@@ -16,7 +15,6 @@
 // 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
 package main
 
 import (
@@ -35,11 +33,9 @@ import (
 )
 
 var (
-	helpText = `---
-title: "{app_name} (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+	helpText = `%{app_name}(1) user manual | version {version} {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -262,9 +258,9 @@ func main() {
 	)
 
 	if argc < 1 && endOfMonthFor == false {
-		fmt.Fprintf(eout,"Missing time increment and units (e.g. +2 days) or weekday name (e.g. Monday, Mon).")
+		fmt.Fprintf(eout, "Missing time increment and units (e.g. +2 days) or weekday name (e.g. Monday, Mon).")
 	} else if argc > 2 {
-		fmt.Fprintf(eout,"Too many command line arguments.")
+		fmt.Fprintf(eout, "Too many command line arguments.")
 	}
 
 	relativeT = time.Now()

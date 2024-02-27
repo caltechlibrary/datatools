@@ -1,8 +1,6 @@
----
-title: "xlsx2json (1) user manual"
-author: "R. S. Doiel"
-pubDate: 2023-01-09
----
+%xlsx2json(1) user manual | version 1.2.6 {release_hash}
+% R. S. Doiel
+% {release_date}
 
 # NAME
 
@@ -74,6 +72,6 @@ into JSON documents..
 	done
 ~~~
 
-xlsx2json 1.2.2
+xlsx2json 1.2.6
 
 
