@@ -76,11 +76,11 @@ test: $(PACKAGE)
 #	cd timefmt && go test
 	cd codemeta && go test
 	
+man: $(MAN_PAGES)
+
 $(MAN_PAGES): .FORCE
 	mkdir -p man/man1
 	pandoc $@.md --from markdown --to man -s >man/man1/$@
-
-man: $(MAN_PAGES)
 
 website: .FORCE
 	cd how-to && make -f website.mak
@@ -107,7 +107,7 @@ clean:
 	#@if [ -d man ]; then rm -fR man; fi
 
 # NOTE: macOS causes problems if you copy a binary versus move it.
-install: build
+install: build man
 	@echo "Installing programs in $(PREFIX)/bin"
 	@for FNAME in $(PROGRAMS); do if [ -f ./bin/$$FNAME ]; then mv -v ./bin/$$FNAME $(PREFIX)/bin/$$FNAME; fi; done
 	@echo ""

@@ -1,4 +1,4 @@
-%jsonmunge(1) user manual | version 1.2.7 ede8965
+%jsonmunge(1) user manual | version 1.2.7 a2bbe4b
 % R. S. Doiel
 % 2024-02-27
 

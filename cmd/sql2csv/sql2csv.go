@@ -42,7 +42,12 @@ dsn_url
 : (string) A data source name in URL form where the "protocol" element
 identifies the database resource being accessed (e.g. "sqlite://",
 "mysql://", "postgres://"). A data source name are rescribed
-at <https://github.com/golang/go/wiki/SQLInterface>.
+at <https://go.dev/wiki/SQLInterface>. For the specificly supported
+datatabase connection strings see
+<https://pkg.go.dev/github.com/glebarez/go-sqlite>,
+<https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name>
+and <https://pkg.go.dev/github.com/lib/pq>
+
 
 header_row
 : (boolean) if true print a header row in the output, false for no 
@@ -112,20 +117,36 @@ configuration file
 : Force the line ending per row to carage return and
 line feed if true, false use line feed
 
-# EXAMPLE
+-sql FILENAME
+: Read sql statement from a file instead of the command line.
+
+# EXAMPLES
 
 Using the "dbcfg.json" configuration file, display ten rows
 from table "mytable" in database indicated in "dbcfg.json".
 
+~~~sql
   {app_name} dbcfg.json 'SELECT * FROM mytable LIMIT 10'
+~~~
 
 The CSV output is written standard out and can be redirected into
 a file if desired.
 
+~~~shell
   {app_name} dbcfg.json 'SELECT * FROM mytable LIMIT 10' \
       >ten-rows.csv
+~~~
 
-{app_name} {version}
+Read SQL from a file and connect to Postgres without SSL you
+can pass the `+"`"+`-sql`+"`"+` and `+"`"+`-dsn`+"`"+` options.
+
+~~~shell
+{app_name} \
+  -dsn "postgres://${USER}@/${DB_NAME}?sslmode=disable" \
+  -sql query.sql \
+  >my_data.csv
+~~~
+
 `
 )
 
@@ -148,6 +169,7 @@ func main() {
 	writeHeaderRow, useCRLF := sqlCfg.WriteHeaderRow, sqlCfg.UseCRLF
 	dsn, delimiter := "", ""
 	fName, stmt := "", ""
+	sqlFName := ""
 
 	// Handle options
 	flag.BoolVar(&showHelp, "help", showHelp, "display help")
@@ -157,6 +179,7 @@ func main() {
 	flag.BoolVar(&useCRLF, "use-crlf", useCRLF, "delimited rows with a carriage return and line feed")
 	flag.StringVar(&dsn, "dsn", dsn, "connect using the data source name provided in URL form")
 	flag.StringVar(&delimiter, "delimiter", "", "set the delimiter, defaults to comma")
+	flag.StringVar(&sqlFName, "sql", "", "read the SQL statement from a file, '-' will cause a read from standard input")
 	flag.Parse()
 	args := flag.Args()
 
@@ -184,8 +207,20 @@ func main() {
 	case 2:
 		fName, stmt = args[0], args[1]
 	default:
-		fmt.Fprintf(eout, "missing configuration and SQL query statement")
-		os.Exit(1)
+		if sqlFName == "" {
+			fmt.Fprintf(eout, "missing configuration and SQL query statement")
+			os.Exit(1)
+		}
+	}
+
+	// Read SQL from file if specified.
+	if sqlFName != "" {
+		src, err := os.ReadFile(sqlFName)
+		if err != nil {
+			fmt.Fprintf(eout, "%s\n", err)
+			os.Exit(1)
+		}
+		stmt = fmt.Sprintf("%s", src)
 	}
 
 	// Load configuration if provided
