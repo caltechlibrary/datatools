@@ -33,6 +33,7 @@ _testmain.go
 *.zip
 dist/*
 bin/*
+man/*
 *.snap
 _codemeta.json
 authors_db_cfg.json

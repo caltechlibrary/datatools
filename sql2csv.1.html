@@ -42,8 +42,15 @@ value pairs.</p>
 (string) A data source name in URL form where the “protocol” element
 identifies the database resource being accessed (e.g. “sqlite://”,
 “mysql://”, “postgres://”). A data source name are rescribed at <a
-href="https://github.com/golang/go/wiki/SQLInterface"
-class="uri">https://github.com/golang/go/wiki/SQLInterface</a>.
+href="https://go.dev/wiki/SQLInterface"
+class="uri">https://go.dev/wiki/SQLInterface</a>. For the specificly
+supported datatabase connection strings see <a
+href="https://pkg.go.dev/github.com/glebarez/go-sqlite"
+class="uri">https://pkg.go.dev/github.com/glebarez/go-sqlite</a>, <a
+href="https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name"
+class="uri">https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name</a>
+and <a href="https://pkg.go.dev/github.com/lib/pq"
+class="uri">https://pkg.go.dev/github.com/lib/pq</a>
 </dd>
 <dt>header_row</dt>
 <dd>
@@ -112,16 +119,26 @@ Set the delimiter to use, default is comma
 Force the line ending per row to carage return and line feed if true,
 false use line feed
 </dd>
+<dt>-sql FILENAME</dt>
+<dd>
+Read sql statement from a file instead of the command line.
+</dd>
 </dl>
-<h1 id="example">EXAMPLE</h1>
+<h1 id="examples">EXAMPLES</h1>
 <p>Using the “dbcfg.json” configuration file, display ten rows from
 table “mytable” in database indicated in “dbcfg.json”.</p>
-<p>sql2csv dbcfg.json ‘SELECT * FROM mytable LIMIT 10’</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  sql2csv dbcfg.json <span class="st">&#39;SELECT * FROM mytable LIMIT 10&#39;</span></span></code></pre></div>
 <p>The CSV output is written standard out and can be redirected into a
 file if desired.</p>
-<p>sql2csv dbcfg.json ‘SELECT * FROM mytable LIMIT 10’<br />
-&gt;ten-rows.csv</p>
-<p>sql2csv 1.2.6</p>
+<pre class="shell"><code>  sql2csv dbcfg.json &#39;SELECT * FROM mytable LIMIT 10&#39; \
+      &gt;ten-rows.csv</code></pre>
+<p>Read SQL from a file and connect to Postgres without SSL you can pass
+the <code>-sql</code> and <code>-dsn</code> options.</p>
+<pre class="shell"><code>sql2csv \
+  -dsn &quot;postgres://${USER}@/${DB_NAME}?sslmode=disable&quot; \
+  -sql query.sql \
+  &gt;my_data.csv</code></pre>
 </section>
 
 <footer>

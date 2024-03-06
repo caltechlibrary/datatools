@@ -29,6 +29,7 @@ that comes with the datatools project.
 - [jsonjoin](jsonjoin.1.html), join JSON documents
 - [jsonmunge](jsonmunge.1.html), process JSON through a go template
 - [jsonrange](jsonrange.1.html), iterate a JSON expression of a list
+- [jsonobjects2csv](jsonobjects2csv.1.html), render a JSON list of objects to CSV file, flattens cells as YAML if needed
 - [sql2csv](sql2csv.1.html), convert a SQL query into a CSV output
 - [tab2csv](tab2csv.1.html), tab delimited file to CSV
 - [toml2json](toml2json.1.html), TAML to JSON

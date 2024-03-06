@@ -1,6 +1,6 @@
-%csvcols(1) user manual | version 1.2.6 14d3709
+%csvcols(1) user manual | version 1.2.9 0d7364a
 % R. S. Doiel
-% 2024-02-27
+% 2024-03-06
 
 # NAME
 
@@ -90,6 +90,6 @@ Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
     csvcols -i 3col.csv -col 1,3 -o 2col.csv
 ~~~
 
-csvcols 1.2.6
+csvcols 1.2.9
 
 

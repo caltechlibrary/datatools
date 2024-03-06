@@ -1,6 +1,6 @@
-%sql2csv(1) user manual | version 1.2.6 14d3709
+%sql2csv(1) user manual | version 1.2.9 0d7364a
 % R. S. Doiel
-% 2024-02-27
+% 2024-03-06
 
 # NAME
 
@@ -27,7 +27,12 @@ dsn_url
 : (string) A data source name in URL form where the "protocol" element
 identifies the database resource being accessed (e.g. "sqlite://",
 "mysql://", "postgres://"). A data source name are rescribed
-at <https://github.com/golang/go/wiki/SQLInterface>.
+at <https://go.dev/wiki/SQLInterface>. For the specificly supported
+datatabase connection strings see
+<https://pkg.go.dev/github.com/glebarez/go-sqlite>,
+<https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name>
+and <https://pkg.go.dev/github.com/lib/pq>
+
 
 header_row
 : (boolean) if true print a header row in the output, false for no 
@@ -97,18 +102,34 @@ configuration file
 : Force the line ending per row to carage return and
 line feed if true, false use line feed
 
-# EXAMPLE
+-sql FILENAME
+: Read sql statement from a file instead of the command line.
+
+# EXAMPLES
 
 Using the "dbcfg.json" configuration file, display ten rows
 from table "mytable" in database indicated in "dbcfg.json".
 
+~~~sql
   sql2csv dbcfg.json 'SELECT * FROM mytable LIMIT 10'
+~~~
 
 The CSV output is written standard out and can be redirected into
 a file if desired.
 
+~~~shell
   sql2csv dbcfg.json 'SELECT * FROM mytable LIMIT 10' \
       >ten-rows.csv
+~~~
 
-sql2csv 1.2.6
+Read SQL from a file and connect to Postgres without SSL you
+can pass the `-sql` and `-dsn` options.
+
+~~~shell
+sql2csv \
+  -dsn "postgres://${USER}@/${DB_NAME}?sslmode=disable" \
+  -sql query.sql \
+  >my_data.csv
+~~~
+
 

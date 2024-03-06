@@ -1,6 +1,6 @@
-%string(1) user manual | version 1.2.6 14d3709
+%string(1) user manual | version 1.2.9 0d7364a
 % R. S. Doiel
-% 2024-02-27
+% 2024-03-06
 
 # NAME
 
@@ -163,5 +163,5 @@ Join a JSON array of strings into a newline delimited list
 	string join '\n' '["one","two","three","four","five"]'
 ~~~
 
-string 1.2.6
+string 1.2.9
 

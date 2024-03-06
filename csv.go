@@ -16,11 +16,17 @@
 package datatools
 
 import (
+	"bytes"
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"io"
 	"math/rand"
+	"sort"
 	"time"
+
+	// 3rd Party Libraries
+	"gopkg.in/yaml.v3"
 )
 
 func selectedRow(rowNo int, record []string, rowNos []int) []string {
@@ -154,7 +160,7 @@ func CSVRows(in io.Reader, out io.Writer, showHeader bool, rowNos []int, delimit
 }
 
 // CSVRowsAll renders the all rows in rowNos using the delimiter to out
-func CSVRowsAll(in io.Reader, out io.Writer, showHeader bool, delimiter string, lazyQuotes, trimLeadingSpace bool) error {
+func CSVRowsAll(in io.Reader, out io.Writer, showHeader bool, delimiter string, lazyQuotes bool, trimLeadingSpace bool) error {
 	var err error
 
 	r := csv.NewReader(in)
@@ -183,6 +189,96 @@ func CSVRowsAll(in io.Reader, out io.Writer, showHeader bool, delimiter string, 
 			if err = w.Write(row); err != nil {
 				return fmt.Errorf("Error writing record to csv: %s (Row %T %+v)", err, row, row)
 			}
+		}
+	}
+	w.Flush()
+	err = w.Error()
+	if err != nil {
+		return fmt.Errorf("%s\n", err)
+	}
+	return nil
+}
+
+// JSONObjectsToCSV takes an JSON array of objects mapping to CSV colum/rows. This works a little
+// like Python csv.DictWriter. In Go a `map[string]interface{}{}` is used to represent the object.
+// If the value is complex then it is rendered as YAML into the cell.
+func JSONObjectsToCSV(in io.Reader, out io.Writer, eout io.Writer, quiet bool, showHeader bool, delimiter string) error {
+	src, err := io.ReadAll(in)
+	if err != nil {
+		return err
+	}
+	objList := []map[string]interface{}{}
+	decoder := json.NewDecoder(bytes.NewReader(src))
+	decoder.UseNumber()
+	if err := decoder.Decode(&objList); err != nil {
+		return err
+	}
+
+	// Write out CSV
+	w := csv.NewWriter(out)
+	if delimiter != "" {
+		w.Comma = NormalizeDelimiterRune(delimiter)
+	}
+
+	// Collection column headers from objects.
+	header := []string{}
+	if showHeader {
+		columnNames := map[string]bool{}
+		for _, obj := range objList {
+			for k, _ := range obj {
+				columnNames[k] = true
+			}
+		}
+		for k, _ := range columnNames {
+			header = append(header, k)
+		}
+		// Order the columns alphabetically
+		sort.Strings(header)
+		if err = w.Write(header); err != nil {
+			if ! quiet {
+				fmt.Fprintf(eout, "WARNING: failed to write header: %s (row %T %+v)\n", err, header, header)
+			}
+		}
+	}
+	row := []string{}
+	for i, obj := range objList {
+		// clear the row before proceeding.
+		row = []string{}
+		for j, col_name := range header {
+			if val, ok := obj[col_name]; ok {
+				cell := ""
+				switch val.(type) {
+					case json.Number:
+					  cell = fmt.Sprintf("%s", val)
+					case string:
+					  cell = fmt.Sprintf("%s", val)
+					case bool:
+					  cell = fmt.Sprintf("%t", val)
+					case int:
+					  cell = fmt.Sprintf("%d", val)
+					case int64:
+					  cell = fmt.Sprintf("%d", val)
+					case float64:
+					  cell = fmt.Sprintf("%f", val)
+					default:
+						// we have a complex object, render as YAML.
+						src, err := yaml.Marshal(val)
+						if err != nil {
+							if ! quiet {
+								fmt.Fprintf(eout, "failed to convert %+v in row %d, column %d\n", val, i+1, j+1)
+							}
+						}
+						cell = fmt.Sprintf("%s", src)
+				}
+				row = append(row, cell)
+			} else {
+				row = append(row, "")
+			}
+		}
+	}
+	if err = w.Write(row); err != nil {
+		if ! quiet {
+			fmt.Fprintf(eout, "failed to write row %d, %+v\n", len(objList)+1, row)
 		}
 	}
 	w.Flush()
