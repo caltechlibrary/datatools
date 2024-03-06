@@ -241,9 +241,11 @@ func JSONObjectsToCSV(in io.Reader, out io.Writer, eout io.Writer, quiet bool, s
 		}
 	}
 	row := []string{}
+	fmt.Fprintf(eout, "DEBUG object list length %d\n", len(objList))
 	for i, obj := range objList {
 		// clear the row before proceeding.
 		row = []string{}
+		// assemble the row by appending "cells"
 		for j, col_name := range header {
 			if val, ok := obj[col_name]; ok {
 				cell := ""
@@ -273,6 +275,11 @@ func JSONObjectsToCSV(in io.Reader, out io.Writer, eout io.Writer, quiet bool, s
 				row = append(row, cell)
 			} else {
 				row = append(row, "")
+			}
+		}
+		if err = w.Write(row); err != nil {
+			if ! quiet {
+				fmt.Fprintf(eout, "failed to write row %d, %+v\n", len(objList)+1, row)
 			}
 		}
 	}

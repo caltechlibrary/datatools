@@ -1,4 +1,4 @@
-%jsonobjects2csv(1) user manual | version 1.2.9 0d7364a
+%jsonobjects2csv(1) user manual | version 1.2.9 a06e328
 % R. S. Doiel
 % 2024-03-06
 
@@ -13,6 +13,10 @@ jsonobjects2csv [OPTIONS] [JSON_FILENAME] [YAML_FILENAME]
 # DESCRIPTION
 
 jsonobjects2csv is a tool that converts a JSON list of objects into CSV output.
+
+jsonobjects2csv will take JSON expressing a list of objects and turn them into a CSV
+representation. If the object's attributes include other objects or arrays they
+are rendered as YAML in the cell of the csv output.
 
 # OPTIONS
 
@@ -49,9 +53,28 @@ jsonobjects2csv is a tool that converts a JSON list of objects into CSV output.
 
 # EXAMPLES
 
+Used by typing into standard in (press Ctrl-d to end your input).
+
+~~~shell
+	jsonobjects2csv
+	[
+	  {"one": 1, "two": 2},
+	  {"one": 10, "two": 20},
+    ]
+	^D
+~~~
+
+This should yield the following.
+
+~~~text
+one,two
+1,2
+10,20
+~~~
+
 These would get the file named "my_list.json" and save it as my.csv
 
-~~~
+~~~shell
     jsonobjects2csv my_list.json > my.csv
 
 	jsonobjects2csv my_list.json my.csv

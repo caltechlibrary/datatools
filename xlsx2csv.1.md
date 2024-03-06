@@ -1,4 +1,4 @@
-%xlsx2csv(1) user manual | version 1.2.9 0d7364a
+%xlsx2csv(1) user manual | version 1.2.9 a06e328
 % R. S. Doiel
 % 2024-03-06
 
