@@ -1,6 +1,6 @@
-%csvcleaner(1) user manual | version 1.2.7 a2bbe4b
+%csvcleaner(1) user manual | version 1.2.9 0d7364a
 % R. S. Doiel
-% 2024-02-27
+% 2024-03-06
 
 # NAME
 
@@ -107,5 +107,5 @@ Trim leading and trailing spaces from output.
     cat mysheet.csv | csvcleaner -trim-space
 ~~~
 
-csvcleaner 1.2.7
+csvcleaner 1.2.9
 

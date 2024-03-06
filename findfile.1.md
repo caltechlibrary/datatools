@@ -1,6 +1,6 @@
-%findfile(1) user manual | version 1.2.7 a2bbe4b
+%findfile(1) user manual | version 1.2.9 0d7364a
 % R. S. Doiel
-% 2024-02-27
+% 2024-03-06
 
 # NAME
 
@@ -64,6 +64,6 @@ Search the current directory and subdirectories for Markdown files with extensio
 	findfile -s .md
 ~~~
 
-findfile 1.2.7
+findfile 1.2.9
 
 
