@@ -1,5 +1,5 @@
 #!/usr/bin/env pwsh
-# Generated with codemeta-pwsh-installer.tmpl, see https://github.com/caltechlibrary/codemeta-pandoc-examples
+# Generated with codemeta-ps1-installer.tmpl, see https://github.com/caltechlibrary/codemeta-pandoc-examples
 
 #
 # Set the package name and version to install

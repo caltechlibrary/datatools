@@ -1,4 +1,4 @@
-%csv2tab(1) user manual | version 1.2.9 702ceba
+%csv2tab(1) user manual | version 1.2.9 1b11c42
 % R. S. Doiel
 % 2024-07-09
 
