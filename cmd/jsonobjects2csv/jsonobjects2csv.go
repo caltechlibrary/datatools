@@ -43,6 +43,10 @@ var (
 
 {app_name} is a tool that converts a JSON list of objects into CSV output.
 
+{app_name} will take JSON expressing a list of objects and turn them into a CSV
+representation. If the object's attributes include other objects or arrays they
+are rendered as YAML in the cell of the csv output.
+
 # OPTIONS
 
 -help
@@ -78,9 +82,28 @@ var (
 
 # EXAMPLES
 
+Used by typing into standard in (press Ctrl-d to end your input).
+
+~~~shell
+	{app_name}
+	[
+	  {"one": 1, "two": 2},
+	  {"one": 10, "two": 20},
+    ]
+	^D
+~~~
+
+This should yield the following.
+
+~~~text
+one,two
+1,2
+10,20
+~~~
+
 These would get the file named "my_list.json" and save it as my.csv
 
-~~~
+~~~shell
     {app_name} my_list.json > my.csv
 
 	{app_name} my_list.json my.csv

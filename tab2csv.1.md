@@ -1,6 +1,6 @@
-%tab2csv(1) user manual | version 1.2.9 0d7364a
+%tab2csv(1) user manual | version 1.2.9 1b11c42
 % R. S. Doiel
-% 2024-03-06
+% 2024-07-09
 
 # NAME
 

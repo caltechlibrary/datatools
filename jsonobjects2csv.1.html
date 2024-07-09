@@ -32,6 +32,10 @@
 <h1 id="description">DESCRIPTION</h1>
 <p>jsonobjects2csv is a tool that converts a JSON list of objects into
 CSV output.</p>
+<p>jsonobjects2csv will take JSON expressing a list of objects and turn
+them into a CSV representation. If the object’s attributes include other
+objects or arrays they are rendered as YAML in the cell of the csv
+output.</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-help</dt>
@@ -76,9 +80,20 @@ Use FILENAME for ouput, “-” will be interpreted as standard output
 </dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
+<p>Used by typing into standard in (press Ctrl-d to end your input).</p>
+<pre class="shell"><code>    jsonobjects2csv
+    [
+      {&quot;one&quot;: 1, &quot;two&quot;: 2},
+      {&quot;one&quot;: 10, &quot;two&quot;: 20},
+    ]
+    ^D</code></pre>
+<p>This should yield the following.</p>
+<pre class="text"><code>one,two
+1,2
+10,20</code></pre>
 <p>These would get the file named “my_list.json” and save it as
 my.csv</p>
-<pre><code>    jsonobjects2csv my_list.json &gt; my.csv
+<pre class="shell"><code>    jsonobjects2csv my_list.json &gt; my.csv
 
     jsonobjects2csv my_list.json my.csv
 
