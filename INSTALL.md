@@ -17,6 +17,11 @@ Copy and run the following command in your shell (e.g. Terminal)
 curl https://caltechlibrary.github.io/datatools/installer.sh | sh
 ~~~
 
+On Windows we provide a Powershell script that can be run with
+
+~~~
+irm https://caltechlibrary.github.io/datatools/installer.ps1 | iex
+~~~
 
 Compiled version
 ----------------
