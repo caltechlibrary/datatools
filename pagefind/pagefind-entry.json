@@ -1,13 +1,1 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-{"version":"1.0.4","languages":{"unknown":{"hash":"unknown_136bfd6c27d2e01","wasm":null,"page_count":199}}}
-=======
-{"version":"1.0.4","languages":{"unknown":{"hash":"unknown_d9c7c23b74d1417","wasm":null,"page_count":119}}}
->>>>>>> a06e328e8659979d5b987a54c3508793c19f274b
-=======
-{"version":"1.1.0","languages":{"unknown":{"hash":"unknown_89238ff5a91adb5","wasm":null,"page_count":200}}}
->>>>>>> a6447f3a733ff098c0752c9796036b1fd049e933
-=======
 {"version":"1.1.0","languages":{"unknown":{"hash":"unknown_f4cf25532b13d29","wasm":null,"page_count":200}}}
->>>>>>> 89f7b4dcf8846f004fd9e9934d76b3960f9e11c1
