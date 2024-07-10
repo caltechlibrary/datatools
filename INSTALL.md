@@ -23,6 +23,25 @@ On Windows use the Powershell script run with
 irm https://caltechlibrary.github.io/datatools/installer.ps1 | iex
 ~~~
 
+If you wish to install a specific version then you can set the 
+`PKG_VERSION` environment variable before using the curl or irm 
+comments above.
+
+On Linux, macOS
+
+~~~
+export PKG_VERSION="1.2.9"
+curl https://caltechlibrary.github.io/datatools/installer.sh | sh
+~~~
+
+or for Windows
+
+~~~
+$env:PKG_VERSION = '1.2.9'
+irm https://caltechlibrary.github.io/datatools/installer.ps1 | iex
+~~~
+
+
 Compiled version
 ----------------
 
