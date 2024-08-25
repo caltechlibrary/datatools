@@ -253,14 +253,12 @@ func main() {
 
 	argc := len(args)
 
-	var (
-		unitString string
-	)
-
 	if argc < 1 && endOfMonthFor == false {
 		fmt.Fprintf(eout, "Missing time increment and units (e.g. +2 days) or weekday name (e.g. Monday, Mon).")
+		os.Exit(1)
 	} else if argc > 2 {
 		fmt.Fprintf(eout, "Too many command line arguments.")
+		os.Exit(1)
 	}
 
 	relativeT = time.Now()
@@ -275,12 +273,12 @@ func main() {
 	}
 
 	timeInc := 0
+	unitString := ""
 	if argc == 2 {
 		unitString = strings.ToLower(args[1])
 		timeInc, err = strconv.Atoi(args[0])
 		assertOk(eout, err, "Time increment should be a positive or negative integer.\n")
 	} else {
-		// We may have a weekday string
 		unitString = strings.ToLower(args[0])
 	}
 	t, err := reldate.RelativeTime(relativeT, timeInc, unitString)
