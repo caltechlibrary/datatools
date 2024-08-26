@@ -1,6 +1,6 @@
-%csvjoin(1) user manual | version 1.2.9 89f7b4d
+%csvjoin(1) user manual | version 1.2.10 55fe3e8
 % R. S. Doiel
-% 2024-08-25
+% 2024-08-26
 
 # NAME
 
@@ -105,6 +105,6 @@ merged-data.csv..
        -output=merged-data.csv
 ~~~
 
-csvjoin 1.2.9
+csvjoin 1.2.10
 
 
