@@ -1,4 +1,4 @@
-%string(1) user manual | version 1.2.10 55fe3e8
+%string(1) user manual | version 1.2.10 9821b18
 % R. S. Doiel
 % 2024-08-26
 

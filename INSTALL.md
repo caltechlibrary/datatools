@@ -30,14 +30,14 @@ comments above.
 On Linux, macOS
 
 ~~~
-export PKG_VERSION="1.2.9"
+export PKG_VERSION="1.2.10"
 curl https://caltechlibrary.github.io/datatools/installer.sh | sh
 ~~~
 
 or for Windows
 
 ~~~
-$env:PKG_VERSION = '1.2.9'
+$env:PKG_VERSION = '1.2.10'
 irm https://caltechlibrary.github.io/datatools/installer.ps1 | iex
 ~~~
 
