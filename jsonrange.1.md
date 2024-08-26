@@ -1,6 +1,6 @@
-%jsonrange(1) user manual | version 1.2.9 1b11c42
+%jsonrange(1) user manual | version 1.2.10 55fe3e8
 % R. S. Doiel
-% 2024-07-09
+% 2024-08-26
 
 # NAME
 
@@ -202,5 +202,5 @@ would yield
     20
 ~~~
 
-jsonrange 1.2.9
+jsonrange 1.2.10
 
