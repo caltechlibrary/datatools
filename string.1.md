@@ -1,4 +1,4 @@
-%string(1) user manual | version 1.2.11 d0bf489
+%string(1) user manual | version 1.2.11 ff4493f
 % R. S. Doiel
 % 2024-10-24
 
