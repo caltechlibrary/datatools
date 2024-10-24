@@ -44,7 +44,7 @@ type Codemeta struct {
 	//Funder            []*PersonOrOrganization `json:"funder,omitempty"`
 	Funder            *PersonOrOrganization `json:"funder,omitempty"`
 	CopyrightHolder   []*PersonOrOrganization `json:"copyrightHolder,omitempty"`
-	CopyrightYear     string                  `json:"copyrightYear,omitempty"`
+	CopyrightYear     int                  `json:"copyrightYear,omitempty"`
 	Created           string                  `json:"dateCreated,omitempty"`
 	Updated           string                  `json:"dateModified,omitempty"`
 	Published         string                  `json:"datePublished,omitempty"`

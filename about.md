@@ -11,7 +11,7 @@ authors:
     orcid: "https://orcid.org/0000-0003-0900-6903"
 
 repository-code: "https://github.com/caltechlibrary/datatools"
-version: 1.2.10
+version: 1.2.11
 license-url: "https://data.caltech.edu/license"
 keywords: [ "csv", "excel", "sql", "json", "yaml", "xlsx", "golang", "bash" ]
 
@@ -20,7 +20,7 @@ keywords: [ "csv", "excel", "sql", "json", "yaml", "xlsx", "golang", "bash" ]
 About this software
 ===================
 
-## datatools 1.2.10
+## datatools 1.2.11
 
 ### Authors
 
@@ -41,7 +41,7 @@ and structured text documents.
 
 ### Programming languages
 
-- Go 1.22
+- Go 1.23.2
 
 ### Operating Systems
 
@@ -51,5 +51,5 @@ and structured text documents.
 
 ### Software Requiremets
 
-- Golang 1.22 or better
+- Golang 1.23.2 or better
 - Pandoc 3.1 or better
