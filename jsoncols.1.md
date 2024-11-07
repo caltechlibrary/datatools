@@ -1,6 +1,6 @@
-%jsoncols(1) user manual | version 1.2.11 ff4493f
+%jsoncols(1) user manual | version 1.2.12 1128bff
 % R. S. Doiel
-% 2024-10-24
+% 2024-11-07
 
 # NAME
 
@@ -110,6 +110,6 @@ Would yield
    "Doe, Jane","jane.doe@xample.org",42
 ~~~
 
-jsoncols 1.2.11
+jsoncols 1.2.12
 
 

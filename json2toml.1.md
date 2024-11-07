@@ -1,6 +1,6 @@
-%json2toml(1) user manual | version 1.2.11 ff4493f
+%json2toml(1) user manual | version 1.2.12 1128bff
 % R. S. Doiel
-% 2024-10-24
+% 2024-11-07
 
 # NAME
 
@@ -50,6 +50,6 @@ These would get the file named "my.json" and save it as my.toml
 	cat my.json | json2toml -i - > my.toml
 ~~~
 
-json2toml 1.2.11
+json2toml 1.2.12
 
 

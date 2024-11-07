@@ -1,6 +1,6 @@
-%timefmt(1) user manual | version 1.2.11 ff4493f
+%timefmt(1) user manual | version 1.2.12 1128bff
 % R. S. Doiel
-% 2024-10-24
+% 2024-11-07
 
 # NAME
 
@@ -71,5 +71,5 @@ Format the MySQL date/time of 8:08am, July 2, 2016
 
 Yields "02 Dec 17 08:08 UTC"
 
-timefmt 1.2.11
+timefmt 1.2.12
 
