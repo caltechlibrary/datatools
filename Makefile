@@ -133,6 +133,19 @@ dist/Linux-x86_64: $(PROGRAMS)
 	@rm -fR dist/bin
 
 
+dist/Linux-aarch64: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm64 GOARM=7 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-aarch64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
+	@rm -fR dist/bin
+
+# Raspberry Pi OS (32bit) as reported on Raspberry Pi 3B+
+dist/Linux-armv7l: $(PROGRAMS)
+	@mkdir -p dist/bin
+	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
+	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-armv7l.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
+	@rm -fR dist/bin
+
 dist/macOS-x86_64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=darwin GOARCH=amd64 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
@@ -157,20 +170,6 @@ dist/Windows-arm64: $(PROGRAMS)
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=windows GOARCH=arm64 go build -o dist/bin/$$FNAME.exe cmd/$$FNAME/*.go; done
 	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
-	@rm -fR dist/bin
-
-# Raspberry Pi OS (32bit) as reported on Raspberry Pi 3B+
-dist/Linux-armv7l: $(PROGRAMS)
-	@mkdir -p dist/bin
-	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-armv7l.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
-	@rm -fR dist/bin
-
-# Raspberry Pi running Ubuntu 64-bit, as reported on Raspberry Pi 4B
-dist/Linux-aarch64: $(PROGRAMS)
-	@mkdir -p dist/bin
-	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/$$FNAME cmd/$$FNAME/*.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-aarch64.zip LICENSE codemeta.json CITATION.cff *.md bin/* docs/* how-to/* man/*
 	@rm -fR dist/bin
 
 
