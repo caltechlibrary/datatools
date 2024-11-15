@@ -1,6 +1,6 @@
-%csv2xlsx(1) user manual | version 1.2.12 1128bff
+%csv2xlsx(1) user manual | version 1.2.12 03b4ff7
 % R. S. Doiel
-% 2024-11-07
+% 2024-11-14
 
 # NAME
 
