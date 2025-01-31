@@ -1,6 +1,6 @@
-%csvfind(1) user manual | version 1.2.12 03b4ff7
+%csvfind(1) user manual | version 1.2.12 eb5bc10
 % R. S. Doiel
-% 2024-11-14
+% 2025-01-31
 
 # NAME
 
@@ -62,7 +62,10 @@ zero. Supports exact match as well as some Levenshtein matching.
 : set the edit distance thresh hold for match, default 0
 
 -nl, -newline
-: include trailing newline from output
+: include trailing newline from output for end of file (EOF)
+
+-crlf
+: use CRLF for end of line (EOL) on write, defaults to true for Windows
 
 -o, -output
 : output filename

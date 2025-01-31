@@ -1,6 +1,6 @@
-%csvcleaner(1) user manual | version 1.2.12 03b4ff7
+%csvcleaner(1) user manual | version 1.2.12 eb5bc10
 % R. S. Doiel
-% 2024-11-14
+% 2025-01-31
 
 # NAME
 
@@ -79,7 +79,6 @@ minimal memory is used to operate on the file.
 
 -use-lazy-quotes
 : use lazy quotes for CSV input
-
 
 # EXAMPLES
 

@@ -1,6 +1,6 @@
-%jsoncols(1) user manual | version 1.2.12 03b4ff7
+%jsoncols(1) user manual | version 1.2.12 eb5bc10
 % R. S. Doiel
-% 2024-11-14
+% 2025-01-31
 
 # NAME
 
@@ -46,7 +46,10 @@ extracted is a comma. This can be overridden with an option.
 : input filename
 
 -nl, -newline
-: if true add a trailing newline
+: if true add a trailing newline for end of file (EOF)
+
+-crlf
+: use CRLF for CSV writes, defaults to true on Windows
 
 -o, -output
 : output filename

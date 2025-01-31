@@ -29,6 +29,20 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+var useCRLF = false
+
+// SetEOLToCRLF sets the end of line to CRLF if true,
+// otherwise false for the funcs with a csv.Writer in csv.go.
+func SetEOLToCRLF(crlf bool) {
+	useCRLF = crlf
+}
+
+// UseCRLF returns the current setting of CRLF used in
+// funcs with csv.Writer in csv.go
+func UseCRLF() bool {
+	return useCRLF
+}
+
 func selectedRow(rowNo int, record []string, rowNos []int) []string {
 	if len(rowNos) == 0 {
 		return record
@@ -67,6 +81,7 @@ func CSVRandomRows(in io.Reader, out io.Writer, showHeader bool, rowCount int, d
 	r.TrimLeadingSpace = trimLeadingSpace
 
 	w := csv.NewWriter(out)
+	w.UseCRLF = UseCRLF()
 	if delimiter != "" {
 		r.Comma = NormalizeDelimiterRune(delimiter)
 		w.Comma = NormalizeDelimiterRune(delimiter)
@@ -126,6 +141,7 @@ func CSVRows(in io.Reader, out io.Writer, showHeader bool, rowNos []int, delimit
 	r.TrimLeadingSpace = trimLeadingSpace
 
 	w := csv.NewWriter(out)
+	w.UseCRLF = UseCRLF()
 	if delimiter != "" {
 		r.Comma = NormalizeDelimiterRune(delimiter)
 		w.Comma = NormalizeDelimiterRune(delimiter)
@@ -168,6 +184,7 @@ func CSVRowsAll(in io.Reader, out io.Writer, showHeader bool, delimiter string, 
 	r.TrimLeadingSpace = trimLeadingSpace
 
 	w := csv.NewWriter(out)
+	w.UseCRLF = UseCRLF()
 	if delimiter != "" {
 		r.Comma = NormalizeDelimiterRune(delimiter)
 		w.Comma = NormalizeDelimiterRune(delimiter)
@@ -216,6 +233,7 @@ func JSONObjectsToCSV(in io.Reader, out io.Writer, eout io.Writer, quiet bool, s
 
 	// Write out CSV
 	w := csv.NewWriter(out)
+	w.UseCRLF = UseCRLF()
 	if delimiter != "" {
 		w.Comma = NormalizeDelimiterRune(delimiter)
 	}

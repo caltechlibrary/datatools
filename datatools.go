@@ -108,6 +108,7 @@ func CSVMarshal(fields []string) ([]byte, error) {
 
 	buf := new(bytes.Buffer)
 	w := csv.NewWriter(buf)
+	w.UseCRLF = UseCRLF()
 	w.WriteAll(records)
 	if err := w.Error(); err != nil {
 		return buf.Bytes(), err

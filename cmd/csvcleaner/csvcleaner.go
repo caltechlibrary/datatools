@@ -24,6 +24,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"runtime"
 	"strings"
 
 	// Caltech Library Packages
@@ -113,7 +114,6 @@ minimal memory is used to operate on the file.
 -use-lazy-quotes
 : use lazy quotes for CSV input
 
-
 # EXAMPLES
 
 Normalizing a spread sheet's column count to 5 padding columns as needed per row.
@@ -180,6 +180,7 @@ func main() {
 	license := datatools.LicenseText
 	releaseDate := datatools.ReleaseDate
 	releaseHash := datatools.ReleaseHash
+	useCRLF = (runtime.GOOS == "windows")
 
 	// Standard options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -202,7 +203,7 @@ func main() {
 	flag.StringVar(&comma, "comma", "", "if set use this character in place of a comma for delimiting cells")
 	flag.StringVar(&rowComment, "comment-char", "", "if set, rows starting with this character will be ignored as comments")
 	flag.StringVar(&commaOut, "output-comma", "", "if set use this character in place of a comma for delimiting output cells")
-	flag.BoolVar(&useCRLF, "use-crlf", false, "if set use a charage return and line feed in output")
+	flag.BoolVar(&useCRLF, "use-crlf", useCRLF, "if set use a charage return and line feed in output")
 	flag.BoolVar(&stopOnError, "stop-on-error", false, "exit on error, useful if you're trying to debug a problematic CSV file")
 	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for CSV input")
 	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space from field(s) for CSV input")

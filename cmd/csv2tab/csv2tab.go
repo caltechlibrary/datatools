@@ -10,6 +10,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"runtime"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/datatools"
@@ -89,6 +90,7 @@ func main() {
 	license := datatools.LicenseText
 	releaseDate := datatools.ReleaseDate
 	releaseHash := datatools.ReleaseHash
+	useCRLF := (runtime.GOOS == "windows")
 
 	flag.BoolVar(&showHelp, "h", false, "display help")
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -100,6 +102,7 @@ func main() {
 	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quoting for reader")
 	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trims leading space read")
 	flag.BoolVar(&reuseRecord, "reuse-record", false, "re-uses the backing array on reader")
+	flag.BoolVar(&useCRLF, "crlf", useCRLF, "use a CRLF for end of line (EOL)")
 
 	// Parse Environment and Options
 	flag.Parse()
@@ -133,6 +136,7 @@ func main() {
 	exitCode := 0
 	w := csv.NewWriter(out)
 	w.Comma = '\t'
+	w.UseCRLF = useCRLF
 	/*
 		if delimiter != "" {
 			w.Comma = datatools.NormalizeDelimiterRune(delimiter)

@@ -1,6 +1,6 @@
-%csvjoin(1) user manual | version 1.2.12 03b4ff7
+%csvjoin(1) user manual | version 1.2.12 eb5bc10
 % R. S. Doiel
-% 2024-11-14
+% 2025-01-31
 
 # NAME
 
@@ -87,6 +87,9 @@ rather than zero.
 
 -use-lazy-quotes
 : use lazy quotes for CSV input
+
+-crlf
+: use CRLF for end of line (EOL) on write, defaults to true on Windows
 
 -verbose
 : output processing count to stderr
