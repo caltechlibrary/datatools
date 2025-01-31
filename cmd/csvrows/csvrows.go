@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"runtime"
 	"strings"
 
 	// Caltech Library packages
@@ -95,6 +96,8 @@ and {app_name} makes it easy to output only the data rows.
 -use-lazy-quotes
 : use lazy quotes for CSV input
 
+-crlf
+: use a CRLF for end of line (EOL) on write, defaults to true on Windows
 
 # EXAMPLES
 
@@ -159,6 +162,7 @@ a header row from 10row.csv.
 	randomRows       int
 	lazyQuotes       bool
 	trimLeadingSpace bool
+	useCRLF          bool
 )
 
 func main() {
@@ -167,6 +171,7 @@ func main() {
 	license := datatools.LicenseText
 	releaseDate := datatools.ReleaseDate
 	releaseHash := datatools.ReleaseHash
+	useCRLF = (runtime.GOOS == "windows")
 
 	// Standard options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -189,6 +194,7 @@ func main() {
 	flag.IntVar(&randomRows, "random", 0, "return N randomly selected rows")
 	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for CSV input")
 	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
+	flag.BoolVar(&useCRLF, "crlf", useCRLF, "use a CRLF for end of line (EOL) on write")
 
 	// Parse env and options
 	flag.Parse()
@@ -276,6 +282,7 @@ func main() {
 
 	// Clean up cells removing outer quotes if necessary
 	w := csv.NewWriter(out)
+	w.UseCRLF = useCRLF
 	if delimiter != "" {
 		w.Comma = datatools.NormalizeDelimiterRune(delimiter)
 	}

@@ -1,6 +1,6 @@
-%csvrows(1) user manual | version 1.2.10 9821b18
+%csvrows(1) user manual | version 1.3.0 f486d87
 % R. S. Doiel
-% 2024-08-26
+% 2025-01-31
 
 # NAME
 
@@ -58,6 +58,8 @@ and csvrows makes it easy to output only the data rows.
 -use-lazy-quotes
 : use lazy quotes for CSV input
 
+-crlf
+: use a CRLF for end of line (EOL) on write, defaults to true on Windows
 
 # EXAMPLES
 
@@ -96,6 +98,6 @@ a header row from 10row.csv.
 	csvrows -i 10row.csv -header=true -random=3
 ~~~
 
-csvrows 1.2.10
+csvrows 1.3.0
 
 

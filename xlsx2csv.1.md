@@ -1,6 +1,6 @@
-%xlsx2csv(1) user manual | version 1.2.10 9821b18
+%xlsx2csv(1) user manual | version 1.3.0 f486d87
 % R. S. Doiel
-% 2024-08-26
+% 2025-01-31
 
 # NAME
 
@@ -32,7 +32,11 @@ xlsx2csv is a tool that converts individual Excel Sheets to CSV output.
 : display number of Workbook sheets
 
 -nl, -newline
-: if true add a trailing newline
+: add a trailing newline to the end of file (EOF)
+
+-crlf
+: use CRLF for end of line (EOL). On Windows this option is the default.
+Set to false to use a LF on Windows. On other OS LF is the default.
 
 -o, -output
 : output filename
@@ -72,6 +76,6 @@ Putting it all together in a shell script.
 	done
 ~~~
 
-xlsx2csv 1.2.10
+xlsx2csv 1.3.0
 
 

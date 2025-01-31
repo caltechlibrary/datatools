@@ -24,6 +24,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"runtime"
 	"strings"
 
 	// CaltechLibrary packages
@@ -68,7 +69,11 @@ var (
 : display number of Workbook sheets
 
 -nl, -newline
-: if true add a trailing newline
+: add a trailing newline to the end of file (EOF)
+
+-crlf
+: use CRLF for end of line (EOL). On Windows this option is the default.
+Set to false to use a LF on Windows. On other OS LF is the default.
 
 -o, -output
 : output filename
@@ -151,7 +156,7 @@ func sheetNames(workBookName string) ([]string, error) {
 	return result, nil
 }
 
-func xlsx2CSV(out io.Writer, workBookName, sheetName string) error {
+func xlsx2CSV(out io.Writer, workBookName, sheetName string, useCRLF bool) error {
 	xlFile, err := xlsx.OpenFile(workBookName)
 	if err != nil {
 		return err
@@ -169,6 +174,7 @@ func xlsx2CSV(out io.Writer, workBookName, sheetName string) error {
 			results = append(results, cells)
 		}
 		w := csv.NewWriter(out)
+		w.UseCRLF = useCRLF
 		for _, record := range results {
 			if err := w.Write(record); err != nil {
 				return fmt.Errorf("error writing record to csv: %s", err)
@@ -188,6 +194,7 @@ func main() {
 	license := datatools.LicenseText
 	releaseDate := datatools.ReleaseDate
 	releaseHash := datatools.ReleaseHash
+	useCRLF := (runtime.GOOS == "windows")
 
 	// Standard Options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -198,8 +205,10 @@ func main() {
 	flag.StringVar(&outputFName, "output", "", "output filename")
 	flag.BoolVar(&quiet, "quiet", false, "suppress error messages")
 
-	flag.BoolVar(&newLine, "nl", false, "if true add a trailing newline")
-	flag.BoolVar(&newLine, "newline", false, "if true add a trailing newline")
+	flag.BoolVar(&newLine, "nl", false, "add a trailing newline to end of file (EOF)")
+	flag.BoolVar(&newLine, "newline", false, "add a trailing newline")
+
+	flag.BoolVar(&useCRLF, "crlf", useCRLF, "use CRLF for end of line (EOL) to end of file (EOF)")
 
 	// App Specific Options
 	flag.BoolVar(&showSheetCount, "c", false, "display number of Workbook sheets")
@@ -278,7 +287,7 @@ func main() {
 	}
 	for _, sheetName := range args[1:] {
 		if len(sheetName) > 0 {
-			xlsx2CSV(out, workBookName, sheetName)
+			xlsx2CSV(out, workBookName, sheetName, useCRLF)
 		}
 	}
 	fmt.Fprintf(out, "%s", eol)

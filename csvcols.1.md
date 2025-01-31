@@ -1,6 +1,6 @@
-%csvcols(1) user manual | version 1.2.10 9821b18
+%csvcols(1) user manual | version 1.3.0 f486d87
 % R. S. Doiel
-% 2024-08-26
+% 2025-01-31
 
 # NAME
 
@@ -58,6 +58,8 @@ listed on the commandline (first column is 1 not 0).
 -uuid
 : add a prefix row with generated UUID cell
 
+-crlf
+: use a CRLF for end of line (EOL) on output (defualts to true on Windows)
 
 # EXAMPLES
 
@@ -90,6 +92,6 @@ Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
     csvcols -i 3col.csv -col 1,3 -o 2col.csv
 ~~~
 
-csvcols 1.2.10
+csvcols 1.3.0
 
 

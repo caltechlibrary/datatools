@@ -23,6 +23,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"runtime"
 	"strings"
 
 	// Caltech Library packages
@@ -94,7 +95,10 @@ zero. Supports exact match as well as some Levenshtein matching.
 : set the edit distance thresh hold for match, default 0
 
 -nl, -newline
-: include trailing newline from output
+: include trailing newline from output for end of file (EOF)
+
+-crlf
+: use CRLF for end of line (EOL) on write, defaults to true for Windows
 
 -o, -output
 : output filename
@@ -182,6 +186,7 @@ You can also search for phrases in columns.
 	delimiter          string
 	lazyQuotes         bool
 	trimLeadingSpace   bool
+	useCRLF            bool
 )
 
 func main() {
@@ -190,6 +195,7 @@ func main() {
 	license := datatools.LicenseText
 	releaseDate := datatools.ReleaseDate
 	releaseHash := datatools.ReleaseHash
+	useCRLF = (runtime.GOOS == "windows")
 
 	// Basic Options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -224,6 +230,7 @@ func main() {
 	flag.BoolVar(&trimSpaces, "trimspaces", false, "trim spaces around cell values before comparing")
 	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes on CSV input")
 	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leadings space in field(s) for CSV input")
+	flag.BoolVar(&useCRLF, "crlf", useCRLF, "use CRLF for end of line (EOL) on write")
 
 	// Parse env and options
 	flag.Parse()
@@ -300,6 +307,7 @@ func main() {
 	csvIn.LazyQuotes = lazyQuotes
 	csvIn.TrimLeadingSpace = trimLeadingSpace
 	csvOut := csv.NewWriter(out)
+	csvOut.UseCRLF = useCRLF
 	if delimiter != "" {
 		csvIn.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		csvOut.Comma = datatools.NormalizeDelimiterRune(delimiter)

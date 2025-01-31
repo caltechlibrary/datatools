@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"runtime"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/datatools"
@@ -113,9 +114,10 @@ configuration file
 -delimiter
 : Set the delimiter to use, default is comma
 
--use-cdlf
+-use-crlf, -crlf
 : Force the line ending per row to carage return and
-line feed if true, false use line feed
+line feed if true, false use line feed. Defaults to true
+on Windows, false otherwise.
 
 -sql FILENAME
 : Read sql statement from a file instead of the command line.
@@ -156,7 +158,7 @@ func main() {
 	sqlCfg := new(datatools.SQLCfg)
 	sqlCfg.Delimiter = ","
 	sqlCfg.WriteHeaderRow = true
-	sqlCfg.UseCRLF = false
+	sqlCfg.UseCRLF = (runtime.GOOS == "windows")
 
 	// Running details
 	appName := path.Base(os.Args[0])
@@ -177,6 +179,7 @@ func main() {
 	flag.BoolVar(&showVersion, "version", showVersion, "display version")
 	flag.BoolVar(&writeHeaderRow, "header-row", writeHeaderRow, "write a header row if true")
 	flag.BoolVar(&useCRLF, "use-crlf", useCRLF, "delimited rows with a carriage return and line feed")
+	flag.BoolVar(&useCRLF, "crlf", useCRLF, "delimited rows with a carriage return and line feed")
 	flag.StringVar(&dsn, "dsn", dsn, "connect using the data source name provided in URL form")
 	flag.StringVar(&delimiter, "delimiter", "", "set the delimiter, defaults to comma")
 	flag.StringVar(&sqlFName, "sql", "", "read the SQL statement from a file, '-' will cause a read from standard input")

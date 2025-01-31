@@ -72,6 +72,7 @@ func TestSQLQueryToCSV(t *testing.T) {
 	// Setup the CSV writer so we're writing to memory.
 	buf := bytes.NewBuffer([]byte{})
 	w := csv.NewWriter(buf)
+	w.UseCRLF = false
 	// Check the results written
 	if err := store.QueryToCSV(w, stmt); err != nil {
 		t.Error(err)

@@ -1,6 +1,6 @@
-%csvfind(1) user manual | version 1.2.10 9821b18
+%csvfind(1) user manual | version 1.3.0 f486d87
 % R. S. Doiel
-% 2024-08-26
+% 2025-01-31
 
 # NAME
 
@@ -62,7 +62,10 @@ zero. Supports exact match as well as some Levenshtein matching.
 : set the edit distance thresh hold for match, default 0
 
 -nl, -newline
-: include trailing newline from output
+: include trailing newline from output for end of file (EOF)
+
+-crlf
+: use CRLF for end of line (EOL) on write, defaults to true for Windows
 
 -o, -output
 : output filename
@@ -117,5 +120,5 @@ You can also search for phrases in columns.
     csvfind -i books.csv -col=2 -contains "Red Book"
 ~~~
 
-csvfind 1.2.10
+csvfind 1.3.0
 

@@ -87,6 +87,10 @@ use lazy quotes on CSV input
 <dd>
 add a prefix row with generated UUID cell
 </dd>
+<dt>-crlf</dt>
+<dd>
+use a CRLF for end of line (EOL) on output (defualts to true on Windows)
+</dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
 <p>Simple usage of building a CSV file one row at a time.</p>
@@ -103,7 +107,7 @@ add a prefix row with generated UUID cell
 <p>Using options filter a 3 column CSV file for columns 1,3 into
 2col.csv</p>
 <pre><code>    csvcols -i 3col.csv -col 1,3 -o 2col.csv</code></pre>
-<p>csvcols 1.2.10</p>
+<p>csvcols 1.3.0</p>
 </section>
 
 <footer>

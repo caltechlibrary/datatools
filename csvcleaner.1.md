@@ -1,6 +1,6 @@
-%csvcleaner(1) user manual | version 1.2.10 9821b18
+%csvcleaner(1) user manual | version 1.3.0 f486d87
 % R. S. Doiel
-% 2024-08-26
+% 2025-01-31
 
 # NAME
 
@@ -80,7 +80,6 @@ minimal memory is used to operate on the file.
 -use-lazy-quotes
 : use lazy quotes for CSV input
 
-
 # EXAMPLES
 
 Normalizing a spread sheet's column count to 5 padding columns as needed per row.
@@ -107,5 +106,5 @@ Trim leading and trailing spaces from output.
     cat mysheet.csv | csvcleaner -trim-space
 ~~~
 
-csvcleaner 1.2.10
+csvcleaner 1.3.0
 

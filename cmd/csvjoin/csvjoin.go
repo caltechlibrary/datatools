@@ -23,6 +23,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"runtime"
 	"strings"
 
 	// My packages
@@ -120,6 +121,9 @@ rather than zero.
 -use-lazy-quotes
 : use lazy quotes for CSV input
 
+-crlf
+: use CRLF for end of line (EOL) on write, defaults to true on Windows
+
 -verbose
 : output processing count to stderr
 
@@ -171,6 +175,7 @@ merged-data.csv..
 	delimiter        string
 	lazyQuotes       bool
 	trimLeadingSpace bool
+	useCRLF          bool
 )
 
 
@@ -249,6 +254,7 @@ func main() {
 	license := datatools.LicenseText
 	releaseDate := datatools.ReleaseDate
 	releaseHash := datatools.ReleaseHash
+	useCRLF = (runtime.GOOS == "windows")
 
 	// Standard Options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -280,6 +286,7 @@ func main() {
 	flag.StringVar(&delimiter, "delimiter", "", "set delimiter character")
 	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes for CSV input")
 	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
+	flag.BoolVar(&useCRLF, "crlf", useCRLF, "use CRLF for end of line (EOL) on write")
 
 	// Parse env and options
 	flag.Parse()
@@ -370,6 +377,7 @@ func main() {
 	csv2.TrimLeadingSpace = trimLeadingSpace
 
 	w := csv.NewWriter(out)
+	w.UseCRLF = useCRLF
 	if delimiter != "" {
 		csv1.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		csv2.Comma = datatools.NormalizeDelimiterRune(delimiter)

@@ -24,6 +24,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"runtime"
 	"strings"
 
 	// Caltech Library packages
@@ -94,6 +95,8 @@ listed on the commandline (first column is 1 not 0).
 -uuid
 : add a prefix row with generated UUID cell
 
+-crlf
+: use a CRLF for end of line (EOL) on output (defualts to true on Windows)
 
 # EXAMPLES
 
@@ -149,6 +152,7 @@ Using options filter a 3 column CSV file for columns 1,3 into 2col.csv
 	outputDelimiter  string
 	lazyQuotes       bool
 	trimLeadingSpace bool
+	useCRLF          bool
 )
 
 
@@ -185,6 +189,7 @@ func CSVColumns(in *os.File, out *os.File, eout *os.File, columnNos []int, prefi
 	r.TrimLeadingSpace = trimLeadingSpace
 
 	w := csv.NewWriter(out)
+	w.UseCRLF = useCRLF
 	if delimiterIn != "" {
 		r.Comma = datatools.NormalizeDelimiterRune(delimiterIn)
 	}
@@ -222,6 +227,7 @@ func main() {
 	license := datatools.LicenseText
 	releaseDate := datatools.ReleaseDate
 	releaseHash := datatools.ReleaseHash
+	useCRLF = (runtime.GOOS == "windows")
 
 	// Standard Options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -245,6 +251,7 @@ func main() {
 	flag.BoolVar(&prefixUUID, "uuid", false, "add a prefix row with generated UUID cell")
 	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quotes on CSV input")
 	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in field(s) for CSV input")
+	flag.BoolVar(&useCRLF, "crlf", useCRLF, "use a CRLF for end of line (EOL)")
 
 	// Parse env and options
 	flag.Parse()
@@ -320,6 +327,7 @@ func main() {
 	}
 
 	w := csv.NewWriter(out)
+	w.UseCRLF = useCRLF
 	if outputDelimiter != "" {
 		w.Comma = datatools.NormalizeDelimiterRune(outputDelimiter)
 	}

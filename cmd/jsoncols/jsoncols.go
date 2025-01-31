@@ -14,6 +14,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"runtime"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/datatools"
@@ -69,7 +70,10 @@ extracted is a comma. This can be overridden with an option.
 : input filename
 
 -nl, -newline
-: if true add a trailing newline
+: if true add a trailing newline for end of file (EOF)
+
+-crlf
+: use CRLF for CSV writes, defaults to true on Windows
 
 -o, -output
 : output filename
@@ -156,6 +160,7 @@ Would yield
 	delimiter      = ","
 	expressions    []string
 	quote          bool
+	useCRLF        bool
 )
 
 
@@ -170,6 +175,7 @@ func main() {
 	license := datatools.LicenseText
 	releaseDate := datatools.ReleaseDate
 	releaseHash := datatools.ReleaseHash
+	useCRLF = (runtime.GOOS == "windows")
 
 	// Basic Options
 	flag.BoolVar(&showHelp, "help", false, "display help")
@@ -193,6 +199,7 @@ func main() {
 	flag.BoolVar(&quote, "quote", true, "quote strings and JSON notation")
 	flag.BoolVar(&prettyPrint, "p", false, "pretty print JSON output")
 	flag.BoolVar(&prettyPrint, "pretty", false, "pretty print JSON output")
+	flag.BoolVar(&useCRLF, "crlf", useCRLF, "use a CRLF for end of line (EOL) on CSV write")
 
 	// Parse Environment and Options
 	flag.Parse()
@@ -294,6 +301,7 @@ func main() {
 
 		// Setup the CSV output
 		w := csv.NewWriter(out)
+		w.UseCRLF = useCRLF
 		if delimiter != "" {
 			w.Comma = datatools.NormalizeDelimiterRune(delimiter)
 		}

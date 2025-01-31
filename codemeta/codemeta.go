@@ -7,6 +7,9 @@ import (
 
 	// Caltech Library package
 	"github.com/caltechlibrary/doitools"
+
+	// 3rd Party Package
+	"github.com/hscells/doi"
 )
 
 type PersonOrOrganization struct {
@@ -44,7 +47,7 @@ type Codemeta struct {
 	//Funder            []*PersonOrOrganization `json:"funder,omitempty"`
 	Funder            *PersonOrOrganization `json:"funder,omitempty"`
 	CopyrightHolder   []*PersonOrOrganization `json:"copyrightHolder,omitempty"`
-	CopyrightYear     string                  `json:"copyrightYear,omitempty"`
+	CopyrightYear     int                  `json:"copyrightYear,omitempty"`
 	Created           string                  `json:"dateCreated,omitempty"`
 	Updated           string                  `json:"dateModified,omitempty"`
 	Published         string                  `json:"datePublished,omitempty"`
@@ -52,6 +55,7 @@ type Codemeta struct {
 
 	// Additional codemeta Terms are defined at https://codemeta.github.io/terms/
 }
+
 
 func (person *PersonOrOrganization) ToJSON() ([]byte, error) {
 	return JSONMarshalIndent(person, "", "\t")
@@ -69,6 +73,15 @@ func (person *PersonOrOrganization) ToCFF() ([]byte, error) {
   - family-names: %s
     given-names: %s
     orcid: %s`, person.FamilyName, person.GivenName, person.Id)), nil
+}
+
+// Check if identifier is a DOI
+func isDOI(identifier string) bool {
+	doi, err := doi.Parse(identifier)
+	if err != nil {
+		return false
+	}
+	return doi.IsValid()
 }
 
 // ToCff crosswalks a Codemeta data structure rendering
@@ -96,7 +109,7 @@ repository-code: %q`, cm.CodeRepository))...)
 		src = append(src, []byte(`
 type: software`)...)
 	}
-	if strings.HasPrefix(cm.Identifier, "https://doi.org/") {
+	if isDOI(cm.Identifier) {
 		if doi, err := doitools.NormalizeDOI(cm.Identifier); err == nil {
 			src = append(src, []byte(fmt.Sprintf(`
 doi: %s`, doi))...)

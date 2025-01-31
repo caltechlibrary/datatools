@@ -1,6 +1,6 @@
-%sql2csv(1) user manual | version 1.2.10 9821b18
+%sql2csv(1) user manual | version 1.3.0 f486d87
 % R. S. Doiel
-% 2024-08-26
+% 2025-01-31
 
 # NAME
 
@@ -98,9 +98,10 @@ configuration file
 -delimiter
 : Set the delimiter to use, default is comma
 
--use-cdlf
+-use-crlf, -crlf
 : Force the line ending per row to carage return and
-line feed if true, false use line feed
+line feed if true, false use line feed. Defaults to true
+on Windows, false otherwise.
 
 -sql FILENAME
 : Read sql statement from a file instead of the command line.

@@ -10,6 +10,7 @@ import (
 	"io"
 	"os"
 	"path"
+	"runtime"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/datatools"
@@ -58,6 +59,9 @@ var (
 -use-lazy-quotes
 : use lazy quoting for reader
 
+-crlf
+: use CRLF for end of line (EOL) on write, defaults to true for Windows
+
 # EXAMPLES
 
 If my.tab contained
@@ -94,6 +98,7 @@ This would yield
 	trimLeadingSpace bool
 	reuseRecord      bool
 	fieldsPerRecord  int
+	useCRLF          bool
 )
 
 
@@ -103,6 +108,7 @@ func main() {
 	license := datatools.LicenseText
 	releaseDate := datatools.ReleaseDate
 	releaseHash := datatools.ReleaseHash
+	useCRLF = (runtime.GOOS == "windows")
 
 	flag.BoolVar(&showHelp, "help", false, "display help")
 	flag.BoolVar(&showLicense, "license", false, "display license")
@@ -113,6 +119,7 @@ func main() {
 	flag.BoolVar(&lazyQuotes, "use-lazy-quotes", false, "use lazy quoting for reader")
 	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trims leading space read")
 	flag.BoolVar(&reuseRecord, "reuse-record", false, "re-uses the backing array on reader")
+	flag.BoolVar(&useCRLF, "crlf", useCRLF, "use CRLF for end of line (EOL), defaults to true on Windows")
 
 	// Parse Environment and Options
 	flag.Parse()
@@ -145,6 +152,7 @@ func main() {
 
 	exitCode := 0
 	w := csv.NewWriter(out)
+	w.UseCRLF = useCRLF
 	/*
 		if delimiter != "" {
 			w.Comma = datatools.NormalizeDelimiterRune(delimiter)
