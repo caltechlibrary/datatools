@@ -8,19 +8,19 @@ Workbooks, JSON and structured text documents."
 authors:
   - family-names: Doiel
     given-names: R. S.
-    orcid: "https://orcid.org/0000-0003-0900-6903"
+    orcid: ""
 
 repository-code: "https://github.com/caltechlibrary/datatools"
-version: 1.2.12
+version: 1.3.0
 license-url: "https://data.caltech.edu/license"
 keywords: [ "csv", "excel", "sql", "json", "yaml", "xlsx", "golang", "bash" ]
-
+date-released: 2025-01-31
 ---
 
 About this software
 ===================
 
-## datatools 1.2.12
+## datatools 1.3.0
 
 ### Authors
 
@@ -41,7 +41,7 @@ and structured text documents.
 
 ### Programming languages
 
-- Go 1.23.2
+- Go &gt;= 1.23.5
 
 ### Operating Systems
 
@@ -51,5 +51,5 @@ and structured text documents.
 
 ### Software Requiremets
 
-- Golang 1.23.2 or better
-- Pandoc 3.1 or better
+- Golang &gt;= 1.23.5
+- Pandoc &gt;= 3.1

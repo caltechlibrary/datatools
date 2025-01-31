@@ -1,4 +1,4 @@
-%findfile(1) user manual | version 1.2.12 eb5bc10
+%findfile(1) user manual | version 1.3.0 f486d87
 % R. S. Doiel
 % 2025-01-31
 
@@ -64,6 +64,6 @@ Search the current directory and subdirectories for Markdown files with extensio
 	findfile -s .md
 ~~~
 
-findfile 1.2.12
+findfile 1.3.0
 
 

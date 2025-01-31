@@ -1,4 +1,4 @@
-%urlparse(1) user manual | version 1.2.12 eb5bc10
+%urlparse(1) user manual | version 1.3.0 f486d87
 % R. S. Doiel
 % 2025-01-31
 
@@ -107,5 +107,5 @@ Get extension. Returns ".html".
 Without options urlparse returns protocol, host and path
 fields separated by a tab.
 
-urlparse 1.2.12
+urlparse 1.3.0
 

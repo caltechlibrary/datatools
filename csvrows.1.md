@@ -1,4 +1,4 @@
-%csvrows(1) user manual | version 1.2.12 eb5bc10
+%csvrows(1) user manual | version 1.3.0 f486d87
 % R. S. Doiel
 % 2025-01-31
 
@@ -98,6 +98,6 @@ a header row from 10row.csv.
 	csvrows -i 10row.csv -header=true -random=3
 ~~~
 
-csvrows 1.2.12
+csvrows 1.3.0
 
 
