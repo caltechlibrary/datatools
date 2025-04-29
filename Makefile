@@ -214,6 +214,7 @@ gen_batfiles: .FORCE
 snap: dist/datatools_$(VERSION)_amd64.snap
 
 release: .FORCE clean build man gen_batfiles distribute_docs dist/Linux-armv7l dist/Linux-aarch64 dist/Linux-x86_64 dist/macOS-x86_64 dist/macOS-arm64 dist/Windows-x86_64 dist/Windows-arm64
+	echo "ready to run ./release.bash"
 
 
 .FORCE:

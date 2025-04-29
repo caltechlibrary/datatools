@@ -1,6 +1,6 @@
-%finddir(1) user manual | version 1.3.0 f486d87
+%finddir(1) user manual | version 1.3.1 96d0de6
 % R. S. Doiel
-% 2025-01-31
+% 2025-04-29
 
 # NAME
 
@@ -65,5 +65,5 @@ Find all subdirectories starting with "img".
 	finddir -p img
 ~~~
 
-finddir 1.3.0
+finddir 1.3.1
 

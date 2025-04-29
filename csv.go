@@ -259,7 +259,7 @@ func JSONObjectsToCSV(in io.Reader, out io.Writer, eout io.Writer, quiet bool, s
 		}
 	}
 	row := []string{}
-	fmt.Fprintf(eout, "DEBUG object list length %d\n", len(objList))
+	//fmt.Fprintf(eout, "DEBUG object list length %d\n", len(objList))
 	for i, obj := range objList {
 		// clear the row before proceeding.
 		row = []string{}
