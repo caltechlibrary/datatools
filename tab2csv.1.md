@@ -1,6 +1,6 @@
-%tab2csv(1) user manual | version 1.3.1 96d0de6
+%tab2csv(1) user manual | version 1.3.2 1ee0728
 % R. S. Doiel
-% 2025-04-29
+% 2025-05-13
 
 # NAME
 
@@ -65,6 +65,6 @@ This would yield
 	"Doe, Jane","jane.doe@example.org",42
 ~~~
 
-tab2csv 1.3.1
+tab2csv 1.3.2
 
 
