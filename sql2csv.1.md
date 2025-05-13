@@ -1,6 +1,6 @@
-%sql2csv(1) user manual | version 1.3.0 f486d87
+%sql2csv(1) user manual | version 1.3.2 1ee0728
 % R. S. Doiel
-% 2025-01-31
+% 2025-05-13
 
 # NAME
 

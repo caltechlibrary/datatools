@@ -1,6 +1,6 @@
-%csvfind(1) user manual | version 1.3.0 f486d87
+%csvfind(1) user manual | version 1.3.2 1ee0728
 % R. S. Doiel
-% 2025-01-31
+% 2025-05-13
 
 # NAME
 
@@ -120,5 +120,5 @@ You can also search for phrases in columns.
     csvfind -i books.csv -col=2 -contains "Red Book"
 ~~~
 
-csvfind 1.3.0
+csvfind 1.3.2
 

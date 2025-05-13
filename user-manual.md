@@ -13,6 +13,7 @@ that comes with the datatools project.
 
 - [codemeta2cff](codemeta2cff.1.html), generate a CITATION.cff file from a codemeta.json file
 - [csv2json](csv2json.1.html), convert CSV into a JSON
+- [csv2jsonl](csv2jsonl.1.html), convert CSV into a [JSON lines](https://jsonlines.org) stream.
 - [csv2mdtable](csv2mdtable.1.html), convert CSV into a Markdown table (for use with Pandoc)
 - [csv2tab](csv2tab.1.html), convert CSV to a tab delimited file
 - [csv2xlsx](csv2xlsx.1.html), convert CSV to Excel XML formatted file

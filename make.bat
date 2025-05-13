@@ -39,6 +39,7 @@ go build -o bin\xlsx2csv.exe cmd\xlsx2csv\xlsx2csv.exe
 go build -o bin\xlsx2json.exe cmd\xlsx2json\xlsx2json.exe
 go build -o bin\yaml2json.exe cmd\yaml2json\yaml2json.exe
 go build -o bin\jsonobjects2csv.exe cmd\jsonobjects2csv\jsonobjects2csv.exe
+go build -o bin\csv2jsonl.exe cmd\csv2jsonl\csv2jsonl.exe
 echo "Checking compile should see version number of dataset"
 bin\codemeta2cff.exe -version
 bin\csv2json.exe -version
@@ -72,6 +73,7 @@ bin\xlsx2csv.exe -version
 bin\xlsx2json.exe -version
 bin\yaml2json.exe -version
 bin\jsonobjects2csv.exe -version
+bin\csv2jsonl.exe -version
 echo "If OK, you can now copy the dataset.exe to %USERPROFILE%\goin"
 echo ""
 echo "      copy bin\* %USERPROFILE%\AppData\go\bin"
