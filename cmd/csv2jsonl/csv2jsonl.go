@@ -95,6 +95,9 @@ is one object per line. See https://jsonlines.org.
 -use-lazy-quotes
 : use lazy quotes for for CSV input
 
+-for-dataset COLUMN_NO
+: if COLUMN_NO is greater than -1 then, generate a dataset load compatible version of the CSV file
+using COLUMN_NO as key.
 
 # EXAMPLES
 
@@ -130,6 +133,7 @@ Convert data1.csv to JSON line (one object line per blob)
 	trimLeadingSpace bool
 	fieldsPerRecord  int
 	reuseRecord      bool
+	forDataset       int
 )
 
 func main() {
@@ -159,6 +163,7 @@ func main() {
 	flag.BoolVar(&trimLeadingSpace, "trim-leading-space", false, "trim leading space in fields for CSV input")
 	flag.BoolVar(&reuseRecord, "reuse-record", false, "reuse the backing array")
 	flag.IntVar(&fieldsPerRecord, "fields-per-record", 0, "Set the number of fields expected in the CSV read, -1 to turn off")
+	flag.IntVar(&forDataset, "for-dataset", -1, "generate a dataset compatible JSON lines output using column number as key")
 
 	// Parse environment and options
 	flag.Parse()
@@ -244,11 +249,15 @@ func main() {
 
 		// Pad the fieldnames if necessary
 		object = map[string]interface{}{}
+		key := ""
 		for col, val := range row {
 			if col < len(fieldNames) {
 				object[fieldNames[col]] = val
 			} else {
 				object[fmt.Sprintf("col_%d", col)] = val
+			}
+			if (col == forDataset) {
+				key = fmt.Sprintf("%s", val);
 			}
 		}
 		var src []byte
@@ -259,7 +268,17 @@ func main() {
 			}
 			hasError = true
 		}
-		fmt.Fprintf(out, "%s%s", src, eol)
+		if (forDataset >= 0) {
+			if (key == "") {
+				if !quiet {
+					fmt.Fprintf(eout, "error row, mising key value for column %d, row %d\n", forDataset, rowNo)
+				}
+			}
+			fmt.Fprintf(out, `{%q:%q,%q:%s}%s`, "key", key, "object", src, eol)
+		} else {
+			fmt.Fprintf(out, "%s%s", src, eol)
+		}
+		rowNo++
 	}
 	if hasError == true {
 		os.Exit(1)

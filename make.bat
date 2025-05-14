@@ -9,6 +9,7 @@ mkdir bin
 echo "Getting ready to build the datatools in bin"
 go build -o bin\codemeta2cff.exe cmd\codemeta2cff\codemeta2cff.exe
 go build -o bin\csv2json.exe cmd\csv2json\csv2json.exe
+go build -o bin\csv2jsonl.exe cmd\csv2jsonl\csv2jsonl.exe
 go build -o bin\csv2mdtable.exe cmd\csv2mdtable\csv2mdtable.exe
 go build -o bin\csv2tab.exe cmd\csv2tab\csv2tab.exe
 go build -o bin\csv2xlsx.exe cmd\csv2xlsx\csv2xlsx.exe
@@ -25,6 +26,7 @@ go build -o bin\jsoncols.exe cmd\jsoncols\jsoncols.exe
 go build -o bin\jsonjoin.exe cmd\jsonjoin\jsonjoin.exe
 go build -o bin\jsonmunge.exe cmd\jsonmunge\jsonmunge.exe
 go build -o bin\jsonrange.exe cmd\jsonrange\jsonrange.exe
+go build -o bin\jsonobjects2csv.exe cmd\jsonobjects2csv\jsonobjects2csv.exe
 go build -o bin\mergepath.exe cmd\mergepath\mergepath.exe
 go build -o bin\range.exe cmd\range\range.exe
 go build -o bin\reldate.exe cmd\reldate\reldate.exe
@@ -38,11 +40,10 @@ go build -o bin\urlparse.exe cmd\urlparse\urlparse.exe
 go build -o bin\xlsx2csv.exe cmd\xlsx2csv\xlsx2csv.exe
 go build -o bin\xlsx2json.exe cmd\xlsx2json\xlsx2json.exe
 go build -o bin\yaml2json.exe cmd\yaml2json\yaml2json.exe
-go build -o bin\jsonobjects2csv.exe cmd\jsonobjects2csv\jsonobjects2csv.exe
-go build -o bin\csv2jsonl.exe cmd\csv2jsonl\csv2jsonl.exe
 echo "Checking compile should see version number of dataset"
 bin\codemeta2cff.exe -version
 bin\csv2json.exe -version
+bin\csv2jsonl.exe -version
 bin\csv2mdtable.exe -version
 bin\csv2tab.exe -version
 bin\csv2xlsx.exe -version
@@ -59,6 +60,7 @@ bin\jsoncols.exe -version
 bin\jsonjoin.exe -version
 bin\jsonmunge.exe -version
 bin\jsonrange.exe -version
+bin\jsonobjects2csv.exe -version
 bin\mergepath.exe -version
 bin\range.exe -version
 bin\reldate.exe -version
@@ -72,8 +74,6 @@ bin\urlparse.exe -version
 bin\xlsx2csv.exe -version
 bin\xlsx2json.exe -version
 bin\yaml2json.exe -version
-bin\jsonobjects2csv.exe -version
-bin\csv2jsonl.exe -version
 echo "If OK, you can now copy the dataset.exe to %USERPROFILE%\goin"
 echo ""
 echo "      copy bin\* %USERPROFILE%\AppData\go\bin"
