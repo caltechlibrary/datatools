@@ -1,6 +1,6 @@
-%reldate(1) user manual | version 1.3.2 1ee0728
+%reldate(1) user manual | version 1.3.3 24eb061
 % R. S. Doiel
-% 2025-05-13
+% 2025-05-14
 
 # NAME
 
@@ -126,5 +126,5 @@ As that is the Monday of the week containing 2015-02-10. Weekday names
 case insensitive and can be the first three letters of the English names
 or full English names (e.g. Monday, monday, Mon, mon).
 
-reldate 1.3.2
+reldate 1.3.3
 

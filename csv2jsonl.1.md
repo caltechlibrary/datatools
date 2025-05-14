@@ -1,6 +1,6 @@
-%csv2jsonl(1) user manual | version 1.3.2 1ee0728
+%csv2jsonl(1) user manual | version 1.3.3 24eb061
 % R. S. Doiel
-% 2025-05-13
+% 2025-05-14
 
 # NAME
 
@@ -59,6 +59,9 @@ is one object per line. See https://jsonlines.org.
 -use-lazy-quotes
 : use lazy quotes for for CSV input
 
+-for-dataset COLUMN_NO
+: if COLUMN_NO is greater than -1 then, generate a dataset load compatible version of the CSV file
+using COLUMN_NO as key.
 
 # EXAMPLES
 

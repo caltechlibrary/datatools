@@ -89,6 +89,11 @@ treat the first row as field names
 <dd>
 use lazy quotes for for CSV input
 </dd>
+<dt>-for-dataset COLUMN_NO</dt>
+<dd>
+if COLUMN_NO is greater than -1 then, generate a dataset load compatible
+version of the CSV file using COLUMN_NO as key.
+</dd>
 </dl>
 <h1 id="examples">EXAMPLES</h1>
 <p>Convert data1.csv to data1.jsonl using Unix pipes.</p>
