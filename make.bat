@@ -27,6 +27,7 @@ go build -o bin\jsonjoin.exe cmd\jsonjoin\jsonjoin.exe
 go build -o bin\jsonmunge.exe cmd\jsonmunge\jsonmunge.exe
 go build -o bin\jsonrange.exe cmd\jsonrange\jsonrange.exe
 go build -o bin\jsonobjects2csv.exe cmd\jsonobjects2csv\jsonobjects2csv.exe
+go build -o bin\json2jsonl.exe cmd\json2jsonl\json2jsonl.exe
 go build -o bin\mergepath.exe cmd\mergepath\mergepath.exe
 go build -o bin\range.exe cmd\range\range.exe
 go build -o bin\reldate.exe cmd\reldate\reldate.exe
@@ -61,6 +62,7 @@ bin\jsonjoin.exe -version
 bin\jsonmunge.exe -version
 bin\jsonrange.exe -version
 bin\jsonobjects2csv.exe -version
+bin\json2jsonl.exe -version
 bin\mergepath.exe -version
 bin\range.exe -version
 bin\reldate.exe -version
