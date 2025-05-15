@@ -1,12 +1,9 @@
-// csv2json - is a command line that takes CSV input from stdin and
-// writes out JSON-L expression. It includes support for using the first
-// row as field names or default fieldnames (e.g. col0, col1, col2).
-// Additionally it can output the resulting JSON data structures as a
-// JSON array or individual JSON blobs (one line per blob).
-//
+// csv2jsonl - is a command line that takes CSV input from stdin and
+// writes out JSON lines expression. 
+// 
 // @author R. S. Doiel, <rsdoiel@caltech.edu>
 //
-// Copyright (c) 2021, Caltech
+// Copyright (c) 2025, Caltech
 // All rights not granted herein are expressly reserved by Caltech.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
