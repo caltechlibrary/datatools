@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+	<li><a href="/">Home</a></li>
+	<li><a href="./">README</a></li>
+	<li><a href="LICENSE">LICENSE</a></li>
+	<li><a href="INSTALL.html">INSTALL</a></li>
+	<li><a href="user-manual.html">User Manual</a></li>
+	<li><a href="how-to/">Tutorials</a></li>
+    <li><a href="search.html">Search Docs</a></li>
+	<li><a href="about.html">About</a></li>
+	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+</ul>
+</nav>
+
+<section>
+<p>Installing an unsigned executable on macOS can be a bit tricky due to
+macOS’s security features designed to protect users from potentially
+harmful software. Here’s a general guide on how to do it:</p>
+<ol type="1">
+<li><p><strong>Download the Executable</strong>: First, download the
+unsigned executable file you want to install.</p></li>
+<li><p><strong>Locate the File</strong>: Use Finder to locate the
+downloaded file. It’s often in the <code>Downloads</code> folder unless
+you specified a different location.</p></li>
+<li><p><strong>Attempt to Open the File</strong>: Double-click the file
+to open it. macOS will likely show a warning that the file cannot be
+opened because it is from an unidentified developer.</p></li>
+<li><p><strong>Override Security Settings</strong>:</p>
+<ul>
+<li><strong>Option 1: Open via Context Menu</strong>
+<ul>
+<li>Right-click (or Control-click) the file.</li>
+<li>Select <code>Open</code> from the context menu.</li>
+<li>You’ll see another warning, but this time there will be an option to
+<code>Open</code> the file anyway. Click <code>Open</code>.</li>
+</ul></li>
+<li><strong>Option 2: Allow Apps from Anywhere (Temporarily)</strong>
+<ul>
+<li>Open <code>System Preferences</code> and go to
+<code>Security &amp; Privacy</code>.</li>
+<li>Click the lock icon in the bottom left corner and enter your
+password to make changes.</li>
+<li>Under the <code>General</code> tab, you might see a message about
+the app being blocked. Click <code>Open Anyway</code>.</li>
+<li>If you don’t see this option, you can temporarily change the setting
+to allow apps downloaded from <code>Anywhere</code>. However, this
+option is not available in the latest versions of macOS by default. You
+may need to use the Terminal to do this:
+<ul>
+<li>Open Terminal and type:
+<code>sudo spctl --master-disable</code></li>
+<li>Press Enter and provide your password.</li>
+<li>This will allow you to run apps from anywhere, but it’s recommended
+to re-enable security by typing <code>sudo spctl --master-enable</code>
+after installing your app.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Use Terminal (Advanced Users)</strong>: If the above
+methods don’t work, you can use the Terminal to run the executable
+directly:</p>
+<ul>
+<li>Open Terminal.</li>
+<li>Navigate to the directory where the file is located using the
+<code>cd</code> command.</li>
+<li>Make the file executable by typing:
+<code>chmod +x filename</code></li>
+<li>Run the file by typing: <code>./filename</code></li>
+</ul></li>
+<li><p><strong>Check for Updates</strong>: Sometimes, developers will
+sign their apps later. Check if there’s a signed version available to
+avoid these steps in the future.</p></li>
+</ol>
+<h3 id="important-considerations">Important Considerations</h3>
+<ul>
+<li><strong>Security Risks</strong>: Running unsigned executables can
+expose your system to malware and other security risks. Only proceed if
+you trust the source of the software.</li>
+<li><strong>System Integrity Protection (SIP)</strong>: Some steps might
+be restricted by SIP, which is designed to protect your system.
+Disabling SIP is not recommended unless absolutely necessary.</li>
+</ul>
+<p>If you’re unsure about any of these steps or the safety of the file,
+it’s best to consult with someone who has more experience with macOS or
+to contact the software developer for support.</p>
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2023 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>
