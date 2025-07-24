@@ -20,6 +20,14 @@ If you are running Windows 10 or 11 use the Powershell command below.
 irm https://caltechlibrary.github.io/datatools/installer.ps1 | iex
 ~~~
 
+### If your are running macOS or Windows
+
+You may get security warnings if you are using macOS or Windows. See the notes for the specific operating system you're using to fix issues.
+
+- [INSTALL_NOTES_macOS.md](INSTALL_NOTES_macOS.md)
+- [INSTALL_NOTES_Windows.md](INSTALL_NOTES_Windows.md)
+
+
 Installing from source
 ----------------------
 
