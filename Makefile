@@ -186,6 +186,7 @@ distribute_docs:
 	@cp -v README.md dist/
 	@cp -v LICENSE dist/
 	@cp -v INSTALL.md dist/
+	@cp -v INSTALL_NOTES_*.md dist/
 	@cp -vR docs dist/
 	@cp -vR how-to dist/
 	@cp -vR man dist/
