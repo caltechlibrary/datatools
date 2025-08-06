@@ -1,46 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
-    <title>Caltech Library's Digital Library Development Sandbox</title>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/css/site.css">
-	<script type="module" src="https://caltechlibrary.github.io/CL-web-components/src/footer-global.js"></script>
+    <title>datatools</title>
+    <link rel="stylesheet" href="https://caltechlibrary.github.io/css/site.css">
+    <link rel="stylesheet" href="https://media.library.caltech.edu/cl-webcomponents/css/code-blocks.css">
+    <script type="module" src="https://media.library.caltech.edu/cl-webcomponents/copyToClipboard.js"></script>
+    <script type="module" src="https://media.library.caltech.edu/cl-webcomponents/footer-global.js"></script>
 </head>
 <body>
 <header>
-<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+<a href="https://library.caltech.edu"><img src="https://media.library.caltech.edu/assets/caltechlibrary-logo.png" alt="Caltech Library logo"></a>
 </header>
 <nav>
 <ul>
-	<li><a href="/">Home</a></li>
-	<li><a href="./">README</a></li>
-	<li><a href="LICENSE">LICENSE</a></li>
-	<li><a href="INSTALL.html">INSTALL</a></li>
-	<li><a href="user-manual.html">User Manual</a></li>
-	<li><a href="how-to/">Tutorials</a></li>
-    <li><a href="search.html">Search Docs</a></li>
-	<li><a href="about.html">About</a></li>
-	<li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="index.html">README</a></li>
+    <li><a href="LICENSE">LICENSE</a></li>
+    <li><a href="INSTALL.html">INSTALL</a></li>
+    <li><a href="user_manual.html">User Manual</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="search.html">Search</a></li>
+    <li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
 </ul>
 </nav>
-
 <section>
-<h1 id="project-search">project search</h1>
+<h1 id="datatools">datatools</h1>
 <link href="./pagefind/pagefind-ui.css" rel="stylesheet">
 <script src="./pagefind/pagefind-ui.js" type="text/javascript"></script>
 <div id="search">
 
 </div>
 <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        new PagefindUI({ 
+const u = URL.parse(window.location.href);
+const basePath = u.pathname.replace(/search.html$/g, '');
+
+// Function to extract query parameters from the URL
+function getQueryParam(name) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(name);
+}
+
+// Extract the query parameter
+const searchQuery = getQueryParam('q');
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    const searchUI = new PagefindUI({ 
             element: "#search",
-            baseUrl: "./"
-        });
+            baseUrl: basePath
     });
+    if (searchQuery) {
+        searchUI.triggerSearch(searchQuery);
+    }
+});
 </script>
 </section>
-
 <footer-global></footer-global>
 </body>
 </html>
