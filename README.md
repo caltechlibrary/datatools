@@ -4,13 +4,13 @@ datatools
 
 _datatools_ is a rich collection of command line programs targetting
 data conversion, cleanup and analysis directly from your favorite
-POSIX shell. It has proven useful for data collaberations where
+POSIX shell. It has proven useful for data collaborations where
 individual members of a project may prefer different toolsets in their
 analysis (e.g. Julia, R, Python) but want to work from a common baseline.
 It also has been used intensively for internal reporting from various
 Caltech Library metadata sources.
 
-The tools fall into three broad categories 
+The tools fall into three broad categories
 
 - data transformation and conversion
 - shell scripting helpers
@@ -39,7 +39,7 @@ intermediate data format.
 For the shell
 -------------
 
-Various utilities for simplifying work on the command line. 
+Various utilities for simplifying work on the command line.
 
 + [findfile](docs/findfile/) - find files based on prefix, suffix or contained string
 + [finddir](docs/finddir/) - find directories based on prefix, suffix or contained string
@@ -53,15 +53,15 @@ Various utilities for simplifying work on the command line.
 For strings
 -----------
 
-_datatools_ provides the [string](docs/string/) command for working with 
-text strings (limited to memory available).  This is commonly needed when 
-cleanup data for analysis. The _string_ command was created for when the 
-old Unix standbys- grep, awk, sed, tr are unwieldly or inconvient. 
-_string_ provides operations are common in most language like, trimming, 
-spliting, and transforming letter case.  The _string_ command also makes 
-it easy to join JSON string arrays into single a string using a delimiter 
-or split a string into a JSON array based on a delimiter. The form of the 
-command is `string [OPTIONS] [ACTION] [ARCTION_PARAMETERS...]`
+_datatools_ provides the [string](docs/string/) command for working with
+text strings (limited to memory available).  This is commonly needed when
+cleanup data for analysis. The _string_ command was created for when the
+old Unix standbys- grep, awk, sed, tr are unwieldly or inconvenient.
+_string_ provides operations are common in most language like, trimming,
+splitting, and transforming letter case.  The _string_ command also makes
+it easy to join JSON string arrays into single a string using a delimiter
+or split a string into a JSON array based on a delimiter. The form of the
+command is `string [OPTIONS] [ACTION] [ACTION_PARAMETERS...]`
 
 ```shell
     string toupper "one two three"
@@ -82,6 +82,5 @@ See [string](docs/string/) for full details
 Installation
 ------------
 
-See [INSTALL.md](install.html) for details for installing pre-compiled 
+See [INSTALL.md](INSTALL.md) for details for installing pre-compiled
 versions of the programs.
-
