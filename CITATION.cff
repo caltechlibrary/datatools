@@ -1,21 +1,21 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-type: software
-title: "datatools"
-abstract: "A set of command line tools for working with CSV, Excel
-Workbooks, JSON and structured text documents."
+title: datatools
 authors:
   - family-names: Doiel
     given-names: R. S.
-    orcid: ""
-
-maintainers:
-  - family-names: Doiel
-    given-names: R. S.
-    orcid: ""
-
+    orcid: https://orcid.org/0000-0003-0900-6903
+abstract: A set of command line tools for working with CSV, Excel Workbooks, JSON and structured text documents.
 repository-code: "https://github.com/caltechlibrary/datatools"
 version: 1.3.4
 license-url: "https://data.caltech.edu/license"
-keywords: [ "csv", "excel", "sql", "json", "yaml", "xlsx", "golang", "bash" ]
+keywords:
+  - csv
+  - excel
+  - sql
+  - json
+  - yaml
+  - xlsx
+  - golang
+  - bash
 date-released: 2025-05-15
