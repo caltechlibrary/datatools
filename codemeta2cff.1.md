@@ -16,6 +16,9 @@ Reads codemeta.json file and writes CITATION.cff. By default
 it assume both are in the current directory.  You can also
 provide the name and path to both files.
 
+Note that the 'id' and 'type' fields in codemeta.json
+require an '@' prefix.
+
 # OPTIONS
 
 -help
