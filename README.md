@@ -82,5 +82,5 @@ See [string](docs/string/) for full details
 Installation
 ------------
 
-See [INSTALL.md](INSTALL.md) for details for installing pre-compiled
+See [INSTALL.md](https://caltechlibrary.github.io/datatools/INSTALL.html) for details for installing pre-compiled
 versions of the programs.
