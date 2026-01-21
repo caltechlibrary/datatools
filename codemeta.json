@@ -4,8 +4,8 @@
   "codeRepository": "https://github.com/caltechlibrary/datatools",
   "author": [
     {
-      "id": "https://orcid.org/0000-0003-0900-6903",
-      "type": "Person",
+      "@id": "https://orcid.org/0000-0003-0900-6903",
+      "@type": "Person",
       "givenName": "R. S.",
       "familyName": "Doiel",
       "affiliation": {
@@ -17,8 +17,8 @@
   ],
   "maintainer": [
     {
-      "id": "https://orcid.org/0000-0003-0900-6903",
-      "type": "Person",
+      "@id": "https://orcid.org/0000-0003-0900-6903",
+      "@type": "Person",
       "givenName": "R. S.",
       "familyName": "Doiel",
       "affiliation": {
