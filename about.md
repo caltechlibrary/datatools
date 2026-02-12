@@ -11,16 +11,16 @@ authors:
     orcid: ""
 
 repository-code: "https://github.com/caltechlibrary/datatools"
-version: 1.3.4
+version: 1.3.5
 license-url: "https://data.caltech.edu/license"
 keywords: [ "csv", "excel", "sql", "json", "yaml", "xlsx", "golang", "bash" ]
-date-released: 2025-05-15
+date-released: 2026-02-12
 ---
 
 About this software
 ===================
 
-## datatools 1.3.4
+## datatools 1.3.5
 
 ### Authors
 

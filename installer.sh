@@ -4,7 +4,7 @@
 # Set the package name and version to install
 #
 PACKAGE="datatools"
-VERSION="1.3.4"
+VERSION="1.3.5"
 GIT_GROUP="caltechlibrary"
 RELEASE="https://github.com/$GIT_GROUP/$PACKAGE/releases/tag/v$VERSION"
 if [ "$PKG_VERSION" != "" ]; then

@@ -1,6 +1,6 @@
-%jsonmunge(1) user manual | version 1.3.4 4312aaa
+%jsonmunge(1) user manual | version 1.3.5 effbad2
 % R. S. Doiel
-% 2025-05-15
+% 2026-02-12
 
 # NAME
 
@@ -73,5 +73,5 @@ This would yield
     "Doe, Jane"
 ~~~
 
-jsonmunge 1.3.4
+jsonmunge 1.3.5
 

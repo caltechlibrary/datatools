@@ -1,6 +1,6 @@
-%xlsx2json(1) user manual | version 1.3.4 4312aaa
+%xlsx2json(1) user manual | version 1.3.5 effbad2
 % R. S. Doiel
-% 2025-05-15
+% 2026-02-12
 
 # NAME
 
@@ -72,6 +72,6 @@ into JSON documents..
 	done
 ~~~
 
-xlsx2json 1.3.4
+xlsx2json 1.3.5
 
 

@@ -1,6 +1,6 @@
-%jsonobjects2csv(1) user manual | version 1.3.4 4312aaa
+%jsonobjects2csv(1) user manual | version 1.3.5 effbad2
 % R. S. Doiel
-% 2025-05-15
+% 2026-02-12
 
 # NAME
 
@@ -82,6 +82,6 @@ These would get the file named "my_list.json" and save it as my.csv
 	cat my_list.json | jsonobjects2csv -i - > my.csv
 ~~~
 
-jsonobjects2csv 1.3.4
+jsonobjects2csv 1.3.5
 
 
