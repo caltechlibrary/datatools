@@ -23,6 +23,8 @@ import (
 	"encoding/csv"
 	"fmt"
 	"io"
+	"os"
+	"path"
 	"strings"
 	"unicode"
 
@@ -205,4 +207,34 @@ func EnglishTitle(s string) string {
 		}
 	}
 	return strings.Join(words, " ")
+}
+
+//
+// RelativeDocPath calculate the relative path from source to target based on
+// implied common base.
+//
+// Example:
+//
+//     docPath := "docs/chapter-01/lesson-02.html"
+//     cssPath := "css/site.css"
+//     fmt.Printf("<link href=%q>\n", RelativePath(docPath, cssPath))
+//
+// Output:
+//
+//     <link href="../../css/site.css">
+//
+func RelativeDocPath(source, target string) string {
+	var result []string
+
+	sep := string(os.PathSeparator)
+	dname, _ := path.Split(source)
+	for i := 0; i < strings.Count(dname, sep); i++ {
+		result = append(result, "..")
+	}
+	result = append(result, target)
+	p := strings.Join(result, sep)
+	if strings.HasSuffix(p, "/.") {
+		return strings.TrimSuffix(p, ".")
+	}
+	return p
 }

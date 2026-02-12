@@ -35,6 +35,8 @@ that comes with the datatools project.
 - [sql2csv](sql2csv.1.html), convert a SQL query into a CSV output
 - [tab2csv](tab2csv.1.html), tab delimited file to CSV
 - [toml2json](toml2json.1.html), TAML to JSON
+- [urlencode](urlencode.1.html), encode plain text as urlencoded text
+- [urldecode](urldecode.1.html), decode urlencoded text as plain text
 - [xlsx2csv](xlsx2csv.1.html), convert an Excel XML file's "sheet" to csv
 - [xlsx2json](xlsx2json.1.html), convert an Excel XML file's "sheet" into JSON
 - [yaml2json](yaml2json.1.html), convert YAML into JSON
@@ -44,6 +46,7 @@ that comes with the datatools project.
 - [mergepath](mergepath.1.html), manage the PATH environment variable (e.g. remove duplication paths, append, insert and cut from PATH list)
 - [range](range.1.html), emit a range of numbers (can be ascending, descending, odd/even, etc)
 - [reldate](reldate.1.html), compute a relative date in YYYY-MM-DD format
+- [reldocpath](reldocpath.1.html), calculate relative document paths
 - [reltime](reltime.1.html), compute a relative time in HH:MM:SS format
 - [timefmt](timefmt.1.html), format a time string
 - [urlparse](urlparse.1.html), parse a URL into its components (e.g. protocol, hostname, path)

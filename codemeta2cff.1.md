@@ -1,6 +1,6 @@
-%codemeta2cff(1) user manual | version 1.3.4 4312aaa
+%codemeta2cff(1) user manual | version 1.3.5 f86e208
 % R. S. Doiel
-% 2025-05-15
+% 2026-02-12
 
 # NAME
 

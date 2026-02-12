@@ -4,23 +4,25 @@ message: "If you use this software, please cite it as below."
 type: software
 title: "datatools"
 abstract: "A set of command line tools for working with CSV, Excel
-Workbooks, JSON and structured text documents."
+Workbooks, JSON and structured text documents. Included are tools for
+handling urlencoding and urldecoding as well as path relationships on
+the file system and in URLs"
 authors:
   - family-names: Doiel
     given-names: R. S.
     orcid: ""
 
 repository-code: "https://github.com/caltechlibrary/datatools"
-version: 1.3.4
+version: 1.3.5
 license-url: "https://data.caltech.edu/license"
-keywords: [ "csv", "excel", "sql", "json", "yaml", "xlsx", "golang", "bash" ]
-date-released: 2025-05-15
+keywords: [ "csv", "excel", "sql", "json", "yaml", "xlsx", "golang", "bash", "url", "urlencoding" ]
+date-released: 2026-02-12
 ---
 
 About this software
 ===================
 
-## datatools 1.3.4
+## datatools 1.3.5
 
 ### Authors
 
@@ -32,7 +34,9 @@ About this software
 - R. S. Doiel
 
 A set of command line tools for working with CSV, Excel Workbooks, JSON
-and structured text documents.
+and structured text documents. Included are tools for handling
+urlencoding and urldecoding as well as path relationships on the file
+system and in URLs
 
 - License: <https://data.caltech.edu/license>
 - GitHub: <https://github.com/caltechlibrary/datatools>
@@ -41,7 +45,7 @@ and structured text documents.
 
 ### Programming languages
 
-- Go &gt;= 1.23.5
+- Go &gt;= 1.25.6
 
 ### Operating Systems
 
@@ -51,5 +55,5 @@ and structured text documents.
 
 ### Software Requiremets
 
-- Golang &gt;= 1.23.5
+- Golang &gt;= 1.25.6
 - Pandoc &gt;= 3.1

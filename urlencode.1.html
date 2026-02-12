@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>datatools</title>
+    <link rel="stylesheet" href="https://caltechlibrary.github.io/css/site.css">
+    <link rel="stylesheet" href="https://media.library.caltech.edu/cl-webcomponents/css/code-blocks.css">
+    <script type="module" src="https://media.library.caltech.edu/cl-webcomponents/copyToClipboard.js"></script>
+    <script type="module" src="https://media.library.caltech.edu/cl-webcomponents/footer-global.js"></script>
+</head>
+<body>
+<header>
+<a href="https://library.caltech.edu"><img src="https://media.library.caltech.edu/assets/caltechlibrary-logo.png" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="index.html">README</a></li>
+    <li><a href="LICENSE">LICENSE</a></li>
+    <li><a href="INSTALL.html">INSTALL</a></li>
+    <li><a href="user_manual.html">User Manual</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="search.html">Search</a></li>
+    <li><a href="https://github.com/caltechlibrary/datatools">GitHub</a></li>
+</ul>
+</nav>
+<section>
+<h1 id="name">NAME</h1>
+<p>urlencode</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>urlencode <a href="#options">OPTIONS</a> [STRING]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>urlencode is a simple command line utility to URL encode content. By
+default it reads from standard input and writes to standard out. You can
+also specifty the string to encode as a command line parameter.</p>
+<p>You can provide the string to encode as a command line parameter
+otherwise it will be read from standard input.</p>
+<h1 id="options">OPTIONS</h1>
+<dl>
+<dt>-help</dt>
+<dd>
+display help
+</dd>
+<dt>-license</dt>
+<dd>
+display license
+</dd>
+<dt>-version</dt>
+<dd>
+display version
+</dd>
+<dt>-query</dt>
+<dd>
+Use URL query style encoding (use plus for spaces)
+</dd>
+<dt>-newline</dt>
+<dd>
+Append a trailing newline
+</dd>
+</dl>
+<h1 id="example">EXAMPLE</h1>
+<p>echo “This is the string to encode &amp; nothing else!” |
+urlencode</p>
+<p>would yield</p>
+<pre><code>This%20is%20the%20string%20to%20encode%20&amp;%20nothing%20else%0A</code></pre>
+</section>
+<footer-global></footer-global>
+</body>
+</html>

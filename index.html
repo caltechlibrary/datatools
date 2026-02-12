@@ -26,12 +26,12 @@
 <section>
 <h1 id="datatools">datatools</h1>
 <p><em>datatools</em> is a rich collection of command line programs
-targetting data conversion, cleanup and analysis directly from your
-favorite POSIX shell. It has proven useful for data collaberations where
-individual members of a project may prefer different toolsets in their
-analysis (e.g. Julia, R, Python) but want to work from a common
-baseline. It also has been used intensively for internal reporting from
-various Caltech Library metadata sources.</p>
+targeting data conversion, cleanup and analysis directly from your
+favorite POSIX shell or Powershell. It has proven useful for data
+collaborations where individual members of a project may prefer
+different tool sets in their analysis (e.g. Julia, R, Python) but want
+to work from a common baseline. It also has been used intensively for
+internal reporting from various Caltech Library metadata sources.</p>
 <p>The tools fall into three broad categories</p>
 <ul>
 <li>data transformation and conversion</li>
@@ -41,28 +41,27 @@ shell</li>
 </ul>
 <p>See <a href="user-manual.html">user manual</a> for a complete list of
 the command line programs. The data transformation tools include support
-for formats such as Excel XML, csv, tab delimited files, json, yaml and
-toml.</p>
+for formats such as Excel XML, csv, tab delimited files, json, yaml,
+toml and url encoding/decoding.</p>
 <p>Compiled versions of the datatools collection are provided for Linux
-(amd64), Mac OS X (amd64), Windows 10 (amd64) and Raspbian (ARM7). See
+(aarch64/amd64), Mac OS X (aarch64/amd64), Windows 10 (aarch64/amd64)
+and Raspberry Pi OS (aarch64). See
 https://github.com/caltechlibrary/datatools/releases.</p>
 <p>Use “-help” option for a full list of options for each utility
 (e.g. <code>csv2json -help</code>).</p>
 <h2 id="data-transformation">Data transformation</h2>
 <p>The tooling around transformation includes data conversion. These
-include tools that work with CSV, tab delimited, JSON, TOML, YAML and
-Excel XML.</p>
+include tools that work with CSV, tab delimited, JSON, TOML, YAML, Excel
+XML, and url encoded text.</p>
 <p>There is also tooling to change data shapes using JSON as the
 intermediate data format.</p>
 <h2 id="for-the-shell">For the shell</h2>
 <p>Various utilities for simplifying work on the command line.</p>
 <ul>
-<li><a href="docs/findfile/">findfile</a> - find files based on prefix,
-suffix or contained string</li>
-<li><a href="docs/finddir/">finddir</a> - find directories based on
-prefix, suffix or contained string</li>
 <li><a href="docs/mergepath/">mergepath</a> - prefix, append, clip path
 variables</li>
+<li><a href="reldocpath.1.html">reldocpath</a> - calculates relative
+paths given do paths</li>
 <li><a href="docs/range/">range</a> - emit a range of integers (useful
 for numbered loops in Bash)</li>
 <li><a href="docs/reldate/">reldate</a> - display a relative date in
@@ -78,13 +77,13 @@ Golang’s time format language</li>
 command for working with text strings (limited to memory available).
 This is commonly needed when cleanup data for analysis. The
 <em>string</em> command was created for when the old Unix standbys-
-grep, awk, sed, tr are unwieldly or inconvient. <em>string</em> provides
-operations are common in most language like, trimming, spliting, and
-transforming letter case. The <em>string</em> command also makes it easy
-to join JSON string arrays into single a string using a delimiter or
-split a string into a JSON array based on a delimiter. The form of the
-command is
-<code>string [OPTIONS] [ACTION] [ARCTION_PARAMETERS...]</code></p>
+grep, awk, sed, tr are unwieldy or inconvenient. <em>string</em>
+provides operations are common in most language like, trimming,
+splitting, and transforming letter case. The <em>string</em> command
+also makes it easy to join JSON string arrays into single a string using
+a delimiter or split a string into a JSON array based on a delimiter.
+The form of the command is
+<code>string [OPTIONS] [ACTION] [ACTION_PARAMETERS...]</code></p>
 <pre class="shell"><code>    string toupper &quot;one two three&quot;</code></pre>
 <p>Would yield “ONE TWO THREE”.</p>
 <p>Some of the features included</p>
@@ -97,8 +96,9 @@ command is
 </ul>
 <p>See <a href="docs/string/">string</a> for full details</p>
 <h2 id="installation">Installation</h2>
-<p>See <a href="install.html">INSTALL.md</a> for details for installing
-pre-compiled versions of the programs.</p>
+<p>See <a
+href="https://caltechlibrary.github.io/datatools/INSTALL.html">INSTALL.md</a>
+for details for installing pre-compiled versions of the programs.</p>
 </section>
 <footer-global></footer-global>
 </body>

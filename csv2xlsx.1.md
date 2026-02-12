@@ -1,6 +1,6 @@
-%csv2xlsx(1) user manual | version 1.3.4 4312aaa
+%csv2xlsx(1) user manual | version 1.3.5 f86e208
 % R. S. Doiel
-% 2025-05-15
+% 2026-02-12
 
 # NAME
 
@@ -69,6 +69,6 @@ called 'MyWorkbook.xlsx' with the contents of data.csv.
 This does the same but the contents of data.csv are piped into
 the workbook's 'My worksheet 2' sheet.
 
-csv2xlsx 1.3.4
+csv2xlsx 1.3.5
 
 

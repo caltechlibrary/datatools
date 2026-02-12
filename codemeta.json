@@ -29,9 +29,9 @@
     }
   ],
   "dateCreated": "2017-02-06",
-  "dateModified": "2025-05-15",
-  "datePublished": "2025-05-15",
-  "description": "A set of command line tools for working with CSV, Excel Workbooks, JSON and structured text documents.",
+  "dateModified": "2026-02-12",
+  "datePublished": "2026-02-12",
+  "description": "A set of command line tools for working with CSV, Excel Workbooks, JSON and structured text documents. Included are tools for handling urlencoding and urldecoding as well as path relationships on the file system and in URLs",
   "funder": {
     "@id": "https://ror.org/5dxps055",
     "@type": "Organization",
@@ -45,7 +45,9 @@
     "yaml",
     "xlsx",
     "golang",
-    "bash"
+    "bash",
+    "url",
+    "urlencoding"
   ],
   "name": "datatools",
   "license": "https://data.caltech.edu/license",
@@ -55,15 +57,15 @@
     "macOS"
   ],
   "programmingLanguage": [
-    "Go >= 1.23.5"
+    "Go >= 1.25.6"
   ],
   "softwareRequirements": [
-    "Golang >= 1.23.5",
+    "Golang >= 1.25.6",
     "Pandoc >= 3.1"
   ],
-  "version": "1.3.4",
+  "version": "1.3.5",
   "developmentStatus": "active",
   "issueTracker": "https://github.com/caltechlibrary/datatools/issues",
   "downloadUrl": "https://github.com/caltechlibrary/datatools/releases/",
-  "releaseNotes": "Added json2jsonl. It will render a JSON array document as JSON lines. A `-as-dataset` option is included. If\nan top level attribute name is provided and matches the object it will render the result as a dataset load\ncomponatible object. Of the top level attribute name is not found then that object is skipped with a message\nwritten to standard error."
+  "releaseNotes": "Added urlencode, urldecode and reldocpath cli."
 }

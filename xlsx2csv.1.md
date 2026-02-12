@@ -1,6 +1,6 @@
-%xlsx2csv(1) user manual | version 1.3.4 4312aaa
+%xlsx2csv(1) user manual | version 1.3.5 f86e208
 % R. S. Doiel
-% 2025-05-15
+% 2026-02-12
 
 # NAME
 
@@ -76,6 +76,6 @@ Putting it all together in a shell script.
 	done
 ~~~
 
-xlsx2csv 1.3.4
+xlsx2csv 1.3.5
 
 
