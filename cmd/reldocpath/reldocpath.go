@@ -55,7 +55,7 @@ Given
 
 would output
 
-    .../css/site.css
+    ../css/site.css
 
 `
 

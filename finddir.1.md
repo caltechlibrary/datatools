@@ -1,4 +1,4 @@
-%finddir(1) user manual | version 1.3.5 effbad2
+%finddir(1) user manual | version 1.3.5 a8f53a7
 % R. S. Doiel
 % 2026-02-12
 

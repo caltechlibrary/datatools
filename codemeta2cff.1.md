@@ -1,4 +1,4 @@
-%codemeta2cff(1) user manual | version 1.3.5 effbad2
+%codemeta2cff(1) user manual | version 1.3.5 a8f53a7
 % R. S. Doiel
 % 2026-02-12
 
@@ -15,9 +15,6 @@ codemeta2cff [OPTIONS] [CODEMETA_JSON CITATION_CFF]
 Reads codemeta.json file and writes CITATION.cff. By default
 it assume both are in the current directory.  You can also
 provide the name and path to both files.
-
-Note that the 'id' and 'type' fields in codemeta.json
-require an '@' prefix.
 
 # OPTIONS
 

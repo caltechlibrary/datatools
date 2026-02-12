@@ -8,7 +8,7 @@ Workbooks, JSON and structured text documents."
 authors:
   - family-names: Doiel
     given-names: R. S.
-    orcid: ""
+    orcid: "https://orcid.org/0000-0003-0900-6903"
 
 repository-code: "https://github.com/caltechlibrary/datatools"
 version: 1.3.5
