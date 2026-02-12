@@ -1,7 +1,8 @@
 #!/bin/bash
+# generated with CMTools 1.3.5 0ba6e1a
 
 #
-# Release script for CMTools on GitHub using gh cli.
+# Release script for datatools on GitHub using gh cli.
 #
 # shellcheck disable=SC2046
 REPO_ID="$(basename $(pwd))"
@@ -24,14 +25,14 @@ cat release_notes.tmp
 read -r -p "Push release to GitHub with gh? (y/N) " YES_NO
 if [ "$YES_NO" = "y" ]; then
 	make save msg="prep for ${RELEASE_TAG}, ${RELEASE_NOTES}"
-	# Now generate a draft releas
+	# Now generate a draft release
 	echo "Pushing release ${RELEASE_TAG} to GitHub"
 	gh release create "${RELEASE_TAG}" \
  		--draft \
 		-F release_notes.tmp \
 		--generate-notes
 	echo "Uploading distribution files"
-	gh release upload "${RELEASE_TAG}" dist/*.zip
+    gh release upload "${RELEASE_TAG}"	dist/*.zip 
 	
 	cat <<EOT
 
@@ -40,5 +41,6 @@ Now goto repo release and finalize draft.
 	${REPO_URL}/releases
 
 EOT
+    rm release_notes.tmp
 
 fi
