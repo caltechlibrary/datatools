@@ -1,4 +1,4 @@
-%yaml2json(1) user manual | version 1.3.5 10335ae
+%yaml2json(1) user manual | version 1.3.5 f86e208
 % R. S. Doiel
 % 2026-02-12
 
