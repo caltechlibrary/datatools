@@ -14,6 +14,7 @@ build: $(HTML_PAGES) $(MD_PAGES) # pagefind
 $(HTML_PAGES): $(MD_PAGES) .FORCE
 	if [ -f $(PANDOC) ]; then $(PANDOC) --metadata title=$(basename $@) -s --to html5 $(basename $@).md -o $(basename $@).html \
 		--lua-filter=../links-to-html.lua \
+		--lua-filter=../add-col-scope.lua \
 	    --template=page.tmpl; fi
 	@if [ $@ = "README.html" ]; then mv README.html index.html; fi
 
