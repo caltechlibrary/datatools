@@ -84,7 +84,7 @@ $(MAN_PAGES): .FORCE
 	pandoc $@.md --from markdown --to man -s >man/man1/$@
 
 website: .FORCE
-	cd how-to && make -f website.mak
+	#cd how-to && make -f website.mak
 	make -f website.mak
 
 status:
