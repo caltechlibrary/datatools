@@ -6,10 +6,10 @@ Installation for development of **datatools**
 Quick install with curl or irm
 ------------------------------
 
-There is an experimental installer.sh script that can be run with the following command to install latest table release. This may work for macOS, Linux and if you’re using Windows with the Unix subsystem. This would be run from your shell (e.g. Terminal on macOS).
+We distribute a installer.sh script that can be run with the following command to install the latest release. This may work for macOS, Linux and if you’re using Windows with the Unix subsystem. This would be run from your shell (e.g. Terminal on macOS).
 
 ~~~shell
-curl https://caltechlibrary.github.io/datatools/installer.sh | sh
+curl https://software.library.caltech.edu/datatools/installer.sh | sh
 ~~~
 
 This will install the programs included in datatools in your `$HOME/bin` directory.
@@ -17,7 +17,7 @@ This will install the programs included in datatools in your `$HOME/bin` directo
 If you are running Windows 10 or 11 use the Powershell command below.
 
 ~~~ps1
-irm https://caltechlibrary.github.io/datatools/installer.ps1 | iex
+irm https://software.library.caltech.edu/datatools/installer.ps1 | iex
 ~~~
 
 ### If your are running macOS or Windows
