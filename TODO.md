@@ -18,6 +18,7 @@ Bug
 Next
 ----
 
+- [ ] Add support for the upcoming codemeta version 4 schema
 - [ ] Reorganize documentation into man pages and how tos
 - [ ] documentation, simplify site navigation by flattening to two levels with second level linked by user manual page and "how to" page.
 - [ ] Update the build process to match my current practices
@@ -32,6 +33,7 @@ Next
 + [ ] upgrade to use the new cli v0.0.5-dev
 + [ ] csvrows would output a range of rows (e.g. [2:] would be all rows but the first row)
 + [ ] csv utilities should support integer ranges notation for columns and rows references, E.g. "1,3:4,7,10:" or all
+- [ ] Determine if having a unified cli that supports the individual cli as sub commands would result in a smaller binary than shipping individual binaries for each transformation (example csv2json, json2csv, etc).
 
 Someday, Maybe
 --------------
